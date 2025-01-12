@@ -1,109 +1,63 @@
-import logging, json
+import logging
+import json
+import os
 
 class JsonManager:
-    def load_json_selectors(self, selectorJson):
+    def compile_json_profiles(self, base_directory):
         """
-        Load and validate the JSON selectors file.
-        """
-        try:
-            logging.info(f"Attempting to load JSON selectors from: {selectorJson}")
-            with open(selectorJson, 'r') as userFile:
-                jsonData = json.load(userFile)
-            logging.info(f"Successfully loaded JSON selectors from: {selectorJson}")
-            return jsonData
-        except FileNotFoundError:
-            logging.error(f"JSON selector file not found: {selectorJson}")
-            raise
-        except json.JSONDecodeError as e:
-            logging.error(f"Error decoding JSON selector file: {e}")
-            raise
-
-
-    def jsonSelectors(self, militariaSite):
-        """Safely unpack JSON site profile into expected fields, ignoring unwanted keys."""
-        try:
-            base_url            = militariaSite['base_url']
-            source              = militariaSite['source']
-            pageIncrement       = militariaSite['page_increment']
-            currency            = militariaSite['currency']
-            products            = militariaSite['products']
-            productUrlElement   = militariaSite['product_url_element']
-            titleElement        = militariaSite['title_element']
-            descElement         = militariaSite['desc_element']
-            priceElement        = militariaSite['price_element']
-            availableElement    = militariaSite['available_element']
-            conflict            = militariaSite['conflict_element']
-            nation              = militariaSite['nation_element']
-            item_type           = militariaSite['item_type_element']
-            grade               = militariaSite['grade_element']
-            productsPageUrl     = militariaSite['productsPageUrl']
-            
-            # Handle image_element: Treat empty string or placeholder as None
-            imageElement = militariaSite.get('image_element', None)
-            if imageElement in ["", "skip", "none"]:  # Add any placeholders here
-                imageElement = None
-
-            # Return only the required fields
-            return (
-                conflict, nation, item_type, grade, source, pageIncrement, currency, products,
-                productUrlElement, titleElement, descElement, priceElement, availableElement,
-                productsPageUrl, base_url, imageElement
-            )
-        except KeyError as e:
-            logging.error(f"Missing key in JSON selectors: {e}")
-            raise
-        except Exception as e:
-            logging.error(f"Error unpacking JSON selectors: {e}")
-            raise
-
-    # This makes sure that the json profile has the required elements.
-    def validate_json_profile(self,militariaSite):
-        """Validate required keys in JSON profile."""
-        all_keys = {
-            "source",
-            "product_url_element",
-            "productsPageUrl",
-            "base_url",
-            "page_increment",
-            "currency",
-            "products",
-            "title_element",
-            "desc_element",
-            "price_element",
-            "available_element",
-            "image_element",
-            "conflict_element",
-            "nation_element",
-            "item_type_element",
-            "grade_element"
-        }
-
-        optional_keys = {"conflict_element", "nation_element", "item_type_element", "grade_element"}
-        required_keys = all_keys - optional_keys
-
-        # Determine missing keys by comparing the JSON keys to the required keys
-        missing_keys = required_keys - set(militariaSite.keys())
-        if missing_keys:
-            logging.error(f"Missing required keys: {missing_keys}")
-            raise ValueError(f"Missing required keys in JSON profile: {missing_keys}")
-
-    def load_and_validate_selectors(self, selector_path):
-        """
-        Load and validate JSON selectors from the given file path.
-
+        Read all JSON profiles from alphabetical folders and compile them into a list.
+    
         Args:
-            selector_path (str): The file path to the JSON selector file.
+            base_directory (str): The base directory containing JSON profile files.
 
         Returns:
-            dict: The loaded JSON data.
+            list: A list of compiled JSON profiles.
+        """
+        json_profiles = []
+        try:
+            for root, _, files in os.walk(base_directory):
+                for file in files:
+                    if file.endswith(".json"):
+                        file_path = os.path.join(root, file)
+                        with open(file_path, "r") as f:
+                            try:
+                                json_data = json.load(f)
+                                json_profiles.append(json_data)
+                            except json.JSONDecodeError as e:
+                                logging.error(f"Error decoding JSON file {file_path}: {e}")
+        except Exception as e:
+            logging.error(f"An error occurred while compiling JSON profiles: {e}")
 
-        Raises:
-            Exception: For unexpected errors during JSON loading.
+        return json_profiles
+
+    def json_unpacker(self, selected_site):
+        """
+        Dynamically load a site profile from a JSON structure.
+
+        Args:
+            selected_site (dict): The JSON structure for the selected site.
+
+        Returns:
+            dict: The unpacked site profile.
         """
         try:
-            jsonData = self.load_json_selectors(selector_path)
-            return jsonData
-        except Exception as e:
-            logging.error(f"Error loading or validating JSON selectors: {e}")
+            site_profile = {
+                "source_name": selected_site.get("source_name"),
+                "access_config": {
+                    "base_url": selected_site.get("access_config", {}).get("base_url"),
+                    "products_page_path": selected_site.get("access_config", {}).get("products_page_path"),
+                    "currency_code": selected_site.get("access_config", {}).get("currency_code"),
+                    "page_increment_step": selected_site.get("access_config", {}).get("page_increment_step"),
+                },
+                "product_tile_selectors": selected_site.get("product_tile_selectors", {}),
+                "product_details_selectors": selected_site.get("product_details_selectors", {}),
+                "metadata_selectors": selected_site.get("metadata_selectors", {}),
+                "additional_properties": selected_site.get("additional_properties", {})
+            }
+            return site_profile
+        except KeyError as e:
+            logging.error(f"Missing key in JSON profile: {e}")
             raise
-
+        except Exception as e:
+            logging.error(f"Error loading site profile: {e}")
+            raise

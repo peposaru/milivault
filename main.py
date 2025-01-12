@@ -1,24 +1,13 @@
 # Standard Library Modules
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import os
-import json
 import logging
-import time
 from datetime import datetime
 from time import sleep
-from typing import Optional
 
 # These are modules made for this program specifically.
-from aws_rds_manager import PostgreSQLProcessor
-from web_scraper import ProductScraper
-from json_manager import JsonManager
-from log_print_manager import log_print
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
-from site_product_processor import process_site
-from aws_s3_manager import S3Manager
+from site_processor import SiteProcessor
 from availability_check import run_availability_check_loop
 from logging_manager import initialize_logging
-
 
 
 
@@ -51,7 +40,7 @@ def main():
         logging.error("JsonManager is not initialized in managers.")
         return
     try:
-        jsonData = json_manager.load_and_validate_selectors(user_settings["selectorJson"])
+        jsonData = json_manager.compile_json_profiles(user_settings["selectorJsonFolder"])
     except Exception as e:
         logging.error(f"Failed to load JSON selectors: {e}")
         return
@@ -59,29 +48,16 @@ def main():
     # Which sites to process
     selected_sites = site_choice(jsonData)
 
-    # How many times has the program gone through all the sites?
-    runCycle          = 0
-    # How many products total has the program gone through?
-    productsProcessed = 0
-
     # This is the main loop which keeps everything going.
     while True:
-        for site in selected_sites:
+        for selected_site in selected_sites:
             try:
-                process_site(
-                    managers.get('webScrapeManager'),
-                    managers.get('dataManager'),
-                    managers.get('jsonManager'),
-                    managers.get('prints'),
-                    site,
-                    user_settings["targetMatch"],
-                    runCycle,
-                    productsProcessed,
-                    managers.get('s3_manager')
+                managers['siteprocessor'].site_processor_main(
+                    selected_site
                 )
-                logging.warning(f"Successfully processed site: {site['source']}")
+                logging.info(f"Successfully processed site: {selected_site['source_name']}")
             except Exception as e:
-                logging.error(f"Error processing site {site['source']}: {e}")
+                logging.error(f"Error processing site {selected_site['source_name']}: {e}")
 
         # Pause between cycles
         sleeptime = user_settings["sleeptime"]

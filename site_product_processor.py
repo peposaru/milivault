@@ -14,33 +14,16 @@ def process_site(webScrapeManager, dataManager, jsonManager, prints, site, targe
         productsPageUrl, base_url, imageElement
     ) = jsonManager.jsonSelectors(site)
 
-    urlCount           = 0
-    consecutiveMatches = 0
-    page               = 0
-
     # While the target number of consecutive matches have no been met, keep the program running.
     while True:
-        if consecutiveMatches == targetMatch:
-            # Ensure termination when the targetMatch is reached
-            logging.warning(f"Target match count ({targetMatch}) reached. Exiting the processing loop.")
-            break
 
         # Generate link for the sites products page. Typically the new items page.
         productsPage = base_url + productsPageUrl.format(page=page)
-        logging.debug(f"Navigating to products page: {productsPage}")
 
         # Create a list of urls extracted from products page. Typically the new items page.
         product_list = fetch_products_from_page(webScrapeManager, productsPage, products)
-        if not product_list:
-            logging.warning(f"No products found on page: {productsPage}")
-            break
-
-        prints.newInstance(source, productsPage, runCycle, productsProcessed)
 
         for product in product_list:
-            if not product:
-                logging.error("Empty product element found, skipping.")
-                continue
 
             # Process each product and track updates
             urlCount, consecutiveMatches = process_product(
@@ -50,16 +33,7 @@ def process_site(webScrapeManager, dataManager, jsonManager, prints, site, targe
                 imageElement, s3_manager 
             )
 
-            # Stop if the target match count is reached
-            if consecutiveMatches == targetMatch:
-                logging.warning(f"Target match count ({targetMatch}) reached. Terminating site processing.")
-                prints.terminating(source, consecutiveMatches, targetMatch, runCycle, productsProcessed)
-                return
-
-        # Increment to the next page
         page += int(pageIncrement)
-
-    logging.info(f"Finished processing site: {source}")
 
 
 
@@ -74,35 +48,14 @@ def process_product(
     Process a single product by constructing its URL, scraping details, and updating/inserting into the database.
     """
     try:
-        # Increment the total number of products processed
         urlCount += 1
-
-        # Check if the target match count has been reached
-        if consecutiveMatches is None or targetMatch is None:
-            logging.error(
-                f"One of the values is None before comparison. consecutiveMatches={consecutiveMatches}, targetMatch={targetMatch}"
-            )
-        else:
-            logging.debug(
-                f"Checking target match in regular processing. consecutiveMatches={consecutiveMatches}, targetMatch={targetMatch}"
-            )
-
-        if consecutiveMatches is not None and targetMatch is not None and consecutiveMatches >= targetMatch:
-            logging.warning(
-                f"Target match count ({targetMatch}) reached. Halting product processing."
-            )
-            return urlCount, consecutiveMatches
 
         # Create the product URL and if it doesn't work, stop.
         productUrl = construct_product_url(productUrlElement, base_url, product)
-        if not productUrl:
-            logging.warning("Product URL is invalid. Skipping this product.")
-            return urlCount, consecutiveMatches
 
         # Check if the product's images have already been uploaded
         if dataManager.should_skip_image_upload(productUrl):
             consecutiveMatches += 1  # Increment because the product is already known
-            logging.info(f"Skipping image upload for product: {productUrl} as images are already uploaded.")
             return urlCount, consecutiveMatches
         else:
             # Reset consecutiveMatches because this product is new
@@ -118,38 +71,12 @@ def process_product(
             logging.warning(f"Error during fetch and scrape for product: {productUrl}, Error: {e}")
             return urlCount, consecutiveMatches
 
-        if not title:
-            logging.warning(f"Failed to fetch or scrape product details for {productUrl}. Skipping.")
-            return urlCount, consecutiveMatches
-
-        # Handle cases where image extraction was skipped
-        if imageElement is None:
-            logging.debug(f"Image extraction skipped for product: {productUrl}")
-            original_image_urls = []
-            uploaded_image_urls = []
-
         # Update or insert product in the database
         urlCount, consecutiveMatches, updated = update_or_insert_product(
             dataManager, prints, productUrl, title, description, price, available,
             source, currency, conflict, nation, item_type, page, urlCount, consecutiveMatches,
             targetMatch, original_image_urls, uploaded_image_urls, s3_manager
         )
-
-        # Stop processing immediately if the target match count is reached after updating
-        if consecutiveMatches is None or targetMatch is None:
-            logging.error(
-                f"One of the values is None before comparison. consecutiveMatches={consecutiveMatches}, targetMatch={targetMatch}"
-            )
-        else:
-            logging.debug(
-                f"Checking target match after update. consecutiveMatches={consecutiveMatches}, targetMatch={targetMatch}"
-            )
-
-        if consecutiveMatches is not None and targetMatch is not None and consecutiveMatches >= targetMatch:
-            logging.info(
-                f"Target match count ({targetMatch}) reached after processing product: {productUrl}."
-            )
-            return urlCount, consecutiveMatches
 
         # Log based on whether the product was updated or not
         if updated:
@@ -164,10 +91,6 @@ def process_product(
 # Get the list of products from the products page.
 def fetch_products_from_page(webScrapeManager, productsPage, productsSelector):
     soup = webScrapeManager.readProductPage(productsPage)
-    if soup is None:
-        logging.warning(f"Failed to load products page: {productsPage}")
-        return None
-
     try:
         product_list = eval(productsSelector)
         return product_list

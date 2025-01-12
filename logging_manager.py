@@ -13,7 +13,7 @@ def initialize_logging():
 
     # Logging Configuration
     logging.basicConfig(
-        level=logging.INFO, # Levels are NOTSET , DEBUG , INFO , WARN , ERROR , CRITICAL
+        level=logging.DEBUG, # Levels are NOTSET , DEBUG , INFO , WARN , ERROR , CRITICAL
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
             logging.FileHandler(log_file_path, encoding='utf-8'),
