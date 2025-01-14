@@ -1,11 +1,21 @@
 # Product Counting Module
 class ProductsCounter:
     def __init__(self):
-        self.total_products_count  = 0  
-        self.old_products_count    = 0   
-        self.new_products_count    = 0   
-        self.sites_processed_count = 0
-        self.current_page_count    = 0
+        self.total_products_count   = 0  
+        self.old_products_count     = 0   
+        self.new_products_count     = 0   
+        self.sites_processed_count  = 0
+        self.current_page_count     = 0
+        self.continue_state = True
+
+    def get_current_continue_state(self):
+        return self.continue_state
+    
+    def set_continue_state_false(self):
+        self.continue_state = False
+
+    def set_continue_state_true(self):
+        self.continue_state = True
 
     # Total Products Count
     def get_total_count(self):

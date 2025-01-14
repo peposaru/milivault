@@ -2,7 +2,7 @@ import os
 import logging
 import shutil
 
-from aws_rds_manager import PostgreSQLProcessor
+from aws_rds_manager import AwsRdsManager
 from web_scraper import ProductScraper
 from json_manager import JsonManager
 from log_print_manager import log_print
@@ -60,11 +60,11 @@ def setup_object_managers(user_settings):
     """
     try:
         # Initialize independent managers
-        rds_manager = PostgreSQLProcessor(credFile=user_settings["pgAdminCred"])
-        s3_manager = S3Manager(user_settings["s3Cred"])
+        rds_manager  = AwsRdsManager(credentials_file=user_settings["pgAdminCred"])
+        s3_manager   = S3Manager(user_settings["s3Cred"])
         json_manager = JsonManager()
-        log_printer = log_print()
-        counter = ProductsCounter()
+        log_printer  = log_print()
+        counter      = ProductsCounter()
         html_manager = HtmlManager()
 
         # Initialize dependent managers

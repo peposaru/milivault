@@ -4,6 +4,7 @@ import logging, json
 import time
 from urllib.parse import urlparse
 from product_tile_processor import TileProcessor
+from product_processor import ProductTileDictProcessor
 
 
 class SiteProcessor:
@@ -19,62 +20,88 @@ class SiteProcessor:
         self.counter             = managers.get('counter')
         self.html_manager        = managers.get('html_manager')
 
-    def site_processor_main(self,selected_site):
-
+    def site_processor_main(self, comparison_list, selected_site):
         # site_profile is all the site selectors for one the selected site
         try:
             site_profile = self.jsonManager.json_unpacker(selected_site)
-            logging.debug(f'Debug: site_profile: {site_profile}')
+            logging.debug(f'site_profile loaded.')
         except Exception as e:
-            logging.error(f"Error site_profile: {e}")
+            logging.error(f"Failed to load site_profile: {e}")
 
         # Get the base url from the json profile config
         try:
             base_url = self.construct_base_url(selected_site)
-            logging.debug(f'Debug: base_url: {base_url}\n\n\n')
+            logging.debug(f'Debug: base_url: {base_url}')
         except Exception as e:
             logging.error(f"Error base_url: {e}")
 
-        # Generate a list of products by scraping product urls from store page
-        try:
-            products_list_page = self.construct_products_list_directory(site_profile)
-            logging.debug(f'Debug: products_list_page: {products_list_page}\n\n\n')
-        except Exception as e:
-            logging.error(f"Error products_list_page: {e}")
+        # Keep looping through pages until current_continue_state becomes False
+        while self.counter.get_current_continue_state():
+            # Generate a list of products by scraping product urls from store page
+            try:
+                products_list_page = self.construct_products_list_directory(site_profile)
+                logging.debug(f'products_list_page loaded')
+            except Exception as e:
+                logging.error(f"products_list_page: {e}")
+                continue
 
-        # Create beautiful soup for decyphering html / css
-        try:
-            products_list_page_soup = self.html_manager.construct_products_page_list_soup(products_list_page)
-            logging.debug(f'Debug: products_list_page_soup: {products_list_page_soup}\n\n\n')
-        except Exception as e:
-            logging.error(f"Error products_list_page_soup: {e}")
+            # Create beautiful soup for decyphering html / css
+            try:
+                products_list_page_soup = self.html_manager.construct_products_page_list_soup(products_list_page)
+                logging.debug(f'Debug: products_list_page_soup loaded.')
+            except Exception as e:
+                logging.error(f"Error products_list_page_soup: {e}")
+                continue
+
+            # Create a list of the product tiles on the given product page
+            try:
+                products_tile_list = self.construct_products_tile_list(products_list_page_soup,site_profile)
+                logging.debug(f'Debug: Length of products_tile_list: {len(products_tile_list)} ')
             
-        # Create a list of the product tiles on the given product page
-        try:
-            products_tile_list = self.construct_products_tile_list(products_list_page_soup,site_profile)
-            logging.debug(f'Debug: products_tile_list: {products_tile_list}\n\n\n')
-        except Exception as e:
-            logging.error(f"Error products_tile_list: {e}")
+                if not products_tile_list:
+                    logging.info("No products found on the current page. Stopping processing.")
+                    self.counter.set_continue_state_false()
+                    break
+            except Exception as e:
+                logging.error(f"Error products_tile_list: {e}")
+                continue
 
             # Create and categorize products tile list into urls and separate them by available and not available.
-            """
-            THIS IS WHERE THERE NEEDS TO BE A CHECK ON THE PRODUCTS PAGE TILES
-            CHECK EACH TILE SOUP FOR CHANGE IN AVAILABILITY
+            try:
+                tile_processor = TileProcessor(site_profile)
+                tile_product_data_list = tile_processor.tile_process_main(products_tile_list)
+                logging.info(f'Product Dictionaries count: {len(tile_product_data_list)}')
+                logging.info(f'Source: {selected_site['source_name']}')
+                # Add a page to go to the next page.
+                self.counter.add_current_page_count(
+                    count=site_profile.get("access_config", {}).get("page_increment_step", 1)
+                )
+                logging.info(f"Moved to next page: {self.counter.get_current_page_count()}")
+            except Exception as e:
+                logging.error(f"Error tile_processor / categorized_product_urls: {e}")
+                continue
 
-            """
-        try:
-            tile_processor = TileProcessor(site_profile)
-            categorized_product_urls = tile_processor.construct_categorized_product_urls(products_tile_list)
-            logging.debug(f'Debug: categorized_product_urls: {categorized_product_urls}\n\n\n')
-        except Exception as e:
-            logging.error(f"Error tile_processor / categorized_product_urls: {e}")
+            # Send the list of products to be checked individually
+            try:
+                product_tile_dict_processor                           = ProductTileDictProcessor(site_profile, comparison_list)
+                processing_required_list, availability_update_list    = product_tile_dict_processor.product_processor_main(tile_product_data_list)
+            except Exception as e:
+                logging.error(f"Error product_tile_dict_processor: {e}")
+                continue
+
+            # Stop processing site 
+            if len(processing_required_list) == 0 and len(availability_update_list) == 0:
+                logging.info("No products require further processing. Stopping site processing.")
+                self.counter.set_continue_state_false()
+                break
+
+        return
 
 
-            # Check each url in RDS database to see if product already exists
-            # Check each title and description in RDS to see if product already exists
-            # Check products list page to check availability
+    ###############FUNCTIONS FOR THE MAIN PART######################
 
-        
+
+
 
     def construct_base_url(self, site_profile):
         return site_profile['access_config']['base_url']
@@ -104,32 +131,45 @@ class SiteProcessor:
             tiles_config_method = tiles_config.get("method", "find_all")
             tiles_config_args   = tiles_config.get("args", [])
             tiles_config_kwargs = tiles_config.get("kwargs", {})
-        
+            
             # Create a list of all product tiles
-            return getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
+            product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
+            
+            # Filter out tiles that don't contain essential data (e.g., a valid URL or title)
+            valid_tiles = [
+                tile for tile in product_tiles 
+                if self.is_tile_valid(tile, site_profile.get("product_tile_selectors", {}))
+            ]
+            
+            logging.debug(f"Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
+            return valid_tiles
 
         except Exception as e:
             logging.error(f"Error constructing product tile list: {e}")
             return []
 
-    def construct_categorized_product_urls(self, products_tile_list, site_profile):
-        categorized_urls = {"available": [], "unavailable": []}
-
+    def is_tile_valid(self, tile, selectors):
+        """
+        Check if a product tile contains essential data like URL or title.
+        """
         try:
-            product_tile_selectors = site_profile.get("product_tile_selectors", {})
-            details_url         = product_tile_selectors.get('details_url')
-            tile_availability   = product_tile_selectors.get('tile_availability')
-            tile_unavailability = product_tile_selectors.get('tile_unavailability')
-            tile_image_url      = product_tile_selectors.get('tile_image_url')
+            # Check for URL validity
+            url_selector = selectors.get("details_url", {})
+            method       = url_selector.get("method", "find")
+            args         = url_selector.get("args", [])
+            kwargs       = url_selector.get("kwargs", {})
+            attribute    = url_selector.get("attribute")
+            
+            # Attempt to extract URL
+            element = getattr(tile, method)(*args, **kwargs)
+            url     = element.get(attribute).strip() if element and element.get(attribute) else None
+            
+            # Ensure at least URL is present for the tile to be valid
+            return url is not None
+
         except Exception as e:
-            logging.error(f"Error product_tile_selectors: {e}")
+            logging.warning
     
-
-    def check_rds_url():
-        return
-
-    def check_rds_title_desc():
-        return
 
 
 

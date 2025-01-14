@@ -9,9 +9,6 @@ from site_processor import SiteProcessor
 from availability_check import run_availability_check_loop
 from logging_manager import initialize_logging
 
-
-
-
 def main():
     initialize_logging()
 
@@ -34,6 +31,12 @@ def main():
     if user_settings["run_availability_check"]:
         run_availability_check_loop(managers, user_settings)
 
+    # Create the url list to compare new urls to
+    try:
+        comparison_list = managers['rdsManager'].create_comparison_list()
+    except:
+        logging.error("url_comparison_list not constructed successfully.")
+
     # Load JSON selectors
     json_manager = managers.get('jsonManager')
     if not json_manager:
@@ -53,6 +56,7 @@ def main():
         for selected_site in selected_sites:
             try:
                 managers['siteprocessor'].site_processor_main(
+                    comparison_list,
                     selected_site
                 )
                 logging.info(f"Successfully processed site: {selected_site['source_name']}")
