@@ -17,7 +17,7 @@ class CleanData:
         """
         if not isinstance(url, str):
             raise ValueError("URL must be a string.")
-        
+
         # Strip whitespace
         url = url.strip()
 
@@ -30,93 +30,90 @@ class CleanData:
         )
         if not url_pattern.match(url):
             raise ValueError(f"Invalid URL format: {url}")
-        
+
         return url
     
-    def clean_title(self, title):
+
+    @staticmethod
+    def clean_title(title):
         """
-        Cleans and normalizes a product title, ensuring safe handling of quotes.
+        Cleans and normalizes a product title, ensuring single quotes are used consistently.
 
         Args:
             title (str): The title to clean.
 
         Returns:
-            str: The cleaned and normalized title.
+            str: The cleaned title with normalized quotes.
         Raises:
             ValueError: If the title is not a string or is empty.
         """
         if not isinstance(title, str):
             raise ValueError("Title must be a string.")
-        
+
+        # Decode HTML entities
+        title = unescape(title)
+
         # Remove leading and trailing whitespace
         title = title.strip()
 
-        # Replace special quotes with standard ones
+        # Replace special quotes with standard single quotes
         special_quotes = {
-            "“": '"', "”": '"',  # Double quotes
+            "“": "'", "”": "'",  # Double quotes
             "‘": "'", "’": "'",  # Single quotes
+            '"': "'",                # Replace double quotes with single quotes
         }
         for special, standard in special_quotes.items():
             title = title.replace(special, standard)
-        
-        # Escape single quotes for PostgreSQL
-        title = title.replace("'", "''")
 
         # Replace multiple spaces with a single space
         title = " ".join(title.split())
-
-        # Remove specific unnecessary phrases (if applicable)
-        unnecessary_phrases = [
-            "Click to View Larger Image",  # Example phrase
-            "Description:",  # Example prefix
-        ]
-        for phrase in unnecessary_phrases:
-            title = title.replace(phrase, "").strip()
 
         if not title:
             raise ValueError("Title cannot be empty after cleaning.")
 
         return title
 
-    def clean_description(self, description):
+    @staticmethod
+    def clean_description(description):
         """
-        Cleans and normalizes a product description.
+        Cleans and normalizes a product description to use single quotes.
 
         Args:
             description (str): The raw description text.
 
         Returns:
-            str: The cleaned description text.
+            str: The cleaned description text with normalized quotes.
         Raises:
             ValueError: If the description is not a string or is empty.
         """
         if not isinstance(description, str):
             raise ValueError("Description must be a string.")
-        
-        # Remove leading and trailing whitespace
-        description = description.strip()
-
-        # Replace escape characters
-        description = description.replace("\n", " ").replace("\t", " ").replace("\r", " ")
 
         # Decode HTML entities
         description = unescape(description)
 
+        # Remove leading and trailing whitespace
+        description = description.strip()
+
+        # Replace special quotes with standard single quotes
+        special_quotes = {
+            "“": "'", "”": "'",  # Double quotes
+            "‘": "'", "’": "'",  # Single quotes
+            '"': "'",                # Replace double quotes with single quotes
+        }
+        for special, standard in special_quotes.items():
+            description = description.replace(special, standard)
+
         # Replace multiple spaces with a single space
         description = " ".join(description.split())
-
-        # Remove unwanted phrases (if applicable)
-        unwanted_phrases = ["Full Description Below", "See details above"]
-        for phrase in unwanted_phrases:
-            description = description.replace(phrase, "").strip()
 
         if not description:
             raise ValueError("Description cannot be empty after cleaning.")
 
         return description
 
-    
-    def clean_price(self, price):
+    @staticmethod
+    def clean_price(price):
         """
         Cleans and normalizes price strings to a float.
 
@@ -164,8 +161,9 @@ class CleanData:
             return float(numeric_price)
         except ValueError:
             raise ValueError(f"Invalid numeric value in price: {price}")
-        
-    def clean_available(self, available):
+
+    @staticmethod
+    def clean_available(available):
         """
         Normalizes the availability field to a boolean.
 
@@ -191,3 +189,43 @@ class CleanData:
                 return False
 
         raise ValueError(f"Cannot interpret availability value: {available}")
+
+    @staticmethod
+    def clean_url_list(urls):
+        """
+        Cleans and validates a list of URLs.
+
+        Args:
+            urls (list): A list of URLs to clean.
+
+        Returns:
+            list: A list of cleaned and validated URLs.
+
+        Raises:
+            ValueError: If any URL in the list is invalid.
+        """
+        import re
+
+        # URL validation regex
+        url_pattern = re.compile(
+            r"^(https?://)"  # http or https
+            r"([a-zA-Z0-9.-]+)"  # Domain
+            r"(\.[a-zA-Z]{2,})"  # Top-level domain
+            r"(:[0-9]+)?(/.*)?$"  # Port and path
+        )
+
+        if not isinstance(urls, list):
+            raise ValueError("Input must be a list of URLs.")
+
+        cleaned_urls = []
+        for url in urls:
+            if not isinstance(url, str):
+                raise ValueError("Each URL must be a string.")
+            
+            url = url.strip()  # Remove surrounding whitespace
+            if not url_pattern.match(url):
+                raise ValueError(f"Invalid URL format: {url}")
+            
+            cleaned_urls.append(url)
+
+        return cleaned_urls

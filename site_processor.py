@@ -4,7 +4,7 @@ import logging, json
 import time
 from urllib.parse import urlparse
 from product_tile_processor import TileProcessor
-from product_processor import ProductTileDictProcessor
+from product_processor import ProductTileDictProcessor, ProductDetailsProcessor
 
 
 class SiteProcessor:
@@ -35,6 +35,11 @@ class SiteProcessor:
         except Exception as e:
             logging.error(f"Error base_url: {e}")
 
+        # Reset configs for new site
+        self.counter.set_continue_state_true()
+        self.counter.reset_current_page_count()
+        self.counter.reset_empty_page_count()
+
         # Keep looping through pages until current_continue_state becomes False
         while self.counter.get_current_continue_state():
             # Generate a list of products by scraping product urls from store page
@@ -47,7 +52,7 @@ class SiteProcessor:
 
             # Create beautiful soup for decyphering html / css
             try:
-                products_list_page_soup = self.html_manager.construct_products_page_list_soup(products_list_page)
+                products_list_page_soup = self.html_manager.parse_html(products_list_page)
                 logging.debug(f'Debug: products_list_page_soup loaded.')
             except Exception as e:
                 logging.error(f"Error products_list_page_soup: {e}")
@@ -70,6 +75,7 @@ class SiteProcessor:
             try:
                 tile_processor = TileProcessor(site_profile)
                 tile_product_data_list = tile_processor.tile_process_main(products_tile_list)
+                self.counter.increment_total_products_count(len(tile_product_data_list))
                 logging.info(f'Product Dictionaries count: {len(tile_product_data_list)}')
                 logging.info(f'Source: {selected_site['source_name']}')
                 # Add a page to go to the next page.
@@ -83,17 +89,29 @@ class SiteProcessor:
 
             # Send the list of products to be checked individually
             try:
-                product_tile_dict_processor                           = ProductTileDictProcessor(site_profile, comparison_list)
-                processing_required_list, availability_update_list    = product_tile_dict_processor.product_processor_main(tile_product_data_list)
+                product_tile_dict_processor                           = ProductTileDictProcessor(site_profile, comparison_list, self.managers)
+                processing_required_list, availability_update_list    = product_tile_dict_processor.product_tile_dict_processor_main(tile_product_data_list)
             except Exception as e:
                 logging.error(f"Error product_tile_dict_processor: {e}")
                 continue
 
-            # Stop processing site 
-            if len(processing_required_list) == 0 and len(availability_update_list) == 0:
-                logging.info("No products require further processing. Stopping site processing.")
-                self.counter.set_continue_state_false()
+            try:
+                product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list)
+                output = product_details_processor.product_details_processor_main(processing_required_list)
+
+            except Exception as e:
+                logging.error(f"Error product_details_processor: {e}")
+                continue
+
+            # Check to see if we have hit multiple empty product pages and possibly terminate
+            if self.empty_page_check(processing_required_list, availability_update_list):
+                logging.debug("Exiting site_processor_main.")
                 break
+
+            time.sleep(10)
+            
+
+
 
         return
 
@@ -170,7 +188,25 @@ class SiteProcessor:
         except Exception as e:
             logging.warning
     
-
+    def empty_page_check(self, processing_required_list, availability_update_list):
+        # If the program detects X pages in a row that are empty, stop processing site 
+        if len(processing_required_list) == 0 and len(availability_update_list) == 0:
+            self.counter.add_empty_page_count()
+            self.counter.check_empty_page_tolerance()
+            logging.info("No products require further processing. Stopping site processing.")
+            logging.info(
+    f"""
+    ====== Processing Summary ======
+    Total Products Count       : {self.counter.get_total_count()}
+    New Products Count         : {self.counter.get_new_products_count()}
+    Old Products Count         : {self.counter.get_old_products_count()}
+    Sites Processed Count      : {self.counter.get_sites_processed_count()}
+    Current Page Count         : {self.counter.get_current_page_count()}
+    Availability Updates Count : {self.counter.get_availability_update_count()}
+    Processing Required Count  : {self.counter.get_processing_required_count()}
+    ===============================
+    """
+)
 
 
 

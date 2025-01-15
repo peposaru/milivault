@@ -6,7 +6,6 @@ class TileProcessor:
         self.site_profile = site_profile
         self.site_profile_tile_selectors = site_profile.get("product_tile_selectors", {})
 
-
     def tile_process_main(self, products_tile_list):
         """
         Process all product tiles to extract relevant data points into a list of dictionaries,
@@ -18,6 +17,7 @@ class TileProcessor:
 
         for product_tile in products_tile_list:
             try:
+
                 # Extract and clean URL
                 product_tile_url = self.extract_tile_url(product_tile)
                 if not product_tile_url:
@@ -40,11 +40,11 @@ class TileProcessor:
                 clean_product_tile_price = clean_data.clean_price(product_tile_price.strip())
 
                 # Extract and clean availability
-                product_tile_available = self.extract_tile_available(product_tile)
-                if product_tile_available is None:
+                clean_product_tile_available = self.extract_tile_available(product_tile)
+                if clean_product_tile_available is None:
                     logging.debug(f"Tile skipped due to missing availability: {product_tile}")
                     continue
-                clean_product_tile_available = clean_data.clean_available(product_tile_available)
+
 
                 # Deduplication logic based on cleaned URL
                 if clean_product_tile_url in seen_products:
@@ -64,7 +64,6 @@ class TileProcessor:
             except Exception as e:
                 logging.error(f"Error processing tile: {e}, Tile: {product_tile}")
 
-        logging.info(f"Total processed products: {len(tile_product_data)}")
         return tile_product_data
 
 
@@ -126,33 +125,42 @@ class TileProcessor:
 
         Args:
             product_tile: The product tile element to check.
-            site_profile_tile_selectors: The selectors for availability and unavailability.
 
         Returns:
             bool: True if the product is available, False if unavailable.
         """
         try:
-            # Check if the product is explicitly marked as unavailable
-            if self.is_product_unavailable(product_tile):
-                return False
-
             # Check if the product is explicitly marked as available
             if self.is_product_available(product_tile):
+                logging.debug("Product is marked as available.")
                 return True
 
+            # Check if the product is explicitly marked as unavailable
+            if self.is_product_unavailable(product_tile):
+                logging.debug("Product is marked as unavailable.")
+                return False
+
             # Default to unavailable if neither condition is met
+            logging.debug("Defaulting to unavailable.")
             return False
         except Exception as e:
             print(f"Error determining product stock status: {e}")
             return False
 
     def is_product_available(self, product_tile):
+        """
+        Check if a product is marked as available based on the JSON profile.
+
+        Args:
+            product_tile: The product tile element to check.
+
+        Returns:
+            bool: True if the product is available, False otherwise.
+        """
         try:
-            # List of availability keys to check
             availability_keys = ["tile_availability"]
 
             for key in availability_keys:
-                # Skip if the key is not in the selectors
                 if key not in self.site_profile_tile_selectors:
                     continue
 
@@ -160,12 +168,10 @@ class TileProcessor:
                 method = config.get("method", "find")
                 args = config.get("args", [])
                 kwargs = config.get("kwargs", {})
-                exists = config.get("exists", False)
                 value = config.get("value", None)
 
                 # Handle the 'has_attr' method
                 if method == "has_attr" and "class" in args:
-                    # Check if the class contains the specified value
                     attribute_value = product_tile.get("class", [])
                     if value in attribute_value:
                         return True
@@ -173,15 +179,24 @@ class TileProcessor:
 
                 # Extract element based on other methods
                 element = getattr(product_tile, method)(*args, **kwargs)
-                if exists and element is not None:
-                    return True  # Available if element exists
+                if element is not None:
+                    return True
 
-            return False  # No availability conditions matched
+            return False
         except Exception as e:
             print(f"Error checking availability: {e}")
             return False
-    
+
     def is_product_unavailable(self, product_tile):
+        """
+        Check if a product is marked as unavailable based on the JSON profile.
+
+        Args:
+            product_tile: The product tile element to check.
+
+        Returns:
+            bool: True if the product is unavailable, False otherwise.
+        """
         try:
             unavailability_keys = ["tile_unavailability_reserved", "tile_unavailability_sold"]
 
@@ -194,7 +209,15 @@ class TileProcessor:
                 args = config.get("args", [])
                 kwargs = config.get("kwargs", {})
                 exists = config.get("exists", False)
+                value = config.get("value", None)
 
+                if method == "has_attr" and "class" in args:
+                    attribute_value = product_tile.get("class", [])
+                    if value in attribute_value:
+                        return True
+                    continue
+
+                # Extract element based on other methods
                 element = getattr(product_tile, method)(*args, **kwargs)
                 if exists and element is not None:
                     return True
@@ -203,6 +226,7 @@ class TileProcessor:
         except Exception as e:
             print(f"Error checking unavailability: {e}")
             return False
+
         
     def extract_tile_title(self, product_tile):
         """

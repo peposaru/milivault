@@ -114,3 +114,30 @@ class AwsRdsManager:
         record = result[0]
         # Logic for skipping can vary based on business rules
         return all(record)  # Example: skip if all fields are populated
+    
+    def should_skip_image_upload(self, product_url):
+        # Check if the product already has images or needs them.
+        try:
+            query = """
+            SELECT original_image_urls, s3_image_urls
+            FROM militaria
+            WHERE url = %s;
+            """
+            result = self.fetch(query, (product_url,))
+            
+            if not result:
+                logging.info(f"No record found for product URL: {product_url}.")
+                return False
+
+            original_image_urls, s3_image_urls = result[0]
+            # Ensure both columns have values and their lengths match
+            if original_image_urls and s3_image_urls and len(original_image_urls) == len(s3_image_urls):
+                logging.debug(f"Image upload already completed for product URL: {product_url}.")
+                return True
+
+            logging.debug(f"Image upload needed for product URL: {product_url}.")
+            return False
+        except Exception as e:
+            logging.error(f"Error checking image upload status for URL {product_url}: {e}")
+            return False
+        

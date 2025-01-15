@@ -17,7 +17,7 @@ def main():
     if not user_settings:
         logging.error(f'Error retrieving user settings.')
         return
-    
+
     # Changing to user info location.
     setup_user_path(user_settings)
 
@@ -30,12 +30,6 @@ def main():
     # Run Availability Check if selected
     if user_settings["run_availability_check"]:
         run_availability_check_loop(managers, user_settings)
-
-    # Create the url list to compare new urls to
-    try:
-        comparison_list = managers['rdsManager'].create_comparison_list()
-    except:
-        logging.error("url_comparison_list not constructed successfully.")
 
     # Load JSON selectors
     json_manager = managers.get('jsonManager')
@@ -50,6 +44,12 @@ def main():
 
     # Which sites to process
     selected_sites = site_choice(jsonData)
+
+    # Create the url list to compare new urls to
+    try:
+        comparison_list = managers['rdsManager'].create_comparison_list()
+    except:
+        logging.error("url_comparison_list not constructed successfully.")
 
     # This is the main loop which keeps everything going.
     while True:

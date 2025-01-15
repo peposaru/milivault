@@ -3,7 +3,7 @@ import logging
 import shutil
 
 from aws_rds_manager import AwsRdsManager
-from web_scraper import ProductScraper
+from web_scraper_old import ProductScraper
 from json_manager import JsonManager
 from log_print_manager import log_print
 from aws_s3_manager import S3Manager

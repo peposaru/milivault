@@ -1,12 +1,16 @@
 # Product Counting Module
 class ProductsCounter:
     def __init__(self):
-        self.total_products_count   = 0  
-        self.old_products_count     = 0   
-        self.new_products_count     = 0   
-        self.sites_processed_count  = 0
-        self.current_page_count     = 0
-        self.continue_state = True
+        self.total_products_count      = 0  
+        self.old_products_count        = 0   
+        self.new_products_count        = 0   
+        self.sites_processed_count     = 0
+        self.availability_update_count = 0
+        self.processing_required_count = 0
+        self.current_page_count        = 0
+        self.empty_page_count          = 0
+        self.empty_page_tolerance      = 2
+        self.continue_state            = None
 
     def get_current_continue_state(self):
         return self.continue_state
@@ -87,5 +91,44 @@ class ProductsCounter:
     def reset_current_page_count(self):
         """Reset the current page count to zero."""
         self.current_page_count = 0
+
+    # How many empty pages until skipping to the next site
+    def set_empty_page_tolerance(self, count=2):
+        self.empty_page_tolerance = count
+
+    def add_empty_page_count(self, count=1):
+        self.empty_page_count += count
+
+    def reset_empty_page_count(self):
+        self.empty_page_count = 0
+
+    def get_empty_page_count(self):
+        return self.empty_page_count
+    
+    def get_empty_page_tolerance(self):
+        return self.empty_page_tolerance
+    
+    def check_empty_page_tolerance(self):
+        if self.empty_page_count == self.get_empty_page_tolerance():
+            self.set_continue_state_false()
+
+    # Update availability_update_count
+    def get_availability_update_count(self):
+        """Retrieve the current page count."""
+        return self.availability_update_count
+
+    def add_availability_update_count(self, count=1):
+        """Add to the current page count."""
+        self.availability_update_count += count
+
+    # Update processing_required_count
+    def get_processing_required_count(self):
+        """Retrieve the current page count."""
+        return self.processing_required_count
+
+    def add_processing_required_count(self, count=1):
+        """Add to the current page count."""
+        self.processing_required_count += count
+        
 
 
