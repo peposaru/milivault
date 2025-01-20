@@ -1,6 +1,8 @@
 import logging
 import json
 from psycopg2 import pool
+from datetime import datetime
+from decimal import Decimal
 
 
 class AwsRdsManager:
@@ -63,21 +65,29 @@ class AwsRdsManager:
         """
         Fetch all existing URLs from the database for comparison.
 
-        Args:
-            db_manager: Database manager with a `fetch` method for executing SQL queries.
-
         Returns:
-            dict: A dictionary with URLs as keys and (title, price, available) as values.
+            dict: A dictionary with URLs as keys and (title, price, available, description, price_history) as values.
         """
         try:
-            all_url_query = "SELECT url, title, price, available FROM militaria;"
+            all_url_query = "SELECT url, title, price, available, description, price_history FROM militaria;"
             all_url_query_result = self.fetch(all_url_query)  # Fetch all rows
+            
+            if not all_url_query_result:
+                logging.warning("No data fetched from the database.")
+                return {}
+
             return {
-                row[0]: (row[1], row[2], row[3])  # Key: url, Value: (title, price, available)
+                row[0]: (
+                    row[1],  # title
+                    float(row[2]) if row[2] else 0.0,  # price as float
+                    row[3],  # available
+                    row[4],  # description
+                    row[5] if row[5] is not None else "[]"  # price_history as valid JSON
+                )
                 for row in all_url_query_result
             }
         except Exception as e:
-            logging.error(f"Error fetching comparison data from database: {e}")
+            logging.error(f"Error fetching comparison data from database. Query: {all_url_query}. Exception: {e}")
             return {}
 
 
@@ -141,3 +151,49 @@ class AwsRdsManager:
             logging.error(f"Error checking image upload status for URL {product_url}: {e}")
             return False
         
+    def new_product_input(self, clean_details_data):
+        """
+        Insert product data into the database without conflict checks, skipping blank or empty fields.
+
+        Args:
+            clean_details_data (dict): The clean product details to upload.
+
+        Returns:
+            None
+        """
+        try:
+            # Filter out empty fields
+            filtered_data = {k: v for k, v in clean_details_data.items() if v not in (None, "", [], {})}
+
+            # Convert Decimal fields to float and handle JSON serialization
+            json_fields = ["original_image_urls", "categories_site_designated"]
+            for key, value in filtered_data.items():
+                if isinstance(value, Decimal):
+                    filtered_data[key] = float(value)  # Convert Decimal to float
+                if key in json_fields:
+                    filtered_data[key] = json.dumps(value, default=float)  # Handle serialization for JSON fields
+
+            # Prepare the column names and placeholders dynamically
+            columns = ", ".join(filtered_data.keys())
+            placeholders = ", ".join(["%s"] * len(filtered_data))
+            insert_query = f"""
+            INSERT INTO militaria ({columns})
+            VALUES ({placeholders})
+            """
+
+            # Debug the prepared data
+            logging.debug(f"Prepared data for insertion: {filtered_data}")
+
+            # Execute the query
+            self.execute(insert_query, tuple(filtered_data.values()))
+            logging.info(f"Successfully inserted product: {clean_details_data.get('title')}")
+
+        except Exception as e:
+            logging.error(f"Error inserting product to RDS: {e}")
+
+
+
+
+
+
+

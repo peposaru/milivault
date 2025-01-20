@@ -53,9 +53,9 @@ class TileProcessor:
 
                 # Construct the product dictionary and add it to the final list
                 product_dict = {
-                    "url": clean_product_tile_url,
-                    "title": clean_product_tile_title,
-                    "price": clean_product_tile_price,
+                    "url"      : clean_product_tile_url,
+                    "title"    : clean_product_tile_title,
+                    "price"    : clean_product_tile_price,
                     "available": clean_product_tile_available
                 }
                 tile_product_data.append(product_dict)

@@ -6,7 +6,6 @@ from time import sleep
 # These are modules made for this program specifically.
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
 from site_processor import SiteProcessor
-from availability_check import run_availability_check_loop
 from logging_manager import initialize_logging
 
 def main():
@@ -28,8 +27,8 @@ def main():
         return
 
     # Run Availability Check if selected
-    if user_settings["run_availability_check"]:
-        run_availability_check_loop(managers, user_settings)
+    # if user_settings["run_availability_check"]:
+    #     run_availability_check_loop(managers, user_settings)
 
     # Load JSON selectors
     json_manager = managers.get('jsonManager')

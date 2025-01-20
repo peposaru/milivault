@@ -3,7 +3,6 @@ import logging
 import shutil
 
 from aws_rds_manager import AwsRdsManager
-from web_scraper_old import ProductScraper
 from json_manager import JsonManager
 from log_print_manager import log_print
 from aws_s3_manager import S3Manager
@@ -68,7 +67,6 @@ def setup_object_managers(user_settings):
         html_manager = HtmlManager()
 
         # Initialize dependent managers
-        web_scrape_manager = ProductScraper(rds_manager)
         site_processor = SiteProcessor({
             "rdsManager": rds_manager,
             "s3_manager": s3_manager,
@@ -76,14 +74,12 @@ def setup_object_managers(user_settings):
             "log_print": log_printer,
             "counter": counter,
             "html_manager": html_manager,
-            "webScrapeManager": web_scrape_manager
         })
 
         # Return all managers as a dictionary
         return {
             "rdsManager": rds_manager,
             "s3_manager": s3_manager,
-            "webScrapeManager": web_scrape_manager,
             "jsonManager": json_manager,
             "log_print": log_printer,
             "counter": counter,

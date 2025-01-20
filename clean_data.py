@@ -229,3 +229,58 @@ class CleanData:
             cleaned_urls.append(url)
 
         return cleaned_urls
+    
+    @staticmethod
+    def clean_nation(nation):
+        """
+        Clean and standardize the nation data: all caps, no leading/trailing spaces.
+        """
+        if not nation:
+            return None
+        return nation.strip().upper()
+    
+    @staticmethod
+    def clean_conflict(conflict):
+        """
+        Clean and standardize the conflict data: all caps, no leading/trailing spaces.
+        """
+        if not conflict:
+            return None
+        return conflict.strip().upper()
+    
+    @staticmethod
+    def clean_item_type(item_type):
+        """
+        Clean and standardize the item type data: all caps, no leading/trailing spaces.
+        """
+        if not item_type:
+            return None
+        return item_type.strip().upper()
+    
+    @staticmethod
+    def clean_extracted_id(extracted_id):
+        """
+        Clean and validate the extracted ID: no leading/trailing spaces, all caps.
+        """
+        if not extracted_id:
+            return None
+        return extracted_id.strip().upper()
+    
+    @staticmethod
+    def clean_grade(grade):
+        """
+        Clean and standardize the grade data: no leading/trailing spaces.
+        """
+        if not grade:
+            return None
+        return grade.strip()
+    
+    @staticmethod
+    def clean_categories(categories):
+        """
+        Clean and standardize site categories: strip spaces and title-case each category.
+        """
+        if not categories or not isinstance(categories, list):
+            return []
+        return [category.strip().title() for category in categories if isinstance(category, str)]
+
