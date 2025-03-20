@@ -9,7 +9,7 @@ class ProductsCounter:
         self.processing_required_count = 0
         self.current_page_count        = 0
         self.empty_page_count          = 0
-        self.empty_page_tolerance      = 2
+        self.empty_page_tolerance      = 5
         self.continue_state            = None
 
     def get_current_continue_state(self):

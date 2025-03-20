@@ -24,16 +24,16 @@ class SiteProcessor:
         # site_profile is all the site selectors for one the selected site
         try:
             site_profile = self.jsonManager.json_unpacker(selected_site)
-            logging.debug(f'Source: {selected_site['source_name']} site_profile loaded.')
+            logging.debug(f'SITE PROCESSOR: Source: {selected_site['source_name']} site_profile loaded.')
         except Exception as e:
-            logging.error(f"Failed to load site_profile: {e}")
+            logging.error(f"SITE PROCESSOR: Failed to load site_profile: {e}")
 
         # Get the base url from the json profile config
         try:
             base_url = self.construct_base_url(selected_site)
-            logging.debug(f'Debug: base_url: {base_url}')
+            logging.debug(f'SITE PROCESSOR: Debug: base_url: {base_url}')
         except Exception as e:
-            logging.error(f"Error base_url: {e}")
+            logging.error(f"SITE PROCESSOR: Error base_url: {e}")
 
         # Reset configs for new site
         self.counter.set_continue_state_true()
@@ -45,31 +45,33 @@ class SiteProcessor:
             # Generate a list of products by scraping product urls from store page
             try:
                 products_list_page = self.construct_products_list_directory(site_profile)
-                logging.debug(f'products_list_page loaded')
-                logging.info(f'Current page: {self.counter.get_current_page_count()}')
+                logging.debug(f'SITE PROCESSOR: products_list_page loaded')
+                logging.info(f'SITE PROCESSOR: Current product page: {products_list_page}')
+                logging.info(f'SITE PROCESSOR: Current page: {self.counter.get_current_page_count()}')
             except Exception as e:
-                logging.error(f"products_list_page: {e}")
+                logging.error(f"SITE PROCESSOR: products_list_page: {e}")
                 continue
 
             # Create beautiful soup for decyphering html / css
             try:
                 products_list_page_soup = self.html_manager.parse_html(products_list_page)
-                logging.debug(f'products_list_page_soup loaded.')
+                logging.debug(f'SITE PROCESSOR: products_list_page_soup loaded.')
             except Exception as e:
-                logging.error(f"Error products_list_page_soup: {e}")
+                logging.error(f"SITE PROCESSOR: Error products_list_page_soup: {e}")
                 continue
 
             # Create a list of the product tiles on the given product page
             try:
                 products_tile_list = self.construct_products_tile_list(products_list_page_soup,site_profile)
-                logging.debug(f'Length of products_tile_list: {len(products_tile_list)} ')
+                logging.debug(f'SITE PROCESSOR: Length of products_tile_list: {len(products_tile_list)} ')
             
-                if not products_tile_list:
-                    logging.info("No products found on the current page. Stopping processing.")
+                if len(products_tile_list) == 0:
+                    logging.info("SITE PROCESSOR: No products found on the current page. Stopping processing.")
+                    self.log_print.terminating()
                     self.counter.set_continue_state_false()
                     break
             except Exception as e:
-                logging.error(f"Error products_tile_list: {e}")
+                logging.error(f"SITE PROCESSOR: Error products_tile_list: {e}")
                 continue
 
             # Create and categorize products tile list into urls and separate them by available and not available.
@@ -77,9 +79,9 @@ class SiteProcessor:
                 tile_processor = TileProcessor(site_profile)
                 tile_product_data_list = tile_processor.tile_process_main(products_tile_list)
                 self.counter.increment_total_products_count(len(tile_product_data_list))
-                logging.info(f'Product Dictionaries count: {len(tile_product_data_list)}')
+                logging.info(f'SITE PROCESSOR: Product Dictionaries count: {len(tile_product_data_list)}')
             except Exception as e:
-                logging.error(f"Error tile_processor / categorized_product_urls: {e}")
+                logging.error(f"SITE PROCESSOR: Error tile_processor / categorized_product_urls: {e}")
                 continue
 
             # Send the list of products to be checked individually
@@ -87,7 +89,7 @@ class SiteProcessor:
                 product_tile_dict_processor                           = ProductTileDictProcessor(site_profile, comparison_list, self.managers)
                 processing_required_list, availability_update_list    = product_tile_dict_processor.product_tile_dict_processor_main(tile_product_data_list)
             except Exception as e:
-                logging.error(f"Error product_tile_dict_processor: {e}")
+                logging.error(f"SITE PROCESSOR: Error product_tile_dict_processor: {e}")
                 continue
 
             try:
@@ -95,7 +97,7 @@ class SiteProcessor:
                 output = product_details_processor.product_details_processor_main(processing_required_list)
 
             except Exception as e:
-                logging.error(f"Error product_details_processor: {e}")
+                logging.error(f"SITE PROCESSOR: Error product_details_processor: {e}")
                 continue
 
             # Add a page to go to the next page.
@@ -103,14 +105,14 @@ class SiteProcessor:
                 self.counter.add_current_page_count(
                     count=site_profile.get("access_config", {}).get("page_increment_step", 1)
                 )
-                logging.info(f"Moved to next page: {self.counter.get_current_page_count()}")
+                logging.info(f"SITE PROCESSOR: Moved to next page: {self.counter.get_current_page_count()}")
             except Exception as e:
-                logging.error(f'Failed to add to page count.')
+                logging.error(f'SITE PROCESSOR: Failed to add to page count.')
 
 
             # Check to see if we have hit multiple empty product pages and possibly terminate
             if self.empty_page_check(processing_required_list, availability_update_list):
-                logging.debug("Exiting site_processor_main.")
+                logging.debug("SITE PROCESSOR: Exiting site_processor_main.")
                 break
 
             time.sleep(0)
@@ -141,7 +143,7 @@ class SiteProcessor:
             current_page       = self.counter.get_current_page_count()
             return f"{base_url}{products_page_path.format(page=current_page)}"
         except Exception as e:
-            logging.warning(f"Error during construct_products_list_directory: {site_profile['source_name']}, Error: {e}")
+            logging.warning(f"SITE PROCESSOR: Error during construct_products_list_directory: {site_profile['source_name']}, Error: {e}")
 
     # Create a list of all of the product tiles on given page.
     def construct_products_tile_list(self, products_list_page_soup, site_profile):
@@ -164,11 +166,11 @@ class SiteProcessor:
                 if self.is_tile_valid(tile, site_profile.get("product_tile_selectors", {}))
             ]
             
-            logging.debug(f"Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
+            logging.debug(f"SITE PROCESSOR: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
             return valid_tiles
 
         except Exception as e:
-            logging.error(f"Error constructing product tile list: {e}")
+            logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
             return []
 
     def is_tile_valid(self, tile, selectors):
@@ -198,7 +200,7 @@ class SiteProcessor:
         if len(processing_required_list) == 0 and len(availability_update_list) == 0:
             self.counter.add_empty_page_count()
             self.counter.check_empty_page_tolerance()
-            logging.info("No products require further processing. Stopping site processing.")
+            logging.info("SITE PROCESSOR: No products require further processing. Stopping site processing.")
             logging.info(
     f"""
     ====== Processing Summary ======
@@ -212,6 +214,7 @@ class SiteProcessor:
     ================================
     """
 )
+            self.counter.set_continue_state_false()
 
 
 

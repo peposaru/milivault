@@ -2,33 +2,36 @@
 import logging
 from datetime import datetime
 from time import sleep
+import os, sys
 
 # These are modules made for this program specifically.
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
 from site_processor import SiteProcessor
 from logging_manager import initialize_logging
+from json_tester import JsonTester
+def restart_program():
+    """Restarts the program from the beginning."""
+    logging.info("Restarting script...")
+    python = sys.executable
+    os.execv(python, [python] + sys.argv)  # Restart the script fully
 
 def main():
     initialize_logging()
 
-    # Getting user settings
+    # Get user settings before starting
     user_settings = load_user_settings()
     if not user_settings:
-        logging.error(f'Error retrieving user settings.')
+        logging.error("Error retrieving user settings.")
         return
 
-    # Changing to user info location.
+    # Change to user info location
     setup_user_path(user_settings)
 
-    # Setting up the object managers
+    # Set up the object managers
     managers = setup_object_managers(user_settings)
     if not managers:
-        logging.error(f'Error setting up user managers.')
+        logging.error("Error setting up user managers.")
         return
-
-    # Run Availability Check if selected
-    # if user_settings["run_availability_check"]:
-    #     run_availability_check_loop(managers, user_settings)
 
     # Load JSON selectors
     json_manager = managers.get('jsonManager')
@@ -41,37 +44,40 @@ def main():
         logging.error(f"Failed to load JSON selectors: {e}")
         return
 
-    # Which sites to process
+    # Ensure site selection before processing
     selected_sites = site_choice(jsonData)
+    if not selected_sites:
+        logging.error("No sites selected. Exiting program.")
+        return
 
-    # Create the url list to compare new urls to
+    print(f"Sites selected: {[site['source_name'] for site in selected_sites]}")
+
+    # If json test is selected, run the json tester
+    if user_settings.get("jsonTest"):
+        logging.info("Running JSON Tester.")
+        json_tester = JsonTester(managers)
+        json_tester.main(selected_sites)
+        restart_program()
+    
+    # Create the URL list to compare new URLs to
     try:
         comparison_list = managers['rdsManager'].create_comparison_list()
-    except:
-        logging.error("url_comparison_list not constructed successfully.")
+    except Exception as e:
+        logging.error(f"Error constructing url_comparison_list: {e}")
+        return
 
-    # This is the main loop which keeps everything going.
-    while True:
-        for selected_site in selected_sites:
-            try:
-                managers['siteprocessor'].site_processor_main(
-                    comparison_list,
-                    selected_site
-                )
-                logging.info(f"Successfully processed site: {selected_site['source_name']}")
-            except Exception as e:
-                logging.error(f"Error processing site {selected_site['source_name']}: {e}")
+    # Main processing loop
+    for selected_site in selected_sites:
+        print(f"Processing site: {selected_site['source_name']}")
+        logging.info(f"Processing site: {selected_site['source_name']}")
 
-        # Pause between cycles
-        sleeptime = user_settings["sleeptime"]
-        if sleeptime > 0:
-            logging.warning(f"Pausing for {sleeptime} seconds before starting the next cycle...")
-            try:
-                sleep(sleeptime)
-            except Exception as e:
-                logging.error(f"Error during sleep: {e}")
-        else:
-            logging.info("No pause configured (sleeptime = 0). Starting the next cycle immediately.")
+        try:
+            managers['siteprocessor'].site_processor_main(comparison_list, selected_site)
+            logging.info(f"Successfully processed site: {selected_site['source_name']}")
+        except Exception as e:
+            logging.error(f"Error processing site {selected_site['source_name']}: {e}")
+
+    logging.info("Processing completed.")
 
 if __name__ == "__main__":
     main()

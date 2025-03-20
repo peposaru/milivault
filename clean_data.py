@@ -73,10 +73,12 @@ class CleanData:
 
         return title
 
+
     @staticmethod
     def clean_description(description):
         """
-        Cleans and normalizes a product description to use single quotes.
+        Cleans and normalizes a product description to use single quotes
+        and removes the leading 'Description' if present.
 
         Args:
             description (str): The raw description text.
@@ -95,11 +97,15 @@ class CleanData:
         # Remove leading and trailing whitespace
         description = description.strip()
 
+        # Remove leading "Description" if present
+        if description.lower().startswith("description"):
+            description = description[len("description"):].strip()
+
         # Replace special quotes with standard single quotes
         special_quotes = {
             "“": "'", "”": "'",  # Double quotes
             "‘": "'", "’": "'",  # Single quotes
-            '"': "'",                # Replace double quotes with single quotes
+            '"': "'",            # Replace double quotes with single quotes
         }
         for special, standard in special_quotes.items():
             description = description.replace(special, standard)
@@ -112,21 +118,26 @@ class CleanData:
 
         return description
 
+
     @staticmethod
     def clean_price(price):
         """
         Cleans and normalizes price strings to a float.
 
         Args:
-            price (str): The raw price string to clean.
+            price (str or None): The raw price string to clean.
 
         Returns:
-            float: The cleaned price as a float.
+            float or None: The cleaned price as a float, or None if the input is None.
+        
         Raises:
             ValueError: If the price cannot be parsed or is invalid.
         """
+        if price is None:
+            return None  # If price is None, return None immediately
+
         if not isinstance(price, str):
-            raise ValueError("Price must be a string.")
+            raise ValueError("Price must be a string or None.")
 
         # Remove unnecessary words and symbols
         unwanted_phrases = ["NEW PRICE", "Non-EU Price", "PRICE", "excl. VAT"]
@@ -251,20 +262,67 @@ class CleanData:
     @staticmethod
     def clean_item_type(item_type):
         """
-        Clean and standardize the item type data: all caps, no leading/trailing spaces.
+        Clean and standardize the item type data:
+        - Removes "CATEGORIES:" if present.
+        - Removes "NEW" if it appears.
+        - Keeps only the part after the '-' (to remove Dutch/Belgian part).
+        - Extracts text inside parentheses if it exists (e.g., "MULTIPLE (WEHRMACHT)" → "WEHRMACHT").
+        - Converts everything to uppercase.
+        - Returns None if the type is "SOLD" or "NOT SPECIFIED".
         """
         if not item_type:
             return None
-        return item_type.strip().upper()
+
+        # Convert to uppercase and strip spaces
+        item_type = item_type.strip().upper()
+
+        # Remove "CATEGORIES:" from the beginning
+        if item_type.startswith("CATEGORIES:"):
+            item_type = item_type[len("CATEGORIES:"):].strip()
+
+        # Remove "NEW" if it appears alone or in a list
+        item_parts = [part.strip() for part in item_type.split(",") if part.strip() and part.upper() != "NEW"]
+
+        # Process each category: remove everything before the '-' and extract from parentheses if present
+        cleaned_parts = []
+        for part in item_parts:
+            # Extract text inside parentheses if it exists (e.g., "MULTIPLE (WEHRMACHT)" → "WEHRMACHT")
+            match = re.search(r"\(([^)]+)\)", part)
+            if match:
+                part = match.group(1).strip()  # Keep only the text inside parentheses
+
+            # Remove everything before the '-' (Dutch/Belgian text)
+            if '-' in part:
+                part = part.split('-')[-1].strip()  # Keep only the part after '-'
+
+            # Skip if item type is "SOLD" or "NOT SPECIFIED"
+            if part in {"SOLD", "NOT SPECIFIED"}:
+                return None
+
+            cleaned_parts.append(part)
+
+        # Join cleaned categories back into a single string
+        return ", ".join(cleaned_parts) if cleaned_parts else None
     
     @staticmethod
     def clean_extracted_id(extracted_id):
         """
-        Clean and validate the extracted ID: no leading/trailing spaces, all caps.
+        Clean and validate the extracted ID:
+        - Removes leading/trailing spaces.
+        - Converts to uppercase.
+        - Returns None and logs an error if the ID is longer than 20 characters.
         """
         if not extracted_id:
             return None
-        return extracted_id.strip().upper()
+
+        extracted_id = extracted_id.strip().upper()
+
+        # If ID is longer than 20 characters, log an error and return None
+        if len(extracted_id) > 20:
+            print(f"ERROR: EXTRACTED ID TOO LONG: '{extracted_id}' exceeds 20 characters. Returning None.")
+            return None
+
+        return extracted_id
     
     @staticmethod
     def clean_grade(grade):

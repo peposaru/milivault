@@ -162,6 +162,10 @@ class AwsRdsManager:
             None
         """
         try:
+            # Ensure price is never None, but do not replace a valid DB price
+            if 'price' not in clean_details_data or clean_details_data['price'] is None:
+                clean_details_data['price'] = 0.0
+                
             # Filter out empty fields
             filtered_data = {k: v for k, v in clean_details_data.items() if v not in (None, "", [], {})}
 
