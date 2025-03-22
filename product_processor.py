@@ -70,7 +70,14 @@ class ProductTileDictProcessor:
                     continue
 
                 # If both db_price and tile price are empty, treat them as equal
-                price_match = (is_empty_price(db_price) and is_empty_price(price)) or (db_price == price)
+                if db_available is True and available is True and float(price) == 0.0 and float(db_price) > 0:
+                    price_match = True
+                else:
+                    price_match = (is_empty_price(db_price) and is_empty_price(price)) or (db_price == price)
+
+                # **Fix: Allow price to be None if item is marked as sold**
+                if db_available == False and available == False and is_empty_price(price):
+                    price_match = True  # Ignore price mismatch when the item is sold
 
                 # Check for exact matches of title, price, and availability
                 if title == db_title and price_match:
@@ -118,6 +125,7 @@ class ProductTileDictProcessor:
         logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed): {ignored_update_count}')
 
         return processing_required_list, availability_update_list
+
 
 
 
@@ -426,44 +434,54 @@ class ProductDetailsProcessor:
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error inserting new product {url}: {e}")
 
-
     def extract_data(self, soup, method, args, kwargs, attribute):
-        """
-        Extract data from the soup object based on the configuration.
-        If a selector is missing, return None.
-        """
         try:
-            # If method is None, skip extraction
-            if method is None:
-                return None
-            
-            # Find element in BeautifulSoup
+            if method == "has_attr":
+                attr = args[0]
+                if soup.has_attr(attr):
+                    return attribute in soup[attr]
+                return False
+
             element = getattr(soup, method)(*args, **kwargs)
 
-            # Extract attribute if specified
-            if attribute:
-                return element.get(attribute).strip() if element and element.get(attribute) else None
+            if not element:
+                return None
 
-            # Otherwise, return the text
-            return element.get_text(strip=True) if element else None
+            if attribute:
+                return element.get(attribute, "").strip()
+            return element.get_text(strip=True)
 
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting data: {e}")
+            logging.error(f"Error extracting data: {e}")
             return None
 
 
-        # def extract_data(self, soup, method, args, kwargs, attribute):
-        #     """
-        #     Extract data from the soup object based on the configuration.
-        #     """
-        #     try:
-        #         element = getattr(soup, method)(*args, **kwargs)
-        #         if attribute:
-        #             return element.get(attribute).strip() if element and element.get(attribute) else None
-        #         return element.get_text(strip=True) if element else None
-        #     except Exception as e:
-        #         logging.error(f"Error extracting data: {e}")
-        #         return None
+    # def extract_data(self, soup, selector_config):
+    #     try:
+    #         method = selector_config.get("method", "find")
+    #         args = selector_config.get("args", [])
+    #         kwargs = selector_config.get("kwargs", {})
+    #         attribute = selector_config.get("attribute")
+    #         value = selector_config.get("value")
+
+    #         if method == "has_attr":
+    #             attr = args[0]
+    #             if soup.has_attr(attr):
+    #                 return value in soup[attr]
+    #             return False
+
+    #         element = getattr(soup, method)(*args, **kwargs)
+
+    #         if not element:
+    #             return None
+
+    #         if attribute:
+    #             return element.get(attribute, "").strip()
+    #         return element.get_text(strip=True)
+
+    #     except Exception as e:
+    #         logging.error(f"Error extracting data: {e}")
+    #         return None
         
     def extract_details_title(self, soup):
         """
@@ -540,11 +558,11 @@ class ProductDetailsProcessor:
 
             logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {availability}")
 
-            # Normalize text for comparison
-            if availability:
+            if availability is not None:
                 normalized = availability.strip().lower()
                 return "in stock" in normalized
-            return False
+
+            return False  # Default to False if availability is missing
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting availability: {e}")
             return None
@@ -562,10 +580,12 @@ class ProductDetailsProcessor:
         try:
             # Fetch the function name from the JSON profile
             image_extractor_function_version = self.site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
-            logging.debug(f"PRODUCT PROCESSOR: Function name retrieved: {image_extractor_function_version}")
 
-            if image_extractor_function_version.lower() == "skip":
+            # ✅ Ensure it's a string before calling .lower()
+            if isinstance(image_extractor_function_version, str) and image_extractor_function_version.lower() == "skip":
                 return []
+
+            logging.debug(f"PRODUCT PROCESSOR: Function name retrieved: {image_extractor_function_version}")
 
             if not image_extractor_function_version:
                 raise ValueError("PRODUCT PROCESSOR: Image extraction function name not specified in the JSON profile.")
@@ -596,6 +616,7 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Unexpected error in extract_details_image_url: {e}")
             return []
+
 
     def extract_details_nation(self, soup):
         """

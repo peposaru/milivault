@@ -40,8 +40,6 @@ class TileProcessor:
                 else:
                     clean_product_tile_price = clean_data.clean_price(product_tile_price.strip())  # Only strip if not None
 
-
-
                 # Extract and clean availability
                 clean_product_tile_available = self.extract_tile_available(product_tile)
                 if clean_product_tile_available is None:

@@ -57,7 +57,6 @@ def main():
         logging.info("Running JSON Tester.")
         json_tester = JsonTester(managers)
         json_tester.main(selected_sites)
-        restart_program()
     
     # Create the URL list to compare new URLs to
     try:

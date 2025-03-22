@@ -52,13 +52,18 @@ class SiteProcessor:
                 logging.error(f"SITE PROCESSOR: products_list_page: {e}")
                 continue
 
-            # Create beautiful soup for decyphering html / css
+            # Create beautiful soup for deciphering html / css
             try:
                 products_list_page_soup = self.html_manager.parse_html(products_list_page)
+                if not products_list_page_soup:
+                    logging.warning(f"SITE PROCESSOR: Skipping page due to failed fetch: {products_list_page}")
+                    self.counter.set_continue_state_false()
+                    break
                 logging.debug(f'SITE PROCESSOR: products_list_page_soup loaded.')
             except Exception as e:
                 logging.error(f"SITE PROCESSOR: Error products_list_page_soup: {e}")
-                continue
+                self.counter.set_continue_state_false()
+                break
 
             # Create a list of the product tiles on the given product page
             try:
@@ -67,7 +72,13 @@ class SiteProcessor:
             
                 if len(products_tile_list) == 0:
                     logging.info("SITE PROCESSOR: No products found on the current page. Stopping processing.")
-                    self.log_print.terminating()
+                    self.log_print.terminating(
+                        source=site_profile["source_name"],
+                        consecutiveMatches=self.counter.get_current_page_count(),
+                        targetMatch=site_profile.get("targetMatch", 1),  # Default fallback
+                        runCycle=site_profile.get("run_availability_check", False),
+                        productsProcessed=self.counter.get_total_count()
+                    )
                     self.counter.set_continue_state_false()
                     break
             except Exception as e:
@@ -119,7 +130,8 @@ class SiteProcessor:
             
 
 
-
+        logging.info(f"SITE PROCESSOR: Finished processing site: {site_profile['source_name']}")
+        logging.info(f"SITE PROCESSOR: Total products processed: {self.counter.get_total_count()}")
         return
 
 
