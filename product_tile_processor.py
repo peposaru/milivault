@@ -1,5 +1,6 @@
 import logging
 from clean_data import CleanData
+import post_processors as post_processors
 
 class TileProcessor:
     def __init__(self, site_profile):
@@ -76,7 +77,8 @@ class TileProcessor:
                 product_tile_selectors.get("method", "find"),
                 product_tile_selectors.get("args", []),
                 product_tile_selectors.get("kwargs", {}),
-                product_tile_selectors.get("attribute")
+                product_tile_selectors.get("attribute"),
+                product_tile_selectors
             )
         except Exception as e:
             raise ValueError(f"TILE PROCESSOR: Error parsing configuration for {selector_key}: {e}")
@@ -104,50 +106,67 @@ class TileProcessor:
 
     def extract_tile_url(self, product_tile):
         try:
-            # Get the configuration for the details URL
-            url_config = self.parse_tile_config("details_url")
+            # Unpack the full config with post-processing
+            method, args, kwargs, attribute, config = self.parse_tile_config("details_url")
 
-            # Extract the URL using the configuration
-            product_url = self.extract_data_from_tile(product_tile, *url_config)
+            # Extract raw value
+            product_url = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+
+            # Apply post-processing from JSON if defined
+            if product_url:
+                product_url = self.apply_post_processing(product_url, config)
 
             # Validate and return the URL
             if product_url and product_url.startswith("http"):
                 logging.info(f"TILE Extracted product URL: {product_url}")
-                return product_url.strip()  # Ensure the URL is clean
+                return product_url.strip()
             else:
-                print(f"TILE PROCESSOR: Invalid or missing URL extracted: {product_url}")
+                logging.debug(f"TILE PROCESSOR: Invalid or missing URL extracted: {product_url}")
                 return None
+
         except Exception as e:
-            print(f"TILE PROCESSOR: Error extracting product URL: {e}")
+            logging.error(f"TILE PROCESSOR: Error extracting product URL: {e}")
             return None
+
         
     def extract_tile_available(self, product_tile):
         """
         Determine whether a product is available or unavailable.
-
-        Args:
-            product_tile: The product tile element to check.
-
-        Returns:
-            bool: True if the product is available, False if unavailable.
+        Applies JSON-based post-processing logic if defined.
         """
         try:
-            # Check if the product is explicitly marked as available
+            config = self.site_profile_tile_selectors.get("tile_availability", {})
+            method = config.get("method", "find")
+            args = config.get("args", [])
+            kwargs = config.get("kwargs", {})
+            attribute = config.get("attribute")
+
+            # Extract raw availability element
+            value = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+
+            # Apply post-processing logic (e.g., find_text_contains)
+            value = self.apply_post_processing(value, config)
+
+            # Return boolean based on post-processed result
+            if isinstance(value, bool):
+                return value
+
+            # Fallback logic if post-processing didn't return a boolean
             if self.is_product_available(product_tile):
-                logging.debug("TILE PROCESSOR: Product is marked as available.")
+                logging.debug("TILE PROCESSOR: Product is marked as available (fallback).")
                 return True
 
-            # Check if the product is explicitly marked as unavailable
             if self.is_product_unavailable(product_tile):
-                logging.debug("TILE PROCESSOR: Product is marked as unavailable.")
+                logging.debug("TILE PROCESSOR: Product is marked as unavailable (fallback).")
                 return False
 
-            # Default to unavailable if neither condition is met
             logging.debug("TILE PROCESSOR: Defaulting to unavailable.")
             return False
+
         except Exception as e:
-            print(f"TILE PROCESSOR: Error determining product stock status: {e}")
+            logging.error(f"TILE PROCESSOR: Error determining product stock status: {e}")
             return False
+
 
     def is_product_available(self, product_tile):
         """
@@ -256,33 +275,39 @@ class TileProcessor:
         
     def extract_tile_title(self, product_tile):
         """
-        Extract the title of the product from the product tile.
+        Extract the title of the product from the tile and apply post-processing if defined.
         """
         try:
-            # Get the configuration for the tile title
-            title_config = self.parse_tile_config("tile_title")
-
-            # Extract the title using the configuration
-            title = self.extract_data_from_tile(product_tile, *title_config)
-            return title.strip() if title else None  # Strip whitespace if title is found
+            method, args, kwargs, attribute, config = self.parse_tile_config("tile_title")
+            title = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+            return self.apply_post_processing(title, config) if title else None
         except Exception as e:
-            print(f"TILE Error extracting title from tile: {e}")
+            logging.error(f"TILE PROCESSOR: Error extracting title: {e}")
             return None
 
 
     def extract_tile_price(self, product_tile):
         """
-        Extract the price of the product from the product tile.
+        Extract the price of the product from the tile and apply post-processing if defined.
         """
         try:
-            # Get the configuration for the tile price
-            price_config = self.parse_tile_config("tile_price")
-
-            # Extract the price using the configuration
-            price = self.extract_data_from_tile(product_tile, *price_config)
-            return price.strip() if price else None  # Strip whitespace if price is found
+            method, args, kwargs, attribute, config = self.parse_tile_config("tile_price")
+            price = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+            return self.apply_post_processing(price, config) if price else None
         except Exception as e:
-            print(f"TILE PROCESSOR: Error extracting price from tile: {e}")
+            logging.error(f"TILE PROCESSOR: Error extracting price: {e}")
+            return None
+
+    def extract_tile_image_url(self, product_tile):
+        """
+        Extract the image URL from the product tile and apply post-processing if defined.
+        """
+        try:
+            method, args, kwargs, attribute, config = self.parse_tile_config("tile_image_url")
+            image_url = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+            return self.apply_post_processing(image_url, config) if image_url else None
+        except Exception as e:
+            logging.error(f"TILE PROCESSOR: Error extracting image URL: {e}")
             return None
 
 
@@ -297,4 +322,23 @@ class TileProcessor:
             product_dict.get("available") is not None
         ])
 
+    def apply_post_processing(self, value, config):
+        post_process_config = config.get("post_process", None)
+        if not post_process_config or not isinstance(post_process_config, dict):
+            return value
 
+        for func_name, arg in post_process_config.items():
+            try:
+                func = getattr(post_processors, func_name, None)
+                if func is None:
+                    logging.warning(f"Post-process function '{func_name}' not found.")
+                    continue
+
+                # Handle boolean-style no-arg functions (if you keep any in the future)
+                if isinstance(arg, bool) and arg:
+                    value = func(value)
+                else:
+                    value = func(value, arg)
+            except Exception as e:
+                logging.error(f"Error applying post-processing '{func_name}': {e}")
+        return value

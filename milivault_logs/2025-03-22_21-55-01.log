@@ -1,0 +1,186 @@
+2025-03-22 21:55:01,659 - DEBUG - Logging initialized. Log file: milivault_logs\2025-03-22_21-55-01.log
+2025-03-22 21:55:04,536 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-03-22 21:55:09,869 - INFO - Connection pool initialized successfully.
+2025-03-22 21:55:09,870 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-03-22 21:55:09,872 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-03-22 21:55:09,873 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-03-22 21:55:09,875 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-03-22 21:55:09,875 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-03-22 21:55:09,876 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-03-22 21:55:09,877 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-03-22 21:55:09,879 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-03-22 21:55:09,879 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-03-22 21:55:09,879 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-03-22 21:55:09,879 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-03-22 21:55:09,915 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\endpoints.json
+2025-03-22 21:55:09,924 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-03-22 21:55:09,925 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001EE28759BC0>
+2025-03-22 21:55:09,963 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-03-22 21:55:09,970 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-03-22 21:55:10,006 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-03-22 21:55:10,009 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\partitions.json
+2025-03-22 21:55:10,010 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001EE286AA980>
+2025-03-22 21:55:10,011 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001EE2943B560>
+2025-03-22 21:55:10,039 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001EE286AA700>
+2025-03-22 21:55:10,040 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-03-22 21:55:10,040 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-03-22 21:55:10,040 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-03-22 21:55:10,040 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-03-22 21:55:10,040 - DEBUG - No configured endpoint found.
+2025-03-22 21:55:10,041 - DEBUG - Setting s3 timeout as (60, 60)
+2025-03-22 21:55:10,044 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\_retry.json
+2025-03-22 21:55:10,044 - DEBUG - Registering retry handlers for service: s3
+2025-03-22 21:55:10,045 - DEBUG - Registering S3 region redirector handler
+2025-03-22 21:55:10,045 - DEBUG - Registering S3Express Identity Resolver
+2025-03-22 21:55:10,045 - INFO - S3Manager initialized for bucket militaria-images
+2025-03-22 21:56:27,398 - INFO - Processing site: ARMYZDAR
+2025-03-22 21:56:27,399 - DEBUG - SITE PROCESSOR: Source: ARMYZDAR site_profile loaded.
+2025-03-22 21:56:27,399 - DEBUG - SITE PROCESSOR: Debug: base_url: https://armyzdar.cz/
+2025-03-22 21:56:27,399 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-03-22 21:56:27,400 - INFO - SITE PROCESSOR: Current product page: https://armyzdar.cz/en/shop/page/0/?v=928568b84963
+2025-03-22 21:56:27,400 - INFO - SITE PROCESSOR: Current page: 0
+2025-03-22 21:56:27,402 - DEBUG - Starting new HTTPS connection (1): armyzdar.cz:443
+2025-03-22 21:56:29,468 - DEBUG - https://armyzdar.cz:443 "GET /en/shop/page/0/?v=928568b84963 HTTP/1.1" 200 None
+2025-03-22 21:56:30,037 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-03-22 21:56:30,045 - DEBUG - SITE PROCESSOR: Total tiles found: 909, Valid tiles: 55
+2025-03-22 21:56:30,045 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 55 
+2025-03-22 21:56:30,046 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,047 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,048 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,048 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,048 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,048 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,048 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,048 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,050 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,050 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,050 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,050 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,050 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,051 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,051 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,051 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,051 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,051 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,052 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,052 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,052 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,052 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,052 - DEBUG - TILE PROCESSOR: Duplicate product skipped: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-2/
+2025-03-22 21:56:30,052 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-eisernes-kreuz-nr-1/
+2025-03-22 21:56:30,052 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,053 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww1-german-patriotic-plate-kronprinz-v-bayern/
+2025-03-22 21:56:30,053 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,053 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-8-wheel-tank-destroyer-battalion-patch/
+2025-03-22 21:56:30,053 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,053 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-4-wheel-tank-destroyer-battalion-patch-2/
+2025-03-22 21:56:30,053 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,054 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-3rd-infantry-division-patch/
+2025-03-22 21:56:30,054 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,054 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-lw-silver-tresse/
+2025-03-22 21:56:30,054 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,054 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-ss-silver-tresse/
+2025-03-22 21:56:30,054 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,055 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-ss-officer-shoulder-boards-gebirgsjager-untersturmfuhrer/
+2025-03-22 21:56:30,055 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,055 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-ss-officer-shoulder-boards-nachrichten-untersturmfuhrer/
+2025-03-22 21:56:30,055 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,055 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-ss-officer-shoulder-boards-infanterie-untersturmfuhrer/
+2025-03-22 21:56:30,055 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,055 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-ss-officer-shoulder-boards-infanterie-sturmbannfuhrer/
+2025-03-22 21:56:30,056 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,056 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-gd-officer-shoulder-boards-cyphers/
+2025-03-22 21:56:30,056 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,056 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-m38-vowen-collar-tabs/
+2025-03-22 21:56:30,056 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,057 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-m36-vowen-collar-tabs-kavallerie/
+2025-03-22 21:56:30,057 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,057 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-m36-vowen-collar-tabs-gbj-jager/
+2025-03-22 21:56:30,057 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,057 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-m36-vowen-collar-tabs-artillerie/
+2025-03-22 21:56:30,057 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,058 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/repro-wh-m36-vowen-collar-tabs-panzerjager/
+2025-03-22 21:56:30,058 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,058 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-colt-1911-magazine-pouch-russell-1918-2/
+2025-03-22 21:56:30,058 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,058 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-air-force-crusher-visor-hat-2/
+2025-03-22 21:56:30,058 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,058 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/czechoslovakian-overseas-cap-artillery/
+2025-03-22 21:56:30,059 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,059 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/gebirgsjager-rucksack-2/
+2025-03-22 21:56:30,059 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,059 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-m3-fighting-knife-imperial-4/
+2025-03-22 21:56:30,059 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,060 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/german-tent-poles-gxy-1944-2/
+2025-03-22 21:56:30,060 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,060 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-ww2-air-medal-in-box-2/
+2025-03-22 21:56:30,060 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,060 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-m1-helmet-with-westinghouse-liner/
+2025-03-22 21:56:30,060 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,061 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/k98-bayonet-s-185/
+2025-03-22 21:56:30,061 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,061 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-ww2-purple-heart-in-box-4/
+2025-03-22 21:56:30,061 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,062 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/commemorative-plaque-iii-strelecke-zavody-cs-dust-val-mezirici-1934/
+2025-03-22 21:56:30,062 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,062 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-1936-musette-bag-with-strap-1943-2/
+2025-03-22 21:56:30,062 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,062 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/czechoslovakian-shovel-carrier-2/
+2025-03-22 21:56:30,062 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,063 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-m1911-colt-holster-sears-42-2/
+2025-03-22 21:56:30,063 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,063 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-m1910-haversack-long-6-18-2/
+2025-03-22 21:56:30,063 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,064 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-m7-bayonet-colts-2/
+2025-03-22 21:56:30,064 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,064 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/infanteriesturmabzeichen-in-bronze-funcke-bruninghaus-2/
+2025-03-22 21:56:30,064 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,064 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/wh-m40-vowen-cap-eagle-with-cockade/
+2025-03-22 21:56:30,065 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,065 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/m1886-lebel-bayonet-2/
+2025-03-22 21:56:30,065 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,065 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ek-ii-1939-100-rudolf-wachtler-lange-4/
+2025-03-22 21:56:30,065 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,066 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/bavarian-steel-buckle/
+2025-03-22 21:56:30,066 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,066 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/us-m1928-haversack-1942-2/
+2025-03-22 21:56:30,066 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,066 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/vietnam-ka-bar-knife-camillus-ny-2/
+2025-03-22 21:56:30,067 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,067 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/m1866-french-chassepot-bayonet-2/
+2025-03-22 21:56:30,067 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,067 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/italian-bersaglieri-hat-2/
+2025-03-22 21:56:30,067 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,068 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/luftwaffe-bergmutze-2/
+2025-03-22 21:56:30,068 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,068 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/german-bakelite-lamp-2/
+2025-03-22 21:56:30,068 - DEBUG - TILE PROCESSOR: Product is marked as available.
+2025-03-22 21:56:30,068 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/medaille-z-erinn-an-den-1-oktober-2/
+2025-03-22 21:56:30,068 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,069 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/k98-ammo-pouch-l-b-a-s-39/
+2025-03-22 21:56:30,069 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,069 - INFO - TILE Extracted product URL: https://armyzdar.cz/en/product/ww2-us-rangers-patch/
+2025-03-22 21:56:30,069 - DEBUG - TILE PROCESSOR: Defaulting to unavailable.
+2025-03-22 21:56:30,069 - INFO - SITE PROCESSOR: Product Dictionaries count: 48
+2025-03-22 21:56:30,069 - INFO - PRODUCT PROCESSOR: Products needing full processing  : 0
+2025-03-22 21:56:30,069 - INFO - PRODUCT PROCESSOR: Products needing availability updates: 0
+2025-03-22 21:56:30,069 - INFO - PRODUCT PROCESSOR: Products ignored (no updates needed): 48
+2025-03-22 21:56:30,070 - DEBUG - PRODUCT PROCESSOR: Processing required list count: 0
+2025-03-22 21:56:30,070 - DEBUG - PRODUCT PROCESSOR: Processing completed for 0 products.
+2025-03-22 21:56:30,070 - INFO - SITE PROCESSOR: Moved to next page: 1
+2025-03-22 21:56:30,070 - INFO - SITE PROCESSOR: No products require further processing. Stopping site processing.
+2025-03-22 21:56:30,070 - INFO - 
+    ====== Processing Summary ======
+    Total Products Count       : 48
+    New Products Count         : 0
+    Old Products Count         : 0
+    Sites Processed Count      : 0
+    Current Page Count         : 1
+    Availability Updates Count : 0
+    Processing Required Count  : 0
+    ================================
+    
+2025-03-22 21:56:30,070 - INFO - SITE PROCESSOR: Finished processing site: ARMYZDAR
+2025-03-22 21:56:30,071 - INFO - SITE PROCESSOR: Total products processed: 48
+2025-03-22 21:56:30,071 - INFO - Successfully processed site: ARMYZDAR
+2025-03-22 21:56:30,071 - INFO - Processing completed.
