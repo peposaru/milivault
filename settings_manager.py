@@ -152,11 +152,11 @@ Choose your settings:
 
         # Second question: Select check type
         print("""
-    Choose the type of inventory check:
-    1. New Inventory Check (pages_to_check = 1, sleeptime = 15 minutes)
-    2. Run Availability Check (Check and update product availability)
-    3. Custom Check (Enter your own pages_to_check and sleeptime)
-    4. Test JSON Profile
+Choose the type of inventory check:
+1. New Inventory Check (pages_to_check = 1, sleeptime = 15 minutes)
+2. Run Availability Check (Check and update product availability)
+3. Custom Check (Enter your own pages_to_check and sleeptime)
+4. Test JSON Profile
     """)
         check_choice = input("Enter your choice (1/2/3/4): ").strip()
 

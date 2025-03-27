@@ -2,7 +2,7 @@ import json
 import logging
 from bs4 import BeautifulSoup
 from logging_manager import initialize_logging
-
+import post_processors as post_processors
 
 class JsonTester:
     def __init__(self, managers):
@@ -14,6 +14,20 @@ class JsonTester:
         self.jsonManager = managers.get('jsonManager')
         self.counter = managers.get('counter')
         self.html_manager = managers.get('html_manager')
+
+    def apply_post_processing(self, value, config):
+        post_process_config = config.get("post_process", None)
+        if not post_process_config or not isinstance(post_process_config, dict):
+            return value
+
+        for func_name, arg in post_process_config.items():
+            try:
+                func = getattr(post_processors, func_name, None)
+                if func:
+                    value = func(value, arg) if not isinstance(arg, bool) else func(value)
+            except Exception as e:
+                logging.error(f"Post-processing error with function '{func_name}': {e}")
+        return value
 
     def load_site_profile(self, json_file):
         try:
@@ -41,9 +55,17 @@ class JsonTester:
             attribute = selector_config.get("attribute")
 
             element = getattr(soup, method)(*args, **kwargs)
-            if element:
-                return element.get(attribute, "").strip() if attribute else element.get_text(strip=True)
-            return None
+            if not element:
+                return None
+
+            # Apply post-processing on the element before extracting text or attribute
+            if "post_process" in selector_config:
+                value = self.apply_post_processing(element, selector_config)
+            else:
+                value = element.get(attribute, "").strip() if attribute else element.get_text(strip=True)
+
+            return value
+
         except Exception as e:
             logging.error(f"JSON TESTER: Error extracting data: {e}")
             return None
@@ -53,9 +75,9 @@ class JsonTester:
             logging.error("JSON TESTER: Invalid site profile received. Skipping.")
             return
 
-        logging.info(f"🔍 Testing JSON Profile: {site_profile.get('source_name')}")
-        logging.info(f"📄 Products Page URL: {products_page_url}")
-        logging.info(f"📄 Product Details URL: {product_details_url}")
+        logging.info(f"\U0001F50D Testing JSON Profile: {site_profile.get('source_name')}")
+        logging.info(f"\U0001F4C4 Products Page URL: {products_page_url}")
+        logging.info(f"\U0001F4C4 Product Details URL: {product_details_url}")
 
         # ========== TILE SECTION ==========
         products_soup = self.fetch_webpage(products_page_url)

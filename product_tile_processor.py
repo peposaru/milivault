@@ -21,14 +21,22 @@ class TileProcessor:
                 # Extract and clean URL
                 product_tile_url = self.extract_tile_url(product_tile)
                 if not product_tile_url:
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing URL: {product_tile}")
+                    tile_preview = str(product_tile).strip().splitlines()[0][:500]
+                    logging.debug(f"TILE PROCESSOR: skipped due to missing URL: {tile_preview}")
                     continue
                 clean_product_tile_url = clean_data.clean_url(product_tile_url.strip())
+
+                # Remove duplicate URLs immediately
+                if clean_product_tile_url in seen_products:
+                    logging.debug(f"TILE PROCESSOR: Skipped duplicate URL early → {clean_product_tile_url}")
+                    continue
+                seen_products.add(clean_product_tile_url)  # Mark as seen before doing further processing
 
                 # Extract and clean title
                 product_tile_title = self.extract_tile_title(product_tile)
                 if not product_tile_title:
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing title: {product_tile}")
+                    logging.debug(f"TILE PROCESSOR: Raw extracted title → {product_tile_title}")
+                    logging.debug(f"TILE PROCESSOR: skipped due to missing title: {product_tile_url}")
                     continue
                 clean_product_tile_title = clean_data.clean_title(product_tile_title.strip())
 
@@ -44,14 +52,12 @@ class TileProcessor:
                 # Extract and clean availability
                 clean_product_tile_available = self.extract_tile_available(product_tile)
                 if clean_product_tile_available is None:
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile}")
+                    logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile_url}")
                     continue
 
-
-                # Deduplication logic based on cleaned URL
-                if clean_product_tile_url in seen_products:
-                    logging.debug(f"TILE PROCESSOR: Duplicate product skipped: {clean_product_tile_url}")
-                    continue
+                # Print tile for debugging
+                tile_preview = str(product_tile).strip().splitlines()[0][:500]
+                logging.debug(f"TILE PROCESSOR: Product tile preview: {tile_preview}...")
 
                 # Construct the product dictionary and add it to the final list
                 product_dict = {
@@ -60,13 +66,32 @@ class TileProcessor:
                     "price"    : clean_product_tile_price,
                     "available": clean_product_tile_available
                 }
+                logging.info(
+                    f"""
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : {product_tile_url}
+                    Cleaned URL        : {clean_product_tile_url}
+
+                    Raw Title          : {product_tile_title}
+                    Cleaned Title      : {clean_product_tile_title}
+
+                    Raw Price          : {product_tile_price}
+                    Cleaned Price      : {clean_product_tile_price}
+
+                    Raw Availability   : {product_tile.get('class')}
+                    Cleaned Availability: {clean_product_tile_available}
+                    ======================================
+                    """
+                )
+
                 tile_product_data.append(product_dict)
-                seen_products.add(clean_product_tile_url)
 
             except Exception as e:
-                logging.error(f"TILE PROCESSOR: Error processing tile: {e}, Tile: {product_tile}")
+                tile_preview = str(product_tile).strip().splitlines()[0][:500]
+                logging.debug(f"TILE PROCESSOR: Product tile preview: {tile_preview}...")
 
         return tile_product_data
+
 
 
 
@@ -84,74 +109,102 @@ class TileProcessor:
             raise ValueError(f"TILE PROCESSOR: Error parsing configuration for {selector_key}: {e}")
 
     def extract_data_from_tile(self, product_tile, method, args, kwargs, attribute):
-        """
-        Extract data from a product tile based on the provided method, arguments, and attribute.
-        """
         try:
-            # Use the specified method (e.g., 'find', 'find_all') on the product tile
+            # Special case: direct attribute check (e.g., has_attr)
+            if method == "has_attr" and args:
+                attr_name = args[0]
+                attr_value = product_tile.get(attr_name)
+                if isinstance(attr_value, list):
+                    result = " ".join(attr_value)
+                else:
+                    result = attr_value or ""
+                logging.debug(f"TILE PROCESSOR: has_attr result → {result}")
+                return result
+
+            # Execute method like find, find_all, select, etc.
             element = getattr(product_tile, method)(*args, **kwargs)
+            if not element:
+                # Generates a lot of spam in logger.
+                #logging.debug("TILE PROCESSOR: Element not found.")
+                return None
 
-            # If an attribute is provided, extract its value
+            # Attribute extraction
             if attribute:
-                return element.get(attribute).strip() if element and element.get(attribute) else None
+                # Generates a lot of spam in logger.
+                attr_val = element.get(attribute, "").strip()
+                # logging.debug(f"TILE PROCESSOR: Extracted attribute '{attribute}' → {attr_val}")
+                return attr_val
 
-            # If no attribute is specified, return the element's text content
-            return element.get_text(strip=True) if element else None
-        except AttributeError:
-            print(f"TILE PROCESSOR: Error: Method '{method}' not found on the product tile.")
+            # If it's a BeautifulSoup tag, extract text
+            if hasattr(element, "get_text"):
+                text = element.get_text(strip=True)
+                logging.debug(f"TILE PROCESSOR: Extracted text from tag → {text}")
+                return text
+
+            # Fallback: return string conversion
+            logging.debug(f"TILE PROCESSOR: Fallback to string → {str(element)}")
+            return str(element)
+
+        except AttributeError as e:
+            logging.error(f"TILE PROCESSOR: Method '{method}' not found on the product tile. {e}")
             return None
         except Exception as e:
-            print(f"TILE PROCESSOR: Error extracting data from tile: {e}")
+            logging.error(f"TILE PROCESSOR: Error extracting data from tile: {e}")
             return None
+
 
     def extract_tile_url(self, product_tile):
         try:
-            # Unpack the full config with post-processing
             method, args, kwargs, attribute, config = self.parse_tile_config("details_url")
-
-            # Extract raw value
             product_url = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
 
-            # Apply post-processing from JSON if defined
             if product_url:
+                logging.debug(f"TILE PROCESSOR: Raw extracted URL: {product_url}")
                 product_url = self.apply_post_processing(product_url, config)
+                logging.debug(f"TILE PROCESSOR: Post-processed URL: {product_url}")
 
-            # Validate and return the URL
             if product_url and product_url.startswith("http"):
-                logging.info(f"TILE Extracted product URL: {product_url}")
+                logging.info(f"TILE Extracted product URL: {product_url.strip()}")
                 return product_url.strip()
             else:
-                logging.debug(f"TILE PROCESSOR: Invalid or missing URL extracted: {product_url}")
+                # Generates a lot of spam in the logs
+                # tile_preview = str(product_tile).strip().splitlines()[0][:200]
+                # logging.warning(f"TILE PROCESSOR: Invalid or missing URL. Tile preview: {tile_preview}")
                 return None
 
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error extracting product URL: {e}")
             return None
 
-        
+
+
     def extract_tile_available(self, product_tile):
         """
         Determine whether a product is available or unavailable.
         Applies JSON-based post-processing logic if defined.
         """
         try:
-            config = self.site_profile_tile_selectors.get("tile_availability", {})
+            config = self.site_profile_tile_selectors.get("tile_availability")
+
+            # 🚨 Short-circuit if it's a raw string: "True" or "False"
+            if isinstance(config, str):
+                if config.strip().lower() == "true":
+                    return True
+                if config.strip().lower() == "false":
+                    return False
+
+            config = config or {}
             method = config.get("method", "find")
             args = config.get("args", [])
             kwargs = config.get("kwargs", {})
             attribute = config.get("attribute")
 
-            # Extract raw availability element
             value = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
-
-            # Apply post-processing logic (e.g., find_text_contains)
             value = self.apply_post_processing(value, config)
 
-            # Return boolean based on post-processed result
             if isinstance(value, bool):
                 return value
 
-            # Fallback logic if post-processing didn't return a boolean
             if self.is_product_available(product_tile):
                 logging.debug("TILE PROCESSOR: Product is marked as available (fallback).")
                 return True
@@ -168,6 +221,7 @@ class TileProcessor:
             return False
 
 
+
     def is_product_available(self, product_tile):
         """
         Check if a product is marked as available based on the JSON profile.
@@ -179,57 +233,46 @@ class TileProcessor:
             bool: True if the product is available, False otherwise.
         """
         try:
-            # Check if the JSON config explicitly states availability
+            # Handle static "true"/"false" string override
             config_value = self.site_profile_tile_selectors.get("tile_availability")
-
             if isinstance(config_value, str):
                 config_value_lower = config_value.strip().lower()
-
-                # If "tile_availability" is explicitly "False", return False immediately
                 if config_value_lower == "false":
-                    return False  # The entire site is an archive or out-of-stock source
-
-                # If "tile_availability" is explicitly "True", return True immediately
+                    return False
                 elif config_value_lower == "true":
-                    return True  # All products are available
+                    return True
 
-            # If "tile_availability" is not a hardcoded "False"/"True", proceed with normal checking
-            availability_keys = ["tile_availability"]
-            for key in availability_keys:
-                if key not in self.site_profile_tile_selectors:
-                    continue
+            config = self.site_profile_tile_selectors.get("tile_availability", {})
+            method = config.get("method", "find")
+            args = config.get("args", [])
+            kwargs = config.get("kwargs", {})
+            value = config.get("value", None)
 
-                config = self.site_profile_tile_selectors.get(key, {})
-                method = config.get("method", "find")
-                args = config.get("args", [])
-                kwargs = config.get("kwargs", {})
-                value = config.get("value", None)
+            element = getattr(product_tile, method)(*args, **kwargs)
+            if element is None:
+                return False
 
-                # Extract element based on method
-                element = getattr(product_tile, method)(*args, **kwargs)
-
-                # Handle attribute-based availability (e.g., checking class names)
-                if method == "has_attr" and "class" in args:
-                    attribute_value = product_tile.get("class", [])
-                    if value in attribute_value:
+            # Handle post-process if configured
+            if "post_process" in config:
+                for func_name, arg in config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func and func(element.get_text(strip=True), arg):
                         return True
-                    continue
+                return False  # If post-processing exists but none matched
 
-                # If an element is found, check for string values ("True" / "False")
-                if element is not None:
-                    element_text = element.get_text(strip=True).lower()
+            # Fallback interpretation from text
+            element_text = element.get_text(strip=True).lower()
+            if element_text == "true":
+                return True
+            elif element_text == "false":
+                return False
+            else:
+                return True
 
-                    if element_text == "true":
-                        return True
-                    elif element_text == "false":
-                        return False
-                    else:
-                        return True  # If unknown value, assume available.
-
-            return False  # Default to False if no availability info is found
         except Exception as e:
             print(f"TILE PROCESSOR: Error checking availability: {e}")
             return False
+
 
 
     def is_product_unavailable(self, product_tile):
@@ -243,6 +286,8 @@ class TileProcessor:
             bool: True if the product is unavailable, False otherwise.
         """
         try:
+            from post_processors import find_text_contains  # or import all as needed
+
             unavailability_keys = ["tile_unavailability_reserved", "tile_unavailability_sold"]
 
             for key in unavailability_keys:
@@ -256,16 +301,29 @@ class TileProcessor:
                 exists = config.get("exists", False)
                 value = config.get("value", None)
 
+                # Handle class check via has_attr
                 if method == "has_attr" and "class" in args:
                     attribute_value = product_tile.get("class", [])
                     if value in attribute_value:
                         return True
                     continue
 
-                # Extract element based on other methods
+                # Extract element using method
                 element = getattr(product_tile, method)(*args, **kwargs)
+
+                if element is None:
+                    continue
+
+                # Check for existence only
                 if exists and element is not None:
                     return True
+
+                # Check post-processing if defined
+                if "post_process" in config:
+                    for func_name, arg in config["post_process"].items():
+                        func = getattr(post_processors, func_name, None)
+                        if func and func(element.get_text(strip=True), arg):
+                            return True
 
             return False
         except Exception as e:
@@ -276,14 +334,23 @@ class TileProcessor:
     def extract_tile_title(self, product_tile):
         """
         Extract the title of the product from the tile and apply post-processing if defined.
+        Ensures the result is a string, not a tag object.
         """
         try:
             method, args, kwargs, attribute, config = self.parse_tile_config("tile_title")
             title = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+
+            # If still a tag, convert to string or extract text
+            if hasattr(title, "get_text"):
+                title = title.get_text(strip=True)
+
             return self.apply_post_processing(title, config) if title else None
+
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error extracting title: {e}")
             return None
+
+
 
 
     def extract_tile_price(self, product_tile):

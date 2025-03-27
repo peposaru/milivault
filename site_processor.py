@@ -158,26 +158,65 @@ class SiteProcessor:
             logging.warning(f"SITE PROCESSOR: Error during construct_products_list_directory: {site_profile['source_name']}, Error: {e}")
 
     # Create a list of all of the product tiles on given page.
+    # def construct_products_tile_list(self, products_list_page_soup, site_profile):
+    #     try:
+    #         # Extract product selectors from the site profile
+    #         product_selectors = site_profile.get("product_selectors", {})
+            
+    #         # Get this site's configurations / selectors to scrape the product tiles
+    #         tiles_config        = product_selectors.get("tiles", {})
+    #         tiles_config_method = tiles_config.get("method", "find_all")
+    #         tiles_config_args   = tiles_config.get("args", [])
+    #         tiles_config_kwargs = tiles_config.get("kwargs", {})
+            
+    #         # Create a list of all product tiles
+    #         product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
+            
+    #         # Filter out tiles that don't contain essential data (e.g., a valid URL or title)
+    #         valid_tiles = [
+    #             tile for tile in product_tiles 
+    #             if self.is_tile_valid(tile, site_profile.get("product_tile_selectors", {}))
+    #         ]
+            
+    #         logging.debug(f"SITE PROCESSOR: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
+    #         return valid_tiles
+
+    #     except Exception as e:
+    #         logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
+    #         return []
     def construct_products_tile_list(self, products_list_page_soup, site_profile):
-        try:
+        try:            
             # Extract product selectors from the site profile
             product_selectors = site_profile.get("product_selectors", {})
-            
-            # Get this site's configurations / selectors to scrape the product tiles
-            tiles_config        = product_selectors.get("tiles", {})
+            tile_selectors = site_profile.get("product_tile_selectors", {})
+
+            # Get tile extraction method/config
+            tiles_config = product_selectors.get("tiles", {})
             tiles_config_method = tiles_config.get("method", "find_all")
-            tiles_config_args   = tiles_config.get("args", [])
+            tiles_config_args = tiles_config.get("args", [])
             tiles_config_kwargs = tiles_config.get("kwargs", {})
-            
-            # Create a list of all product tiles
+
+            # Get tiles
             product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
-            
-            # Filter out tiles that don't contain essential data (e.g., a valid URL or title)
-            valid_tiles = [
-                tile for tile in product_tiles 
-                if self.is_tile_valid(tile, site_profile.get("product_tile_selectors", {}))
-            ]
-            
+
+            # Setup for duplicate removal and validation
+            tile_processor = TileProcessor(site_profile)
+            seen_urls = set()
+            valid_tiles = []
+
+            for tile in product_tiles:
+                raw_url = tile_processor.extract_tile_url(tile)
+                if not raw_url:
+                    continue
+
+                if raw_url in seen_urls:
+                    logging.debug(f"SITE PROCESSOR: Skipping duplicate tile URL → {raw_url}")
+                    continue
+
+                if tile_processor.extract_tile_title(tile):
+                    seen_urls.add(raw_url)
+                    valid_tiles.append(tile)
+
             logging.debug(f"SITE PROCESSOR: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
             return valid_tiles
 
@@ -185,27 +224,38 @@ class SiteProcessor:
             logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
             return []
 
+
     def is_tile_valid(self, tile, selectors):
-        """
-        Check if a product tile contains essential data like URL or title.
-        """
         try:
-            # Check for URL validity
             url_selector = selectors.get("details_url", {})
             method       = url_selector.get("method", "find")
             args         = url_selector.get("args", [])
             kwargs       = url_selector.get("kwargs", {})
+            submethod    = url_selector.get("submethod", None)
             attribute    = url_selector.get("attribute")
-            
-            # Attempt to extract URL
+
+            # Step 1: find base element
             element = getattr(tile, method)(*args, **kwargs)
-            url     = element.get(attribute).strip() if element and element.get(attribute) else None
-            
-            # Ensure at least URL is present for the tile to be valid
+
+            # Step 2: apply submethod if defined
+            if element and submethod:
+                sub_meth     = submethod.get("method", "find")
+                sub_args     = submethod.get("args", [])
+                sub_kwargs   = submethod.get("kwargs", {})
+                attribute    = submethod.get("attribute", attribute)  # ⚠️ Make sure this line is here
+
+                element = getattr(element, sub_meth)(*sub_args, **sub_kwargs) if element else None
+
+            # Step 3: extract href (or other attribute)
+            url = element.get(attribute).strip() if element and attribute and element.get(attribute) else None
+
             return url is not None
 
         except Exception as e:
-            logging.warning
+            logging.warning(f"is_tile_valid failed: {e}")
+            return False
+
+
     
     def empty_page_check(self, processing_required_list, availability_update_list):
         # If the program detects X pages in a row that are empty, stop processing site 

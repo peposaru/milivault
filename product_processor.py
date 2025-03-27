@@ -1,4 +1,4 @@
-import logging, json
+import logging, json, pprint
 from clean_data import CleanData
 import image_extractor
 from datetime import datetime
@@ -43,10 +43,6 @@ class ProductTileDictProcessor:
         availability_update_list = []  # Products needing only availability updates
         ignored_update_count = 0       # Count products with no updates required
 
-        def is_empty_price(value):
-            """Check if a price is empty (None, 0, 0.0, or an empty string)."""
-            return value is None or value == 0 or value == 0.0 or value == ""
-
         for tile_product_dict in tile_product_data_list:
             try:
                 url       = tile_product_dict['url']            
@@ -73,10 +69,10 @@ class ProductTileDictProcessor:
                 if db_available is True and available is True and float(price) == 0.0 and float(db_price) > 0:
                     price_match = True
                 else:
-                    price_match = (is_empty_price(db_price) and is_empty_price(price)) or (db_price == price)
+                    price_match = (self.is_empty_price(db_price) and self.is_empty_price(price)) or (db_price == price)
 
                 # **Fix: Allow price to be None if item is marked as sold**
-                if db_available == False and available == False and is_empty_price(price):
+                if db_available == False and available == False and self.is_empty_price(price):
                     price_match = True  # Ignore price mismatch when the item is sold
 
                 # Check for exact matches of title, price, and availability
@@ -127,7 +123,9 @@ class ProductTileDictProcessor:
         return processing_required_list, availability_update_list
 
 
-
+    def is_empty_price(self, value):
+        """Check if a price is empty (None, 0, 0.0, or an empty string)."""
+        return value is None or value == 0 or value == 0.0 or value == ""
 
     def process_availability_update_list(self, availability_update_list):
         for product in availability_update_list:
@@ -175,6 +173,7 @@ class ProductDetailsProcessor:
         # Iterate through all the products needing processing
         for product in processing_required_list:
             product_url = product.get('url')
+            logging.debug(f'PRODUCT PROCESSOR: ******PRODUCT CHANGE******')
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
             # Create beautiful soup for deciphering HTML / CSS
@@ -196,7 +195,8 @@ class ProductDetailsProcessor:
             # Construct details data and clean data
             try:
                 details_data = self.construct_details_data(product_url, product_url_soup)
-                logging.debug(f"PRODUCT PROCESSOR: Constructed details data for {product_url}: {details_data}")
+                preview = pprint.pformat({k: str(v)[:200] for k, v in details_data.items()})
+                logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error constructing details data for {product_url}: {e}")
                 continue
@@ -205,7 +205,8 @@ class ProductDetailsProcessor:
                 clean_details_data = self.construct_clean_details_data(details_data)
                 logging.debug(f"PRODUCT PROCESSOR: Constructed clean details data for {product_url}: {clean_details_data}")
             except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Error constructing clean details data for {product_url}: {e}")
+                preview = pprint.pformat({k: str(v)[:200] for k, v in details_data.items()})
+                logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
                 continue
 
             # Process new products
@@ -236,36 +237,40 @@ class ProductDetailsProcessor:
     def new_product_processor(self, clean_details_data, details_data):
 
         # Log the cleaning process
-        logging.info(
-            f"""
-            ====== Data Cleaning Summary ======
-            Pre-clean URL                : {details_data.get('url')}
-            Post-clean URL               : {clean_details_data.get('url')}
-            Pre-clean Title              : {details_data.get('title')}
-            Post-clean Title             : {clean_details_data.get('title')}
-            Pre-clean Description        : {details_data.get('description')}
-            Post-clean Description       : {clean_details_data.get('description')}
-            Pre-clean Price              : {details_data.get('price')}
-            Post-clean Price             : {clean_details_data.get('price')}
-            Pre-clean Availability       : {details_data.get('available')}
-            Post-clean Availability      : {clean_details_data.get('available')}
-            Pre-clean Image URLs         : {details_data.get('original_image_urls')}
-            Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
-            Pre-clean Nation             : {details_data.get('nation_site_designated')}
-            Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
-            Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
-            Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
-            Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
-            Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
-            Pre-clean Extracted ID       : {details_data.get('extracted_id')}
-            Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
-            Pre-clean Grade              : {details_data.get('grade')}
-            Post-clean Grade             : {clean_details_data.get('grade')}
-            Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
-            Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
-            ===================================
-            """
-        )
+        try:
+            logging.info('PRODUCT PROCESS: Starting data cleaning process...')
+            logging.info(
+                f"""
+                ====== Data Cleaning Summary ======
+                Pre-clean URL                : {details_data.get('url')}
+                Post-clean URL               : {clean_details_data.get('url')}
+                Pre-clean Title              : {details_data.get('title')}
+                Post-clean Title             : {clean_details_data.get('title')}
+                Pre-clean Description        : {details_data.get('description')}
+                Post-clean Description       : {clean_details_data.get('description')}
+                Pre-clean Price              : {details_data.get('price')}
+                Post-clean Price             : {clean_details_data.get('price')}
+                Pre-clean Availability       : {details_data.get('available')}
+                Post-clean Availability      : {clean_details_data.get('available')}
+                Pre-clean Image URLs         : {details_data.get('original_image_urls')}
+                Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
+                Pre-clean Nation             : {details_data.get('nation_site_designated')}
+                Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
+                Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
+                Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
+                Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
+                Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
+                Pre-clean Extracted ID       : {details_data.get('extracted_id')}
+                Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
+                Pre-clean Grade              : {details_data.get('grade')}
+                Post-clean Grade             : {clean_details_data.get('grade')}
+                Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
+                Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
+                ===================================
+                """
+            )
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
         # Insert the cleaned data into the database
         self.rds_manager.new_product_input(clean_details_data)
@@ -434,93 +439,168 @@ class ProductDetailsProcessor:
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error inserting new product {url}: {e}")
 
-    def extract_data(self, soup, method, args, kwargs, attribute):
+
+    def extract_data(self, soup, method, args, kwargs, attribute, config=None):
         try:
-            if method == "has_attr":
-                attr = args[0]
-                if soup.has_attr(attr):
-                    return attribute in soup[attr]
-                return False
+            logging.debug(f"EXTRACT DATA: method={method}, args={args}, kwargs={kwargs}, attribute={attribute}")
 
+            # Handle has_attr checks
+            if method == "has_attr" and args:
+                attr_name = args[0]
+                attr_value = soup.get(attr_name)
+                if isinstance(attr_value, list):
+                    result = " ".join(attr_value)
+                else:
+                    result = attr_value or ""
+                logging.debug(f"EXTRACT DATA: has_attr result → {result}")
+                return result
+
+            # Call method like .find(), .find_all(), etc.
             element = getattr(soup, method)(*args, **kwargs)
-
             if not element:
+                logging.debug("EXTRACT DATA: Element not found.")
                 return None
 
+            # If checking presence only
+            if config is None and attribute is None:
+                logging.debug("EXTRACT DATA: Presence-based selector → returning element.")
+                return element
+
+            # Extract text if requested
+            if config and config.get("extract") == "text":
+                text = element.get_text(strip=True)
+                logging.debug(f"EXTRACT DATA: Extracted text → {text}")
+                return text
+
+            # Extract attribute if specified
             if attribute:
-                return element.get(attribute, "").strip()
-            return element.get_text(strip=True)
+                attr_val = element.get(attribute, "").strip()
+                logging.debug(f"EXTRACT DATA: Extracted attribute '{attribute}' → {attr_val}")
+                return attr_val
+
+            # If still a tag, extract text
+            if hasattr(element, "get_text"):
+                text = element.get_text(strip=True)
+                logging.debug(f"EXTRACT DATA: Default tag text → {text}")
+                return text
+
+            # Fallback to string conversion
+            logging.debug(f"EXTRACT DATA: Fallback str() → {str(element)}")
+            return str(element)
 
         except Exception as e:
-            logging.error(f"Error extracting data: {e}")
+            logging.error(f"PRODUCT PROCESSOR: Error extracting data: {e}")
             return None
 
 
-    # def extract_data(self, soup, selector_config):
-    #     try:
-    #         method = selector_config.get("method", "find")
-    #         args = selector_config.get("args", [])
-    #         kwargs = selector_config.get("kwargs", {})
-    #         attribute = selector_config.get("attribute")
-    #         value = selector_config.get("value")
-
-    #         if method == "has_attr":
-    #             attr = args[0]
-    #             if soup.has_attr(attr):
-    #                 return value in soup[attr]
-    #             return False
-
-    #         element = getattr(soup, method)(*args, **kwargs)
-
-    #         if not element:
-    #             return None
-
-    #         if attribute:
-    #             return element.get(attribute, "").strip()
-    #         return element.get_text(strip=True)
-
-    #     except Exception as e:
-    #         logging.error(f"Error extracting data: {e}")
-    #         return None
-        
     def extract_details_title(self, soup):
         """
-        Extract the title of the product.
+        Extract and optionally post-process the product title from the details page.
         """
-        config = self.parse_details_config("details_title")
-        return self.extract_data(soup, *config)
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_title", {})
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            # Extract raw value using the generic extractor
+            title = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            # Fallback: if title is still a tag, get its text
+            if hasattr(title, "get_text"):
+                logging.warning("EXTRACT DETAILS TITLE: Received tag instead of text, auto-converting with .get_text()")
+                title = title.get_text(strip=True)
+
+            # Apply post-processing if defined
+            if title and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        title = func(title, arg) if not isinstance(arg, bool) else func(title)
+
+            logging.debug(f"EXTRACT DETAILS TITLE: Final value → {title}")
+            return title
+
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting title: {e}")
+            return None
+
+
 
     def extract_details_description(self, soup):
         """
-        Extract the description of the product.
+        Extract and optionally post-process the product description.
         """
-        config = self.parse_details_config("details_description")
-        return self.extract_data(soup, *config)
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_description", {})
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            # Submethod support (nested find)
+            submethod = selector_config.get("submethod")
+            element = getattr(soup, method)(*args, **kwargs)
+
+            if submethod and element:
+                sub_element = getattr(element, submethod.get("method", "find"))(
+                    *submethod.get("args", []),
+                    **submethod.get("kwargs", {})
+                )
+                if sub_element:
+                    attribute = submethod.get("attribute", attribute)
+                    description = sub_element.get(attribute).strip() if attribute else sub_element.get_text(strip=True)
+                else:
+                    description = None
+            else:
+                description = (
+                    element.get(attribute).strip() if attribute and element and element.get(attribute)
+                    else element.get_text(strip=True) if element else None
+                )
+
+            # Post-processing if defined
+            if description and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        description = func(description, arg) if not isinstance(arg, bool) else func(description)
+
+            return description
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting description: {e}")
+            return None
+
 
     def extract_details_price(self, soup):
         """
-        Extract the price of the product and normalize it to a float.
-
-        Args:
-            soup (BeautifulSoup): The BeautifulSoup object for the product page.
-
-        Returns:
-            str: The raw price string extracted from the page or "0" if no price is found.
+        Extract and optionally post-process the product price from the details page.
         """
         try:
-            # Parse configuration for price extraction
-            config = self.parse_details_config("details_price")
-            raw_price = self.extract_data(soup, *config)
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_price", {})
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
 
-            if raw_price:
-                # Ensure the price is returned as a string
-                return str(raw_price)
+            # Extract raw value
+            raw_price = self.extract_data(soup, method, args, kwargs, attribute)
 
-            logging.warning("PRODUCT PROCESSOR: No price found on the page. Defaulting to 0.")
-            return "0"  # 🛠 Now defaults to "0" if no price is found
+            # Apply post-processing if defined
+            if raw_price and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        raw_price = func(raw_price, arg) if not isinstance(arg, bool) else func(raw_price)
+
+            return str(raw_price) if raw_price else "0"
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting price: {e}")
-            return "0"  # 🛠 Ensures missing price does not cause issues
+            return "0"
+
 
     def process_price_updates(clean_details_data, db_price, db_price_history, now):
         """
@@ -552,20 +632,39 @@ class ProductDetailsProcessor:
 
 
     def extract_details_availability(self, soup):
+        """
+        Extract availability and apply post-processing if defined.
+        """
         try:
-            config = self.parse_details_config("details_availability")
-            availability = self.extract_data(soup, *config)
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_availability", {})
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
 
-            logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {availability}")
+            raw_value = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
 
-            if availability is not None:
-                normalized = availability.strip().lower()
-                return "in stock" in normalized
+            logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {raw_value}")
 
-            return False  # Default to False if availability is missing
+            # Apply post-processing
+            if raw_value and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        raw_value = func(raw_value, arg) if not isinstance(arg, bool) else func(raw_value)
+
+            # Convert to boolean if not already
+            if isinstance(raw_value, bool):
+                return raw_value
+
+            # Fallback check
+            return raw_value.strip().lower() == "in stock" if isinstance(raw_value, str) else False
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting availability: {e}")
             return None
+
 
     def extract_details_image_url(self, soup):
         """
@@ -634,19 +733,55 @@ class ProductDetailsProcessor:
 
     def extract_details_item_type(self, soup):
         """
-        Extract the item type from the product page.
+        Extract the item type from the product page and apply post-processing if defined.
         """
-        config = self.parse_details_config("details_item_type")
-        item_type = self.extract_data(soup, *config)
-        return item_type if item_type else None
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_item_type", {})
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            item_type = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            if item_type and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        item_type = func(item_type, arg) if not isinstance(arg, bool) else func(item_type)
+
+            return item_type if item_type else None
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting item type: {e}")
+            return None
+
 
     def extract_details_extracted_id(self, soup):
         """
-        Extract the SKU or product ID from the product page.
+        Extract the product ID or SKU and apply post-processing if defined.
         """
-        config = self.parse_details_config("details_extracted_id")
-        extracted_id = self.extract_data(soup, *config)
-        return extracted_id if extracted_id else None
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_extracted_id", {})
+            method          = selector_config.get("method", "find")
+            args            = selector_config.get("args", [])
+            kwargs          = selector_config.get("kwargs", {})
+            attribute       = selector_config.get("attribute")
+
+            extracted_id = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            if extracted_id and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        extracted_id = func(extracted_id, arg) if not isinstance(arg, bool) else func(extracted_id)
+
+            return extracted_id if extracted_id else None
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting extracted_id: {e}")
+            return None
+
 
     def extract_details_grade(self, soup):
         """
@@ -657,59 +792,92 @@ class ProductDetailsProcessor:
         
     def extract_details_site_categories(self, soup):
         """
-        Extract site-specific categories from the product page in a universal manner.
+        Extract site-specific product categories and apply post-processing if defined.
         """
-        config = self.parse_details_config("details_site_categories")
-        categories = self.extract_data(soup, *config)
-        return categories if categories else []
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_site_categories", {})
+            method = selector_config.get("method", "find_all")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
 
-    # def parse_details_config(self, selector_key):
-    #     try:
-    #         product_tile_selectors = self.details_selectors.get(selector_key, {})
-    #         return (
-    #             product_tile_selectors.get("method", "find"),
-    #             product_tile_selectors.get("args", []),
-    #             product_tile_selectors.get("kwargs", {}),
-    #             product_tile_selectors.get("attribute")
-    #         )
-    #     except Exception as e:
-    #         raise ValueError(f"Error parsing configuration for {selector_key}: {e}")
+            categories = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            # Apply post-processing
+            if categories and "post_process" in selector_config:
+                import post_processors as post_processors
+                for func_name, arg in selector_config["post_process"].items():
+                    func = getattr(post_processors, func_name, None)
+                    if func:
+                        categories = func(categories, arg) if not isinstance(arg, bool) else func(categories)
+
+            return categories if categories else []
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting site categories: {e}")
+            return []
+
         
     def parse_details_config(self, selector_key):
+        """
+        Returns full selector config, including method/args/kwargs/attribute and post_process.
+        """
         try:
-            # Retrieve selector configuration from JSON profile
-            product_tile_selectors = self.details_selectors.get(selector_key, {})
-
-            # If the selector is missing, return None (this will be handled in extract_data)
-            if not product_tile_selectors:
-                return None, None, None, None
+            selector_config = self.details_selectors.get(selector_key, {})
 
             return (
-                product_tile_selectors.get("method", "find"),
-                product_tile_selectors.get("args", []),
-                product_tile_selectors.get("kwargs", {}),
-                product_tile_selectors.get("attribute")
+                selector_config.get("method", "find"),
+                selector_config.get("args", []),
+                selector_config.get("kwargs", {}),
+                selector_config.get("attribute"),
+                selector_config  # full config including post_process
             )
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error parsing configuration for {selector_key}: {e}")
-            return None, None, None, None
+            return None, None, None, None, {}
+
 
         
-    def construct_details_data(self, product_url, product_url_soup ):
-        return {
-            "url"                       : product_url,
-            "title"                     : self.extract_details_title(product_url_soup),
-            "description"               : self.extract_details_description(product_url_soup),
-            "price"                     : self.extract_details_price(product_url_soup),
-            "available"                 : self.extract_details_availability(product_url_soup),
-            "original_image_urls"       : self.extract_details_image_url(product_url_soup),
-            "nation_site_designated"    : self.extract_details_nation(product_url_soup),
-            "conflict_site_designated"  : self.extract_details_conflict(product_url_soup),
-            "item_type_site_designated" : self.extract_details_item_type(product_url_soup),
-            "extracted_id"              : self.extract_details_extracted_id(product_url_soup),
-            "grade"                     : self.extract_details_grade(product_url_soup),
-            "categories_site_designated" : self.extract_details_site_categories(product_url_soup),
-        }
+    def construct_details_data(self, product_url, product_url_soup):
+        sel = self.details_selectors  # shortcut for readability
+
+        try:
+            data = {
+                "url": product_url,
+                "title": self.extract_details_title(product_url_soup) if sel.get("details_title") else None,
+                "description": self.extract_details_description(product_url_soup) if sel.get("details_description") else None,
+                "price": self.extract_details_price(product_url_soup) if sel.get("details_price") else "0",
+                "available": self.extract_details_availability(product_url_soup) if sel.get("details_availability") else None,
+                "original_image_urls": self.extract_details_image_url(product_url_soup) if sel.get("details_image_url") else [],
+                "nation_site_designated": self.extract_details_nation(product_url_soup) if sel.get("details_nation") else None,
+                "conflict_site_designated": self.extract_details_conflict(product_url_soup) if sel.get("details_conflict") else None,
+                "item_type_site_designated": self.extract_details_item_type(product_url_soup) if sel.get("details_item_type") else None,
+                "extracted_id": self.extract_details_extracted_id(product_url_soup) if sel.get("details_extracted_id") else None,
+                "grade": self.extract_details_grade(product_url_soup) if sel.get("details_grade") else None,
+                "categories_site_designated": self.extract_details_site_categories(product_url_soup) if sel.get("details_site_categories") else [],
+            }
+
+            import pprint, logging
+            logging.debug(f"CONSTRUCT DETAILS DATA: Extracted fields →\n{pprint.pformat(data)}")
+
+            return data
+
+        except Exception as e:
+            logging.error(f"CONSTRUCT DETAILS DATA: Error while constructing data for {product_url} → {e}")
+            return {
+                "url": product_url,
+                "title": None,
+                "description": None,
+                "price": "0",
+                "available": False,
+                "original_image_urls": [],
+                "nation_site_designated": None,
+                "conflict_site_designated": None,
+                "item_type_site_designated": None,
+                "extracted_id": None,
+                "grade": None,
+                "categories_site_designated": []
+            }
+
     
     def construct_clean_details_data(self, details_data):
         """
