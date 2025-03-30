@@ -1,0 +1,710 @@
+2025-03-28 15:08:07,931 - DEBUG - Logging initialized. Log file: milivault_logs\2025-03-28_15-08-07.log
+2025-03-28 15:08:08,643 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-03-28 15:08:13,567 - INFO - Connection pool initialized successfully.
+2025-03-28 15:08:13,573 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-03-28 15:08:13,575 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-03-28 15:08:13,575 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-03-28 15:08:13,577 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-03-28 15:08:13,577 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-03-28 15:08:13,578 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-03-28 15:08:13,578 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-03-28 15:08:13,580 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-03-28 15:08:13,580 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-03-28 15:08:13,581 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-03-28 15:08:13,581 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-03-28 15:08:13,631 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\endpoints.json
+2025-03-28 15:08:13,652 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-03-28 15:08:13,653 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x00000272E54C9BC0>
+2025-03-28 15:08:13,717 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-03-28 15:08:13,730 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-03-28 15:08:13,789 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-03-28 15:08:13,800 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\partitions.json
+2025-03-28 15:08:13,801 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x00000272E541A980>
+2025-03-28 15:08:13,801 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x00000272E61CAD40>
+2025-03-28 15:08:13,834 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x00000272E541A700>
+2025-03-28 15:08:13,835 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-03-28 15:08:13,835 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-03-28 15:08:13,835 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-03-28 15:08:13,835 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-03-28 15:08:13,835 - DEBUG - No configured endpoint found.
+2025-03-28 15:08:13,837 - DEBUG - Setting s3 timeout as (60, 60)
+2025-03-28 15:08:13,848 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python312\Lib\site-packages\botocore\data\_retry.json
+2025-03-28 15:08:13,849 - DEBUG - Registering retry handlers for service: s3
+2025-03-28 15:08:13,849 - DEBUG - Registering S3 region redirector handler
+2025-03-28 15:08:13,850 - DEBUG - Registering S3Express Identity Resolver
+2025-03-28 15:08:13,850 - INFO - S3Manager initialized for bucket militaria-images
+2025-03-28 15:09:02,273 - INFO - Processing site: OORLOGSSPULLEN
+2025-03-28 15:09:02,274 - DEBUG - SITE PROCESSOR: Source: OORLOGSSPULLEN site_profile loaded.
+2025-03-28 15:09:02,274 - DEBUG - SITE PROCESSOR: Debug: base_url: https://oorlogsspullen.nl/
+2025-03-28 15:09:02,274 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-03-28 15:09:02,275 - INFO - SITE PROCESSOR: Current product page: https://oorlogsspullen.nl/product-categorie/new/page/0/
+2025-03-28 15:09:02,275 - INFO - SITE PROCESSOR: Current page: 0
+2025-03-28 15:09:02,277 - DEBUG - Starting new HTTPS connection (1): oorlogsspullen.nl:443
+2025-03-28 15:09:04,655 - DEBUG - https://oorlogsspullen.nl:443 "GET /product-categorie/new/page/0/ HTTP/1.1" 200 20169
+2025-03-28 15:09:04,940 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-03-28 15:09:04,941 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,941 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,942 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,942 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,944 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,945 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,945 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,945 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,946 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,946 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,946 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,946 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,948 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,948 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,948 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,948 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,948 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,949 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,950 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,950 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,950 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,950 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,951 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,952 - DEBUG - SITE PROCESSOR: Skipping duplicate tile URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,952 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,952 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,952 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,952 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,952 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,953 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,953 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,953 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,954 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,954 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,954 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,954 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,954 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,954 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,955 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,955 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,955 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,955 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,955 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,955 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,956 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,956 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,956 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,956 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,956 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:04,957 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:04,957 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:04,957 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:04,957 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:04,957 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:04,957 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:04,958 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:04,958 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:04,958 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:04,958 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:04,958 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:04,959 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:04,959 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:04,959 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:04,959 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German gas warning flag with pole
+2025-03-28 15:09:04,959 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:04,959 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:04,959 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:04,960 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Sanitäter armband
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:04,960 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:04,961 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:04,961 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:04,961 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:04,961 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:04,961 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:04,961 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+2025-03-28 15:09:04,962 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:04,962 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:04,962 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:04,962 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:04,963 - DEBUG - SITE PROCESSOR: Total tiles found: 455, Valid tiles: 16
+2025-03-28 15:09:04,963 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 16 
+2025-03-28 15:09:04,964 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,964 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,964 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,964 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,964 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+2025-03-28 15:09:04,965 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,965 - DEBUG - CLEAN TITLE: Raw input → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,966 - DEBUG - CLEAN TITLE: After unescape → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,966 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,966 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,966 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,966 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German Panzer/Kriegsmarine leather Wrap
+2025-03-28 15:09:04,967 - DEBUG - TILE PROCESSOR: Extracted text from tag → 0€
+2025-03-28 15:09:04,967 - DEBUG - CLEAN PRICE: Raw input → 0€
+2025-03-28 15:09:04,967 - DEBUG - CLEAN PRICE: After removing phrases → 0€
+2025-03-28 15:09:04,968 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 0
+2025-03-28 15:09:04,968 - DEBUG - CLEAN PRICE: Normalized number format → 0
+2025-03-28 15:09:04,968 - DEBUG - CLEAN PRICE: Final numeric value → 0.0
+2025-03-28 15:09:04,969 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Panzer/Kriegsmarine leather Wrap1.200€Add to cart
+2025-03-28 15:09:04,975 - DEBUG - TILE PROCESSOR: Product tile preview: <html lang="en-US">...
+2025-03-28 15:09:04,975 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-panzer-kriegsmarine-leather-wrap-3/
+
+                    Raw Title          : Original WWII German Panzer/Kriegsmarine leather Wrap
+                    Cleaned Title      : Original WWII German Panzer/Kriegsmarine leather Wrap
+
+                    Raw Price          : 0€
+                    Cleaned Price      : 0.0
+
+                    Raw Availability   : None
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,976 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,977 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,977 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,977 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,977 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+2025-03-28 15:09:04,977 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: Raw input → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: After unescape → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German WH Jäger insignia
+2025-03-28 15:09:04,978 - DEBUG - TILE PROCESSOR: Extracted text from tag → 30€
+2025-03-28 15:09:04,979 - DEBUG - CLEAN PRICE: Raw input → 30€
+2025-03-28 15:09:04,979 - DEBUG - CLEAN PRICE: After removing phrases → 30€
+2025-03-28 15:09:04,979 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 30
+2025-03-28 15:09:04,979 - DEBUG - CLEAN PRICE: Normalized number format → 30
+2025-03-28 15:09:04,979 - DEBUG - CLEAN PRICE: Final numeric value → 30.0
+2025-03-28 15:09:04,979 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-61385 status-publish instock product_cat-new product_cat-emblemen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:04,980 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-wh-jager-arm-patch/
+
+                    Raw Title          : Original WWII German WH Jäger insignia
+                    Cleaned Title      : Original WWII German WH Jäger insignia
+
+                    Raw Price          : 30€
+                    Cleaned Price      : 30.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-61385', 'status-publish', 'instock', 'product_cat-new', 'product_cat-emblemen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,980 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,981 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,981 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,981 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,981 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+2025-03-28 15:09:04,981 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,981 - DEBUG - CLEAN TITLE: Raw input → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,981 - DEBUG - CLEAN TITLE: After unescape → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,982 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,982 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,982 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,982 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German WH Funker Infantry arm patch
+2025-03-28 15:09:04,982 - DEBUG - TILE PROCESSOR: Extracted text from tag → 20€
+2025-03-28 15:09:04,983 - DEBUG - CLEAN PRICE: Raw input → 20€
+2025-03-28 15:09:04,983 - DEBUG - CLEAN PRICE: After removing phrases → 20€
+2025-03-28 15:09:04,983 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 20
+2025-03-28 15:09:04,983 - DEBUG - CLEAN PRICE: Normalized number format → 20
+2025-03-28 15:09:04,983 - DEBUG - CLEAN PRICE: Final numeric value → 20.0
+2025-03-28 15:09:04,984 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-50851 status-publish instock product_cat-new product_cat-emblemen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:04,984 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-wh-funker-infantry-arm-patch/
+
+                    Raw Title          : Original WWII German WH Funker Infantry arm patch
+                    Cleaned Title      : Original WWII German WH Funker Infantry arm patch
+
+                    Raw Price          : 20€
+                    Cleaned Price      : 20.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-50851', 'status-publish', 'instock', 'product_cat-new', 'product_cat-emblemen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,985 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,986 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,986 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,986 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,986 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+2025-03-28 15:09:04,986 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,986 - DEBUG - CLEAN TITLE: Raw input → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,986 - DEBUG - CLEAN TITLE: After unescape → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,986 - DEBUG - CLEAN TITLE: After removing HTML tags → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,987 - DEBUG - CLEAN TITLE: After normalizing quotes → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,987 - DEBUG - CLEAN TITLE: After collapsing spaces → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,987 - DEBUG - CLEAN TITLE: Final cleaned title → Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+2025-03-28 15:09:04,987 - DEBUG - TILE PROCESSOR: Extracted text from tag → 795€
+2025-03-28 15:09:04,987 - DEBUG - CLEAN PRICE: Raw input → 795€
+2025-03-28 15:09:04,987 - DEBUG - CLEAN PRICE: After removing phrases → 795€
+2025-03-28 15:09:04,987 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 795
+2025-03-28 15:09:04,987 - DEBUG - CLEAN PRICE: Normalized number format → 795
+2025-03-28 15:09:04,988 - DEBUG - CLEAN PRICE: Final numeric value → 795.0
+2025-03-28 15:09:04,988 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105804 status-publish last instock product_cat-new product_cat-uniformen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:04,988 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-pre-1940-dutch-vrijwillige-landstorm-uniform/
+
+                    Raw Title          : Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+                    Cleaned Title      : Original Pre 1940 Dutch Vrijwillige Landstorm uniform
+
+                    Raw Price          : 795€
+                    Cleaned Price      : 795.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105804', 'status-publish', 'last', 'instock', 'product_cat-new', 'product_cat-uniformen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,989 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,989 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,989 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,989 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,990 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+2025-03-28 15:09:04,990 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: Raw input → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: After unescape → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,990 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+2025-03-28 15:09:04,991 - DEBUG - TILE PROCESSOR: Extracted text from tag → 325€
+2025-03-28 15:09:04,991 - DEBUG - CLEAN PRICE: Raw input → 325€
+2025-03-28 15:09:04,991 - DEBUG - CLEAN PRICE: After removing phrases → 325€
+2025-03-28 15:09:04,991 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 325
+2025-03-28 15:09:04,991 - DEBUG - CLEAN PRICE: Normalized number format → 325
+2025-03-28 15:09:04,991 - DEBUG - CLEAN PRICE: Final numeric value → 325.0
+2025-03-28 15:09:04,991 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105754 status-publish first instock product_cat-new product_cat-uitrusting has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:04,992 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-dutch-hembrug-steyr-m95-rifle-eu-deko/
+
+                    Raw Title          : Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+                    Cleaned Title      : Original WWII Dutch Hembrug/Steyr M95 rifle EU-Deko
+
+                    Raw Price          : 325€
+                    Cleaned Price      : 325.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105754', 'status-publish', 'first', 'instock', 'product_cat-new', 'product_cat-uitrusting', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,992 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,993 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,993 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,993 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,993 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+2025-03-28 15:09:04,993 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,993 - DEBUG - CLEAN TITLE: Raw input → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,993 - DEBUG - CLEAN TITLE: After unescape → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,993 - DEBUG - CLEAN TITLE: After removing HTML tags → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,993 - DEBUG - CLEAN TITLE: After normalizing quotes → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,994 - DEBUG - CLEAN TITLE: After collapsing spaces → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,994 - DEBUG - CLEAN TITLE: Final cleaned title → Original Vietnam War era US M7 bayonet by Colt
+2025-03-28 15:09:04,994 - DEBUG - TILE PROCESSOR: Extracted text from tag → 30€
+2025-03-28 15:09:04,994 - DEBUG - CLEAN PRICE: Raw input → 30€
+2025-03-28 15:09:04,994 - DEBUG - CLEAN PRICE: After removing phrases → 30€
+2025-03-28 15:09:04,994 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 30
+2025-03-28 15:09:04,994 - DEBUG - CLEAN PRICE: Normalized number format → 30
+2025-03-28 15:09:04,994 - DEBUG - CLEAN PRICE: Final numeric value → 30.0
+2025-03-28 15:09:04,995 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105028 status-publish instock product_cat-new product_cat-uitrusting has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:04,995 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-vietnam-war-era-us-m7-bayonet-by-colt-12/
+
+                    Raw Title          : Original Vietnam War era US M7 bayonet by Colt
+                    Cleaned Title      : Original Vietnam War era US M7 bayonet by Colt
+
+                    Raw Price          : 30€
+                    Cleaned Price      : 30.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105028', 'status-publish', 'instock', 'product_cat-new', 'product_cat-uitrusting', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:04,996 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,996 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,996 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,996 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,996 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+2025-03-28 15:09:04,996 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,997 - DEBUG - CLEAN TITLE: Raw input → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,997 - DEBUG - CLEAN TITLE: After unescape → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,998 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,998 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,998 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,998 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German Funker artillery arm patch
+2025-03-28 15:09:04,999 - DEBUG - TILE PROCESSOR: Extracted text from tag → 20€
+2025-03-28 15:09:04,999 - DEBUG - CLEAN PRICE: Raw input → 20€
+2025-03-28 15:09:04,999 - DEBUG - CLEAN PRICE: After removing phrases → 20€
+2025-03-28 15:09:04,999 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 20
+2025-03-28 15:09:04,999 - DEBUG - CLEAN PRICE: Normalized number format → 20
+2025-03-28 15:09:04,999 - DEBUG - CLEAN PRICE: Final numeric value → 20.0
+2025-03-28 15:09:05,000 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-19673 status-publish instock product_cat-new product_cat-emblemen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,000 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/origineel-wwii-duitse-wh-funker-artillerie-embleem-2/
+
+                    Raw Title          : Original WWII German Funker artillery arm patch
+                    Cleaned Title      : Original WWII German Funker artillery arm patch
+
+                    Raw Price          : 20€
+                    Cleaned Price      : 20.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-19673', 'status-publish', 'instock', 'product_cat-new', 'product_cat-emblemen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,001 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:05,002 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:05,002 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:05,002 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:05,002 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+2025-03-28 15:09:05,002 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,002 - DEBUG - CLEAN TITLE: Raw input → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - CLEAN TITLE: After unescape → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - CLEAN TITLE: After removing HTML tags → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - CLEAN TITLE: After normalizing quotes → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - CLEAN TITLE: After collapsing spaces → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - CLEAN TITLE: Final cleaned title → Original Pre 1940 Dutch army bread bag with carrying strap
+2025-03-28 15:09:05,003 - DEBUG - TILE PROCESSOR: Extracted text from tag → 195€
+2025-03-28 15:09:05,003 - DEBUG - CLEAN PRICE: Raw input → 195€
+2025-03-28 15:09:05,004 - DEBUG - CLEAN PRICE: After removing phrases → 195€
+2025-03-28 15:09:05,004 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 195
+2025-03-28 15:09:05,004 - DEBUG - CLEAN PRICE: Normalized number format → 195
+2025-03-28 15:09:05,004 - DEBUG - CLEAN PRICE: Final numeric value → 195.0
+2025-03-28 15:09:05,004 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105792 status-publish last instock product_cat-new product_cat-uitrusting has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,005 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-pre-1940-dutch-army-bread-bag-with-carrying-strap/
+
+                    Raw Title          : Original Pre 1940 Dutch army bread bag with carrying strap
+                    Cleaned Title      : Original Pre 1940 Dutch army bread bag with carrying strap
+
+                    Raw Price          : 195€
+                    Cleaned Price      : 195.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105792', 'status-publish', 'last', 'instock', 'product_cat-new', 'product_cat-uitrusting', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,005 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:05,005 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:05,006 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:05,006 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:05,006 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+2025-03-28 15:09:05,006 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,006 - DEBUG - CLEAN TITLE: Raw input → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,006 - DEBUG - CLEAN TITLE: After unescape → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,006 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,007 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,007 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,007 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII USAAF L-1 Flying suit
+2025-03-28 15:09:05,007 - DEBUG - TILE PROCESSOR: Extracted text from tag → 200€
+2025-03-28 15:09:05,007 - DEBUG - CLEAN PRICE: Raw input → 200€
+2025-03-28 15:09:05,007 - DEBUG - CLEAN PRICE: After removing phrases → 200€
+2025-03-28 15:09:05,007 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 200
+2025-03-28 15:09:05,007 - DEBUG - CLEAN PRICE: Normalized number format → 200
+2025-03-28 15:09:05,009 - DEBUG - CLEAN PRICE: Final numeric value → 200.0
+2025-03-28 15:09:05,009 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105755 status-publish first instock product_cat-new product_cat-uniformen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,009 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-usaaf-l-1-flying-suit/
+
+                    Raw Title          : Original WWII USAAF L-1 Flying suit
+                    Cleaned Title      : Original WWII USAAF L-1 Flying suit
+
+                    Raw Price          : 200€
+                    Cleaned Price      : 200.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105755', 'status-publish', 'first', 'instock', 'product_cat-new', 'product_cat-uniformen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,011 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:05,012 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:05,012 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:05,012 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:05,012 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+2025-03-28 15:09:05,013 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: Raw input → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: After unescape → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: After removing HTML tags → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: After normalizing quotes → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: After collapsing spaces → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,014 - DEBUG - CLEAN TITLE: Final cleaned title → Original 1920s/1930s Deutsche Reichsbahn overcoat
+2025-03-28 15:09:05,015 - DEBUG - TILE PROCESSOR: Extracted text from tag → 160€
+2025-03-28 15:09:05,015 - DEBUG - CLEAN PRICE: Raw input → 160€
+2025-03-28 15:09:05,015 - DEBUG - CLEAN PRICE: After removing phrases → 160€
+2025-03-28 15:09:05,015 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 160
+2025-03-28 15:09:05,015 - DEBUG - CLEAN PRICE: Normalized number format → 160
+2025-03-28 15:09:05,016 - DEBUG - CLEAN PRICE: Final numeric value → 160.0
+2025-03-28 15:09:05,016 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105742 status-publish instock product_cat-new product_cat-uniformen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,016 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-1920s-1930s-deutsche-reichsbahn-overcoat/
+
+                    Raw Title          : Original 1920s/1930s Deutsche Reichsbahn overcoat
+                    Cleaned Title      : Original 1920s/1930s Deutsche Reichsbahn overcoat
+
+                    Raw Price          : 160€
+                    Cleaned Price      : 160.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105742', 'status-publish', 'instock', 'product_cat-new', 'product_cat-uniformen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,018 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:05,018 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:05,018 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:05,018 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:05,019 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+2025-03-28 15:09:05,019 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,019 - DEBUG - CLEAN TITLE: Raw input → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,019 - DEBUG - CLEAN TITLE: After unescape → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,019 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,019 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,019 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,020 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German gas warning flag with pole
+2025-03-28 15:09:05,020 - DEBUG - TILE PROCESSOR: Extracted text from tag → 35€
+2025-03-28 15:09:05,020 - DEBUG - CLEAN PRICE: Raw input → 35€
+2025-03-28 15:09:05,020 - DEBUG - CLEAN PRICE: After removing phrases → 35€
+2025-03-28 15:09:05,020 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 35
+2025-03-28 15:09:05,021 - DEBUG - CLEAN PRICE: Normalized number format → 35
+2025-03-28 15:09:05,021 - DEBUG - CLEAN PRICE: Final numeric value → 35.0
+2025-03-28 15:09:05,021 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105736 status-publish instock product_cat-new product_cat-persoonlijk has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,022 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-gas-warning-flag-with-pole-5/
+
+                    Raw Title          : Original WWII German gas warning flag with pole
+                    Cleaned Title      : Original WWII German gas warning flag with pole
+
+                    Raw Price          : 35€
+                    Cleaned Price      : 35.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105736', 'status-publish', 'instock', 'product_cat-new', 'product_cat-persoonlijk', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,023 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:05,023 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:05,023 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:05,023 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:05,024 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+2025-03-28 15:09:05,024 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,024 - DEBUG - CLEAN TITLE: Raw input → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,024 - DEBUG - CLEAN TITLE: After unescape → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,024 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,024 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,025 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,025 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII US Purple Heart medal in box with buttonhole pin
+2025-03-28 15:09:05,025 - DEBUG - TILE PROCESSOR: Extracted text from tag → 195€
+2025-03-28 15:09:05,025 - DEBUG - CLEAN PRICE: Raw input → 195€
+2025-03-28 15:09:05,025 - DEBUG - CLEAN PRICE: After removing phrases → 195€
+2025-03-28 15:09:05,026 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 195
+2025-03-28 15:09:05,026 - DEBUG - CLEAN PRICE: Normalized number format → 195
+2025-03-28 15:09:05,026 - DEBUG - CLEAN PRICE: Final numeric value → 195.0
+2025-03-28 15:09:05,027 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105728 status-publish last instock product_cat-new product_cat-medailles-medals has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,027 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-us-purple-heart-medal-in-box-with-buttonhole-pin/
+
+                    Raw Title          : Original WWII US Purple Heart medal in box with buttonhole pin
+                    Cleaned Title      : Original WWII US Purple Heart medal in box with buttonhole pin
+
+                    Raw Price          : 195€
+                    Cleaned Price      : 195.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105728', 'status-publish', 'last', 'instock', 'product_cat-new', 'product_cat-medailles-medals', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,028 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:05,028 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:05,028 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:05,028 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:05,028 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+2025-03-28 15:09:05,028 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,029 - DEBUG - CLEAN TITLE: Raw input → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,029 - DEBUG - CLEAN TITLE: After unescape → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,029 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,029 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,029 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,030 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German Sanitäter armband
+2025-03-28 15:09:05,030 - DEBUG - TILE PROCESSOR: Extracted text from tag → 50€
+2025-03-28 15:09:05,030 - DEBUG - CLEAN PRICE: Raw input → 50€
+2025-03-28 15:09:05,030 - DEBUG - CLEAN PRICE: After removing phrases → 50€
+2025-03-28 15:09:05,030 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 50
+2025-03-28 15:09:05,031 - DEBUG - CLEAN PRICE: Normalized number format → 50
+2025-03-28 15:09:05,031 - DEBUG - CLEAN PRICE: Final numeric value → 50.0
+2025-03-28 15:09:05,031 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-98162 status-publish first instock product_cat-new product_cat-emblemen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,031 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-sanitater-armband-9/
+
+                    Raw Title          : Original WWII German Sanitäter armband
+                    Cleaned Title      : Original WWII German Sanitäter armband
+
+                    Raw Price          : 50€
+                    Cleaned Price      : 50.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-98162', 'status-publish', 'first', 'instock', 'product_cat-new', 'product_cat-emblemen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,033 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:05,033 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:05,033 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:05,033 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:05,033 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+2025-03-28 15:09:05,034 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,034 - DEBUG - CLEAN TITLE: Raw input → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,034 - DEBUG - CLEAN TITLE: After unescape → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,034 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,034 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,035 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,035 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+2025-03-28 15:09:05,035 - DEBUG - TILE PROCESSOR: Extracted text from tag → 140€
+2025-03-28 15:09:05,035 - DEBUG - CLEAN PRICE: Raw input → 140€
+2025-03-28 15:09:05,036 - DEBUG - CLEAN PRICE: After removing phrases → 140€
+2025-03-28 15:09:05,036 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 140
+2025-03-28 15:09:05,036 - DEBUG - CLEAN PRICE: Normalized number format → 140
+2025-03-28 15:09:05,036 - DEBUG - CLEAN PRICE: Final numeric value → 140.0
+2025-03-28 15:09:05,036 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105701 status-publish instock product_cat-new product_cat-papierwerk has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,037 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-german-dutch-announcement-poster-regarding-the-execution-of-resistance-fighters/
+
+                    Raw Title          : Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+                    Cleaned Title      : Original WWII German-Dutch announcement poster regarding the execution of resistance fighters
+
+                    Raw Price          : 140€
+                    Cleaned Price      : 140.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105701', 'status-publish', 'instock', 'product_cat-new', 'product_cat-papierwerk', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,038 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:05,038 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:05,039 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:05,039 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:05,039 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+2025-03-28 15:09:05,039 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+2025-03-28 15:09:05,039 - DEBUG - CLEAN TITLE: Raw input → Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+2025-03-28 15:09:05,040 - DEBUG - CLEAN TITLE: After unescape → Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+2025-03-28 15:09:05,040 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+2025-03-28 15:09:05,040 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII Dutch Binnenlandse Strijdkrachten 'Oranje' armband
+2025-03-28 15:09:05,040 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII Dutch Binnenlandse Strijdkrachten 'Oranje' armband
+2025-03-28 15:09:05,040 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII Dutch Binnenlandse Strijdkrachten 'Oranje' armband
+2025-03-28 15:09:05,041 - DEBUG - TILE PROCESSOR: Extracted text from tag → 120€
+2025-03-28 15:09:05,041 - DEBUG - CLEAN PRICE: Raw input → 120€
+2025-03-28 15:09:05,041 - DEBUG - CLEAN PRICE: After removing phrases → 120€
+2025-03-28 15:09:05,041 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 120
+2025-03-28 15:09:05,041 - DEBUG - CLEAN PRICE: Normalized number format → 120
+2025-03-28 15:09:05,042 - DEBUG - CLEAN PRICE: Final numeric value → 120.0
+2025-03-28 15:09:05,042 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105686 status-publish instock product_cat-new product_cat-emblemen has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,042 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-dutch-binnenlandse-strijdkrachten-oranje-armband-9/
+
+                    Raw Title          : Original WWII Dutch Binnenlandse Strijdkrachten ‘Oranje’ armband
+                    Cleaned Title      : Original WWII Dutch Binnenlandse Strijdkrachten 'Oranje' armband
+
+                    Raw Price          : 120€
+                    Cleaned Price      : 120.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105686', 'status-publish', 'instock', 'product_cat-new', 'product_cat-emblemen', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,043 - DEBUG - TILE PROCESSOR: Raw extracted URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:05,044 - DEBUG - TILE PROCESSOR: Post-processed URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:05,044 - INFO - TILE Extracted product URL: https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:05,044 - DEBUG - CLEAN URL: Stripped URL → https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:05,044 - DEBUG - CLEAN URL: Validated URL → https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+2025-03-28 15:09:05,044 - DEBUG - TILE PROCESSOR: Extracted text from tag → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,045 - DEBUG - CLEAN TITLE: Raw input → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,045 - DEBUG - CLEAN TITLE: After unescape → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,045 - DEBUG - CLEAN TITLE: After removing HTML tags → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,045 - DEBUG - CLEAN TITLE: After normalizing quotes → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,045 - DEBUG - CLEAN TITLE: After collapsing spaces → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,046 - DEBUG - CLEAN TITLE: Final cleaned title → Original WWII Japanese army type 30 bayonet with frog and scabbard
+2025-03-28 15:09:05,046 - DEBUG - TILE PROCESSOR: Extracted text from tag → 295€
+2025-03-28 15:09:05,046 - DEBUG - CLEAN PRICE: Raw input → 295€
+2025-03-28 15:09:05,046 - DEBUG - CLEAN PRICE: After removing phrases → 295€
+2025-03-28 15:09:05,046 - DEBUG - CLEAN PRICE: After removing symbols/spaces → 295
+2025-03-28 15:09:05,046 - DEBUG - CLEAN PRICE: Normalized number format → 295
+2025-03-28 15:09:05,047 - DEBUG - CLEAN PRICE: Final numeric value → 295.0
+2025-03-28 15:09:05,047 - DEBUG - TILE PROCESSOR: Product tile preview: <li class="product type-product post-105677 status-publish last instock product_cat-new product_cat-uitrusting has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">...
+2025-03-28 15:09:05,047 - INFO - 
+                    ======== TILE PRODUCT SUMMARY ========
+                    Raw URL            : https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+                    Cleaned URL        : https://oorlogsspullen.nl/product/original-wwii-japanese-army-type-30-bayonet-with-frog-and-scabbard/
+
+                    Raw Title          : Original WWII Japanese army type 30 bayonet with frog and scabbard
+                    Cleaned Title      : Original WWII Japanese army type 30 bayonet with frog and scabbard
+
+                    Raw Price          : 295€
+                    Cleaned Price      : 295.0
+
+                    Raw Availability   : ['product', 'type-product', 'post-105677', 'status-publish', 'last', 'instock', 'product_cat-new', 'product_cat-uitrusting', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                    Cleaned Availability: True
+                    ======================================
+                    
+2025-03-28 15:09:05,048 - INFO - SITE PROCESSOR: Product Dictionaries count: 16
+2025-03-28 15:09:05,049 - INFO - PRODUCT PROCESSOR: Products needing full processing  : 0
+2025-03-28 15:09:05,049 - INFO - PRODUCT PROCESSOR: Products needing availability updates: 0
+2025-03-28 15:09:05,049 - INFO - PRODUCT PROCESSOR: Products ignored (no updates needed): 16
+2025-03-28 15:09:05,049 - DEBUG - PRODUCT PROCESSOR: Processing required list count: 0
+2025-03-28 15:09:05,049 - DEBUG - PRODUCT PROCESSOR: Processing completed for 0 products.
+2025-03-28 15:09:05,050 - INFO - SITE PROCESSOR: Moved to next page: 1
+2025-03-28 15:09:05,050 - INFO - SITE PROCESSOR: No products require further processing. Stopping site processing.
+2025-03-28 15:09:05,050 - INFO - 
+    ====== Processing Summary ======
+    Total Products Count       : 16
+    New Products Count         : 0
+    Old Products Count         : 0
+    Sites Processed Count      : 0
+    Current Page Count         : 1
+    Availability Updates Count : 0
+    Processing Required Count  : 0
+    ================================
+    
+2025-03-28 15:09:05,050 - INFO - SITE PROCESSOR: Finished processing site: OORLOGSSPULLEN
+2025-03-28 15:09:05,051 - INFO - SITE PROCESSOR: Total products processed: 16
+2025-03-28 15:09:05,051 - INFO - Successfully processed site: OORLOGSSPULLEN
+2025-03-28 15:09:05,051 - INFO - Processing completed.

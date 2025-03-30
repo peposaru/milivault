@@ -163,6 +163,16 @@ class TileProcessor:
                 product_url = self.apply_post_processing(product_url, config)
                 logging.debug(f"TILE PROCESSOR: Post-processed URL: {product_url}")
 
+            # 🚫 Skip known non-product URLs
+            invalid_urls = [
+                "https://militariaplaza.nl/new/dirAsc",
+                "https://militariaplaza.nl/new/dirAsc/results,1-1",
+                "https://militariaplaza.nl/archive-38/dirAsc"
+            ]
+            if product_url in invalid_urls:
+                logging.debug(f"TILE PROCESSOR: Skipping non-product URL: {product_url}")
+                return None
+
             if product_url and product_url.startswith("http"):
                 logging.info(f"TILE Extracted product URL: {product_url.strip()}")
                 return product_url.strip()
@@ -175,8 +185,7 @@ class TileProcessor:
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error extracting product URL: {e}")
             return None
-
-
+        
 
     def extract_tile_available(self, product_tile):
         """

@@ -118,7 +118,7 @@ Choose your settings:
 2. Personal Computer Settings
 3. Custom Settings
 """)
-        choice = input("Enter the number corresponding to your choice (1/2/3/4): ").strip()
+        choice = input("Enter the number corresponding to your choice (1/2/3): ").strip()
 
         settings = {}
 
@@ -190,33 +190,93 @@ Choose the type of inventory check:
 
 # Below uses the source name to display the sites to the user.
 
-# Which sites does the user want to process?
-def site_choice(jsonData):
-    """Displays site choices in a column format and handles user selection."""
+# # Which sites does the user want to process?
+# def site_choice(jsonData):
+#     """Displays site choices in a column format and handles user selection."""
     
-    # Determine terminal width and calculate formatting
-    term_width = shutil.get_terminal_size((80, 20)).columns  # Default to 80 if size can't be determined
-    max_name_length = max(len(site['json_desc']) for site in jsonData)
-    padding = 5
-    col_width = max_name_length + padding
-    num_columns = max(1, term_width // col_width)  # Ensure at least 1 column
-    num_rows = (len(jsonData) + num_columns - 1) // num_columns  # Round up for uneven rows
+#     # Determine terminal width and calculate formatting
+#     term_width = shutil.get_terminal_size((80, 20)).columns  # Default to 80 if size can't be determined
+#     max_name_length = max(len(site['json_desc']) for site in jsonData)
+#     padding = 5
+#     col_width = max_name_length + padding
+#     num_columns = max(1, term_width // col_width)  # Ensure at least 1 column
+#     num_rows = (len(jsonData) + num_columns - 1) // num_columns  # Round up for uneven rows
 
-    # Display available sites in column format
-    print("\nAvailable sites:")
-    for row in range(num_rows):
-        row_sites = []
-        for col in range(num_columns):
-            idx = row + col * num_rows
-            if idx < len(jsonData):
-                row_sites.append(f"{idx + 1:>3}. {jsonData[idx]['json_desc']:<{max_name_length}}")
-        print(" | ".join(row_sites))
+#     # Display available sites in column format
+#     print("\nAvailable sites:")
+#     for row in range(num_rows):
+#         row_sites = []
+#         for col in range(num_columns):
+#             idx = row + col * num_rows
+#             if idx < len(jsonData):
+#                 row_sites.append(f"{idx + 1:>3}. {jsonData[idx]['json_desc']:<{max_name_length}}")
+#         print(" | ".join(row_sites))
+
+#     # User selection loop
+#     while True:
+#         try:
+#             choice = input("\nSelect sites to scrape (e.g., '1,3-5,7'): ").strip()
+            
+#             if not choice:
+#                 print("Please enter a valid selection.")
+#                 continue
+
+#             selected_indices = set()
+#             for part in choice.split(','):
+#                 if '-' in part:
+#                     start, end = map(int, part.split('-'))
+#                     if start > end:
+#                         raise ValueError(f"Invalid range: {start}-{end}")
+#                     selected_indices.update(range(start - 1, end))  # Convert to 0-based index
+#                 else:
+#                     selected_indices.add(int(part) - 1)
+
+#             # Ensure all selected indices are within valid range
+#             if any(idx < 0 or idx >= len(jsonData) for idx in selected_indices):
+#                 raise ValueError("One or more indices are out of range.")
+
+#             selected_sites = [jsonData[idx] for idx in sorted(selected_indices)]
+#             return selected_sites
+
+#         except ValueError as e:
+#             print(f"SETTINGS MANAGER: Invalid selection: {e}. Please try again.")
+
+
+def site_choice(all_sites):
+    """Display working and non-working sites with notes, and handle user selection."""
+    
+    # Split sites by working status
+    working_sites = [s for s in all_sites if s.get("is_working", False)]
+    broken_sites = [s for s in all_sites if not s.get("is_working", False)]
+    all_display_sites = working_sites + broken_sites  # Combined for index tracking
+
+    # Determine terminal width and formatting
+    term_width = shutil.get_terminal_size((80, 20)).columns
+    max_name_length = max(len(site['json_desc']) for site in all_display_sites)
+    col_width = max_name_length + 5
+    max_notes_length = term_width - 4
+
+    # Display sites by category
+    def display_sites(sites, start_index):
+        for i, site in enumerate(sites, start=start_index):
+            name = f"{i:>3}. {site['json_desc']:<{max_name_length}}"
+            note = site.get("notes", "").strip()
+            if note:
+                print(f"{name}\n     ↳ {note[:max_notes_length]}")
+            else:
+                print(f"{name}")
+        return start_index + len(sites)
+
+    print("\n✅ WORKING SITES")
+    next_index = display_sites(working_sites, 1)
+
+    print("\n❌ NOT WORKING SITES")
+    display_sites(broken_sites, next_index)
 
     # User selection loop
     while True:
         try:
             choice = input("\nSelect sites to scrape (e.g., '1,3-5,7'): ").strip()
-            
             if not choice:
                 print("Please enter a valid selection.")
                 continue
@@ -227,15 +287,14 @@ def site_choice(jsonData):
                     start, end = map(int, part.split('-'))
                     if start > end:
                         raise ValueError(f"Invalid range: {start}-{end}")
-                    selected_indices.update(range(start - 1, end))  # Convert to 0-based index
+                    selected_indices.update(range(start - 1, end))  # 0-based
                 else:
                     selected_indices.add(int(part) - 1)
 
-            # Ensure all selected indices are within valid range
-            if any(idx < 0 or idx >= len(jsonData) for idx in selected_indices):
+            if any(idx < 0 or idx >= len(all_display_sites) for idx in selected_indices):
                 raise ValueError("One or more indices are out of range.")
 
-            selected_sites = [jsonData[idx] for idx in sorted(selected_indices)]
+            selected_sites = [all_display_sites[idx] for idx in sorted(selected_indices)]
             return selected_sites
 
         except ValueError as e:

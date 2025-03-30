@@ -160,6 +160,6 @@ class JsonTester:
                 logging.error(f"JSON TESTER: Failed to load profile: {e}")
                 continue
 
-            products_page_url = 'https://militariaplaza.nl/new'
-            product_details_url = 'https://militariaplaza.nl/new/large-wehrmacht-slide-projector-detail'
+            products_page_url = 'https://www.warsendshop.com/collections/all-axis-items'
+            product_details_url = 'https://www.warsendshop.com/collections/all-axis-items/products/siemens-desk-hand-lamp-arbeitsdienst'
             self.test_site_profile(products_page_url, product_details_url, site_profile)

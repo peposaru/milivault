@@ -157,11 +157,11 @@ def strip(value, config=None):
 
 def regex(value, config):
     try:
-        pattern = config.get("pattern", "")
+        pattern = config.get("pattern")
         if not pattern or not isinstance(value, str):
             return None
         match = re.search(pattern, value)
         return match.group(1) if match else None
     except Exception as e:
-        logging.error(f"Error in regex post-process: {e}")
+        logging.error(f"Regex post-process error: {e}")
         return None

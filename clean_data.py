@@ -264,7 +264,7 @@ class CleanData:
                 if available in ["true", "yes", "in stock", "available", "1", '1 in stock','stock in-stock']:
                     logging.debug("CLEAN AVAILABLE: Interpreted as available string → True")
                     return True
-                elif available in ["false", "no", "sold", "unavailable", "out of stock", "0"]:
+                elif available in ["false", "no", "sold", "unavailable", "out of stock", "0", "Out of stock", "Sold", "Sold out", "Sold Out", "SOLD OUT", "SOLD"]:
                     logging.debug("CLEAN AVAILABLE: Interpreted as unavailable string → False")
                     return False
 
@@ -387,6 +387,7 @@ class CleanData:
         - Keeps only the part after '-' if present
         - Decodes HTML (e.g., &AMP; → &)
         - Converts to uppercase
+        - Filters out generic values like "MILITARIA"
         - Returns None if no valid type remains
         """
         try:
@@ -396,19 +397,14 @@ class CleanData:
                 logging.debug("CLEAN ITEM TYPE: Input is empty or None.")
                 return None
 
-            # Decode HTML entities
-            item_type = html.unescape(item_type)
-            item_type = item_type.strip().upper()
-
+            item_type = html.unescape(item_type).strip().upper()
             logging.debug(f"CLEAN ITEM TYPE: After decode and uppercase → {item_type}")
 
-            # Remove common prefixes
             for prefix in ["CATEGORIES:", "CATEGORY:", "ARCHIVE:"]:
                 if item_type.startswith(prefix):
                     item_type = item_type[len(prefix):].strip()
                     logging.debug(f"CLEAN ITEM TYPE: Removed prefix '{prefix}' → {item_type}")
 
-            # Remove "NEW", "SOLD" from comma-separated list
             parts = [p.strip() for p in item_type.split(",") if p.strip() and p not in {"NEW", "SOLD"}]
 
             cleaned_parts = []
@@ -424,8 +420,8 @@ class CleanData:
                     part = part.split('-')[-1].strip()
                     logging.debug(f"CLEAN ITEM TYPE: Trimmed after '-' → {part}")
 
-                # Filter meaningless
-                if part in {"SOLD", "NOT SPECIFIED", "ARCHIVE"}:
+                # Filter generic or unhelpful values
+                if part in {"SOLD", "NOT SPECIFIED", "ARCHIVE", "MILITARIA"}:
                     continue
 
                 cleaned_parts.append(part)
@@ -437,6 +433,7 @@ class CleanData:
         except Exception as e:
             logging.error(f"CLEAN ITEM TYPE: Failed to clean item type: {item_type} ({e})")
             return None
+
 
 
     
