@@ -12,11 +12,11 @@ from html_manager import HtmlManager
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
-    "infoLocation"        : r'/home/ec2-user/projects/AWS-Militaria-Scraper/',
-    "pgAdminCred"         : 'pgadminCredentials.json',
-    "selectorJsonFolder"  : 'AWS_MILITARIA_SELECTORS.json',
-    "s3Cred"              : 's3_credentials.json'
-}
+      "infoLocation"  : "/home/ec2-user/projects/milivault/",
+      "pgAdminCred"   : "/home/ec2-user/projects/milivault/credentials/pgadminCredentials.json",
+      "selectorJson"  : "/home/ec2-user/projects/milivault/site-json/",
+      "s3Cred"        : "/home/ec2-user/projects/milivault/credentials/s3_credentials.json"
+    }
 
 DEFAULT_PC_SETTINGS = {
     "infoLocation"       : r'C:/Users/keena/Desktop/Milivault/scraper',
