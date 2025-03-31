@@ -33,6 +33,10 @@ def main():
         logging.error("Error setting up user managers.")
         return
 
+    # Logging and counter managers
+    log_print = managers.get("log_print")
+    counter = managers.get("counter")
+
     # Load JSON selectors
     json_manager = managers.get('jsonManager')
     if not json_manager:
@@ -60,7 +64,8 @@ def main():
     
     # Create the URL list to compare new URLs to
     try:
-        comparison_list = managers['rdsManager'].create_comparison_list()
+        selected_sources = [site['source_name'] for site in selected_sites]
+        comparison_list = managers['rdsManager'].create_comparison_list(selected_sources)
     except Exception as e:
         logging.error(f"Error constructing url_comparison_list: {e}")
         return
@@ -76,6 +81,7 @@ def main():
         except Exception as e:
             logging.error(f"Error processing site {selected_site['source_name']}: {e}")
 
+    log_print.final_summary(selected_sites, counter)
     logging.info("Processing completed.")
 
 if __name__ == "__main__":

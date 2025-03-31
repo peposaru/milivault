@@ -61,7 +61,7 @@ class AwsRdsManager:
         """
         self._execute_query(query, params)
 
-    def create_comparison_list(self):
+    def create_comparison_list(self, source_names):
         """
         Fetch all existing URLs from the database for comparison.
 
@@ -69,8 +69,12 @@ class AwsRdsManager:
             dict: A dictionary with URLs as keys and (title, price, available, description, price_history) as values.
         """
         try:
-            all_url_query = "SELECT url, title, price, available, description, price_history FROM militaria;"
-            all_url_query_result = self.fetch(all_url_query)  # Fetch all rows
+            all_url_query = """
+                SELECT url, title, price, available, description, price_history 
+                FROM militaria 
+                WHERE site = ANY(%s);
+            """
+            all_url_query_result = self.fetch(all_url_query, (source_names,))
             
             if not all_url_query_result:
                 logging.warning("No data fetched from the database.")

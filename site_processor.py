@@ -23,8 +23,7 @@ class SiteProcessor:
     def site_processor_main(self, comparison_list, selected_site):
         # site_profile is all the site selectors for one the selected site
         try:
-            site_profile = self.jsonManager.json_unpacker(selected_site)
-            logging.debug(f'SITE PROCESSOR: Source: {selected_site['source_name']} site_profile loaded.')
+            site_profile = self.jsonManager.json_unpacker(selected_site)   
         except Exception as e:
             logging.error(f"SITE PROCESSOR: Failed to load site_profile: {e}")
 
@@ -35,6 +34,13 @@ class SiteProcessor:
         except Exception as e:
             logging.error(f"SITE PROCESSOR: Error base_url: {e}")
 
+        self.log_print.newInstance(
+            source=site_profile["source_name"],
+            productsPage=base_url,
+            runCycle=site_profile.get("run_availability_check", False),
+            productsProcessed=self.counter.get_total_count()
+            ) 
+        
         # Reset configs for new site
         self.counter.set_continue_state_true()
         self.counter.reset_current_page_count()
@@ -56,8 +62,15 @@ class SiteProcessor:
             try:
                 products_list_page_soup = self.html_manager.parse_html(products_list_page)
                 if not products_list_page_soup:
-                    logging.warning(f"SITE PROCESSOR: Skipping page due to failed fetch: {products_list_page}")
+                    logging.warning(f"SITE PROCESSOR: Empty/fetch failed for page: {products_list_page}")
                     self.counter.set_continue_state_false()
+                    self.log_print.terminating(
+                        source=site_profile["source_name"],
+                        consecutiveMatches=self.counter.get_current_page_count(),
+                        targetMatch=site_profile.get("targetMatch", 1),
+                        runCycle=site_profile.get("run_availability_check", False),
+                        productsProcessed=self.counter.get_total_count()
+                    )
                     break
                 logging.debug(f'SITE PROCESSOR: products_list_page_soup loaded.')
             except Exception as e:
@@ -131,7 +144,13 @@ class SiteProcessor:
 
 
         logging.info(f"SITE PROCESSOR: Finished processing site: {site_profile['source_name']}")
-        logging.info(f"SITE PROCESSOR: Total products processed: {self.counter.get_total_count()}")
+        self.log_print.terminating(
+            source=site_profile["source_name"],
+            consecutiveMatches=self.counter.get_current_page_count(),
+            targetMatch=site_profile.get("targetMatch", 1),
+            runCycle=site_profile.get("run_availability_check", False),
+            productsProcessed=self.counter.get_total_count()
+        )
         return
 
 
