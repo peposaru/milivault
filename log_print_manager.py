@@ -68,7 +68,7 @@ class log_print:
         
         self._log_lines([
             ("TIMESTAMP", current_datetime),
-            ("SITES PROCESSED", ", ".join(processed_sites)),
+            ("SITES PROCESSED", ", ".join(site["source_name"] for site in processed_sites)),
             ("TOTAL PRODUCTS", counter.get_total_count()),
             ("NEW PRODUCTS", counter.get_new_products_count()),
             ("OLD PRODUCTS", counter.get_old_products_count()),

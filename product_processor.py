@@ -65,15 +65,22 @@ class ProductTileDictProcessor:
                     logging.error(f"PRODUCT PROCESSOR: Error unpacking comparison data for URL {url}: {e}")
                     continue
 
-                # If both db_price and tile price are empty, treat them as equal
-                if db_available is True and available is True and float(price) == 0.0 and float(db_price) > 0:
-                    price_match = True
-                else:
-                    price_match = (self.is_empty_price(db_price) and self.is_empty_price(price)) or (db_price == price)
-
-                # **Fix: Allow price to be None if item is marked as sold**
+                # Determine price match logic
                 if db_available == False and available == False and self.is_empty_price(price):
-                    price_match = True  # Ignore price mismatch when the item is sold
+                    price_match = True
+                    logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
+                elif self.is_empty_price(db_price) and not self.is_empty_price(price):
+                    price_match = False
+                    tile_product_dict["force_details_process"] = True
+                    logging.debug(f"PRODUCT PROCESSOR: [FORCE PROCESS] DB has 0 price, tile has value → DB={db_price}, TILE={price}")
+                else:
+                    try:
+                        price_match = float(db_price) == float(price)
+                        if not price_match:
+                            logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
+                    except (TypeError, ValueError):
+                        price_match = False
+                        logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
 
                 # Check for exact matches of title, price, and availability
                 if title == db_title and price_match:
@@ -100,18 +107,18 @@ class ProductTileDictProcessor:
 
             logging.info(
                 f"""
-                ======== Product Summary ========
-                URL                  : {url}
-                DB Title             : {db_title if 'db_title' in locals() else 'N/A'}
-                Tile Title           : {tile_product_dict['title']}
-                DB Price             : {db_price if 'db_price' in locals() else 'N/A'}
-                Tile Price           : {tile_product_dict['price']}
-                DB Availability      : {db_available if 'db_available' in locals() else 'N/A'}
-                Tile Availability    : {tile_product_dict['available']}
-                ==================================
-                Product Category     : {product_category}
-                Reason               : {reason}
-                ==================================
+======== Product Summary ========
+URL                  : {url}
+DB Title             : {db_title if 'db_title' in locals() else 'N/A'}
+Tile Title           : {tile_product_dict['title']}
+DB Price             : {db_price if 'db_price' in locals() else 'N/A'}
+Tile Price           : {tile_product_dict['price']}
+DB Availability      : {db_available if 'db_available' in locals() else 'N/A'}
+Tile Availability    : {tile_product_dict['available']}
+==================================
+Product Category     : {product_category}
+Reason               : {reason}
+==================================
                 """
             )
 
@@ -121,6 +128,7 @@ class ProductTileDictProcessor:
         logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed): {ignored_update_count}')
 
         return processing_required_list, availability_update_list
+
 
 
     def is_empty_price(self, value):
@@ -173,7 +181,7 @@ class ProductDetailsProcessor:
         # Iterate through all the products needing processing
         for product in processing_required_list:
             product_url = product.get('url')
-            logging.debug(f'PRODUCT PROCESSOR: ******PRODUCT CHANGE******')
+            logging.debug(f'PRODUCT PROCESSOR: ******************PRODUCT CHANGE******************')
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
             # Create beautiful soup for deciphering HTML / CSS
@@ -210,7 +218,7 @@ class ProductDetailsProcessor:
                 continue
 
             # Process new products
-            if product_url not in self.comparison_list:
+            if product_url not in self.comparison_list or product.get("force_new_upload"):
                 logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as new.")
                 self.counter.add_new_product_count()
 
@@ -241,32 +249,32 @@ class ProductDetailsProcessor:
             logging.info('PRODUCT PROCESS: Starting data cleaning process...')
             logging.info(
                 f"""
-                ====== Data Cleaning Summary ======
-                Pre-clean URL                : {details_data.get('url')}
-                Post-clean URL               : {clean_details_data.get('url')}
-                Pre-clean Title              : {details_data.get('title')}
-                Post-clean Title             : {clean_details_data.get('title')}
-                Pre-clean Description        : {details_data.get('description')}
-                Post-clean Description       : {clean_details_data.get('description')}
-                Pre-clean Price              : {details_data.get('price')}
-                Post-clean Price             : {clean_details_data.get('price')}
-                Pre-clean Availability       : {details_data.get('available')}
-                Post-clean Availability      : {clean_details_data.get('available')}
-                Pre-clean Image URLs         : {details_data.get('original_image_urls')}
-                Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
-                Pre-clean Nation             : {details_data.get('nation_site_designated')}
-                Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
-                Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
-                Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
-                Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
-                Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
-                Pre-clean Extracted ID       : {details_data.get('extracted_id')}
-                Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
-                Pre-clean Grade              : {details_data.get('grade')}
-                Post-clean Grade             : {clean_details_data.get('grade')}
-                Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
-                Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
-                ===================================
+====== Data Cleaning Summary ======
+Pre-clean URL                : {details_data.get('url')}
+Post-clean URL               : {clean_details_data.get('url')}
+Pre-clean Title              : {details_data.get('title')}
+Post-clean Title             : {clean_details_data.get('title')}
+Pre-clean Description        : {details_data.get('description')}
+Post-clean Description       : {clean_details_data.get('description')}
+Pre-clean Price              : {details_data.get('price')}
+Post-clean Price             : {clean_details_data.get('price')}
+Pre-clean Availability       : {details_data.get('available')}
+Post-clean Availability      : {clean_details_data.get('available')}
+Pre-clean Image URLs         : {details_data.get('original_image_urls')}
+Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
+Pre-clean Nation             : {details_data.get('nation_site_designated')}
+Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
+Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
+Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
+Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
+Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
+Pre-clean Extracted ID       : {details_data.get('extracted_id')}
+Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
+Pre-clean Grade              : {details_data.get('grade')}
+Post-clean Grade             : {clean_details_data.get('grade')}
+Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
+Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
+===================================
                 """
             )
         except Exception as e:

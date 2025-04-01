@@ -12,10 +12,10 @@ from html_manager import HtmlManager
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
-      "infoLocation"  : "/home/ec2-user/projects/milivault/",
-      "pgAdminCred"   : "/home/ec2-user/projects/milivault/credentials/pgadminCredentials.json",
-      "selectorJson"  : "/home/ec2-user/projects/milivault/site-json/",
-      "s3Cred"        : "/home/ec2-user/projects/milivault/credentials/s3_credentials.json"
+    "infoLocation"       : "/home/ec2-user/milivault/",
+    "pgAdminCred"        : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
+    "selectorJsonFolder" : "/home/ec2-user/milivault/site-json/",
+    "s3Cred"             : "/home/ec2-user/milivault/credentials/s3_credentials.json"
     }
 
 DEFAULT_PC_SETTINGS = {
@@ -187,60 +187,6 @@ Choose the type of inventory check:
             sleeptime = 15 * 60
 
         return pages_to_check, sleeptime, settings, run_availability_check, test_json
-
-# Below uses the source name to display the sites to the user.
-
-# # Which sites does the user want to process?
-# def site_choice(jsonData):
-#     """Displays site choices in a column format and handles user selection."""
-    
-#     # Determine terminal width and calculate formatting
-#     term_width = shutil.get_terminal_size((80, 20)).columns  # Default to 80 if size can't be determined
-#     max_name_length = max(len(site['json_desc']) for site in jsonData)
-#     padding = 5
-#     col_width = max_name_length + padding
-#     num_columns = max(1, term_width // col_width)  # Ensure at least 1 column
-#     num_rows = (len(jsonData) + num_columns - 1) // num_columns  # Round up for uneven rows
-
-#     # Display available sites in column format
-#     print("\nAvailable sites:")
-#     for row in range(num_rows):
-#         row_sites = []
-#         for col in range(num_columns):
-#             idx = row + col * num_rows
-#             if idx < len(jsonData):
-#                 row_sites.append(f"{idx + 1:>3}. {jsonData[idx]['json_desc']:<{max_name_length}}")
-#         print(" | ".join(row_sites))
-
-#     # User selection loop
-#     while True:
-#         try:
-#             choice = input("\nSelect sites to scrape (e.g., '1,3-5,7'): ").strip()
-            
-#             if not choice:
-#                 print("Please enter a valid selection.")
-#                 continue
-
-#             selected_indices = set()
-#             for part in choice.split(','):
-#                 if '-' in part:
-#                     start, end = map(int, part.split('-'))
-#                     if start > end:
-#                         raise ValueError(f"Invalid range: {start}-{end}")
-#                     selected_indices.update(range(start - 1, end))  # Convert to 0-based index
-#                 else:
-#                     selected_indices.add(int(part) - 1)
-
-#             # Ensure all selected indices are within valid range
-#             if any(idx < 0 or idx >= len(jsonData) for idx in selected_indices):
-#                 raise ValueError("One or more indices are out of range.")
-
-#             selected_sites = [jsonData[idx] for idx in sorted(selected_indices)]
-#             return selected_sites
-
-#         except ValueError as e:
-#             print(f"SETTINGS MANAGER: Invalid selection: {e}. Please try again.")
-
 
 def site_choice(all_sites):
     """Display working and non-working sites with notes, and handle user selection."""

@@ -71,18 +71,27 @@ def main():
         return
 
     # Main processing loop
-    for selected_site in selected_sites:
-        print(f"Processing site: {selected_site['source_name']}")
-        logging.info(f"Processing site: {selected_site['source_name']}")
+    while True:
+        for selected_site in selected_sites:
+            logging.info(f"Processing site: {selected_site['source_name']}")
 
-        try:
-            managers['siteprocessor'].site_processor_main(comparison_list, selected_site)
-            logging.info(f"Successfully processed site: {selected_site['source_name']}")
-        except Exception as e:
-            logging.error(f"Error processing site {selected_site['source_name']}: {e}")
+            try:
+                managers['siteprocessor'].site_processor_main(comparison_list, selected_site)
+                logging.info(f"Successfully processed site: {selected_site['source_name']}")
+            except Exception as e:
+                logging.error(f"Error processing site {selected_site['source_name']}: {e}")
 
-    log_print.final_summary(selected_sites, counter)
-    logging.info("Processing completed.")
+        log_print.final_summary(selected_sites, counter)
+        logging.info("Processing completed.")
+        sleep_duration = user_settings.get("sleeptime")
+        if sleep_duration:
+            logging.info(f"Sleeping for {sleep_duration} seconds before next cycle...")
+            sleep(sleep_duration)
+        else:
+            logging.info("No sleep time configured. Exiting loop.")
+            log_print.final_summary(selected_sites, counter)
+            break        
 
+    
 if __name__ == "__main__":
     main()
