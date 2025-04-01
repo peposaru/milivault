@@ -165,3 +165,14 @@ def regex(value, config):
     except Exception as e:
         logging.error(f"Regex post-process error: {e}")
         return None
+
+def set(_value, arg):
+    """
+    Always return the value specified in `arg`, ignoring input.
+    Example: If arg=True, this will always return True.
+    """
+    return arg
+
+def from_url(original_text, arg=None):
+    """Returns the product URL for further post-processing."""
+    return arg if isinstance(arg, str) else ""

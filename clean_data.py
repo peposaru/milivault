@@ -264,7 +264,7 @@ class CleanData:
                 if available in ["true", "yes", "in stock", "available", "1", '1 in stock','stock in-stock']:
                     logging.debug("CLEAN AVAILABLE: Interpreted as available string → True")
                     return True
-                elif available in ["false", "no", "sold", "unavailable", "out of stock", "0", "Out of stock", "Sold", "Sold out", "Sold Out", "SOLD OUT", "SOLD"]:
+                elif available in ["false", "no", "sold", "unavailable", "out of stock", "0", "Out of stock", "Sold", "Sold out", "Sold Out", "SOLD OUT", "SOLD","Sold out"]:
                     logging.debug("CLEAN AVAILABLE: Interpreted as unavailable string → False")
                     return False
 

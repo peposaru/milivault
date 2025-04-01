@@ -160,6 +160,6 @@ class JsonTester:
                 logging.error(f"JSON TESTER: Failed to load profile: {e}")
                 continue
 
-            products_page_url = 'https://www.warsendshop.com/collections/all-axis-items'
-            product_details_url = 'https://www.warsendshop.com/collections/all-axis-items/products/siemens-desk-hand-lamp-arbeitsdienst'
+            products_page_url = 'https://stewartsmilitaryantiques.com/search_products.php?row=0&search_for='
+            product_details_url = 'https://stewartsmilitaryantiques.com/insignia-cloth-us-rank-shoulder-straps-chevrons-us-wwi-quartermaster-corps-pfc-sleeve-insignia-wool.40097.111.military-antiques'
             self.test_site_profile(products_page_url, product_details_url, site_profile)

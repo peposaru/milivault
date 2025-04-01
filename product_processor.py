@@ -450,7 +450,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
 
     def extract_data(self, soup, method, args, kwargs, attribute, config=None):
         try:
-            logging.debug(f"EXTRACT DATA: method={method}, args={args}, kwargs={kwargs}, attribute={attribute}")
+            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: method={method}, args={args}, kwargs={kwargs}, attribute={attribute}")
 
             # Handle has_attr checks
             if method == "has_attr" and args:
@@ -460,40 +460,40 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
                     result = " ".join(attr_value)
                 else:
                     result = attr_value or ""
-                logging.debug(f"EXTRACT DATA: has_attr result → {result}")
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: has_attr result → {result}")
                 return result
 
             # Call method like .find(), .find_all(), etc.
             element = getattr(soup, method)(*args, **kwargs)
             if not element:
-                logging.debug("EXTRACT DATA: Element not found.")
+                logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Element not found.")
                 return None
 
             # If checking presence only
             if config is None and attribute is None:
-                logging.debug("EXTRACT DATA: Presence-based selector → returning element.")
+                logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Presence-based selector → returning element.")
                 return element
 
             # Extract text if requested
             if config and config.get("extract") == "text":
                 text = element.get_text(strip=True)
-                logging.debug(f"EXTRACT DATA: Extracted text → {text}")
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → {text}")
                 return text
 
             # Extract attribute if specified
             if attribute:
                 attr_val = element.get(attribute, "").strip()
-                logging.debug(f"EXTRACT DATA: Extracted attribute '{attribute}' → {attr_val}")
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute '{attribute}' → {attr_val}")
                 return attr_val
 
             # If still a tag, extract text
             if hasattr(element, "get_text"):
                 text = element.get_text(strip=True)
-                logging.debug(f"EXTRACT DATA: Default tag text → {text}")
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → {text}")
                 return text
 
             # Fallback to string conversion
-            logging.debug(f"EXTRACT DATA: Fallback str() → {str(element)}")
+            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Fallback str() → {str(element)}")
             return str(element)
 
         except Exception as e:
@@ -642,19 +642,36 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
     def extract_details_availability(self, soup):
         """
         Extract availability and apply post-processing if defined.
+        Supports static booleans: true/false.
         """
         try:
             selector_config = self.site_profile.get("product_details_selectors", {}).get("details_availability", {})
+
+            # 🔁 Static boolean values
+            if selector_config is True:
+                logging.debug("PRODUCT PROCESSOR: Availability hardcoded as True in JSON.")
+                return True
+            elif selector_config is False:
+                logging.debug("PRODUCT PROCESSOR: Availability hardcoded as False in JSON.")
+                return False
+            elif isinstance(selector_config, str):
+                if selector_config.lower() == "true":
+                    logging.debug("PRODUCT PROCESSOR: Availability string 'true' treated as True.")
+                    return True
+                elif selector_config.lower() == "false":
+                    logging.debug("PRODUCT PROCESSOR: Availability string 'false' treated as False.")
+                    return False
+
+            # Proceed with extraction if it's a dict (selector object)
             method = selector_config.get("method", "find")
             args = selector_config.get("args", [])
             kwargs = selector_config.get("kwargs", {})
             attribute = selector_config.get("attribute")
 
             raw_value = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
-
             logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {raw_value}")
 
-            # Apply post-processing
+            # Post-process
             if raw_value and "post_process" in selector_config:
                 import post_processors as post_processors
                 for func_name, arg in selector_config["post_process"].items():
@@ -662,16 +679,15 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
                     if func:
                         raw_value = func(raw_value, arg) if not isinstance(arg, bool) else func(raw_value)
 
-            # Convert to boolean if not already
             if isinstance(raw_value, bool):
                 return raw_value
 
-            # Fallback check
             return raw_value.strip().lower() == "in stock" if isinstance(raw_value, str) else False
 
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting availability: {e}")
             return None
+
 
 
     def extract_details_image_url(self, soup):
