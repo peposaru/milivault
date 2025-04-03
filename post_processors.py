@@ -1,6 +1,9 @@
 
 import re
 import logging
+import json
+from bs4 import BeautifulSoup
+from html_manager import HtmlManager
 
 def prepend(value, prefix):
     if not value:
@@ -176,3 +179,58 @@ def set(_value, arg):
 def from_url(original_text, arg=None):
     """Returns the product URL for further post-processing."""
     return arg if isinstance(arg, str) else ""
+
+def rg_militaria_hidden_price(value, config):
+    """Post-process function to extract hidden price from rg-militaria"""
+    try:
+        logging.info("POST PROCESS: [rg_militaria_hidden_price] Start fallback price check")
+
+        # 1. Check if current price is valid
+        try:
+            cleaned = re.sub(r"[^\d\.]", "", str(value))
+            if cleaned and float(cleaned) > 0:
+                logging.info(f"POST PROCESS: [rg_militaria_hidden_price] Existing price is valid: {cleaned}")
+                return cleaned
+        except Exception:
+            logging.warning("POST PROCESS: [rg_militaria_hidden_price] Could not validate current price format")
+
+        # 2. Check if fallback is enabled
+        if not config.get("fallback", False):
+            logging.info("POST PROCESS: [rg_militaria_hidden_price] Fallback not enabled in config")
+            return value
+
+        # 3. Validate URL
+        url = config.get("url")
+        if not url:
+            logging.warning("POST PROCESS: [rg_militaria_hidden_price] No URL provided in config for fallback fetch")
+            return value
+
+        logging.info(f"POST PROCESS: [rg_militaria_hidden_price] Fetching HTML from {url}")
+        html = HtmlManager().parse_html(url)
+        if not html:
+            logging.warning("POST PROCESS: [rg_militaria_hidden_price] Failed to fetch HTML; returning original value")
+            return value
+
+        soup = BeautifulSoup(html, "html.parser")
+
+        # 4. Try meta price first
+        meta_price = soup.find("meta", attrs={"itemprop": "price"})
+        if meta_price and meta_price.get("content"):
+            extracted = meta_price["content"].strip()
+            logging.info(f"POST PROCESS: [rg_militaria_hidden_price] Found hidden price in meta tag: {extracted}")
+            return extracted
+
+        # 5. Optionally check visible span if meta fails
+        span_price = soup.find("span", class_="product__price__price")
+        if span_price:
+            extracted = span_price.get_text(strip=True)
+            logging.info(f"POST PROCESS: [rg_militaria_hidden_price] Found hidden price in span: {extracted}")
+            return extracted
+
+        # 6. Final fallback
+        logging.info("POST PROCESS: [rg_militaria_hidden_price] No hidden price found; returning original value")
+        return value
+
+    except Exception as e:
+        logging.error(f"POST PROCESS: [rg_militaria_hidden_price] Error: {e}")
+        return value

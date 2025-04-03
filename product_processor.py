@@ -3,6 +3,7 @@ from clean_data import CleanData
 import image_extractor
 from datetime import datetime
 from decimal import Decimal
+import post_processors as post_processors
 
 
 # This will handle the dictionary of data extracted from the tile on the products page tile.
@@ -181,7 +182,10 @@ class ProductDetailsProcessor:
         # Iterate through all the products needing processing
         for product in processing_required_list:
             product_url = product.get('url')
-            logging.debug(f'PRODUCT PROCESSOR: ******************PRODUCT CHANGE******************')
+            logging.debug(f"""PRODUCT PROCESSOR: 
+**************************************************              
+******************PRODUCT CHANGE******************
+**************************************************""")
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
             # Create beautiful soup for deciphering HTML / CSS
@@ -582,7 +586,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
             return None
 
 
-    def extract_details_price(self, soup):
+    def extract_details_price(self, soup, product_url):
         """
         Extract and optionally post-process the product price from the details page.
         """
@@ -598,10 +602,13 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
 
             # Apply post-processing if defined
             if raw_price and "post_process" in selector_config:
-                import post_processors as post_processors
                 for func_name, arg in selector_config["post_process"].items():
                     func = getattr(post_processors, func_name, None)
                     if func:
+                        # Inject context if needed
+                        if isinstance(arg, dict):
+                            arg["soup"] = soup
+                            arg["url"] = product_url  # assumes self.product_url is set in advance
                         raw_price = func(raw_price, arg) if not isinstance(arg, bool) else func(raw_price)
 
             return str(raw_price) if raw_price else "0"
@@ -869,7 +876,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
                 "url": product_url,
                 "title": self.extract_details_title(product_url_soup) if sel.get("details_title") else None,
                 "description": self.extract_details_description(product_url_soup) if sel.get("details_description") else None,
-                "price": self.extract_details_price(product_url_soup) if sel.get("details_price") else "0",
+                "price": self.extract_details_price(product_url_soup, product_url) if sel.get("details_price") else "0",
                 "available": self.extract_details_availability(product_url_soup) if sel.get("details_availability") else None,
                 "original_image_urls": self.extract_details_image_url(product_url_soup) if sel.get("details_image_url") else [],
                 "nation_site_designated": self.extract_details_nation(product_url_soup) if sel.get("details_nation") else None,

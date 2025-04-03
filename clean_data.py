@@ -184,6 +184,8 @@ class CleanData:
             ValueError: If the price cannot be parsed or is invalid.
         """
         import logging
+        import re
+        from bs4 import BeautifulSoup
 
         try:
             if price is None:
@@ -195,6 +197,11 @@ class CleanData:
                 raise ValueError("Price must be a string or None.")
 
             logging.debug(f"CLEAN PRICE: Raw input → {price}")
+
+            # Extract visible text from HTML if present
+            soup = BeautifulSoup(price, "html.parser")
+            price = soup.get_text(strip=True)
+            logging.debug(f"CLEAN PRICE: After stripping HTML → {price}")
 
             # Remove known phrases
             unwanted_phrases = ["NEW PRICE", "Non-EU Price", "PRICE", "excl. VAT"]
@@ -215,7 +222,7 @@ class CleanData:
                 else:
                     price = price.replace(",", "")
             elif "," in price:
-                price = price.replace(",", ".")
+                price = price.replace(",", "")
             logging.debug(f"CLEAN PRICE: Normalized number format → {price}")
 
             # Extract numeric part
@@ -234,6 +241,7 @@ class CleanData:
         except Exception as e:
             logging.error(f"CLEAN PRICE: Failed to clean price: {price} ({e})")
             raise
+
 
 
     @staticmethod
