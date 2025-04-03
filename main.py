@@ -62,6 +62,9 @@ def main():
         json_tester = JsonTester(managers)
         json_tester.main(selected_sites)
     
+    # How many empty pages to tolerate before stopping
+    targetMatch = user_settings.get("targetMatch")
+    
     # Create the URL list to compare new URLs to
     try:
         selected_sources = [site['source_name'] for site in selected_sites]
@@ -76,7 +79,7 @@ def main():
             logging.info(f"Processing site: {selected_site['source_name']}")
 
             try:
-                managers['siteprocessor'].site_processor_main(comparison_list, selected_site)
+                managers['siteprocessor'].site_processor_main(comparison_list, selected_site, targetMatch)
                 logging.info(f"Successfully processed site: {selected_site['source_name']}")
             except Exception as e:
                 logging.error(f"Error processing site {selected_site['source_name']}: {e}")

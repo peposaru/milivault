@@ -1,7 +1,8 @@
 class ProductsCounter:
     def __init__(self):
         self.reset_all_counts()
-        self.empty_page_tolerance = 5
+        # empty_page_tolerance has been replaced by targetMatch but need to double check it first
+        #self.empty_page_tolerance = 5
         self.continue_state = None
 
     def reset_all_counts(self):
@@ -91,12 +92,12 @@ class ProductsCounter:
     def get_empty_page_count(self):
         return self.empty_page_count
 
-    def get_empty_page_tolerance(self):
-        return self.empty_page_tolerance
+    # def get_empty_page_tolerance(self):
+    #     return self.empty_page_tolerance
 
-    def check_empty_page_tolerance(self):
-        if self.empty_page_count >= self.empty_page_tolerance:
-            self.set_continue_state_false()
+    # def check_empty_page_tolerance(self):
+    #     if self.empty_page_count >= self.empty_page_tolerance:
+    #         self.set_continue_state_false()
 
     # --- Availability & Processing ---
     def get_availability_update_count(self):

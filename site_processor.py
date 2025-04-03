@@ -20,12 +20,18 @@ class SiteProcessor:
         self.counter             = managers.get('counter')
         self.html_manager        = managers.get('html_manager')
 
-    def site_processor_main(self, comparison_list, selected_site):
+    def site_processor_main(self, comparison_list, selected_site, targetMatch):
         # site_profile is all the site selectors for one the selected site
         try:
             site_profile = self.jsonManager.json_unpacker(selected_site)   
         except Exception as e:
             logging.error(f"SITE PROCESSOR: Failed to load site_profile: {e}")
+
+        # Load the targetMatch
+        try:
+            logging.info(f"SITE PROCESSOR: Running with targetMatch = {targetMatch}")
+        except Exception as e:
+            logging.error(f"SITE PROCESSOR: Failed to load targetMatch: {e}")
 
         # Get the base url from the json profile config
         try:
@@ -67,7 +73,7 @@ class SiteProcessor:
                     self.log_print.terminating(
                         source=site_profile["source_name"],
                         consecutiveMatches=self.counter.get_current_page_count(),
-                        targetMatch=site_profile.get("targetMatch", 1),
+                        targetMatch = targetMatch,
                         runCycle=site_profile.get("run_availability_check", False),
                         productsProcessed=self.counter.get_total_count()
                     )
@@ -78,6 +84,7 @@ class SiteProcessor:
                 self.counter.set_continue_state_false()
                 break
 
+            # This is where the loop will break if the page is empty or has no products.
             # Create a list of the product tiles on the given product page
             try:
                 products_tile_list = self.construct_products_tile_list(products_list_page_soup,site_profile)
@@ -88,7 +95,7 @@ class SiteProcessor:
                     self.log_print.terminating(
                         source=site_profile["source_name"],
                         consecutiveMatches=self.counter.get_current_page_count(),
-                        targetMatch=site_profile.get("targetMatch", 1),  # Default fallback
+                        targetMatch = targetMatch,
                         runCycle=site_profile.get("run_availability_check", False),
                         productsProcessed=self.counter.get_total_count()
                     )
@@ -118,6 +125,7 @@ class SiteProcessor:
 
             try:
                 product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list)
+                # I don't remember why I made output but maybe it will come to me later.
                 output = product_details_processor.product_details_processor_main(processing_required_list)
 
             except Exception as e:
@@ -135,14 +143,10 @@ class SiteProcessor:
 
 
             # Check to see if we have hit multiple empty product pages and possibly terminate
-            if self.empty_page_check(processing_required_list, availability_update_list):
+            if self.empty_page_check(processing_required_list, availability_update_list, targetMatch):
                 logging.debug("SITE PROCESSOR: Exiting site_processor_main.")
                 break
-
-            time.sleep(0)
-            
-
-
+                
         logging.info(f"SITE PROCESSOR: Finished processing site: {site_profile['source_name']}")
         self.log_print.terminating(
             source=site_profile["source_name"],
@@ -151,6 +155,7 @@ class SiteProcessor:
             runCycle=site_profile.get("run_availability_check", False),
             productsProcessed=self.counter.get_total_count()
         )
+
         return
 
 
@@ -176,33 +181,7 @@ class SiteProcessor:
         except Exception as e:
             logging.warning(f"SITE PROCESSOR: Error during construct_products_list_directory: {site_profile['source_name']}, Error: {e}")
 
-    # Create a list of all of the product tiles on given page.
-    # def construct_products_tile_list(self, products_list_page_soup, site_profile):
-    #     try:
-    #         # Extract product selectors from the site profile
-    #         product_selectors = site_profile.get("product_selectors", {})
-            
-    #         # Get this site's configurations / selectors to scrape the product tiles
-    #         tiles_config        = product_selectors.get("tiles", {})
-    #         tiles_config_method = tiles_config.get("method", "find_all")
-    #         tiles_config_args   = tiles_config.get("args", [])
-    #         tiles_config_kwargs = tiles_config.get("kwargs", {})
-            
-    #         # Create a list of all product tiles
-    #         product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
-            
-    #         # Filter out tiles that don't contain essential data (e.g., a valid URL or title)
-    #         valid_tiles = [
-    #             tile for tile in product_tiles 
-    #             if self.is_tile_valid(tile, site_profile.get("product_tile_selectors", {}))
-    #         ]
-            
-    #         logging.debug(f"SITE PROCESSOR: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
-    #         return valid_tiles
 
-    #     except Exception as e:
-    #         logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
-    #         return []
     def construct_products_tile_list(self, products_list_page_soup, site_profile):
         try:            
             # Extract product selectors from the site profile
@@ -276,26 +255,28 @@ class SiteProcessor:
 
 
     
-    def empty_page_check(self, processing_required_list, availability_update_list):
-        # If the program detects X pages in a row that are empty, stop processing site 
+    def empty_page_check(self, processing_required_list, availability_update_list, targetMatch):
         if len(processing_required_list) == 0 and len(availability_update_list) == 0:
             self.counter.add_empty_page_count()
-            self.counter.check_empty_page_tolerance()
-            logging.info("SITE PROCESSOR: No products require further processing. Stopping site processing.")
-            logging.info(
-    f"""
-    ====== Processing Summary ======
-    Total Products Count       : {self.counter.get_total_count()}
-    New Products Count         : {self.counter.get_new_products_count()}
-    Old Products Count         : {self.counter.get_old_products_count()}
-    Sites Processed Count      : {self.counter.get_sites_processed_count()}
-    Current Page Count         : {self.counter.get_current_page_count()}
-    Availability Updates Count : {self.counter.get_availability_update_count()}
-    Processing Required Count  : {self.counter.get_processing_required_count()}
-    ================================
-    """
-)
-            self.counter.set_continue_state_false()
+
+            if self.counter.get_empty_page_count() >= targetMatch:
+                self.counter.set_continue_state_false()
+                logging.info("SITE PROCESSOR: No products require further processing. Stopping site processing.")
+                logging.info(
+                    f"""
+====== Processing Summary ======
+Total Products Count       : {self.counter.get_total_count()}
+New Products Count         : {self.counter.get_new_products_count()}
+Old Products Count         : {self.counter.get_old_products_count()}
+Sites Processed Count      : {self.counter.get_sites_processed_count()}
+Current Page Count         : {self.counter.get_current_page_count()}
+Availability Updates Count : {self.counter.get_availability_update_count()}
+Processing Required Count  : {self.counter.get_processing_required_count()}
+===============================
+                    """
+                )
+                return True  # ← this is important for the caller to `break`
+        return False
 
 
 
