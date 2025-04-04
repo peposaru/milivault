@@ -173,18 +173,10 @@ class CleanData:
     def clean_price(price):
         """
         Cleans and normalizes price strings to a float.
-
-        Args:
-            price (str or None): The raw price string to clean.
-
-        Returns:
-            float or None: The cleaned price as a float, or None if the input is None.
-
-        Raises:
-            ValueError: If the price cannot be parsed or is invalid.
+        Handles mixed formats: US, European, currency symbols, HTML wrappers.
         """
-        import logging
         import re
+        import logging
         from bs4 import BeautifulSoup
 
         try:
@@ -193,54 +185,42 @@ class CleanData:
                 return None
 
             if not isinstance(price, str):
-                logging.error("CLEAN PRICE: Price must be a string or None.")
-                raise ValueError("Price must be a string or None.")
+                raise ValueError("CLEAN PRICE: Price must be a string.")
 
             logging.debug(f"CLEAN PRICE: Raw input → {price}")
 
-            # Extract visible text from HTML if present
-            soup = BeautifulSoup(price, "html.parser")
-            price = soup.get_text(strip=True)
+            # Step 1: Remove HTML if present
+            price = BeautifulSoup(price, "html.parser").get_text(strip=True)
             logging.debug(f"CLEAN PRICE: After stripping HTML → {price}")
 
-            # Remove known phrases
-            unwanted_phrases = ["NEW PRICE", "Non-EU Price", "PRICE", "excl. VAT"]
-            for phrase in unwanted_phrases:
-                if phrase in price:
-                    price = price.replace(phrase, "")
-            logging.debug(f"CLEAN PRICE: After removing phrases → {price}")
+            # Step 2: Remove known phrases and currency symbols
+            currency_symbols = ["$", "€", "£", "Kč", "USD", "EUR", ",-"]
+            for symbol in currency_symbols:
+                price = price.replace(symbol, "")
+            price = price.replace("\u00A0", "").replace(" ", "")
+            logging.debug(f"CLEAN PRICE: After removing currency/symbols/spaces → {price}")
 
-            # Remove currency symbols
-            price = re.sub(r"[€$£]", "", price)
-            price = price.replace(" ", "")
-            logging.debug(f"CLEAN PRICE: After removing symbols/spaces → {price}")
-
-            # Handle different number formats
-            if "," in price and "." in price:
-                if price.index(",") > price.index("."):
-                    price = price.replace(".", "").replace(",", ".")
-                else:
-                    price = price.replace(",", "")
-            elif "," in price:
+            # Step 3: Normalize separators
+            if re.match(r'^\d{1,3}(\.\d{3})*,\d{2}$', price):  # e.g., 1.375,00
+                price = price.replace(".", "").replace(",", ".")
+            elif re.match(r'^\d{1,3}(,\d{3})*\.\d{2}$', price):  # e.g., 1,375.00
                 price = price.replace(",", "")
-            logging.debug(f"CLEAN PRICE: Normalized number format → {price}")
+            elif "," in price and "." not in price:  # e.g., 350,00
+                price = price.replace(",", ".")
+            logging.debug(f"CLEAN PRICE: Normalized format → {price}")
 
-            # Extract numeric part
+            # Step 4: Extract number
             match = re.search(r"\d+(\.\d+)?", price)
-            if match:
-                numeric_price = match.group(0)
-            else:
-                logging.warning(f"CLEAN PRICE: Could not parse numeric portion from → {price}")
-                raise ValueError(f"Could not parse price: {price}")
-
-            # Convert to float
-            result = float(numeric_price)
+            if not match:
+                raise ValueError(f"Could not parse numeric portion from → {price}")
+            result = float(match.group(0))
             logging.debug(f"CLEAN PRICE: Final numeric value → {result}")
             return result
 
         except Exception as e:
             logging.error(f"CLEAN PRICE: Failed to clean price: {price} ({e})")
             raise
+
 
 
 
