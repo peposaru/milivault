@@ -1,6 +1,7 @@
 import os
 import logging
 import shutil
+import subprocess
 
 from aws_rds_manager import AwsRdsManager
 from json_manager import JsonManager
@@ -117,8 +118,12 @@ Choose your settings:
 1. Amazon RDS Settings
 2. Personal Computer Settings
 3. Custom Settings
-""")
-        choice = input("Enter the number corresponding to your choice (1/2/3): ").strip()
+4. Run Tests Only
+5. Run Coverage Report Only
+6. Run Tests + Coverage
+7. Test JSON Profiles
+    """)
+        choice = input("Enter the number corresponding to your choice (1–7): ").strip()
 
         settings = {}
 
@@ -132,22 +137,36 @@ Choose your settings:
 
         elif choice == '3':
             print("Custom settings selected.")
-            # Prompt user for custom settings
-            settings["infoLocation"]  = input("Enter the directory path for configuration files (e.g., /path/to/config/): ").strip()
-            settings["pgAdminCred"]   = input("Enter the name of the pgAdmin credentials file (e.g., pgadminCredentials.json): ").strip()
-            settings["selectorJsonFolder"]  = input("Enter the name of the JSON selector file (e.g., AWS_MILITARIA_SELECTORS.json): ").strip()
-            settings["s3Cred"]        = input("Enter the name of the S3 credentials file (e.g., s3_credentials.json): ").strip()
+            settings["infoLocation"]  = input("Enter the directory path for configuration files: ").strip()
+            settings["pgAdminCred"]   = input("Enter the name of the pgAdmin credentials file: ").strip()
+            settings["selectorJsonFolder"]  = input("Enter the name of the JSON selector file: ").strip()
+            settings["s3Cred"]        = input("Enter the name of the S3 credentials file: ").strip()
 
-            # Validate the directory exists
-            if not os.path.exists(settings["infoLocation"]):
-                print(f"Error: The directory {settings['infoLocation']} does not exist.")
-                logging.error(f"SETTINGS MANAGER: Invalid directory entered: {settings['infoLocation']}")
-                exit()
+        elif choice == '4':
+            print("Running tests only...")
+            subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_scraper.bat", shell=True)
+            continue  
 
-            return settings
+        elif choice == '5':
+            print("Running coverage report only...")
+            subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\coverage_report.bat", shell=True)
+            continue  
+
+        elif choice == '6':
+            print("Running tests with coverage...")
+            subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_and_coverage.bat", shell=True)
+            continue  
+
+        elif choice == '7':
+            print("Testing JSON profiles...")
+            subprocess.call([
+                "pytest",
+                r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_json_config_structure.py"
+            ])
+            continue
 
         else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+            print("Invalid choice. Please enter a number from 1 to 6.")
 
 
         # Second question: Select check type

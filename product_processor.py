@@ -103,8 +103,19 @@ class ProductTileDictProcessor:
             else:
                 # Add new products not in the database to the full processing list
                 processing_required_list.append(tile_product_dict)
+
+                # Add to comparison list so future tiles in this session don’t treat it as new
+                self.comparison_list[url] = (
+                    title,
+                    price,
+                    available,
+                    "",   # description is not yet known, add placeholder or None
+                    [],   # price history also not known yet
+                )
+
                 reason = "New product"
                 self.counter.add_processing_required_count(1)
+
 
             logging.info(
                 f"""

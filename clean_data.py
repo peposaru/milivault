@@ -121,7 +121,7 @@ class CleanData:
         try:
             if description is None:
                 logging.debug("CLEAN DESCRIPTION: Description is None.")
-                description = "MISSING DESCRIPTION"
+                description = None
                 return description
             
             if not isinstance(description, str):
@@ -207,6 +207,8 @@ class CleanData:
                 price = price.replace(",", "")
             elif "," in price and "." not in price:  # e.g., 350,00
                 price = price.replace(",", ".")
+            elif re.match(r'^\d+\.\d{3}$', price):  # e.g., 1.400 should be 1400
+                price = price.replace(".", "")
             logging.debug(f"CLEAN PRICE: Normalized format → {price}")
 
             # Step 4: Extract number

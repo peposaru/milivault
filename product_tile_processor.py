@@ -13,7 +13,7 @@ class TileProcessor:
         ensuring all required fields are populated and no duplicates are added.
         """
         tile_product_data = []
-        seen_products = set()  # To track unique URLs
+        seen_products = set()  
         clean_data = CleanData()
 
         for product_tile in products_tile_list:
@@ -30,7 +30,7 @@ class TileProcessor:
                 if clean_product_tile_url in seen_products:
                     logging.debug(f"TILE PROCESSOR: Skipped duplicate URL early → {clean_product_tile_url}")
                     continue
-                seen_products.add(clean_product_tile_url)  # Mark as seen before doing further processing
+                seen_products.add(clean_product_tile_url) 
 
                 # Extract and clean title
                 product_tile_title = self.extract_tile_title(product_tile)
