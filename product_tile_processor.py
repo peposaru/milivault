@@ -15,6 +15,8 @@ class TileProcessor:
         tile_product_data = []
         seen_products = set()  
         clean_data = CleanData()
+        skipped_duplicate_urls = set()
+
 
         for product_tile in products_tile_list:
             try:
@@ -28,7 +30,7 @@ class TileProcessor:
 
                 # Remove duplicate URLs immediately
                 if clean_product_tile_url in seen_products:
-                    logging.debug(f"TILE PROCESSOR: Skipped duplicate URL early → {clean_product_tile_url}")
+                    skipped_duplicate_urls.add(clean_product_tile_url)
                     continue
                 seen_products.add(clean_product_tile_url) 
 
@@ -36,28 +38,21 @@ class TileProcessor:
                 product_tile_title = self.extract_tile_title(product_tile)
                 if not product_tile_title:
                     logging.debug(f"TILE PROCESSOR: Raw extracted title → {product_tile_title}")
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing title: {product_tile_url}")
                     continue
                 clean_product_tile_title = clean_data.clean_title(product_tile_title.strip())
 
                 # Extract and clean price
                 product_tile_price = self.extract_tile_price(product_tile)
-
-                if not product_tile_price:
-                    logging.debug(f"TILE PROCESSOR: Missing price, leaving as None: {product_tile_url}")
-                    clean_product_tile_price = None  # Keeps price unchanged in DB if missing
-                else:
-                    clean_product_tile_price = clean_data.clean_price(product_tile_price.strip())  # Only strip if not None
+                clean_product_tile_price = (
+                    clean_data.clean_price(product_tile_price.strip())
+                    if product_tile_price else None
+                )
 
                 # Extract and clean availability
                 clean_product_tile_available = self.extract_tile_available(product_tile)
                 if clean_product_tile_available is None:
                     logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile_url}")
                     continue
-
-                # Print tile for debugging
-                tile_preview = str(product_tile).strip().splitlines()[0][:500]
-                logging.debug(f"TILE PROCESSOR: Product tile preview: {tile_preview}...")
 
                 # Construct the product dictionary and add it to the final list
                 product_dict = {
@@ -66,21 +61,22 @@ class TileProcessor:
                     "price"    : clean_product_tile_price,
                     "available": clean_product_tile_available
                 }
+
                 logging.info(
                     f"""
-                    ======== TILE PRODUCT SUMMARY ========
-                    Raw URL            : {product_tile_url}
-                    Cleaned URL        : {clean_product_tile_url}
+======== TILE PRODUCT SUMMARY ========
+Raw URL            : {product_tile_url}
+Cleaned URL        : {clean_product_tile_url}
 
-                    Raw Title          : {product_tile_title}
-                    Cleaned Title      : {clean_product_tile_title}
+Raw Title          : {product_tile_title}
+Cleaned Title      : {clean_product_tile_title}
 
-                    Raw Price          : {product_tile_price}
-                    Cleaned Price      : {clean_product_tile_price}
+Raw Price          : {product_tile_price}
+Cleaned Price      : {clean_product_tile_price}
 
-                    Raw Availability   : {product_tile.get('class')}
-                    Cleaned Availability: {clean_product_tile_available}
-                    ======================================
+Raw Availability   : {product_tile.get('class')}
+Cleaned Availability: {clean_product_tile_available}
+======================================
                     """
                 )
 
@@ -89,6 +85,12 @@ class TileProcessor:
             except Exception as e:
                 tile_preview = str(product_tile).strip().splitlines()[0][:500]
                 logging.debug(f"TILE PROCESSOR: Product tile preview: {tile_preview}...")
+
+        # Final deduplicated log of skipped URLs
+        if skipped_duplicate_urls:
+            logging.info("TILE PROCESSOR: Skipped duplicate URLs (deduplicated list):")
+            for url in sorted(skipped_duplicate_urls):
+                logging.info(f"  → {url}")
 
         return tile_product_data
 
