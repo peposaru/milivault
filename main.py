@@ -10,7 +10,6 @@ from json_tester import JsonTester
 
 def main():
     initialize_logging()
-
     # Get user settings before starting
     user_settings = load_user_settings()
     if not user_settings:

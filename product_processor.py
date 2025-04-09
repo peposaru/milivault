@@ -1,9 +1,10 @@
-import logging, json, pprint
+import logging, json, pprint, re
 from clean_data import CleanData
 import image_extractor
 from datetime import datetime
 from decimal import Decimal
 import post_processors as post_processors
+from post_processors import normalize_input, apply_post_processors
 
 
 # This will handle the dictionary of data extracted from the tile on the products page tile.
@@ -266,9 +267,6 @@ class ProductDetailsProcessor:
 
         logging.debug(f"PRODUCT PROCESSOR: Processing completed for {len(processing_required_list)} products.")
 
-
-        
-
     def new_product_processor(self, clean_details_data, details_data):
         """
         Insert new product data into the database and mark it as in_db in the comparison list.
@@ -340,7 +338,6 @@ class ProductDetailsProcessor:
                 logging.debug(f"PRODUCT PROCESSOR: Created new comparison_list entry for {url} with in_db=True")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error updating comparison_list for {clean_details_data.get('url')}: {e}")
-
 
     def old_product_processor(self, clean_details_data):
         """
@@ -505,63 +502,67 @@ class ProductDetailsProcessor:
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error inserting new product {url}: {e}")
 
-
     def extract_data(self, soup, method, args, kwargs, attribute, config=None):
+        from post_processors import normalize_input
+
         try:
             logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: method={method}, args={args}, kwargs={kwargs}, attribute={attribute}")
 
-            # Handle has_attr checks
+            # Special case: check if attribute exists
             if method == "has_attr" and args:
                 attr_name = args[0]
                 attr_value = soup.get(attr_name)
-                if isinstance(attr_value, list):
-                    result = " ".join(attr_value)
-                else:
-                    result = attr_value or ""
+                result = " ".join(attr_value) if isinstance(attr_value, list) else attr_value or ""
+                result = normalize_input(result)
                 logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: has_attr result → {result}")
                 return result
 
-            # Call method like .find(), .find_all(), etc.
+            # Perform the extraction (e.g., soup.find(...))
             element = getattr(soup, method)(*args, **kwargs)
             if not element:
                 logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Element not found.")
                 return None
 
-            # If checking presence only
-            if config is None and attribute is None:
-                logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Presence-based selector → returning element.")
-                return element
+            # --- Text or attribute extraction ---
 
-            # Extract text if requested
+            # Config says extract text explicitly
             if config and config.get("extract") == "text":
-                text = element.get_text(strip=True)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → {text}")
-                return text
+                result = element.get_text(strip=True)
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → {result}")
+                return result
 
-            # Extract attribute if specified
+            # Config says extract raw HTML
+            if config and config.get("extract") == "html":
+                result = str(element)
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted HTML → {result[:100]}...")
+                return result
+
+            # Extract specific attribute
             if attribute:
                 attr_val = element.get(attribute, "").strip()
                 logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute '{attribute}' → {attr_val}")
                 return attr_val
 
-            # If still a tag, extract text
+            # Default: get text from tag
             if hasattr(element, "get_text"):
-                text = element.get_text(strip=True)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → {text}")
-                return text
+                result = element.get_text(strip=True)
+                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → {result}")
+                return result
 
             # Fallback to string conversion
-            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Fallback str() → {str(element)}")
-            return str(element)
+            result = str(element).strip()
+            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Fallback str() → {result}")
+            return result
 
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting data: {e}")
             return None
 
 
+
     def extract_details_title(self, soup):
         """
-        Extract and optionally post-process the product title from the details page.
+        Extract and post-process the product title from the details page using the configured selectors.
         """
         try:
             selector_config = self.site_profile.get("product_details_selectors", {}).get("details_title", {})
@@ -570,28 +571,24 @@ class ProductDetailsProcessor:
             kwargs = selector_config.get("kwargs", {})
             attribute = selector_config.get("attribute")
 
-            # Extract raw value using the generic extractor
+            # Extract raw value
             title = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
 
-            # Fallback: if title is still a tag, get its text
-            if hasattr(title, "get_text"):
-                logging.warning("EXTRACT DETAILS TITLE: Received tag instead of text, auto-converting with .get_text()")
-                title = title.get_text(strip=True)
+            # Normalize early
+            from post_processors import normalize_input, apply_post_processors
+            title = normalize_input(title)
 
-            # Apply post-processing if defined
+            # Apply post-processing using central dispatcher
             if title and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        title = func(title, arg) if not isinstance(arg, bool) else func(title)
+                title = apply_post_processors(title, selector_config["post_process"])
 
             logging.debug(f"EXTRACT DETAILS TITLE: Final value → {title}")
-            return title
+            return title if title else None
 
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting title: {e}")
             return None
+
 
 
 
@@ -606,7 +603,7 @@ class ProductDetailsProcessor:
             kwargs = selector_config.get("kwargs", {})
             attribute = selector_config.get("attribute")
 
-            # Submethod support (nested find)
+            # Submethod logic stays as-is
             submethod = selector_config.get("submethod")
             element = getattr(soup, method)(*args, **kwargs)
 
@@ -626,18 +623,19 @@ class ProductDetailsProcessor:
                     else element.get_text(strip=True) if element else None
                 )
 
-            # Post-processing if defined
-            if description and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        description = func(description, arg) if not isinstance(arg, bool) else func(description)
+            # Normalize value
+            description = normalize_input(description)
 
-            return description
+            # Apply post-processing using dispatcher
+            if description and "post_process" in selector_config:
+                description = apply_post_processors(description, selector_config["post_process"])
+
+            return description if description else None
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting description: {e}")
             return None
+
 
 
     def extract_details_price(self, soup, product_url):
@@ -654,21 +652,25 @@ class ProductDetailsProcessor:
             # Extract raw value
             raw_price = self.extract_data(soup, method, args, kwargs, attribute)
 
+            # Normalize input
+            raw_price = normalize_input(raw_price)
+
             # Apply post-processing if defined
             if raw_price and "post_process" in selector_config:
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        # Inject context if needed
-                        if isinstance(arg, dict):
-                            arg["soup"] = soup
-                            arg["url"] = product_url  # assumes self.product_url is set in advance
-                        raw_price = func(raw_price, arg) if not isinstance(arg, bool) else func(raw_price)
+                # Inject soup and URL if the function needs context
+                for key, arg in selector_config["post_process"].items():
+                    if isinstance(arg, dict):
+                        arg.setdefault("soup", soup)
+                        arg.setdefault("url", product_url)
+
+                raw_price = apply_post_processors(raw_price, selector_config["post_process"])
 
             return str(raw_price) if raw_price else "0"
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting price: {e}")
             return "0"
+
 
 
     def process_price_updates(clean_details_data, db_price, db_price_history, now):
@@ -678,7 +680,7 @@ class ProductDetailsProcessor:
         Args:
             clean_details_data (dict): The new product details data.
             db_price (Decimal): The existing price in the database.
-            db_price_history (list): The existing price history (if any).
+            db_price_history (list|str): The existing price history, as list or JSON string.
             now (str): The current timestamp.
 
         Returns:
@@ -686,29 +688,46 @@ class ProductDetailsProcessor:
         """
         updates = {}
 
-        # Check if the price has changed
-        if clean_details_data.get('price') != float(db_price):
-            # Update price
-            new_price = clean_details_data.get('price')
-            updates['price'] = new_price
+        new_price = clean_details_data.get('price')
 
-            # Initialize or update the price history
-            updated_price_history = db_price_history or []
-            updated_price_history.append({'price': float(db_price), 'date': now})
-            updates['price_history'] = json.dumps(updated_price_history)
+        # Normalize db_price_history if it's a string
+        if isinstance(db_price_history, str):
+            try:
+                db_price_history = json.loads(db_price_history)
+            except Exception:
+                db_price_history = []
+
+        if new_price is not None:
+            try:
+                if float(new_price) != float(db_price):
+                    # Update price
+                    updates['price'] = new_price
+
+                    # Avoid storing invalid old prices
+                    if db_price not in (None, 0.0):
+                        updated_price_history = db_price_history or []
+                        updated_price_history.append({
+                            'price': float(db_price),
+                            'date': now
+                        })
+                        updates['price_history'] = json.dumps(updated_price_history)
+
+            except Exception as e:
+                logging.warning(f"PRODUCT PROCESSOR: Failed to compare or update price → {e}")
 
         return updates
+
 
 
     def extract_details_availability(self, soup):
         """
         Extract availability and apply post-processing if defined.
-        Supports static booleans: true/false.
+        Supports static values and post-processing logic.
         """
         try:
             selector_config = self.site_profile.get("product_details_selectors", {}).get("details_availability", {})
 
-            # 🔁 Static boolean values
+            # Static hardcoded config support
             if selector_config is True:
                 logging.debug("PRODUCT PROCESSOR: Availability hardcoded as True in JSON.")
                 return True
@@ -716,14 +735,15 @@ class ProductDetailsProcessor:
                 logging.debug("PRODUCT PROCESSOR: Availability hardcoded as False in JSON.")
                 return False
             elif isinstance(selector_config, str):
-                if selector_config.lower() == "true":
+                val = selector_config.strip().lower()
+                if val == "true":
                     logging.debug("PRODUCT PROCESSOR: Availability string 'true' treated as True.")
                     return True
-                elif selector_config.lower() == "false":
+                elif val == "false":
                     logging.debug("PRODUCT PROCESSOR: Availability string 'false' treated as False.")
                     return False
 
-            # Proceed with extraction if it's a dict (selector object)
+            # Selector-based extraction
             method = selector_config.get("method", "find")
             args = selector_config.get("args", [])
             kwargs = selector_config.get("kwargs", {})
@@ -732,22 +752,26 @@ class ProductDetailsProcessor:
             raw_value = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
             logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {raw_value}")
 
-            # Post-process
-            if raw_value and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        raw_value = func(raw_value, arg) if not isinstance(arg, bool) else func(raw_value)
+            # Normalize before processing
+            raw_value = normalize_input(raw_value)
 
+            # Apply post-processing if defined
+            if raw_value and "post_process" in selector_config:
+                raw_value = apply_post_processors(raw_value, selector_config["post_process"])
+
+            # Final interpretation
             if isinstance(raw_value, bool):
                 return raw_value
+            if isinstance(raw_value, str):
+                return raw_value.lower() in ("true", "yes", "available", "in stock", "add to cart")
 
-            return raw_value.strip().lower() == "in stock" if isinstance(raw_value, str) else False
+            # Fallback default
+            return False
 
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting availability: {e}")
-            return None
+            return False
+
 
 
 
@@ -765,7 +789,7 @@ class ProductDetailsProcessor:
             # Fetch the function name from the JSON profile
             image_extractor_function_version = self.site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
 
-            # ✅ Ensure it's a string before calling .lower()
+            # Ensure it's a string before calling .lower()
             if isinstance(image_extractor_function_version, str) and image_extractor_function_version.lower() == "skip":
                 return []
 
@@ -801,20 +825,62 @@ class ProductDetailsProcessor:
             logging.error(f"PRODUCT PROCESSOR: Unexpected error in extract_details_image_url: {e}")
             return []
 
-
+    # This is just a placeholder
     def extract_details_nation(self, soup):
         """
-        Extract the nation information from the product page.
-        Currently not implemented in the JSON, returns None.
+        Extract the nation information from the product page using configured selectors.
         """
-        return None  # Placeholder as the nation field is not defined in the JSON profile
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_nation", {})
+            if not selector_config:
+                return None
 
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            raw_nation = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            raw_nation = normalize_input(raw_nation)
+
+            if raw_nation and "post_process" in selector_config:
+                raw_nation = apply_post_processors(raw_nation, selector_config["post_process"])
+
+            return raw_nation if raw_nation else None
+
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting nation: {e}")
+            return None
+
+    # This is just a placeholder
     def extract_details_conflict(self, soup):
         """
-        Extract the conflict information from the product page.
-        Currently not implemented in the JSON, returns None.
+        Extract the conflict information from the product page using configured selectors.
         """
-        return None  # Placeholder as the conflict field is not defined in the JSON profile
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_conflict", {})
+            if not selector_config:
+                return None
+
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            raw_conflict = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            raw_conflict = normalize_input(raw_conflict)
+
+            if raw_conflict and "post_process" in selector_config:
+                raw_conflict = apply_post_processors(raw_conflict, selector_config["post_process"])
+
+            return raw_conflict if raw_conflict else None
+
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting conflict: {e}")
+            return None
+
 
     def extract_details_item_type(self, soup):
         """
@@ -829,17 +895,17 @@ class ProductDetailsProcessor:
 
             item_type = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
 
+            item_type = normalize_input(item_type)
+
             if item_type and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        item_type = func(item_type, arg) if not isinstance(arg, bool) else func(item_type)
+                item_type = apply_post_processors(item_type, selector_config["post_process"])
 
             return item_type if item_type else None
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting item type: {e}")
             return None
+
 
 
     def extract_details_extracted_id(self, soup):
@@ -848,32 +914,53 @@ class ProductDetailsProcessor:
         """
         try:
             selector_config = self.site_profile.get("product_details_selectors", {}).get("details_extracted_id", {})
-            method          = selector_config.get("method", "find")
-            args            = selector_config.get("args", [])
-            kwargs          = selector_config.get("kwargs", {})
-            attribute       = selector_config.get("attribute")
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
 
             extracted_id = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
 
+            extracted_id = normalize_input(extracted_id)
+
             if extracted_id and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        extracted_id = func(extracted_id, arg) if not isinstance(arg, bool) else func(extracted_id)
+                extracted_id = apply_post_processors(extracted_id, selector_config["post_process"])
 
             return extracted_id if extracted_id else None
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting extracted_id: {e}")
             return None
 
 
+    # This is just a placeholder
     def extract_details_grade(self, soup):
         """
-        Extract the grade information from the product page.
-        Currently not implemented in the JSON, returns None.
+        Extract the grade information from the product page using selectors and post-processing.
         """
-        return None  # Placeholder as the grade field is not defined in the JSON profile
+        try:
+            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_grade", {})
+            if not selector_config:
+                return None
+
+            method = selector_config.get("method", "find")
+            args = selector_config.get("args", [])
+            kwargs = selector_config.get("kwargs", {})
+            attribute = selector_config.get("attribute")
+
+            grade = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+
+            grade = normalize_input(grade)
+
+            if grade and "post_process" in selector_config:
+                grade = apply_post_processors(grade, selector_config["post_process"])
+
+            return grade if grade else None
+
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error extracting grade: {e}")
+            return None
+
         
     def extract_details_site_categories(self, soup):
         """
@@ -888,41 +975,51 @@ class ProductDetailsProcessor:
 
             categories = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
 
-            # Apply post-processing
+            categories = normalize_input(categories)
+
             if categories and "post_process" in selector_config:
-                import post_processors as post_processors
-                for func_name, arg in selector_config["post_process"].items():
-                    func = getattr(post_processors, func_name, None)
-                    if func:
-                        categories = func(categories, arg) if not isinstance(arg, bool) else func(categories)
+                categories = apply_post_processors(categories, selector_config["post_process"])
 
             return categories if categories else []
+
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error extracting site categories: {e}")
             return []
 
+
         
     def parse_details_config(self, selector_key):
         """
-        Returns full selector config, including method/args/kwargs/attribute and post_process.
+        Extracts and returns detailed selector configuration.
+
+        Args:
+            selector_key (str): The key for the selector in the JSON profile (e.g., "details_title")
+
+        Returns:
+            tuple: (method, args, kwargs, attribute, full_config)
         """
         try:
-            selector_config = self.details_selectors.get(selector_key, {})
+            config = self.details_selectors.get(selector_key)
+            if config is None:
+                logging.debug(f"PRODUCT PROCESSOR: No selector config found for key: {selector_key}")
+                return None, None, None, None, {}
 
             return (
-                selector_config.get("method", "find"),
-                selector_config.get("args", []),
-                selector_config.get("kwargs", {}),
-                selector_config.get("attribute"),
-                selector_config  # full config including post_process
+                config.get("method", "find"),
+                config.get("args", []),
+                config.get("kwargs", {}),
+                config.get("attribute"),
+                config
             )
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error parsing configuration for {selector_key}: {e}")
             return None, None, None, None, {}
 
 
+
         
     def construct_details_data(self, product_url, product_url_soup):
+        # Shortcut to avoid repeating self.details_selectors.get(...)
         sel = self.details_selectors  
         try:
             data = {
@@ -991,21 +1088,25 @@ class ProductDetailsProcessor:
             "categories_site_designated": clean_data.clean_categories,
         }
 
-        # Apply the corresponding cleaning function to each key
         cleaned_data = {}
         for key, value in details_data.items():
             if key in cleaning_functions:
-                cleaned_data[key] = cleaning_functions[key](value)
+                if key == "available" and isinstance(value, bool):
+                    cleaned_value = value  # Avoid double-cleaning
+                else:
+                    cleaned_value = cleaning_functions[key](value)
+                cleaned_data[key] = cleaned_value
             else:
-                cleaned_data[key] = value  # Preserve keys that don't have cleaning functions
+                cleaned_data[key] = value  # Preserve unrecognized fields
 
-        # Add additional data like site and currency
+        # Add consistent metadata
         cleaned_data.update({
-            "site": self.site_profile['source_name'],
-            "currency": self.site_profile.get("access_config", {}).get("currency_code"),
+            "site": self.site_profile.get('source_name', 'unknown'),
+            "currency": self.site_profile.get("access_config", {}).get("currency_code", "usd"),
         })
 
         return cleaned_data
+
     
     def convert_decimal_to_float(self,data):
         """
@@ -1029,3 +1130,19 @@ class ProductDetailsProcessor:
     def is_empty_price(self, value):
         """Check if a price is empty (None, 0, 0.0, or an empty string)."""
         return value is None or value == 0 or value == 0.0 or value == ""
+    
+    def cast(value, config):
+        value = normalize_input(value)
+        if config == "float":
+            try:
+                return float(re.sub(r"[^\d.]", "", value))
+            except Exception as e:
+                logging.warning(f"POST PROCESS: Failed cast to float: {e}")
+                return value
+        return value
+    
+
+    def strip_list(value, config=None):
+        if isinstance(value, list):
+            return [str(v).strip() for v in value]
+        return value

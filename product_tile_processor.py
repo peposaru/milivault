@@ -2,6 +2,7 @@ import logging
 from clean_data import CleanData
 import post_processors as post_processors
 from urllib.parse import urlparse
+from post_processors import normalize_input, apply_post_processors
 
 class TileProcessor:
     def __init__(self, site_profile):
@@ -159,6 +160,11 @@ class TileProcessor:
 
 
     def extract_tile_url(self, product_tile):
+        """
+        Extracts and post-processes the product detail URL from a tile.
+
+        Filters known invalid or non-product URLs using both exact match and substring rules.
+        """
         try:
             method, args, kwargs, attribute, config = self.parse_tile_config("details_url")
             product_url = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
@@ -168,41 +174,44 @@ class TileProcessor:
                 product_url = self.apply_post_processing(product_url, config)
                 logging.debug(f"TILE PROCESSOR: Post-processed URL: {product_url}")
 
-            # 🚫 Skip known non-product URLs
-            invalid_urls = set([
-                "/", "#", "#MainContent", "", None
-            ])
-
-            # Add base_url (e.g. homepage) to skip list
-            base_url = self.site_profile.get("base_url")
-            if base_url:
-                invalid_urls.add(base_url.rstrip("/"))
-                invalid_urls.add(base_url.rstrip("/") + "/")
-
-            # Add known irrelevant full URLs (keep minimal and generalize later)
-            invalid_urls.update([
-                "https://militariaplaza.nl/new/dirAsc",
-                "https://militariaplaza.nl/new/dirAsc/results,1-1",
-                "https://militariaplaza.nl/archive-38/dirAsc"
-            ])
-
-            # Normalize before checking
             if product_url:
                 product_url = product_url.strip()
 
+            # 🚫 Known invalid URLs
+            base_url = self.site_profile.get("base_url", "").rstrip("/")
+            invalid_urls = {
+                "/", "#", "#MainContent", "", None,
+                base_url, base_url + "/", base_url + "/#"
+            }
+
             if product_url in invalid_urls:
-                #logging.debug(f"TILE PROCESSOR: Skipping non-product URL: {product_url}")
+                logging.debug(f"TILE PROCESSOR: Skipping known invalid URL: {product_url}")
                 return None
 
-            if product_url and product_url.startswith("http"):
+            # 🚫 Custom full URL skips
+            CUSTOM_BAD_URLS = {
+                "https://militariaplaza.nl/archive-38/dirAsc/results,1-1",
+                "https://militariaplaza.nl/archive-38/dirAsc",  # Optional additional one
+                # Add more full URLs as needed
+            }
+
+            if product_url in CUSTOM_BAD_URLS:
+                logging.debug(f"TILE PROCESSOR: Skipping custom bad full URL: {product_url}")
+                return None
+
+            # ✅ Valid final URL
+            if product_url.startswith("http"):
                 logging.info(f"TILE Extracted product URL: {product_url}")
                 return product_url
-            else:
-                return None
+
+            return None
 
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error extracting product URL: {e}")
             return None
+
+
+
 
         
 
@@ -214,7 +223,10 @@ class TileProcessor:
         try:
             config = self.site_profile_tile_selectors.get("tile_availability")
 
-            # 🚨 Static override
+            # ✅ Handle raw string overrides
+            if isinstance(config, bool):
+                return config
+
             if isinstance(config, str):
                 if config.strip().lower() == "true":
                     return True
@@ -227,10 +239,16 @@ class TileProcessor:
             kwargs = config.get("kwargs", {})
             attribute = config.get("attribute")
 
+            # ✅ Extract raw value
             value = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
-            value = self.apply_post_processing(value, config)
 
-            # ✅ Handle known availability strings
+            # ✅ Normalize and post-process
+            value = normalize_input(value)
+
+            if "post_process" in config:
+                value = apply_post_processors(value, config["post_process"])
+
+            # ✅ Interpret boolean and known string values
             if isinstance(value, bool):
                 return value
 
@@ -241,7 +259,7 @@ class TileProcessor:
                 if val in ("false", "no", "sold out", "unavailable", "out of stock"):
                     return False
 
-            # ✅ Use fallback logic
+            # ✅ Fallback logic
             if self.is_product_available(product_tile):
                 logging.debug("TILE PROCESSOR: Fallback availability = True")
                 return True
@@ -251,7 +269,7 @@ class TileProcessor:
                 return False
 
             logging.debug("TILE PROCESSOR: No availability info. Defaulting to True.")
-            return True  # ← safer default
+            return True
 
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error determining product stock status: {e}")

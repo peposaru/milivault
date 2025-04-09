@@ -119,7 +119,6 @@ class CleanData:
         Raises:
             ValueError: If the description is not a string or is empty.
         """
-        import logging
 
         try:
             if description is None:
@@ -259,7 +258,6 @@ class CleanData:
                 logging.debug("CLEAN PRICE: Price is None.")
                 return None
 
-            # Accept numbers and cast to string
             if isinstance(price_string, (int, float)):
                 price_string = str(price_string)
 
@@ -269,6 +267,13 @@ class CleanData:
             price_raw = price_string
             price_string = BeautifulSoup(price_string, "html.parser").get_text(strip=True)
             logging.debug(f"CLEAN PRICE: Stripped text → {price_string}")
+
+            # Minimal fix for malformed input like '$1.250.00'
+            if price_string.count(".") > 1 and price_string.count(",") == 0:
+                # Assume format like 1.250.00 → 1250.00
+                parts = price_string.split(".")
+                price_string = "".join(parts[:-1]) + "." + parts[-1]
+                logging.debug(f"CLEAN PRICE: Corrected malformed dot-format → {price_string}")
 
             from price_parser import Price
             price = Price.fromstring(price_string)
@@ -286,10 +291,6 @@ class CleanData:
         except Exception as e:
             logging.error(f"CLEAN PRICE: Exception while parsing '{price_string}': {e}")
             raise
-
-
-
-
 
     @staticmethod
     def clean_available(available):

@@ -7,20 +7,43 @@ from html_manager import HtmlManager
 
 # A universal way to apply post-processors to a value.
 def apply_post_processors(value, post_process_config):
+    """
+    Apply a series of post-processing operations to a value.
+
+    Supports:
+    - Direct keys like "strip": true
+    - Structured type logic like "type": "contains"
+    """
     if not isinstance(post_process_config, dict):
-        return value  # fail-safe
+        return value
 
     for func_name, arg in post_process_config.items():
+        # 🔑 Structured logic: "type": "contains"
         if func_name == "type":
+            if arg == "contains":
+                return find_text_contains(value, post_process_config)
+            elif arg == "regex":
+                return regex(value, post_process_config)
+            return value  # fail silently for unknown type
+
+        # 🚫 Skip config-only keys used inside type-based processors
+        if func_name in {"value", "if_true", "if_false", "case_insensitive", "pattern", "fallback", "url"}:
             continue
 
+        # 🔁 Apply classic function-style post-processors (e.g. "strip": true)
         func = globals().get(func_name)
         if callable(func):
             try:
                 value = func(value, arg) if arg is not True else func(value)
             except Exception as e:
                 logging.warning(f"POST PROCESSOR: Failed {func_name} → {e}")
+        else:
+            logging.warning(f"Post-process function '{func_name}' not found.")
+
     return value
+
+
+
 
 # Having a hard time since my post processors were disjointed.
 def normalize_input(value):
