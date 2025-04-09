@@ -61,7 +61,7 @@ class ProductTileDictProcessor:
             if url in self.comparison_list:
                 try:
                     # Unpack database values
-                    db_title, db_price, db_available, db_description, db_price_history = self.comparison_list[url]
+                    db_title, db_price, db_available, db_description, db_price_history, db_present = self.comparison_list[url]
                 except ValueError as e:
                     logging.error(f"PRODUCT PROCESSOR: Error unpacking comparison data for URL {url}: {e}")
                     continue
@@ -69,10 +69,12 @@ class ProductTileDictProcessor:
                 # Determine price match logic
                 if db_available == False and available == False and self.is_empty_price(price):
                     price_match = True
-                    logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
+                    # Products often have no price when sold out, so we ignore this case
+                    #logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
                 elif self.is_empty_price(db_price) and not self.is_empty_price(price):
                     price_match = False
                     tile_product_dict["force_details_process"] = True
+                    # It is unusual for a product to have a price when the DB has none, so we force details processing
                     logging.debug(f"PRODUCT PROCESSOR: [FORCE PROCESS] DB has 0 price, tile has value → DB={db_price}, TILE={price}")
                 else:
                     try:
@@ -111,6 +113,7 @@ class ProductTileDictProcessor:
                     available,
                     "",   # description is not yet known, add placeholder or None
                     [],   # price history also not known yet
+                    False, # new product so not in DB yet
                 )
 
                 reason = "New product"
@@ -187,19 +190,17 @@ class ProductDetailsProcessor:
         Returns:
             None
         """
-        # Debug start of processing
         logging.debug(f"PRODUCT PROCESSOR: Processing required list count: {len(processing_required_list)}")
 
-        # Iterate through all the products needing processing
         for product in processing_required_list:
             product_url = product.get('url')
             logging.debug(f"""PRODUCT PROCESSOR: 
-**************************************************              
-******************PRODUCT CHANGE******************
-**************************************************""")
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************""")
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
-            # Create beautiful soup for deciphering HTML / CSS
+            # Create BeautifulSoup object
             try:
                 product_url_soup = self.html_manager.parse_html(product_url)
                 logging.debug(f"PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.")
@@ -207,23 +208,32 @@ class ProductDetailsProcessor:
                 logging.error(f"PRODUCT PROCESSOR: Error parsing product URL {product_url}: {e}")
                 continue
 
-            # Does the product need image upload?
-            # try:
-            #     image_upload_required = not self.rds_manager.should_skip_image_upload(product_url)
-            #     logging.debug(f"Image upload required for {product_url}: {image_upload_required}")
-            # except Exception as e:
-            #     logging.error(f"Error determining image upload requirement for {product_url}: {e}")
-            #     continue
-
-            # Construct details data and clean data
+            # Construct details data
             try:
                 details_data = self.construct_details_data(product_url, product_url_soup)
+
+                tile_price = product.get("price")
+                _, db_price, _, _, _, db_present = self.comparison_list.get(product_url, ("", None, None, "", [], False))
+                cleaned_details_price = CleanData.clean_price(details_data.get("price"))
+
+                if (
+                    db_present and
+                    self.is_empty_price(cleaned_details_price) and
+                    self.is_empty_price(db_price) and
+                    not self.is_empty_price(tile_price)
+                ):
+                    logging.warning(
+                        f"PRODUCT PROCESSOR: Overriding missing cleaned details/DB price with tile price → {tile_price}"
+                    )
+                    details_data["price"] = tile_price
+
                 preview = pprint.pformat({k: str(v)[:200] for k, v in details_data.items()})
                 logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error constructing details data for {product_url}: {e}")
                 continue
 
+            # Clean the entire dataset
             try:
                 clean_details_data = self.construct_clean_details_data(details_data)
                 logging.debug(f"PRODUCT PROCESSOR: Constructed clean details data for {product_url}: {clean_details_data}")
@@ -232,8 +242,8 @@ class ProductDetailsProcessor:
                 logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
                 continue
 
-            # Process new products
-            if product_url not in self.comparison_list or product.get("force_new_upload"):
+            # New product
+            if not db_present or product.get("force_new_upload"):
                 logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as new.")
                 self.counter.add_new_product_count()
 
@@ -243,8 +253,8 @@ class ProductDetailsProcessor:
                 except Exception as e:
                     logging.error(f"PRODUCT PROCESSOR: Error processing new product {product_url}: {e}")
 
-            # Process old products
-            elif product_url in self.comparison_list:
+            # Existing product
+            else:
                 logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as old.")
                 self.counter.add_old_product_count()
 
@@ -255,49 +265,82 @@ class ProductDetailsProcessor:
                     logging.error(f"PRODUCT PROCESSOR: Error processing old product {product_url}: {e}")
 
         logging.debug(f"PRODUCT PROCESSOR: Processing completed for {len(processing_required_list)} products.")
+
+
         
 
     def new_product_processor(self, clean_details_data, details_data):
+        """
+        Insert new product data into the database and mark it as in_db in the comparison list.
 
-        # Log the cleaning process
+        Args:
+            clean_details_data (dict): Cleaned product data ready for DB.
+            details_data (dict): Raw extracted product data for logging.
+        """
         try:
             logging.info('PRODUCT PROCESS: Starting data cleaning process...')
             logging.info(
                 f"""
-====== Data Cleaning Summary ======
-Pre-clean URL                : {details_data.get('url')}
-Post-clean URL               : {clean_details_data.get('url')}
-Pre-clean Title              : {details_data.get('title')}
-Post-clean Title             : {clean_details_data.get('title')}
-Pre-clean Description        : {details_data.get('description')}
-Post-clean Description       : {clean_details_data.get('description')}
-Pre-clean Price              : {details_data.get('price')}
-Post-clean Price             : {clean_details_data.get('price')}
-Pre-clean Availability       : {details_data.get('available')}
-Post-clean Availability      : {clean_details_data.get('available')}
-Pre-clean Image URLs         : {details_data.get('original_image_urls')}
-Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
-Pre-clean Nation             : {details_data.get('nation_site_designated')}
-Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
-Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
-Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
-Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
-Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
-Pre-clean Extracted ID       : {details_data.get('extracted_id')}
-Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
-Pre-clean Grade              : {details_data.get('grade')}
-Post-clean Grade             : {clean_details_data.get('grade')}
-Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
-Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
-===================================
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : {details_data.get('url')}
+    Post-clean URL               : {clean_details_data.get('url')}
+    Pre-clean Title              : {details_data.get('title')}
+    Post-clean Title             : {clean_details_data.get('title')}
+    Pre-clean Description        : {details_data.get('description')}
+    Post-clean Description       : {clean_details_data.get('description')}
+    Pre-clean Price              : {details_data.get('price')}
+    Post-clean Price             : {clean_details_data.get('price')}
+    Pre-clean Availability       : {details_data.get('available')}
+    Post-clean Availability      : {clean_details_data.get('available')}
+    Pre-clean Image URLs         : {details_data.get('original_image_urls')}
+    Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
+    Pre-clean Nation             : {details_data.get('nation_site_designated')}
+    Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
+    Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
+    Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
+    Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
+    Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
+    Pre-clean Extracted ID       : {details_data.get('extracted_id')}
+    Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
+    Pre-clean Grade              : {details_data.get('grade')}
+    Post-clean Grade             : {clean_details_data.get('grade')}
+    Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
+    Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
+    ===================================
                 """
             )
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
-        # Insert the cleaned data into the database
-        self.rds_manager.new_product_input(clean_details_data)
-        return
+        # Insert into database
+        try:
+            self.rds_manager.new_product_input(clean_details_data)
+            logging.info(f"PRODUCT PROCESSOR: Inserted new product {clean_details_data.get('url')} into database.")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Failed to insert new product: {e}")
+            return  # Skip comparison list update if insert fails
+
+        # Update in-memory comparison list to mark as in DB
+        try:
+            url = clean_details_data.get("url")
+
+            if url in self.comparison_list:
+                old_entry = self.comparison_list[url]
+                self.comparison_list[url] = (*old_entry[:5], True)
+                logging.debug(f"PRODUCT PROCESSOR: Updated comparison_list entry for {url} to in_db=True")
+            else:
+                self.comparison_list[url] = (
+                    clean_details_data.get("title"),
+                    clean_details_data.get("price"),
+                    clean_details_data.get("available"),
+                    clean_details_data.get("description"),
+                    [],  # fresh price history
+                    True
+                )
+                logging.debug(f"PRODUCT PROCESSOR: Created new comparison_list entry for {url} with in_db=True")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error updating comparison_list for {clean_details_data.get('url')}: {e}")
+
 
     def old_product_processor(self, clean_details_data):
         """
@@ -314,7 +357,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
         if url in self.comparison_list:
             try:
                 # Unpack database values
-                db_title, db_price, db_available, db_description, db_price_history = self.comparison_list[url]
+                db_title, db_price, db_available, db_description, db_price_history, db_present = self.comparison_list[url]
 
                 updates = {}
                 now = datetime.now().isoformat()
@@ -880,8 +923,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
 
         
     def construct_details_data(self, product_url, product_url_soup):
-        sel = self.details_selectors  # shortcut for readability
-
+        sel = self.details_selectors  
         try:
             data = {
                 "url": product_url,
@@ -983,3 +1025,7 @@ Post-clean Site Categories   : {clean_details_data.get('categories_site_designat
             return float(data)
         else:
             return data
+        
+    def is_empty_price(self, value):
+        """Check if a price is empty (None, 0, 0.0, or an empty string)."""
+        return value is None or value == 0 or value == 0.0 or value == ""

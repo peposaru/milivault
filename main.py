@@ -1,19 +1,12 @@
 # Standard Library Modules
 import logging
-from datetime import datetime
 from time import sleep
-import os, sys
 
 # These are modules made for this program specifically.
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
-from site_processor import SiteProcessor
 from logging_manager import initialize_logging
 from json_tester import JsonTester
-def restart_program():
-    """Restarts the program from the beginning."""
-    logging.info("Restarting script...")
-    python = sys.executable
-    os.execv(python, [python] + sys.argv)  # Restart the script fully
+
 
 def main():
     initialize_logging()

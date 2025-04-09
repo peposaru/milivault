@@ -2,6 +2,9 @@ import re
 from html import unescape
 import html
 import logging
+from price_parser import Price
+from bs4 import BeautifulSoup
+
 
 class CleanData:
     @staticmethod
@@ -168,60 +171,122 @@ class CleanData:
             raise
 
 
+# This is the old version of clean_price. I am testing price_parser.
+    # @staticmethod
+    # def clean_price(price):
+    #     """
+    #     Cleans and normalizes price strings to a float.
+    #     Handles mixed formats: US, European, currency symbols, HTML wrappers.
+    #     """
+    #     import re
+    #     import logging
+    #     from bs4 import BeautifulSoup
+
+    #     try:
+    #         if price is None:
+    #             logging.debug("CLEAN PRICE: Price is None.")
+    #             return None
+
+    #         if not isinstance(price, str):
+    #             raise ValueError("CLEAN PRICE: Price must be a string.")
+
+    #         price_raw = price  # for logging/debug
+    #         logging.debug(f"CLEAN PRICE: Raw input → {price}")
+
+    #         # Step 1: Remove HTML if present
+    #         price = BeautifulSoup(price, "html.parser").get_text(strip=True)
+    #         logging.debug(f"CLEAN PRICE: After stripping HTML → {price}")
+
+    #         # Step 2: Remove known phrases and currency symbols
+    #         currency_symbols = ["$", "€", "£", "Kč", "USD", "EUR", ",-"]
+    #         for symbol in currency_symbols:
+    #             price = price.replace(symbol, "")
+    #         price = price.replace("\u00A0", "").replace(" ", "")
+    #         logging.debug(f"CLEAN PRICE: After removing currency/symbols/spaces → {price}")
+
+    #         # Step 3: Normalize separators
+    #         # 1.375,00 → 1375.00
+    #         if re.match(r'^\d{1,3}(\.\d{3})*(,\d{2})?$', price):
+    #             price = price.replace(".", "").replace(",", ".")
+    #         # 1,375.00 → 1375.00
+    #         elif re.match(r'^\d{1,3}(,\d{3})*\.\d{2}$', price):
+    #             price = price.replace(",", "")
+    #         # 7,000 → 7000 (treat comma as thousand separator if no dot)
+    #         elif "," in price and "." not in price:
+    #             if re.match(r'^\d{1,3}(,\d{3})+$', price):  # thousands format
+    #                 price = price.replace(",", "")
+    #             else:
+    #                 price = price.replace(",", ".")
+    #         # 1.400 → 1400 (dot used as thousands, no decimals)
+    #         elif re.match(r'^\d+\.\d{3}$', price):
+    #             price = price.replace(".", "")
+    #         logging.debug(f"CLEAN PRICE: Normalized format → {price}")
+
+    #         # Step 4: Extract number
+    #         match = re.search(r"\d+(\.\d+)?", price)
+    #         if not match:
+    #             raise ValueError(f"Could not parse numeric portion from → {price}")
+    #         result = float(match.group(0))
+    #         logging.debug(f"CLEAN PRICE: Final numeric value → {result}")
+
+    #         if result < 10:
+    #             logging.warning(f"CLEAN PRICE: Suspiciously low parsed price: {result} ← from input '{price_raw}'")
+
+    #         return result
+
+    #     except Exception as e:
+    #         logging.error(f"CLEAN PRICE: Failed to clean price: {price} ({e})")
+    #         raise
+
 
     @staticmethod
-    def clean_price(price):
+    def clean_price(price_string):
         """
-        Cleans and normalizes price strings to a float.
-        Handles mixed formats: US, European, currency symbols, HTML wrappers.
-        """
-        import re
-        import logging
-        from bs4 import BeautifulSoup
+        Cleans and normalizes price input to a float.
+        Accepts HTML, raw strings, integers, or floats.
 
+        Args:
+            price_string (str|float|int): Raw price input.
+
+        Returns:
+            float: Parsed float price.
+
+        Raises:
+            ValueError: If the price can't be parsed.
+        """
         try:
-            if price is None:
+            if price_string is None:
                 logging.debug("CLEAN PRICE: Price is None.")
                 return None
 
-            if not isinstance(price, str):
-                raise ValueError("CLEAN PRICE: Price must be a string.")
+            # Accept numbers and cast to string
+            if isinstance(price_string, (int, float)):
+                price_string = str(price_string)
 
-            logging.debug(f"CLEAN PRICE: Raw input → {price}")
+            if not isinstance(price_string, str):
+                raise ValueError("CLEAN PRICE: Price must be a string or convertible to string.")
 
-            # Step 1: Remove HTML if present
-            price = BeautifulSoup(price, "html.parser").get_text(strip=True)
-            logging.debug(f"CLEAN PRICE: After stripping HTML → {price}")
+            price_raw = price_string
+            price_string = BeautifulSoup(price_string, "html.parser").get_text(strip=True)
+            logging.debug(f"CLEAN PRICE: Stripped text → {price_string}")
 
-            # Step 2: Remove known phrases and currency symbols
-            currency_symbols = ["$", "€", "£", "Kč", "USD", "EUR", ",-"]
-            for symbol in currency_symbols:
-                price = price.replace(symbol, "")
-            price = price.replace("\u00A0", "").replace(" ", "")
-            logging.debug(f"CLEAN PRICE: After removing currency/symbols/spaces → {price}")
+            from price_parser import Price
+            price = Price.fromstring(price_string)
 
-            # Step 3: Normalize separators
-            if re.match(r'^\d{1,3}(\.\d{3})*,\d{2}$', price):  # e.g., 1.375,00
-                price = price.replace(".", "").replace(",", ".")
-            elif re.match(r'^\d{1,3}(,\d{3})*\.\d{2}$', price):  # e.g., 1,375.00
-                price = price.replace(",", "")
-            elif "," in price and "." not in price:  # e.g., 350,00
-                price = price.replace(",", ".")
-            elif re.match(r'^\d+\.\d{3}$', price):  # e.g., 1.400 should be 1400
-                price = price.replace(".", "")
-            logging.debug(f"CLEAN PRICE: Normalized format → {price}")
+            if price.amount_float is None:
+                logging.warning(f"CLEAN PRICE: Unable to parse price from '{price_string}'")
+                raise ValueError(f"Could not parse numeric portion from → {price_string}")
 
-            # Step 4: Extract number
-            match = re.search(r"\d+(\.\d+)?", price)
-            if not match:
-                raise ValueError(f"Could not parse numeric portion from → {price}")
-            result = float(match.group(0))
-            logging.debug(f"CLEAN PRICE: Final numeric value → {result}")
-            return result
+            if price.amount_float < 10:
+                logging.warning(f"CLEAN PRICE: Suspiciously low parsed price: {price.amount_float} ← from input '{price_raw}'")
+
+            logging.debug(f"CLEAN PRICE: Parsed value → {price.amount_float}")
+            return float(price.amount_float)
 
         except Exception as e:
-            logging.error(f"CLEAN PRICE: Failed to clean price: {price} ({e})")
+            logging.error(f"CLEAN PRICE: Exception while parsing '{price_string}': {e}")
             raise
+
 
 
 
@@ -239,6 +304,11 @@ class CleanData:
         """
         try:
             logging.debug(f"CLEAN AVAILABLE: Raw value → {available} ({type(available).__name__})")
+
+            # ✅ Exit early if already a boolean
+            if isinstance(available, bool):
+                logging.debug(f"CLEAN AVAILABLE: Already boolean → {available}")
+                return available
 
             if isinstance(available, bool):
                 logging.debug(f"CLEAN AVAILABLE: Interpreted as boolean → {available}")

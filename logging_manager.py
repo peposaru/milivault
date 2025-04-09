@@ -2,10 +2,6 @@ import logging
 import os
 import datetime
 from datetime import datetime
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-import time
-import subprocess
 
 def initialize_logging():
     """This just initializes the logger to keep track of anything."""
@@ -26,25 +22,13 @@ def initialize_logging():
     logging.debug(f"Logging initialized. Log file: {log_file_path}")
 
 
+def adjust_logging_level(env):
+    """
+    Adjusts the logging level based on the environment.
 
-
-# class WatchdogHandler(FileSystemEventHandler):
-#     def on_modified(self, event):
-#         # Restart the program if a crash is detected
-#         if "crash.log" in event.src_path:
-#             logging.info("Crash detected. Restarting program...")
-#             subprocess.Popen(["python", "/home/ec2-user/projects/AWS-Militaria-Scraper/AWS_MILITARIA_SCRAPER_JSON.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-# if __name__ == "__main__":
-#     logging.basicConfig(filename="scraper.log", level=logging.INFO)
-#     event_handler = WatchdogHandler()
-#     observer = Observer()
-#     observer.schedule(event_handler, path=".", recursive=False)
-#     observer.start()
-
-#     try:
-#         while True:
-#             time.sleep(1)
-#     except KeyboardInterrupt:
-#         observer.stop()
-#     observer.join()
+    Args:
+        env (str): Either 'local' or 'aws'.
+    """
+    level = logging.WARNING if env == "aws" else logging.DEBUG
+    logging.getLogger().setLevel(level)
+    logging.debug(f"Adjusted logging level to {logging.getLevelName(level)} for environment: {env}")

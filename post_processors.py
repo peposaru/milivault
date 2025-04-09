@@ -5,17 +5,47 @@ import json
 from bs4 import BeautifulSoup
 from html_manager import HtmlManager
 
+# A universal way to apply post-processors to a value.
+def apply_post_processors(value, post_process_config):
+    if not isinstance(post_process_config, dict):
+        return value  # fail-safe
+
+    for func_name, arg in post_process_config.items():
+        if func_name == "type":
+            continue
+
+        func = globals().get(func_name)
+        if callable(func):
+            try:
+                value = func(value, arg) if arg is not True else func(value)
+            except Exception as e:
+                logging.warning(f"POST PROCESSOR: Failed {func_name} → {e}")
+    return value
+
+# Having a hard time since my post processors were disjointed.
+def normalize_input(value):
+    if hasattr(value, 'get_text'):
+        return value.get_text(strip=True)
+    elif isinstance(value, list):
+        return " ".join(str(v) for v in value)
+    elif value is None:
+        return ""
+    return str(value).strip()
+
 def prepend(value, prefix):
+    value = normalize_input(value)
     if not value:
         return value
     return prefix + value.strip()
 
 def append(value, suffix):
+    value = normalize_input(value)
     if not value:
         return value
     return value.strip() + suffix
 
 def replace_all(value, replacements):
+    value = normalize_input(value)
     if not isinstance(value, str):
         return value
     for pair in replacements:
@@ -25,16 +55,19 @@ def replace_all(value, replacements):
     return value
 
 def remove_prefix(value, prefix):
+    value = normalize_input(value)
     if value and isinstance(value, str) and value.startswith(prefix):
         return value[len(prefix):].strip()
     return value
 
 def remove_suffix(value, suffix):
+    value = normalize_input(value)
     if value and isinstance(value, str) and value.endswith(suffix):
         return value[:-len(suffix)].strip()
     return value
 
 def split(value, config):
+    value = normalize_input(value)
     delimiter = config.get("delimiter", "-")
     take = config.get("take", "first")
     parts = value.split(delimiter) if isinstance(value, str) else []
@@ -44,37 +77,50 @@ def split(value, config):
         return parts[-1].strip() if parts else value
     return value
 
+# def find_text_contains(value, config):
+#     value = normalize_input(value)
+#     try:
+#         if not config or not isinstance(config, dict):
+#             return False
+
+#         needle = config.get("value", "")
+#         if not isinstance(needle, str):
+#             return config.get("if_false", False)
+
+#         # If value is a tag (BeautifulSoup), extract text
+#         if hasattr(value, 'get_text'):
+#             value = value.get_text(strip=True)
+
+#         # If value is a list, join into a string
+#         if isinstance(value, list):
+#             value = " ".join(map(str, value))
+
+#         if not isinstance(value, str):
+#             return config.get("if_false", False)
+
+#         case_insensitive = config.get("case_insensitive", True)
+#         haystack = value.lower() if case_insensitive else value
+#         needle = needle.lower() if case_insensitive else needle
+
+#         return config.get("if_true", True) if needle in haystack else config.get("if_false", False)
+
+#     except Exception as e:
+#         import logging
+#         logging.error(f"Error in find_text_contains: {e}")
+#         return config.get("if_false", False)
+
 def find_text_contains(value, config):
-    try:
-        if not config or not isinstance(config, dict):
-            return False
-
-        needle = config.get("value", "")
-        if not isinstance(needle, str):
-            return config.get("if_false", False)
-
-        # If value is a tag (BeautifulSoup), extract text
-        if hasattr(value, 'get_text'):
-            value = value.get_text(strip=True)
-
-        # If value is a list, join into a string
-        if isinstance(value, list):
-            value = " ".join(map(str, value))
-
-        if not isinstance(value, str):
-            return config.get("if_false", False)
-
-        case_insensitive = config.get("case_insensitive", True)
-        haystack = value.lower() if case_insensitive else value
-        needle = needle.lower() if case_insensitive else needle
-
-        return config.get("if_true", True) if needle in haystack else config.get("if_false", False)
-
-    except Exception as e:
-        import logging
-        logging.error(f"Error in find_text_contains: {e}")
+    value = normalize_input(value)
+    needle = config.get("value", "")
+    if not isinstance(needle, str):
         return config.get("if_false", False)
 
+    case_insensitive = config.get("case_insensitive", True)
+    haystack = value.lower() if case_insensitive else value
+    needle = needle.lower() if case_insensitive else needle
+
+    found = needle in haystack
+    return config.get("if_true", True) if found else config.get("if_false", False)
 
 def submethod_exists(parent, config):
     try:
@@ -121,16 +167,19 @@ def submethod_exists(parent, config):
 
 
 def validate_startswith(value, prefix):
+    value = normalize_input(value)
     if isinstance(value, str) and value.startswith(prefix):
         return value
     return None
 
 def smart_prepend(value, prefix):
+    value = normalize_input(value)
     if isinstance(value, str) and not value.startswith("http"):
         return prefix + value
     return value
 
 def strip_html_tags(value, arg=None):
+    value = normalize_input(value)
     """
     Removes all HTML tags from a string.
     Example: '<a href="#">US</a>' → 'US'
@@ -140,6 +189,7 @@ def strip_html_tags(value, arg=None):
     return value
 
 def strip(value, config=None):
+    value = normalize_input(value)
     """
     Strip leading and trailing whitespace from a string.
 
@@ -159,6 +209,7 @@ def strip(value, config=None):
         return value
 
 def regex(value, config):
+    value = normalize_input(value)
     try:
         pattern = config.get("pattern")
         if not pattern or not isinstance(value, str):
@@ -169,7 +220,8 @@ def regex(value, config):
         logging.error(f"Regex post-process error: {e}")
         return None
 
-def set(_value, arg):
+def set(value, arg):
+    value = normalize_input(value)
     """
     Always return the value specified in `arg`, ignoring input.
     Example: If arg=True, this will always return True.
@@ -177,10 +229,12 @@ def set(_value, arg):
     return arg
 
 def from_url(original_text, arg=None):
+    value = normalize_input(value)
     """Returns the product URL for further post-processing."""
     return arg if isinstance(arg, str) else ""
 
 def rg_militaria_hidden_price(value, config):
+    value = normalize_input(value)
     """Post-process function to extract hidden price from rg-militaria"""
     try:
         logging.info("POST PROCESS: [rg_militaria_hidden_price] Start fallback price check")

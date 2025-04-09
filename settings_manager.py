@@ -10,6 +10,7 @@ from aws_s3_manager import S3Manager
 from products_counter import ProductsCounter
 from site_processor import SiteProcessor
 from html_manager import HtmlManager
+from logging_manager import adjust_logging_level
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
@@ -130,10 +131,14 @@ Choose your settings:
         if choice == '1':
             print("Using Amazon RDS Settings...")
             settings = DEFAULT_RDS_SETTINGS
+            settings["environment"] = "aws" 
+            adjust_logging_level("aws")
 
         elif choice == '2':
             print("Using Personal Computer Settings...")
             settings = DEFAULT_PC_SETTINGS
+            settings["environment"] = "local"
+            adjust_logging_level("local")
 
         elif choice == '3':
             print("Custom settings selected.")

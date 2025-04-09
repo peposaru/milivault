@@ -86,10 +86,12 @@ class AwsRdsManager:
                     float(row[2]) if row[2] else 0.0,  # price as float
                     row[3],  # available
                     row[4],  # description
-                    row[5] if row[5] is not None else "[]"  # price_history as valid JSON
+                    row[5] if row[5] is not None else "[]",  # price history
+                    True  # ← In database flag
                 )
                 for row in all_url_query_result
             }
+
         except Exception as e:
             logging.error(f"Error fetching comparison data from database. Query: {all_url_query}. Exception: {e}")
             return {}
