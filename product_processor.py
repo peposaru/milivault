@@ -69,22 +69,32 @@ class ProductTileDictProcessor:
 
                 # Determine price match logic
                 if db_available == False and available == False and self.is_empty_price(price):
+                    # Example: Sold product → DB price = 35.0, TILE price = 0.0
                     price_match = True
-                    # Products often have no price when sold out, so we ignore this case
-                    #logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
+                    logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
+
                 elif self.is_empty_price(db_price) and not self.is_empty_price(price):
+                    # Example: Unexpected → DB price = 0.0, TILE price = 35.0 (new price appeared)
                     price_match = False
                     tile_product_dict["force_details_process"] = True
-                    # It is unusual for a product to have a price when the DB has none, so we force details processing
                     logging.debug(f"PRODUCT PROCESSOR: [FORCE PROCESS] DB has 0 price, tile has value → DB={db_price}, TILE={price}")
+
+                elif not self.is_empty_price(db_price) and self.is_empty_price(price):
+                    # Example: Product was available before → DB price = 250.0, TILE price = 0.0 (likely sold now)
+                    price_match = True
+                    logging.debug(f"PRODUCT PROCESSOR: [IGNORE] Tile price is 0 but DB still has value → DB={db_price}, TILE={price}")
+
                 else:
                     try:
                         price_match = float(db_price) == float(price)
                         if not price_match:
+                            # Example: Price changed → DB price = 30.0, TILE price = 25.0
                             logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
                     except (TypeError, ValueError):
+                        # Example: Comparison failed due to bad data format
                         price_match = False
                         logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
+
 
                 # Check for exact matches of title, price, and availability
                 if title == db_title and price_match:

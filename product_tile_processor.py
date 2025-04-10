@@ -185,7 +185,7 @@ class TileProcessor:
             }
 
             if product_url in invalid_urls:
-                logging.debug(f"TILE PROCESSOR: Skipping known invalid URL: {product_url}")
+                #logging.debug(f"TILE PROCESSOR: Skipping known invalid URL: {product_url}")
                 return None
 
             # 🚫 Custom full URL skips
