@@ -31,26 +31,28 @@ def load_user_settings():
     try:
         result = get_user_settings()
         if not isinstance(result, tuple) or len(result) != 5:
-            logging.error("SETTINGS MANAGER: Unexpected return value from get_user_settings(). Expected a tuple with four elements.")
+            logging.error("SETTINGS MANAGER: Unexpected return value from get_user_settings(). Expected 5 elements.")
             return None
 
-        targetMatch, sleeptime, user_settings, run_availability_check, test_json = result
+        pages_to_check, sleeptime, user_settings, run_availability_check, use_comparison_row = result
 
         if not isinstance(user_settings, dict):
             logging.error("SETTINGS MANAGER: user_settings is not a dictionary. Check get_user_settings() implementation.")
             return None
 
         user_settings.update({
-            "targetMatch": targetMatch,
+            "targetMatch": pages_to_check,
             "sleeptime": sleeptime,
             "run_availability_check": run_availability_check,
-            "jsonTest": test_json
+            "use_comparison_row": use_comparison_row
         })
-        return user_settings
-    
+
+        return pages_to_check, sleeptime, user_settings, run_availability_check, use_comparison_row
+
     except KeyError as e:
         logging.error(f"SETTINGS MANAGER: Error accessing user settings: {e}")
         return None
+
 
 
 def setup_user_path(user_settings):
@@ -122,9 +124,8 @@ Choose your settings:
 4. Run Tests Only
 5. Run Coverage Report Only
 6. Run Tests + Coverage
-7. Test JSON Profiles
     """)
-        choice = input("Enter the number corresponding to your choice (1–7): ").strip()
+        choice = input("Enter the number corresponding to your choice (1–6): ").strip()
 
         settings = {}
 
@@ -162,55 +163,56 @@ Choose your settings:
             subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_and_coverage.bat", shell=True)
             continue  
 
-        elif choice == '7':
-            print("Testing JSON profiles...")
-            subprocess.call([
-                "pytest",
-                r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_json_config_structure.py"
-            ])
-            continue
-
         else:
             print("Invalid choice. Please enter a number from 1 to 6.")
 
 
         # Second question: Select check type
         print("""
-Choose the type of inventory check:
-1. New Inventory Check (pages_to_check = 1, sleeptime = 15 minutes)
-2. Run Availability Check (Check and update product availability)
-3. Custom Check (Enter your own pages_to_check and sleeptime)
-4. Test JSON Profile
-    """)
-        check_choice = input("Enter your choice (1/2/3/4): ").strip()
+        Choose the type of inventory check:
+        1. New Inventory Check (pages_to_check = 1, sleeptime = 15 minutes)
+        2. Run Availability Check (Check and update product availability)
+        3. Custom Check (Enter your own pages_to_check, comparison type and sleeptime)
+        """)
+        check_choice = input("Enter your choice (1/2/3): ").strip()
 
         run_availability_check = False
-        test_json = False
+        use_comparison_row = True  # Default comparison mode.
+
         try:
             if check_choice == '1':
                 pages_to_check = 1
                 sleeptime = 15 * 60  # 15 minutes in seconds
+
             elif check_choice == '2':
                 pages_to_check = None
                 sleeptime = None
                 run_availability_check = True
+
             elif check_choice == '3':
                 pages_to_check = int(input("Enter your desired pages_to_check value: ").strip())
+
+                print("""
+        Choose comparison strategy:
+        1. Use preloaded comparison list (faster, more memory)
+        2. Query database for each product (slower, scalable)
+        """)
+                comp_choice = input("Enter 1 or 2: ").strip()
+                use_comparison_row = comp_choice == '2'
+
                 sleeptime = int(input("Enter your desired sleeptime value (in seconds): ").strip())
-            # Test JSON profile
-            elif check_choice == '4':
-                pages_to_check = None
-                test_json = True
-                sleeptime = None
+
             else:
                 raise ValueError
+
         except ValueError:
             print("Invalid input. Defaulting to New Inventory Check.")
             logging.warning("Invalid input for inventory check. Defaulting to targetMatch=25, sleeptime=15 minutes.")
-            targetMatch = 25
+            pages_to_check = 1
             sleeptime = 15 * 60
 
-        return pages_to_check, sleeptime, settings, run_availability_check, test_json
+        return pages_to_check, sleeptime, settings, run_availability_check, use_comparison_row
+
 
 def site_choice(all_sites):
     """Display working and non-working sites with notes, and handle user selection."""

@@ -9,13 +9,15 @@ from post_processors import normalize_input, apply_post_processors
 
 # This will handle the dictionary of data extracted from the tile on the products page tile.
 class ProductTileDictProcessor:
-    def __init__(self,site_profile, comparison_list, managers):
+    def __init__(self,site_profile, comparison_list, managers, use_comparison_row=False):
         self.site_profile       = site_profile
         self.comparison_list    = comparison_list
         self.managers           = managers
         self.counter            = managers.get('counter')
         self.rds_manager        = managers.get('rdsManager')
         self.log_print          = managers.get('logPrint')
+        self.use_comparison_row = use_comparison_row
+        self.use_comparison_list = not use_comparison_row
         
     def product_tile_dict_processor_main(self, tile_product_data_list):
         processing_required_list = []
@@ -58,13 +60,29 @@ class ProductTileDictProcessor:
             product_category = "Processing Required"
             reason = "New product or mismatched details"
 
-            # Check if the URL exists in the comparison dictionary
-            if url in self.comparison_list:
+            db_row = None
+            if self.use_comparison_row:
                 try:
-                    # Unpack database values
-                    db_title, db_price, db_available, db_description, db_price_history, db_present = self.comparison_list[url]
+                    result = self.rds_manager.fetch(
+                        "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s",
+                        (url,)
+                    )
+                    if result:
+                        db_row = (*result[0], True)  # Add db_present=True
+                except Exception as e:
+                    logging.error(f"PRODUCT PROCESSOR: DB lookup failed for URL {url}: {e}")
+                    continue
+
+            # If not using comparison row, check the comparison list which should be already downloaded from the database.
+            elif self.use_comparison_list and url in self.comparison_list:
+                db_row = self.comparison_list[url]
+
+
+            if db_row:
+                try:
+                    db_title, db_price, db_available, db_description, db_price_history, db_present = db_row
                 except ValueError as e:
-                    logging.error(f"PRODUCT PROCESSOR: Error unpacking comparison data for URL {url}: {e}")
+                    logging.error(f"PRODUCT PROCESSOR: Error unpacking db_row for URL {url}: {e}")
                     continue
 
                 # Determine price match logic
@@ -114,21 +132,20 @@ class ProductTileDictProcessor:
                     reason = "Mismatch in title or price"
                     self.counter.add_processing_required_count(1)
             else:
-                # Add new products not in the database to the full processing list
+                # Products that require further processing.
                 processing_required_list.append(tile_product_dict)
-
-                # Add to comparison list so future tiles in this session don’t treat it as new
-                self.comparison_list[url] = (
-                    title,
-                    price,
-                    available,
-                    "",   # description is not yet known, add placeholder or None
-                    [],   # price history also not known yet
-                    False, # new product so not in DB yet
-                )
-
                 reason = "New product"
                 self.counter.add_processing_required_count(1)
+
+                if self.use_comparison_list:
+                    self.comparison_list[url] = (
+                        title,
+                        price,
+                        available,
+                        "",   # description
+                        [],   # price history
+                        False # not in DB yet
+                    )
 
 
             logging.info(
@@ -182,7 +199,7 @@ Reason               : {reason}
 
 
 class ProductDetailsProcessor:
-    def __init__(self, site_profile, managers, comparison_list):
+    def __init__(self, site_profile, managers, comparison_list, use_comparison_row):
         self.site_profile       = site_profile
         self.managers           = managers
         self.comparison_list    = comparison_list
@@ -190,6 +207,8 @@ class ProductDetailsProcessor:
         self.rds_manager        = managers.get('rdsManager')
         self.html_manager       = managers.get('html_manager')
         self.details_selectors  = site_profile.get("product_details_selectors", {})
+        self.use_comparison_row = use_comparison_row
+
 
     def product_details_processor_main(self, processing_required_list):
         """

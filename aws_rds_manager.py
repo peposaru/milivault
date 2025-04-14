@@ -1,7 +1,5 @@
-import logging
-import json
+import json, sys, logging
 from psycopg2 import pool
-from datetime import datetime
 from decimal import Decimal
 
 
@@ -61,12 +59,14 @@ class AwsRdsManager:
         """
         self._execute_query(query, params)
 
+
     def create_comparison_list(self, source_names):
         """
         Fetch all existing URLs from the database for comparison.
 
         Returns:
-            dict: A dictionary with URLs as keys and (title, price, available, description, price_history) as values.
+            dict: A dictionary with URLs as keys and 
+                (title, price, available, description, price_history, in_db) as values.
         """
         try:
             all_url_query = """
@@ -80,21 +80,33 @@ class AwsRdsManager:
                 logging.warning("No data fetched from the database.")
                 return {}
 
-            return {
-                row[0]: (
+            comparison_list = {}
+            total_bytes = 0
+
+            for row in all_url_query_result:
+                url = row[0]
+                value_tuple = (
                     row[1],  # title
-                    float(row[2]) if row[2] else 0.0,  # price as float
+                    float(row[2]) if row[2] else 0.0,
                     row[3],  # available
                     row[4],  # description
-                    row[5] if row[5] is not None else "[]",  # price history
-                    True  # ← In database flag
+                    row[5] if row[5] is not None else "[]",
+                    True
                 )
-                for row in all_url_query_result
-            }
+                comparison_list[url] = value_tuple
+                total_bytes += sys.getsizeof(url) + sum(sys.getsizeof(v) for v in value_tuple)
+
+            row_count = len(all_url_query_result)
+            size_mb = round(total_bytes / 1024 / 1024, 2)
+
+            logging.info(f"Fetched {row_count} records from the database. Approx size: {size_mb} MB")
+
+            return comparison_list
 
         except Exception as e:
             logging.error(f"Error fetching comparison data from database. Query: {all_url_query}. Exception: {e}")
             return {}
+
 
 
     def get_record_id(self, query, params):

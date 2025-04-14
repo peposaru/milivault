@@ -20,7 +20,7 @@ class SiteProcessor:
         self.counter             = managers.get('counter')
         self.html_manager        = managers.get('html_manager')
 
-    def site_processor_main(self, comparison_list, selected_site, targetMatch):
+    def site_processor_main(self, comparison_list, selected_site, targetMatch, use_comparison_row):
         # site_profile is all the site selectors for one the selected site
         try:
             site_profile = self.jsonManager.json_unpacker(selected_site)   
@@ -117,14 +117,19 @@ class SiteProcessor:
 
             # Send the list of products to be checked individually
             try:
-                product_tile_dict_processor                           = ProductTileDictProcessor(site_profile, comparison_list, self.managers)
+                product_tile_dict_processor = ProductTileDictProcessor(
+                    site_profile,
+                    comparison_list,
+                    self.managers,
+                    use_comparison_row=use_comparison_row
+                )
                 processing_required_list, availability_update_list    = product_tile_dict_processor.product_tile_dict_processor_main(tile_product_data_list)
             except Exception as e:
                 logging.error(f"SITE PROCESSOR: Error product_tile_dict_processor: {e}")
                 continue
 
             try:
-                product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list)
+                product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list, use_comparison_row)
                 # I don't remember why I made output but maybe it will come to me later.
                 output = product_details_processor.product_details_processor_main(processing_required_list)
 

@@ -170,38 +170,31 @@ class TileProcessor:
             product_url = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
 
             if product_url:
-                logging.debug(f"TILE PROCESSOR: Raw extracted URL: {product_url}")
                 product_url = self.apply_post_processing(product_url, config)
-                logging.debug(f"TILE PROCESSOR: Post-processed URL: {product_url}")
 
             if product_url:
                 product_url = product_url.strip()
 
-            # 🚫 Known invalid URLs
-            base_url = self.site_profile.get("base_url", "").rstrip("/")
-            invalid_urls = {
-                "/", "#", "#MainContent", "", None,
-                base_url, base_url + "/", base_url + "/#"
-            }
+                # Filter out base URLs and non-product links
+                base_url = self.site_profile.get("base_url", "").rstrip("/")
+                invalid_urls = {
+                    "/", "#", "#MainContent", "", None,
+                    base_url, base_url + "/", base_url + "/#"
+                }
+                if not product_url or product_url in invalid_urls or product_url.rstrip("/") == base_url:
+                    return None
 
-            if product_url in invalid_urls:
-                #logging.debug(f"TILE PROCESSOR: Skipping known invalid URL: {product_url}")
-                return None
-
-            # 🚫 Custom full URL skips
+            # Custom hardcoded bad URLs
             CUSTOM_BAD_URLS = {
                 "https://militariaplaza.nl/archive-38/dirAsc/results,1-1",
-                "https://militariaplaza.nl/archive-38/dirAsc",  # Optional additional one
-                # Add more full URLs as needed
+                "https://militariaplaza.nl/archive-38/dirAsc",
+                "https://www.therupturedduck.com/"
             }
 
             if product_url in CUSTOM_BAD_URLS:
-                logging.debug(f"TILE PROCESSOR: Skipping custom bad full URL: {product_url}")
                 return None
 
-            # ✅ Valid final URL
-            if product_url.startswith("http"):
-                logging.info(f"TILE Extracted product URL: {product_url}")
+            if product_url and isinstance(product_url, str) and product_url.startswith("http"):
                 return product_url
 
             return None
@@ -209,10 +202,6 @@ class TileProcessor:
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error extracting product URL: {e}")
             return None
-
-
-
-
         
 
     def extract_tile_available(self, product_tile):
