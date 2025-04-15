@@ -187,22 +187,68 @@ class SiteProcessor:
             logging.warning(f"SITE PROCESSOR: Error during construct_products_list_directory: {site_profile['source_name']}, Error: {e}")
 
 
-    def construct_products_tile_list(self, products_list_page_soup, site_profile):
-        try:            
-            # Extract product selectors from the site profile
-            product_selectors = site_profile.get("product_selectors", {})
-            tile_selectors = site_profile.get("product_tile_selectors", {})
+    # def construct_products_tile_list(self, products_list_page_soup, site_profile):
+    #     try:            
+    #         # Extract product selectors from the site profile
+    #         product_selectors = site_profile.get("product_selectors", {})
+    #         tile_selectors = site_profile.get("product_tile_selectors", {})
 
-            # Get tile extraction method/config
-            tiles_config = product_selectors.get("tiles", {})
+    #         # Get tile extraction method/config
+    #         tiles_config = product_selectors.get("tiles", {})
+    #         tiles_config_method = tiles_config.get("method", "find_all")
+    #         tiles_config_args = tiles_config.get("args", [])
+    #         tiles_config_kwargs = tiles_config.get("kwargs", {})
+
+    #         # Get tiles
+    #         product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
+
+    #         # Setup for duplicate removal and validation
+    #         tile_processor = TileProcessor(site_profile)
+    #         seen_urls = set()
+    #         valid_tiles = []
+
+    #         for tile in product_tiles:
+    #             raw_url = tile_processor.extract_tile_url(tile)
+    #             if not raw_url:
+    #                 continue
+
+    #             if raw_url in seen_urls:
+    #                 logging.debug(f"SITE PROCESSOR: Skipping duplicate tile URL → {raw_url}")
+    #                 continue
+
+    #             if tile_processor.extract_tile_title(tile):
+    #                 seen_urls.add(raw_url)
+    #                 valid_tiles.append(tile)
+
+    #         logging.debug(f"SITE PROCESSOR: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
+    #         return valid_tiles
+
+    #     except Exception as e:
+    #         logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
+    #         return []
+
+
+    def construct_products_tile_list(self, products_list_page_soup, site_profile):
+        try:
+            # Extract the correct selectors
+            tile_selectors = site_profile.get("product_tile_selectors", {})
+            tiles_config = tile_selectors.get("tiles", {})
+
+            # Extract config parameters
             tiles_config_method = tiles_config.get("method", "find_all")
             tiles_config_args = tiles_config.get("args", [])
             tiles_config_kwargs = tiles_config.get("kwargs", {})
 
-            # Get tiles
-            product_tiles = getattr(products_list_page_soup, tiles_config_method)(*tiles_config_args, **tiles_config_kwargs)
+            # Defensive check for missing tile selector args
+            if not tiles_config_args or tiles_config_method != "find_all":
+                logging.warning("TILE EXTRACTOR: Missing or invalid tiles config — skipping tile extraction.")
+                return []
 
-            # Setup for duplicate removal and validation
+            # Extract tiles from the soup
+            product_tiles = getattr(products_list_page_soup, tiles_config_method)(
+                *tiles_config_args, **tiles_config_kwargs
+            )
+
             tile_processor = TileProcessor(site_profile)
             seen_urls = set()
             valid_tiles = []
@@ -226,6 +272,7 @@ class SiteProcessor:
         except Exception as e:
             logging.error(f"SITE PROCESSOR: Error constructing product tile list: {e}")
             return []
+
 
 
     def is_tile_valid(self, tile, selectors):

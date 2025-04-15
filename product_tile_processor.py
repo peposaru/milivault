@@ -52,6 +52,7 @@ class TileProcessor:
                 )
 
                 # Extract and clean availability
+                logging.debug(f"[BEFORE AVAIL] {product_tile}")
                 clean_product_tile_available = self.extract_tile_available(product_tile)
                 if clean_product_tile_available is None:
                     logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile_url}")
@@ -208,36 +209,46 @@ class TileProcessor:
         """
         Determine whether a product is available or unavailable.
         Applies JSON-based post-processing logic if defined.
+        Falls back to fallback rules if detection fails.
         """
         try:
-            config = self.site_profile_tile_selectors.get("tile_availability")
+            logging.debug(f"TILE ROOT ELEMENT: {product_tile.name}, attrs: {product_tile.attrs}")
+            # === 1. Load and log the raw availability config ===
+            raw_config = self.site_profile_tile_selectors.get("tile_availability")
+            logging.debug(f"EXTRACT AVAILABILITY CONFIG: {raw_config}")
 
-            # ✅ Handle raw string overrides
-            if isinstance(config, bool):
-                return config
+            # === 2. Handle static bool or string configs ===
+            if isinstance(raw_config, bool):
+                return raw_config
 
-            if isinstance(config, str):
-                if config.strip().lower() == "true":
+            if isinstance(raw_config, str):
+                val = raw_config.strip().lower()
+                if val == "true":
                     return True
-                if config.strip().lower() == "false":
+                if val == "false":
                     return False
 
-            config = config or {}
+            # === 3. Ensure config is a dictionary going forward ===
+            config = raw_config if isinstance(raw_config, dict) else {}
+
+            # === 4. Extract raw value from tile ===
             method = config.get("method", "find")
             args = config.get("args", [])
             kwargs = config.get("kwargs", {})
             attribute = config.get("attribute")
 
-            # ✅ Extract raw value
             value = self.extract_data_from_tile(product_tile, method, args, kwargs, attribute)
+            logging.debug(f"RAW AVAILABILITY VALUE: {value}")
 
-            # ✅ Normalize and post-process
+            # === 5. Normalize and apply post-processing ===
             value = normalize_input(value)
+            logging.debug(f"NORMALIZED AVAILABILITY VALUE: {value}")
 
             if "post_process" in config:
                 value = apply_post_processors(value, config["post_process"])
+                logging.debug(f"POST-PROCESSED AVAILABILITY VALUE: {value}")
 
-            # ✅ Interpret boolean and known string values
+            # === 6. Interpret common boolean values ===
             if isinstance(value, bool):
                 return value
 
@@ -248,7 +259,10 @@ class TileProcessor:
                 if val in ("false", "no", "sold out", "unavailable", "out of stock"):
                     return False
 
-            # ✅ Fallback logic
+            if value is None or value == "":
+                logging.debug("AVAILABILITY: Value is empty or None — fallback will be used.")
+
+            # === 7. Fallback logic ===
             if self.is_product_available(product_tile):
                 logging.debug("TILE PROCESSOR: Fallback availability = True")
                 return True
@@ -257,8 +271,9 @@ class TileProcessor:
                 logging.debug("TILE PROCESSOR: Fallback availability = False")
                 return False
 
-            logging.debug("TILE PROCESSOR: No availability info. Defaulting to True.")
-            return True
+            # === 8. Final default if no availability info was found ===
+            logging.warning("TILE PROCESSOR: No availability info found. Defaulting to False.")
+            return False
 
         except Exception as e:
             logging.error(f"TILE PROCESSOR: Error determining product stock status: {e}")
