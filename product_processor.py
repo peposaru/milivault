@@ -1,7 +1,7 @@
 import logging, json, pprint, re
 from clean_data import CleanData
 import image_extractor
-from datetime import datetime
+from datetime import datetime,timezone
 from decimal import Decimal
 import post_processors as post_processors
 from post_processors import normalize_input, apply_post_processors
@@ -181,17 +181,36 @@ Reason               : {reason}
     def process_availability_update_list(self, availability_update_list):
         for product in availability_update_list:
             try:
-                url       = product['url']
+                url = product['url']
                 available = product['available']
+                now_utc = datetime.now(timezone.utc).isoformat()
+
                 logging.debug(f"PRODUCT PROCESSOR: Preparing to update: URL={url}, Available={available}")
-                update_query = """
-                UPDATE militaria
-                SET available = %s
-                WHERE url = %s;
-                """
-                params = (available, url)
+
+                if available is False:
+                    update_query = """
+                    UPDATE militaria
+                    SET available = %s,
+                        date_sold = %s,
+                        date_modified = %s,
+                        last_seen = %s
+                    WHERE url = %s;
+                    """
+                    params = (available, now_utc, now_utc, now_utc, url)
+                else:
+                    update_query = """
+                    UPDATE militaria
+                    SET available = %s,
+                        date_sold = NULL,
+                        date_modified = %s,
+                        last_seen = %s
+                    WHERE url = %s;
+                    """
+                    params = (available, now_utc, now_utc, url)
+
                 self.rds_manager.update_record(update_query, params)
-                logging.info(f"PRODUCT PROCESSOR: Successfully updated availability for URL: {url}")
+                logging.info(f"PRODUCT PROCESSOR: Successfully updated availability and last_seen for URL: {url}")
+
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Failed to update record for URL: {url}. Error: {e}")
         return
@@ -379,6 +398,8 @@ class ProductDetailsProcessor:
             None
         """
         url = clean_details_data.get('url')
+        now = datetime.now().isoformat()
+        now_utc = datetime.now(timezone.utc).isoformat()
 
         if url in self.comparison_list:
             try:
@@ -386,7 +407,7 @@ class ProductDetailsProcessor:
                 db_title, db_price, db_available, db_description, db_price_history, db_present = self.comparison_list[url]
 
                 updates = {}
-                now = datetime.now().isoformat()
+                now_utc = datetime.now(timezone.utc).isoformat()
                 only_availability_changed = True  # Track if only availability changed
 
                 # Check and update title
@@ -426,17 +447,30 @@ class ProductDetailsProcessor:
 
                 # Check and update availability separately
                 if clean_details_data.get('available') != db_available:
+                    new_availability = clean_details_data.get('available')
+                    updates['available'] = new_availability
+                    updates['last_seen'] = now_utc
+
+                    if new_availability is False:
+                        updates['date_sold'] = now_utc
+                    else:
+                        updates['date_sold'] = None
+
                     if only_availability_changed:
                         update_query = """
                         UPDATE militaria
-                        SET available = %s
+                        SET available = %s,
+                            date_sold = %s,
+                            date_modified = %s,
+                            last_seen = %s
                         WHERE url = %s;
                         """
-                        self.rds_manager.execute(update_query, (clean_details_data.get('available'), url))
-                        logging.info(f"PRODUCT PROCESSOR: Updated availability for {url} to {clean_details_data.get('available')}")
-                        return  
+                        self.rds_manager.execute(update_query, (new_availability, updates['date_sold'], now_utc, now_utc, url))
+                        logging.info(f"PRODUCT PROCESSOR: Updated availability for {url} to {new_availability}")
+                        return
                     else:
-                        updates['available'] = clean_details_data.get('available')
+                        only_availability_changed = False  # Reset flag if other updates are present    
+
 
                 # Check and update image URLs safely
                 if clean_details_data.get('original_image_urls'):
@@ -480,6 +514,9 @@ class ProductDetailsProcessor:
 
                 # Perform database update if there are changes
                 if updates:
+                    updates['date_modified'] = now_utc
+                    updates['last_seen'] = now_utc
+
                     set_clause = ', '.join([f"{key} = %s" for key in updates.keys()])
                     update_query = f"""
                     UPDATE militaria
@@ -501,28 +538,39 @@ class ProductDetailsProcessor:
                 clean_details_data['price'] = 0
 
             logging.info(f"PRODUCT PROCESSOR: New product detected, setting price to 0 if missing: {url}")
-            
+
+            now_utc = datetime.now(timezone.utc).isoformat()
+            is_available = clean_details_data.get('available', True)
+            date_sold = None if is_available else now_utc
+
             # Now insert the new product into the database
             insert_query = """
-            INSERT INTO militaria (url, title, description, price, available, original_image_urls, 
-                                nation_site_designated, conflict_site_designated, item_type_site_designated, 
-                                extracted_id, grade, categories_site_designated)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO militaria (
+                url, title, description, price, available, original_image_urls,
+                nation_site_designated, conflict_site_designated, item_type_site_designated,
+                extracted_id, grade, categories_site_designated,
+                date_collected, date_modified, last_seen, date_sold
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
 
             values = (
                 clean_details_data.get('url'),
                 clean_details_data.get('title'),
                 clean_details_data.get('description'),
-                clean_details_data.get('price'),  # Now guaranteed to be 0 if missing
-                clean_details_data.get('available'),
+                clean_details_data.get('price'),
+                is_available,
                 json.dumps(clean_details_data.get('original_image_urls')) if clean_details_data.get('original_image_urls') else None,
                 clean_details_data.get('nation_site_designated'),
                 clean_details_data.get('conflict_site_designated'),
                 clean_details_data.get('item_type_site_designated'),
                 clean_details_data.get('extracted_id'),
                 clean_details_data.get('grade'),
-                json.dumps(clean_details_data.get('categories_site_designated')) if clean_details_data.get('categories_site_designated') else None
+                json.dumps(clean_details_data.get('categories_site_designated')) if clean_details_data.get('categories_site_designated') else None,
+                now_utc,   # date_collected
+                now_utc,   # date_modified
+                now_utc,   # last_seen
+                date_sold  # date_sold
             )
 
             try:

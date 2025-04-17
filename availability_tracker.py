@@ -2,6 +2,7 @@
 
 from product_tile_processor import TileProcessor
 import logging
+from datetime import datetime, timezone
 
 class AvailabilityTracker:
     def __init__(self, managers):
@@ -118,7 +119,7 @@ class AvailabilityTracker:
 
             product_tiles = getattr(soup, method)(*args, **kwargs)
 
-            tile_processor = self.tile_processor or TileProcessor(site_profile)
+            tile_processor = TileProcessor(site_profile)
             seen_urls = set()
             valid_tiles = []
 
@@ -150,3 +151,57 @@ class AvailabilityTracker:
             logging.info(f"AVAIL TRACKER: Marked expired products unavailable for site: {site_name}")
         except Exception as e:
             logging.error(f"AVAIL TRACKER: Error expiring old products for {site_name}: {e}")
+
+
+    def _process_last_seen_mode(self, site_profile):
+        try:
+            self.counter.reset_current_page_count()
+            self.counter.set_continue_state_true()
+
+            tile_processor = TileProcessor(site_profile)
+            now_timestamp = datetime.now(timezone.utc)
+
+            while self.counter.get_current_continue_state():
+                page_path = site_profile['access_config']['products_page_path']
+                base_url = site_profile['access_config']['base_url']
+                page_number = self.counter.get_current_page_count()
+                url = f"{base_url}{page_path.format(page=page_number)}"
+
+                logging.info(f"AVAIL TRACKER: Fetching page: {url}")
+                soup = self.html_manager.parse_html(url)
+
+                if not soup:
+                    self.counter.set_continue_state_false()
+                    break
+
+                try:
+                    tiles = self._construct_products_tile_list(soup, site_profile)
+                    logging.debug(f"AVAIL TRACKER: Found {len(tiles)} tiles")
+
+                    if not tiles:
+                        self.counter.set_continue_state_false()
+                        break
+
+                    tile_data = tile_processor.tile_process_main(tiles)
+
+                    for product in tile_data:
+                        url = product["url"]
+                        update_query = """
+                            UPDATE militaria
+                            SET last_seen = %s
+                            WHERE url = %s AND site = %s;
+                        """
+                        self.rds_manager.execute(update_query, (now_timestamp, url, site_profile["source_name"]))
+
+                    self.counter.add_current_page_count(
+                        site_profile.get("access_config", {}).get("page_increment_step", 1)
+                    )
+                except Exception as e:
+                    logging.error(f"AVAIL TRACKER: Error processing tiles: {e}")
+                    self.counter.set_continue_state_false()
+                    break
+
+            self._expire_old_last_seen(site_profile["source_name"], now_timestamp)
+
+        except Exception as e:
+            logging.error(f"AVAIL TRACKER: Error in last_seen mode: {e}")

@@ -214,38 +214,41 @@ Choose your settings:
         return pages_to_check, sleeptime, settings, run_availability_check, use_comparison_row
 
 
-def site_choice(all_sites):
-    """Display working and non-working sites with notes, and handle user selection."""
-    
-    # Split sites by working status
+def site_choice(all_sites, run_availability_check=False):
+    """Display eligible sites, archive-only sites, and broken ones. Prevent invalid selections in availability mode."""
     working_sites = [s for s in all_sites if s.get("is_working", False)]
     broken_sites = [s for s in all_sites if not s.get("is_working", False)]
-    all_display_sites = working_sites + broken_sites  # Combined for index tracking
 
-    # Determine terminal width and formatting
+    if run_availability_check:
+        eligible_sites = [s for s in working_sites if not s.get("is_sold_archive", False)]
+        archive_sites  = [s for s in working_sites if s.get("is_sold_archive", False)]
+        all_display_sites = eligible_sites + archive_sites + broken_sites
+    else:
+        eligible_sites = working_sites
+        archive_sites = []
+        all_display_sites = working_sites + broken_sites
+
     term_width = shutil.get_terminal_size((80, 20)).columns
     max_name_length = max(len(site['json_desc']) for site in all_display_sites)
-    col_width = max_name_length + 5
     max_notes_length = term_width - 4
 
-    # Display sites by category
-    def display_sites(sites, start_index):
+    def display_sites(sites, start_index, label):
+        print(f"\n{label}")
         for i, site in enumerate(sites, start=start_index):
             name = f"{i:>3}. {site['json_desc']:<{max_name_length}}"
             note = site.get("notes", "").strip()
-            if note:
-                print(f"{name}\n     ↳ {note[:max_notes_length]}")
-            else:
-                print(f"{name}")
+            print(f"{name}\n     ↳ {note[:max_notes_length]}" if note else name)
         return start_index + len(sites)
 
-    print("\n✅ WORKING SITES")
-    next_index = display_sites(working_sites, 1)
+    index = 1
+    if run_availability_check:
+        index = display_sites(eligible_sites, index, "✅ AVAILABLE FOR TRACKING")
+        index = display_sites(archive_sites, index, "🔒 SOLD-ONLY ARCHIVES (Skipping)")
+    else:
+        index = display_sites(working_sites, index, "✅ WORKING SITES")
 
-    print("\n❌ NOT WORKING SITES")
-    display_sites(broken_sites, next_index)
+    display_sites(broken_sites, index, "❌ NOT WORKING SITES")
 
-    # User selection loop
     while True:
         try:
             choice = input("\nSelect sites to scrape (e.g., '1,3-5,7'): ").strip()
@@ -259,7 +262,7 @@ def site_choice(all_sites):
                     start, end = map(int, part.split('-'))
                     if start > end:
                         raise ValueError(f"Invalid range: {start}-{end}")
-                    selected_indices.update(range(start - 1, end))  # 0-based
+                    selected_indices.update(range(start - 1, end))
                 else:
                     selected_indices.add(int(part) - 1)
 
@@ -267,6 +270,14 @@ def site_choice(all_sites):
                 raise ValueError("One or more indices are out of range.")
 
             selected_sites = [all_display_sites[idx] for idx in sorted(selected_indices)]
+
+            if run_availability_check:
+                sold_only = [s for s in selected_sites if s.get("is_sold_archive", False)]
+                if sold_only:
+                    names = ", ".join(s["json_desc"] for s in sold_only)
+                    print(f"⚠️  The following are sold-only archives and cannot be used in availability mode:\n → {names}")
+                    continue
+
             return selected_sites
 
         except ValueError as e:

@@ -18,9 +18,9 @@ def main():
 
     pages_to_check, sleeptime, user_settings, run_availability_check, use_comparison_row = result
 
-    # ✅ Set targetMatch high if we're in availability-only mode
+    # ✅ Set high page limit if doing availability check
     if run_availability_check:
-        pages_to_check = 9999  # ensures full pagination is attempted
+        pages_to_check = 9999
 
     user_settings.update({
         "targetMatch": pages_to_check,
@@ -31,7 +31,6 @@ def main():
 
     setup_user_path(user_settings)
 
-    # Initializes the various necessary managers / modules for the program to run.
     managers = setup_object_managers(user_settings)
     if not managers:
         logging.error("Error setting up user managers.")
@@ -39,27 +38,24 @@ def main():
 
     log_print    = managers.get("log_print")
     counter      = managers.get("counter")
-    json_manager = managers.get('jsonManager')
+    json_manager = managers.get("jsonManager")
     if not json_manager:
         logging.error("JsonManager is not initialized in managers.")
         return
 
-    # Loading the JSON profiles from the specified folder
     try:
         jsonData = json_manager.compile_json_profiles(user_settings["selectorJsonFolder"])
     except Exception as e:
         logging.error(f"Failed to load JSON selectors: {e}")
         return
 
-    # This is where the user selects which sites to scrape from the JSON profiles.
-    selected_sites = site_choice(jsonData)
+    selected_sites = site_choice(jsonData, run_availability_check)
     if not selected_sites:
         logging.error("No sites selected. Exiting program.")
         return
 
     print(f"Sites selected: {[site['source_name'] for site in selected_sites]}")
 
-    # ✅ ADDED: Create an instance of AvailabilityTracker
     availability_tracker = AvailabilityTracker(managers)
 
     comparison_list = {}
@@ -75,22 +71,22 @@ def main():
         for selected_site in selected_sites:
             logging.info(f"Processing site: {selected_site['source_name']}")
 
-            # ✅ NEW: If the JSON profile has "run_availability_check": true, run tile-only availability mode
-            if selected_site.get("run_availability_check", False):
+            # ✅ If availability mode is enabled, run that instead of full scrape
+            if run_availability_check:
                 try:
                     logging.info(f"Running availability check for {selected_site['source_name']}")
-                    availability_tracker.avail_check_main(selected_site)  # ✅ DELEGATE to AvailabilityTracker
-                    continue  # ✅ Skip full scrape
+                    availability_tracker.avail_check_main(selected_site)
+                    continue
                 except Exception as e:
                     logging.error(f"Availability tracker failed for {selected_site['source_name']}: {e}")
                     continue
 
-            # 🔁 Otherwise, run the full scraper
+            # 🔁 Otherwise run full product scrape
             try:
                 managers['siteprocessor'].site_processor_main(
-                    comparison_list, 
-                    selected_site, 
-                    user_settings["targetMatch"], 
+                    comparison_list,
+                    selected_site,
+                    user_settings["targetMatch"],
                     user_settings["use_comparison_row"]
                 )
                 logging.info(f"Successfully processed site: {selected_site['source_name']}")

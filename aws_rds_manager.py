@@ -1,7 +1,7 @@
 import json, sys, logging
 from psycopg2 import pool
 from decimal import Decimal
-
+from datetime import datetime
 
 class AwsRdsManager:
     def __init__(self, credentials_file, min_connections=5, max_connections=10):
@@ -184,9 +184,11 @@ class AwsRdsManager:
             if 'price' not in clean_details_data or clean_details_data['price'] is None:
                 clean_details_data['price'] = 0.0
                 
+            # Add current time in UTC zone. Original done on server side but that led to issues.
+            clean_details_data["date_collected"] = datetime.now().isoformat()
+
             # Filter out empty fields
             filtered_data = {k: v for k, v in clean_details_data.items() if v not in (None, "", [], {})}
-
             # Convert Decimal fields to float and handle JSON serialization
             json_fields = ["original_image_urls", "categories_site_designated"]
             for key, value in filtered_data.items():
