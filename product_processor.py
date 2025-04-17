@@ -63,10 +63,12 @@ class ProductTileDictProcessor:
             db_row = None
             if self.use_comparison_row:
                 try:
+                    # Is the product already in the database?
                     result = self.rds_manager.fetch(
                         "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s",
                         (url,)
                     )
+                    # If yes...
                     if result:
                         db_row = (*result[0], True)  # Add db_present=True
                 except Exception as e:

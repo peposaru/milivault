@@ -1,7 +1,7 @@
 import json, sys, logging
 from psycopg2 import pool
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, timezone
 
 class AwsRdsManager:
     def __init__(self, credentials_file, min_connections=5, max_connections=10):
@@ -185,10 +185,25 @@ class AwsRdsManager:
                 clean_details_data['price'] = 0.0
                 
             # Add current time in UTC zone. Original done on server side but that led to issues.
-            clean_details_data["date_collected"] = datetime.now().isoformat()
+            clean_details_data["date_collected"] = datetime.now(timezone.utc).isoformat()
+
+            is_available = clean_details_data.get("available", True)
+            now_utc = datetime.now(timezone.utc).isoformat()
+
+            clean_details_data["date_collected"] = now_utc
+            clean_details_data["date_modified"] = now_utc
+            clean_details_data["last_seen"] = now_utc
+            clean_details_data["date_sold"] = None if is_available else now_utc
 
             # Filter out empty fields
-            filtered_data = {k: v for k, v in clean_details_data.items() if v not in (None, "", [], {})}
+            required_fields = {"date_sold", "date_collected", "date_modified", "last_seen"}
+            filtered_data = {
+                k: v for k, v in clean_details_data.items()
+                if v not in ("", [], {}) or k in required_fields
+            }
+            logging.debug(f"RDS_MGR: Filtered data for insertion: {filtered_data.keys()}")
+            logging.debug(f"RDS_MGR: Prepared data for insertion: {filtered_data}")
+
             # Convert Decimal fields to float and handle JSON serialization
             json_fields = ["original_image_urls", "categories_site_designated"]
             for key, value in filtered_data.items():
@@ -216,6 +231,26 @@ class AwsRdsManager:
             logging.error(f"Error inserting product to RDS: {e}")
 
 
+    def update_last_seen_bulk(self, url_list):
+        """
+        Update last_seen for all provided URLs to current UTC time using a single query.
+        """
+        if not url_list:
+            logging.debug("RDS MANAGER: No URLs to update last_seen.")
+            return
+
+        now_utc = datetime.now(timezone.utc).isoformat()
+
+        try:
+            update_query = """
+            UPDATE militaria
+            SET last_seen = %s
+            WHERE url = ANY(%s);
+            """
+            self.execute(update_query, (now_utc, url_list))
+            logging.info(f"RDS MANAGER: last_seen updated for {len(url_list)} products (bulk).")
+        except Exception as e:
+            logging.error(f"RDS MANAGER: Failed bulk update for last_seen. Error: {e}")
 
 
 

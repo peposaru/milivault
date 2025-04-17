@@ -130,12 +130,29 @@ class SiteProcessor:
 
             try:
                 product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list, use_comparison_row)
+
                 # I don't remember why I made output but maybe it will come to me later.
                 output = product_details_processor.product_details_processor_main(processing_required_list)
 
             except Exception as e:
                 logging.error(f"SITE PROCESSOR: Error product_details_processor: {e}")
                 continue
+
+            # This is for updating any products that have been seen but not requiring updates with the last_seen date.
+            try:
+                all_tile_urls = {p["url"] for p in tile_product_data_list if "url" in p}
+                touched_urls = {p["url"] for p in processing_required_list + availability_update_list if "url" in p}
+                untouched_urls = all_tile_urls - touched_urls
+
+                # Keep only ones known to exist in the DB (comparison_list[url][-1] == True)
+                existing_untouched_urls = [
+                    url for url in untouched_urls
+                    if comparison_list.get(url, (None, None, None, None, None, False))[-1] is True
+                ]
+
+                self.rds_manager.update_last_seen_bulk(existing_untouched_urls)
+            except Exception as e:
+                logging.error(f"SITE PROCESSOR: Error bulk-updating last_seen for untouched URLs: {e}")
 
             # Add a page to go to the next page.
             try:
