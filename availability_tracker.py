@@ -35,16 +35,16 @@ class AvailabilityTracker:
 
     # Process the last seen mode: Use Case: Sites where sold items are archived or removed after being sold.
     def _process_tile_mode(self, site_profile):
-
         try:
             seen_urls = set()
             self.counter.reset_current_page_count()
             self.counter.set_continue_state_true()
 
-            tile_processor = TileProcessor(site_profile)
+            # ✅ Store TileProcessor for reuse in tile list + processing
+            self.tile_processor = TileProcessor(site_profile)
 
             while self.counter.get_current_continue_state():
-                # Build current page URL
+                # Build page URL
                 page_path = site_profile['access_config']['products_page_path']
                 base_url = site_profile['access_config']['base_url']
                 page_number = self.counter.get_current_page_count()
@@ -58,7 +58,7 @@ class AvailabilityTracker:
                     break
 
                 try:
-                    tiles = self._construct_products_tile_list(soup, site_profile)
+                    tiles = self._construct_products_tile_list(soup)  # ✅ updated call
                     logging.debug(f"AVAIL TRACKER: Tile count → {len(tiles)}")
 
                     if len(tiles) == 0:
@@ -66,7 +66,7 @@ class AvailabilityTracker:
                         self.log_print.terminating(
                             source=site_profile["source_name"],
                             consecutiveMatches=self.counter.get_current_page_count(),
-                            targetMatch=self.counter.get_current_page_count(),  # reuse count as target here
+                            targetMatch=self.counter.get_current_page_count(),
                             runCycle=site_profile.get("run_availability_check", False),
                             productsProcessed=self.counter.get_total_count()
                         )
@@ -78,7 +78,7 @@ class AvailabilityTracker:
                     self.counter.set_continue_state_false()
                     break
 
-                tile_data = tile_processor.tile_process_main(tiles)
+                tile_data = self.tile_processor.tile_process_main(tiles)
                 for product in tile_data:
                     seen_urls.add(product["url"])
 
@@ -91,47 +91,72 @@ class AvailabilityTracker:
         except Exception as e:
             logging.error(f"AVAIL TRACKER: Error in tile mode processing → {e}")
 
+
     # This just uses rds / postgresql to mark all products not seen as unavailable.
     def _mark_unseen_products_unavailable(self, source_name, seen_urls):
         """
         Marks all products from this site that were NOT seen in the current scrape as unavailable.
+        The 'date_sold' field will be updated by a database trigger when 'available' becomes FALSE.
         """
         try:
-            query = """
+            if not seen_urls:
+                logging.warning("AVAIL TRACKER: No seen URLs — skipping availability update.")
+                return
+
+            unseen_urls_placeholder = ','.join(['%s'] * len(seen_urls))
+            params = [source_name] + list(seen_urls)
+
+            query = f"""
                 UPDATE militaria
                 SET available = FALSE
-                WHERE site = %s AND url NOT IN %s AND available = TRUE;
+                WHERE site = %s AND url NOT IN ({unseen_urls_placeholder}) AND available = TRUE;
             """
-            self.rds_manager.execute(query, (source_name, tuple(seen_urls)))
-            logging.info(f"AVAIL TRACKER: Marked unseen products as unavailable for site: {source_name}")
+
+            self.rds_manager.execute(query, params)
+            logging.info(f"AVAIL TRACKER: Marked unseen products unavailable for site: {source_name}")
+
         except Exception as e:
             logging.error(f"AVAIL TRACKER: Error marking unseen products unavailable: {e}")
 
-    def _construct_products_tile_list(self, soup, site_profile):
-        try:
-            product_selectors = site_profile.get("product_selectors", {})
-            tile_selectors = site_profile.get("product_tile_selectors", {})
 
-            tiles_config = product_selectors.get("tiles", {})
+
+
+
+    def _construct_products_tile_list(self, soup):
+        """
+        Extracts valid product tiles from the soup.
+        Applies URL and title validation, and removes duplicates.
+        """
+        try:
+            tile_selectors = self.tile_processor.site_profile.get("product_tile_selectors", {})
+            tiles_config = tile_selectors.get("tiles", {})
             method = tiles_config.get("method", "find_all")
             args = tiles_config.get("args", [])
             kwargs = tiles_config.get("kwargs", {})
 
             product_tiles = getattr(soup, method)(*args, **kwargs)
+            logging.debug(f"AVAIL TRACKER: Raw tiles extracted from soup: {len(product_tiles)}")
 
-            tile_processor = TileProcessor(site_profile)
             seen_urls = set()
             valid_tiles = []
 
-            for tile in product_tiles:
-                raw_url = tile_processor.extract_tile_url(tile)
+            for idx, tile in enumerate(product_tiles):
+                raw_url = self.tile_processor.extract_tile_url(tile)
                 if not raw_url:
+                    logging.debug(f"AVAIL TRACKER: Tile {idx} skipped — no URL found")
                     continue
+
                 if raw_url in seen_urls:
+                    logging.debug(f"AVAIL TRACKER: Tile {idx} skipped — duplicate URL → {raw_url}")
                     continue
-                if tile_processor.extract_tile_title(tile):
+
+                title_ok = self.tile_processor.extract_tile_title(tile)
+                if title_ok:
                     seen_urls.add(raw_url)
                     valid_tiles.append(tile)
+                    logging.debug(f"AVAIL TRACKER: Tile {idx} accepted — URL: {raw_url}")
+                else:
+                    logging.debug(f"AVAIL TRACKER: Tile {idx} skipped — no valid title for URL: {raw_url}")
 
             logging.debug(f"AVAIL TRACKER: Total tiles found: {len(product_tiles)}, Valid tiles: {len(valid_tiles)}")
             return valid_tiles
@@ -139,6 +164,8 @@ class AvailabilityTracker:
         except Exception as e:
             logging.error(f"AVAIL TRACKER: Error in construct_products_tile_list: {e}")
             return []
+
+
 
     def _expire_old_last_seen(self, site_name, timestamp_now):
         try:
@@ -158,7 +185,7 @@ class AvailabilityTracker:
             self.counter.reset_current_page_count()
             self.counter.set_continue_state_true()
 
-            tile_processor = TileProcessor(site_profile)
+            self.tile_processor = TileProcessor(site_profile)  # ✅ Reuse this instance
             now_timestamp = datetime.now(timezone.utc)
 
             while self.counter.get_current_continue_state():
@@ -175,14 +202,14 @@ class AvailabilityTracker:
                     break
 
                 try:
-                    tiles = self._construct_products_tile_list(soup, site_profile)
+                    tiles = self._construct_products_tile_list(soup)  # ✅ No site_profile param
                     logging.debug(f"AVAIL TRACKER: Found {len(tiles)} tiles")
 
                     if not tiles:
                         self.counter.set_continue_state_false()
                         break
 
-                    tile_data = tile_processor.tile_process_main(tiles)
+                    tile_data = self.tile_processor.tile_process_main(tiles)
 
                     for product in tile_data:
                         url = product["url"]
@@ -196,6 +223,7 @@ class AvailabilityTracker:
                     self.counter.add_current_page_count(
                         site_profile.get("access_config", {}).get("page_increment_step", 1)
                     )
+
                 except Exception as e:
                     logging.error(f"AVAIL TRACKER: Error processing tiles: {e}")
                     self.counter.set_continue_state_false()
@@ -205,3 +233,4 @@ class AvailabilityTracker:
 
         except Exception as e:
             logging.error(f"AVAIL TRACKER: Error in last_seen mode: {e}")
+

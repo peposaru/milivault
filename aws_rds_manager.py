@@ -252,6 +252,50 @@ class AwsRdsManager:
         except Exception as e:
             logging.error(f"RDS MANAGER: Failed bulk update for last_seen. Error: {e}")
 
+    def mark_unseen_products_unavailable(self, site_name, seen_urls):
+        """
+        Marks all products from a site that were not seen as unavailable,
+        and sets date_sold to CURRENT_TIMESTAMP if it was previously NULL.
+
+        Returns:
+            dict: Summary with counts of updates made.
+        """
+        try:
+            # Ensure we don’t pass empty tuples (Postgres fails with empty IN clause)
+            if not seen_urls:
+                logging.warning("RDS MANAGER: Empty seen_urls list provided — skipping update.")
+                return {"marked_unavailable": 0, "date_sold_set": 0}
+
+            unseen_tuple = tuple(seen_urls)
+
+            # Step 1: Mark as unavailable
+            update_avail_query = """
+                UPDATE militaria
+                SET available = FALSE
+                WHERE site = %s AND url NOT IN %s AND available = TRUE
+                RETURNING id;
+            """
+            unavailable_result = self.fetch(update_avail_query, (site_name, unseen_tuple))
+            marked_unavailable = len(unavailable_result)
+
+            # Step 2: Set date_sold only if not set
+            update_sold_query = """
+                UPDATE militaria
+                SET date_sold = CURRENT_TIMESTAMP
+                WHERE site = %s AND url NOT IN %s AND date_sold IS NULL
+                RETURNING id;
+            """
+            sold_result = self.fetch(update_sold_query, (site_name, unseen_tuple))
+            date_sold_set = len(sold_result)
+
+            return {
+                "marked_unavailable": marked_unavailable,
+                "date_sold_set": date_sold_set
+            }
+
+        except Exception as e:
+            logging.error(f"RDS MANAGER: Error marking unseen products as unavailable: {e}")
+            return {"marked_unavailable": 0, "date_sold_set": 0}
 
 
 
