@@ -5,7 +5,7 @@ from time import sleep
 # These are modules made for this program specifically.
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
 from logging_manager import initialize_logging
-from availability_tracker import AvailabilityTracker
+from availability_tracker import SiteAvailabilityTracker
 
 def main():
     initialize_logging()
@@ -56,8 +56,12 @@ def main():
 
     print(f"Sites selected: {[site['source_name'] for site in selected_sites]}")
 
-    availability_tracker = AvailabilityTracker(managers)
-
+    try:
+        availability_tracker = SiteAvailabilityTracker(managers)
+    except Exception as e:
+        logging.error(f"Error initializing SiteAvailabilityTracker: {e}")
+        return
+    
     comparison_list = {}
     if not use_comparison_row:
         try:
@@ -68,20 +72,26 @@ def main():
             return
 
     while True:
+        if run_availability_check:
+            try:
+                logging.info("Running availability check for all selected sites...")
+                availability_tracker.avail_track_main(selected_sites)
+            except Exception as e:
+                logging.error(f"Availability tracker failed: {e}")
+
+            logging.info("Availability check completed.")
+
+            if sleeptime:
+                logging.info(f"Sleeping for {sleeptime} seconds before next availability check cycle...")
+                sleep(sleeptime)
+                continue
+            else:
+                logging.info("No sleep time configured. Exiting loop.")
+                break
+
         for selected_site in selected_sites:
             logging.info(f"Processing site: {selected_site['source_name']}")
 
-            # ✅ If availability mode is enabled, run that instead of full scrape
-            if run_availability_check:
-                try:
-                    logging.info(f"Running availability check for {selected_site['source_name']}")
-                    availability_tracker.avail_check_main(selected_site)
-                    continue
-                except Exception as e:
-                    logging.error(f"Availability tracker failed for {selected_site['source_name']}: {e}")
-                    continue
-
-            # 🔁 Otherwise run full product scrape
             try:
                 managers['siteprocessor'].site_processor_main(
                     comparison_list,
@@ -93,16 +103,19 @@ def main():
             except Exception as e:
                 logging.error(f"Error processing site {selected_site['source_name']}: {e}")
 
-        log_print.final_summary(selected_sites, counter)
+        # ✅ Availability mode skips final_summary
+        if not run_availability_check:
+            log_print.final_summary(selected_sites, counter)
+
         logging.info("Processing completed.")
 
         if sleeptime:
-            logging.info(f"Sleeping for {sleeptime} seconds before next cycle...")
+            logging.info(f"Sleeping for {sleeptime} seconds before next full scrape cycle...")
             sleep(sleeptime)
         else:
             logging.info("No sleep time configured. Exiting loop.")
-            log_print.final_summary(selected_sites, counter)
             break
+
 
 
 if __name__ == "__main__":

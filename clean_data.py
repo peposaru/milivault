@@ -401,6 +401,11 @@ class CleanData:
 
             cleaned_parts = []
             for part in parts:
+                # TEMP FIX for MILITARIA_PLAZA: remove specific (RELATED) tag
+                if part.endswith("(RELATED)"):
+                    part = part.replace("(RELATED)", "").strip()
+                    logging.debug(f"CLEAN ITEM TYPE: Removed '(RELATED)' → {part}")
+
                 # Extract from parentheses
                 match = re.search(r"\(([^)]+)\)", part)
                 if match:
@@ -425,6 +430,7 @@ class CleanData:
         except Exception as e:
             logging.error(f"CLEAN ITEM TYPE: Failed to clean item type: {item_type} ({e})")
             return None
+
 
 
 

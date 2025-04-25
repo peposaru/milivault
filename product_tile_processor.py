@@ -20,7 +20,7 @@ class TileProcessor:
         clean_data = CleanData()
         skipped_duplicate_urls = set()
 
-
+        # A product tile is like a product card or item card on a website.
         for product_tile in products_tile_list:
             try:
                 # Extract and clean URL

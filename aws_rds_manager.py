@@ -230,7 +230,7 @@ class AwsRdsManager:
         except Exception as e:
             logging.error(f"Error inserting product to RDS: {e}")
 
-
+    # I think this is not needed anymore. Need to check if it is used anywhere.
     def update_last_seen_bulk(self, url_list):
         """
         Update last_seen for all provided URLs to current UTC time using a single query.
@@ -252,6 +252,7 @@ class AwsRdsManager:
         except Exception as e:
             logging.error(f"RDS MANAGER: Failed bulk update for last_seen. Error: {e}")
 
+    # I think this is not needed anymore. Need to check if it is used anywhere.
     def mark_unseen_products_unavailable(self, site_name, seen_urls):
         """
         Marks all products from a site that were not seen as unavailable,
@@ -297,6 +298,29 @@ class AwsRdsManager:
             logging.error(f"RDS MANAGER: Error marking unseen products as unavailable: {e}")
             return {"marked_unavailable": 0, "date_sold_set": 0}
 
+    def mark_urls_as_sold(self, url_list):
+        """
+        Marks provided product URLs as sold by setting available = FALSE and date_sold = now,
+        but only if date_sold is currently NULL.
+        """
+        if not url_list:
+            logging.info("RDS MANAGER: No URLs provided to mark as sold.")
+            return
+
+        now_utc = datetime.now(timezone.utc).isoformat()
+
+        try:
+            query = """
+                UPDATE militaria
+                SET available = FALSE,
+                    date_sold = %s,
+                    date_modified = %s
+                WHERE url = ANY(%s) AND available = TRUE AND date_sold IS NULL;
+            """
+            self.execute(query, (now_utc, now_utc, url_list))
+            logging.info(f"RDS MANAGER: Marked {len(url_list)} URLs as sold.")
+        except Exception as e:
+            logging.error(f"RDS MANAGER: Failed to update sold status for URLs: {e}")
 
 
 

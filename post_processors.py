@@ -5,32 +5,155 @@ import json
 from bs4 import BeautifulSoup
 from html_manager import HtmlManager
 
-# A universal way to apply post-processors to a value.
-def apply_post_processors(value, post_process_config):
+"""
+apply_post_processors(value, post_process_config, soup=None)
+
+This function takes a raw extracted value (e.g., from a product page) and applies one or more post-processing operations
+defined in the post_process_config dictionary. It is designed to be universal and compatible with flexible JSON-style
+scraper configurations.
+
+USE CASES:
+- Strip whitespace
+- Apply regex patterns to extract parts of a string (e.g., price)
+- Convert to lowercase, replace text, or call custom functions
+- Fallback to HTML-based price extraction if standard method fails
+
+=======================
+✨ BASIC USAGE EXAMPLES
+=======================
+
+EXAMPLE 1: Simple strip
+-----------------------
+{
+  "strip": true
+}
+→ Removes leading/trailing spaces → " €325 " → "€325"
+
+EXAMPLE 2: Regex to extract numbers
+-----------------------------------
+{
+  "type": "regex",
+  "pattern": "([\\d.,]+)"
+}
+→ From "€325.00", extracts "325.00"
+
+EXAMPLE 3: Regex with fallback function (site-specific hidden price)
+---------------------------------------------------------------------
+{
+  "type": "regex_fallback",
+  "pattern": "([\\d.,]+)",
+  "giels_hidden_price": {
+    "fallback": true
+  }
+}
+→ First tries regex.
+→ If value is empty or 'SOLD', it calls: giels_hidden_price(soup)
+
+EXAMPLE 4: Direct custom function
+---------------------------------
+{
+  "function": "my_custom_extractor"
+}
+→ Calls `my_custom_extractor(soup)` and uses the return value.
+
+=======================
+🔧 HANDLED INTERNALLY:
+=======================
+- Keys like "strip", "replace", "lower" will trigger functions of the same name
+- If "type" is given:
+    - "regex" → calls regex()
+    - "contains" → calls find_text_contains()
+    - "regex_fallback" → tries regex, then fallback function
+- If "function" is specified, it is immediately run and overrides other logic
+- Keys like "pattern", "fallback", "if_true", etc. are passed into their respective processors
+
+=======================
+🔁 FLEXIBLE & EXTENDABLE
+=======================
+You can add your own post-processing functions (e.g., def giels_hidden_price(soup): ...)
+and reference them in the config like so:
+{
+  "giels_hidden_price": { "fallback": true }
+}
+
+OR
+
+{
+  "function": "giels_hidden_price"
+}
+
+"""
+def apply_post_processors(value, post_process_config, soup=None):
     """
     Apply a series of post-processing operations to a value.
 
-    Supports:
-    - Direct keys like "strip": true
-    - Structured type logic like "type": "contains"
+    Args:
+        value (any): The value to process.
+        post_process_config (dict): The config dict with instructions.
+        soup (BeautifulSoup, optional): The full HTML for function fallback access.
+
+    Returns:
+        any: The final processed value.
     """
     if not isinstance(post_process_config, dict):
         return value
 
     for func_name, arg in post_process_config.items():
-        # 🔑 Structured logic: "type": "contains"
-        if func_name == "type":
-            if arg == "contains":
-                return find_text_contains(value, post_process_config)
-            elif arg == "regex":
-                return regex(value, post_process_config)
-            return value  # fail silently for unknown type
-
-        # 🚫 Skip config-only keys used inside type-based processors
-        if func_name in {"value", "if_true", "if_false", "case_insensitive", "pattern", "fallback", "url"}:
+        # 🔁 Function delegation mode: {"function": "gielsmilitaria_hidden_price"}
+        if func_name == "function":
+            try:
+                func = globals().get(arg)
+                if callable(func):
+                    value = func(soup) if soup is not None else func()
+                else:
+                    logging.warning(f"POST PROCESSOR: Function '{arg}' not found.")
+            except Exception as e:
+                logging.warning(f"POST PROCESSOR: Error calling function '{arg}': {e}")
             continue
 
-        # 🔁 Apply classic function-style post-processors (e.g. "strip": true)
+        # 🔎 Type-specific logic like regex or contains
+        if func_name == "type":
+            if arg == "contains":
+                result = find_text_contains(value, post_process_config)
+                if isinstance(result, dict) and "function" in result:
+                    try:
+                        fallback_func = globals().get(result["function"])
+                        if callable(fallback_func):
+                            return fallback_func(soup) if soup else fallback_func()
+                    except Exception as e:
+                        logging.warning(f"POST PROCESSOR: Error in fallback function '{result['function']}': {e}")
+                return result
+
+            elif arg == "regex":
+                try:
+                    result = regex(value, post_process_config)
+                    # Fallback if result is empty string or "0"
+                    if result in (None, "", "0") and "fallback" in post_process_config:
+                        for fallback_func_name, opts in post_process_config.items():
+                            if isinstance(opts, dict) and opts.get("fallback"):
+                                func = globals().get(fallback_func_name)
+                                if callable(func):
+                                    logging.info(f"POST PROCESSOR: Falling back to function '{fallback_func_name}'")
+                                    return func(soup) if soup else func()
+                    return result
+                except Exception as e:
+                    logging.warning(f"POST PROCESSOR: Regex failed with error: {e}")
+                    if "fallback" in post_process_config:
+                        for fallback_func_name, opts in post_process_config.items():
+                            if isinstance(opts, dict) and opts.get("fallback"):
+                                func = globals().get(fallback_func_name)
+                                if callable(func):
+                                    logging.info(f"POST PROCESSOR: Falling back to function '{fallback_func_name}'")
+                                    return func(soup) if soup else func()
+                return value
+
+            continue
+
+        # 🚫 Skip keys that are meant for internal processor use
+        if func_name in {"value", "if_true", "if_false", "case_insensitive", "pattern", "fallback", "fallback_price", "url"}:
+            continue
+
+        # 🛠️ Simple processors like "strip": true
         func = globals().get(func_name)
         if callable(func):
             try:
@@ -38,9 +161,12 @@ def apply_post_processors(value, post_process_config):
             except Exception as e:
                 logging.warning(f"POST PROCESSOR: Failed {func_name} → {e}")
         else:
-            logging.warning(f"Post-process function '{func_name}' not found.")
+            logging.warning(f"POST PROCESSOR: Function '{func_name}' not found.")
 
     return value
+
+
+
 
 
 
@@ -99,38 +225,6 @@ def split(value, config):
     elif take == "last":
         return parts[-1].strip() if parts else value
     return value
-
-# def find_text_contains(value, config):
-#     value = normalize_input(value)
-#     try:
-#         if not config or not isinstance(config, dict):
-#             return False
-
-#         needle = config.get("value", "")
-#         if not isinstance(needle, str):
-#             return config.get("if_false", False)
-
-#         # If value is a tag (BeautifulSoup), extract text
-#         if hasattr(value, 'get_text'):
-#             value = value.get_text(strip=True)
-
-#         # If value is a list, join into a string
-#         if isinstance(value, list):
-#             value = " ".join(map(str, value))
-
-#         if not isinstance(value, str):
-#             return config.get("if_false", False)
-
-#         case_insensitive = config.get("case_insensitive", True)
-#         haystack = value.lower() if case_insensitive else value
-#         needle = needle.lower() if case_insensitive else needle
-
-#         return config.get("if_true", True) if needle in haystack else config.get("if_false", False)
-
-#     except Exception as e:
-#         import logging
-#         logging.error(f"Error in find_text_contains: {e}")
-#         return config.get("if_false", False)
 
 def find_text_contains(value, config):
     value = normalize_input(value)
@@ -251,10 +345,13 @@ def set(value, arg):
     """
     return arg
 
-def from_url(original_text, arg=None):
-    value = normalize_input(value)
-    """Returns the product URL for further post-processing."""
+def from_url(value, arg=None):
+    """
+    Pass-through that returns the full product URL for further post-processing.
+    Assumes 'value' is ignored and URL comes from config["url"].
+    """
     return arg if isinstance(arg, str) else ""
+
 
 def rg_militaria_hidden_price(value, config):
     value = normalize_input(value)
@@ -311,3 +408,24 @@ def rg_militaria_hidden_price(value, config):
     except Exception as e:
         logging.error(f"POST PROCESS: [rg_militaria_hidden_price] Error: {e}")
         return value
+    
+def gielsmilitaria_hidden_price(value, **kwargs):
+    import logging
+    logging.info("[GIELSMILITARIA HIDDEN PRICE] Function activated. Initial value: %s", value)
+
+    if value and isinstance(value, str) and "SOLD" in value.upper():
+        soup = kwargs.get("soup")
+        if soup:
+            price_div = soup.find("div", attrs={"data-pp-amount": True})
+            if price_div:
+                extracted = price_div.get("data-pp-amount", value)
+                logging.info("[GIELSMILITARIA HIDDEN PRICE] Fallback price extracted: %s", extracted)
+                return extracted
+            else:
+                logging.warning("[GIELSMILITARIA HIDDEN PRICE] data-pp-amount div not found")
+        else:
+            logging.warning("[GIELSMILITARIA HIDDEN PRICE] BeautifulSoup object not available")
+
+    return value
+
+
