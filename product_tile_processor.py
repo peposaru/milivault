@@ -136,10 +136,13 @@ class TileProcessor:
 
             # Attribute extraction
             if attribute:
-                # Generates a lot of spam in logger.
-                attr_val = element.get(attribute, "").strip()
-                # logging.debug(f"TILE PROCESSOR: Extracted attribute '{attribute}' → {attr_val}")
-                return attr_val
+                attr_val = element.get(attribute, "")
+
+                # Defensive fix: If attribute is a list (e.g., class_), join into a string
+                if isinstance(attr_val, list):
+                    attr_val = " ".join(attr_val)
+
+                return attr_val.strip()
 
             # If it's a BeautifulSoup tag, extract text
             if hasattr(element, "get_text"):
