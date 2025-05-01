@@ -1,2 +1,0 @@
-2025-05-01 17:56:01,714 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-01_17-56-01.log
-2025-05-01 17:56:10,724 - ERROR - SETTINGS MANAGER: Error changing directory: [WinError 3] The system cannot find the path specified: '/home/ec2-user/milivault/'
