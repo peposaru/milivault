@@ -1,0 +1,2 @@
+2025-05-01 18:38:57,437 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-01_18-38-57.log
+2025-05-01 18:38:59,618 - DEBUG - Adjusted logging level to DEBUG for environment: local
