@@ -63,22 +63,17 @@ class ProductTileDictProcessor:
             db_row = None
             if self.use_comparison_row:
                 try:
-                    # Is the product already in the database?
                     result = self.rds_manager.fetch(
                         "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s",
                         (url,)
                     )
-                    # If yes...
                     if result:
-                        db_row = (*result[0], True)  # Add db_present=True
+                        db_row = (*result[0], True)
                 except Exception as e:
                     logging.error(f"PRODUCT PROCESSOR: DB lookup failed for URL {url}: {e}")
                     continue
-
-            # If not using comparison row, check the comparison list which should be already downloaded from the database.
             elif self.use_comparison_list and url in self.comparison_list:
                 db_row = self.comparison_list[url]
-
 
             if db_row:
                 try:
@@ -89,52 +84,52 @@ class ProductTileDictProcessor:
 
                 # Determine price match logic
                 if db_available == False and available == False and self.is_empty_price(price):
-                    # Example: Sold product → DB price = 35.0, TILE price = 0.0
                     price_match = True
                     logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
-
                 elif self.is_empty_price(db_price) and not self.is_empty_price(price):
-                    # Example: Unexpected → DB price = 0.0, TILE price = 35.0 (new price appeared)
                     price_match = False
                     tile_product_dict["force_details_process"] = True
                     logging.debug(f"PRODUCT PROCESSOR: [FORCE PROCESS] DB has 0 price, tile has value → DB={db_price}, TILE={price}")
-
                 elif not self.is_empty_price(db_price) and self.is_empty_price(price):
-                    # Example: Product was available before → DB price = 250.0, TILE price = 0.0 (likely sold now)
                     price_match = True
                     logging.debug(f"PRODUCT PROCESSOR: [IGNORE] Tile price is 0 but DB still has value → DB={db_price}, TILE={price}")
-
                 else:
                     try:
                         price_match = float(db_price) == float(price)
                         if not price_match:
-                            # Example: Price changed → DB price = 30.0, TILE price = 25.0
                             logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
                     except (TypeError, ValueError):
-                        # Example: Comparison failed due to bad data format
                         price_match = False
                         logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
 
+                # Compare cleaned titles
+                title_cleaned = CleanData.clean_title(title)
+                db_title_cleaned = CleanData.clean_title(db_title)
 
-                # Check for exact matches of title, price, and availability
-                if title == db_title and price_match:
+                if title_cleaned == db_title_cleaned and price_match:
                     if available != db_available:
-                        # Only availability differs, add to availability update list
+                        logging.info(f"AVAIL CHANGE: Availability changed → URL: {url}, DB: {db_available}, Tile: {available}")
                         availability_update_list.append({"url": url, "available": available})
                         product_category = "Availability Update"
                         reason = "Availability status changed"
                         self.counter.add_availability_update_count(1)
                     else:
-                        # No changes required
+                        logging.info(f"SKIP: No changes → URL: {url}")
                         ignored_update_count += 1
                         continue
                 else:
-                    # Add non-matching products to the full processing list
+                    logging.info(
+                        f"""PROCESSING REQUIRED: Title or price mismatch → URL: {url}
+    DB Title     : {db_title_cleaned}
+    Tile Title   : {title_cleaned}
+    DB Price     : {db_price}
+    Tile Price   : {price}"""
+                    )
                     processing_required_list.append(tile_product_dict)
                     reason = "Mismatch in title or price"
                     self.counter.add_processing_required_count(1)
             else:
-                # Products that require further processing.
+                logging.info(f"NEW PRODUCT: Not found in DB or comparison list → URL: {url}")
                 processing_required_list.append(tile_product_dict)
                 reason = "New product"
                 self.counter.add_processing_required_count(1)
@@ -146,33 +141,32 @@ class ProductTileDictProcessor:
                         available,
                         "",   # description
                         [],   # price history
-                        False # not in DB yet
+                        False
                     )
-
 
             logging.info(
                 f"""
-======== Product Summary ========
-URL                  : {url}
-DB Title             : {db_title if 'db_title' in locals() else 'N/A'}
-Tile Title           : {tile_product_dict['title']}
-DB Price             : {db_price if 'db_price' in locals() else 'N/A'}
-Tile Price           : {tile_product_dict['price']}
-DB Availability      : {db_available if 'db_available' in locals() else 'N/A'}
-Tile Availability    : {tile_product_dict['available']}
-==================================
-Product Category     : {product_category}
-Reason               : {reason}
-==================================
+    ======== Product Summary ========
+    URL                  : {url}
+    DB Title             : {db_title if 'db_title' in locals() else 'N/A'}
+    Tile Title           : {tile_product_dict['title']}
+    DB Price             : {db_price if 'db_price' in locals() else 'N/A'}
+    Tile Price           : {tile_product_dict['price']}
+    DB Availability      : {db_available if 'db_available' in locals() else 'N/A'}
+    Tile Availability    : {tile_product_dict['available']}
+    ==================================
+    Product Category     : {product_category}
+    Reason               : {reason}
+    ==================================
                 """
             )
 
-        # Logging summary of processing
         logging.info(f'PRODUCT PROCESSOR: Products needing full processing  : {len(processing_required_list)}')
         logging.info(f'PRODUCT PROCESSOR: Products needing availability updates: {len(availability_update_list)}')
         logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed): {ignored_update_count}')
 
         return processing_required_list, availability_update_list
+
 
 
 

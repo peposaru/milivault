@@ -180,15 +180,26 @@ class AwsRdsManager:
             None
         """
         try:
+            from clean_data import CleanData  # if not already imported
+
+            # ✅ Clean and extract the canonical URL
+            clean_details_data["url"] = CleanData.clean_url(clean_details_data["url"])
+            url = clean_details_data["url"]
+
+            # ✅ Check for existing product before insert
+            existing_check = """
+            SELECT 1 FROM militaria WHERE url = %s LIMIT 1;
+            """
+            if self.fetch(existing_check, (url,)):
+                logging.warning(f"RDS MANAGER: Skipping insert — product already exists for URL: {url}")
+                return
+
             # Ensure price is never None, but do not replace a valid DB price
             if 'price' not in clean_details_data or clean_details_data['price'] is None:
                 clean_details_data['price'] = 0.0
-                
-            # Add current time in UTC zone. Original done on server side but that led to issues.
-            clean_details_data["date_collected"] = datetime.now(timezone.utc).isoformat()
 
-            is_available = clean_details_data.get("available", True)
             now_utc = datetime.now(timezone.utc).isoformat()
+            is_available = clean_details_data.get("available", True)
 
             clean_details_data["date_collected"] = now_utc
             clean_details_data["date_modified"] = now_utc
@@ -201,6 +212,7 @@ class AwsRdsManager:
                 k: v for k, v in clean_details_data.items()
                 if v not in ("", [], {}) or k in required_fields
             }
+
             logging.debug(f"RDS_MGR: Filtered data for insertion: {filtered_data.keys()}")
             logging.debug(f"RDS_MGR: Prepared data for insertion: {filtered_data}")
 
@@ -208,11 +220,11 @@ class AwsRdsManager:
             json_fields = ["original_image_urls", "categories_site_designated"]
             for key, value in filtered_data.items():
                 if isinstance(value, Decimal):
-                    filtered_data[key] = float(value)  # Convert Decimal to float
+                    filtered_data[key] = float(value)
                 if key in json_fields:
-                    filtered_data[key] = json.dumps(value, default=float)  # Handle serialization for JSON fields
+                    filtered_data[key] = json.dumps(value, default=float)
 
-            # Prepare the column names and placeholders dynamically
+            # Prepare the query
             columns = ", ".join(filtered_data.keys())
             placeholders = ", ".join(["%s"] * len(filtered_data))
             insert_query = f"""
@@ -220,15 +232,15 @@ class AwsRdsManager:
             VALUES ({placeholders})
             """
 
-            # Debug the prepared data
             logging.debug(f"Prepared data for insertion: {filtered_data}")
 
-            # Execute the query
+            # Execute the insert
             self.execute(insert_query, tuple(filtered_data.values()))
             logging.info(f"Successfully inserted product: {clean_details_data.get('title')}")
 
         except Exception as e:
             logging.error(f"Error inserting product to RDS: {e}")
+
 
     # I think this is not needed anymore. Need to check if it is used anywhere.
     def update_last_seen_bulk(self, url_list):
