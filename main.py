@@ -135,20 +135,15 @@ def main():
             log_print.final_summary(all_scrape_sites, counter)
 
         # Calculate next check timing
-        next_avail_due = user_settings["last_avail_run"] + availability_sleeptime
-        next_scrape_due = user_settings["last_scrape_run"] + scrape_sleeptime
-        next_due = min(next_avail_due, next_scrape_due)
+        # Fixed sleep after each full cycle, defaulting to 1800s if undefined
+        sleep_seconds = min(
+            user_settings.get("availability_sleeptime", 1800) or 1800,
+            user_settings.get("scrape_sleeptime", 1800) or 1800
+        )
 
-        sleep_seconds = next_due - time.time()
-        if sleep_seconds < 10:
-            logging.warning(f"Calculated sleep was {sleep_seconds:.2f} seconds. Forcing minimum 10 seconds sleep.")
-            sleep_seconds = 10
-
-        sleep_seconds = int(sleep_seconds)
         next_wakeup_time = datetime.fromtimestamp(time.time() + sleep_seconds).strftime("%Y-%m-%d %H:%M:%S")
         logging.info(f"Sleeping {sleep_seconds} seconds... Next check at {next_wakeup_time}")
         sleep(sleep_seconds)
-
 
 
 if __name__ == "__main__":

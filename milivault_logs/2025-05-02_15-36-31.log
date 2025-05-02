@@ -1,0 +1,1252 @@
+2025-05-02 15:36:31,847 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-02_15-36-31.log
+2025-05-02 15:36:32,660 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-05-02 15:36:35,242 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-05-02 15:36:36,324 - INFO - Connection pool initialized successfully.
+2025-05-02 15:36:36,325 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-05-02 15:36:36,326 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-05-02 15:36:36,327 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-05-02 15:36:36,328 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-05-02 15:36:36,328 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-05-02 15:36:36,328 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-05-02 15:36:36,329 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-05-02 15:36:36,330 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-05-02 15:36:36,331 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-05-02 15:36:36,331 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-05-02 15:36:36,331 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-05-02 15:36:36,378 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\endpoints.json
+2025-05-02 15:36:36,394 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-05-02 15:36:36,395 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001C9F3E48F40>
+2025-05-02 15:36:36,503 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-05-02 15:36:36,510 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-05-02 15:36:36,615 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-05-02 15:36:36,619 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\partitions.json
+2025-05-02 15:36:36,620 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001C9F3D6F740>
+2025-05-02 15:36:36,621 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001C9F4287100>
+2025-05-02 15:36:36,674 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001C9F3D6F4C0>
+2025-05-02 15:36:36,674 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-05-02 15:36:36,674 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-05-02 15:36:36,674 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-05-02 15:36:36,674 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-05-02 15:36:36,674 - DEBUG - No configured endpoint found.
+2025-05-02 15:36:36,676 - DEBUG - Setting s3 timeout as (60, 60)
+2025-05-02 15:36:36,678 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\_retry.json
+2025-05-02 15:36:36,678 - DEBUG - Registering retry handlers for service: s3
+2025-05-02 15:36:36,679 - DEBUG - Registering S3 region redirector handler
+2025-05-02 15:36:36,679 - DEBUG - Registering S3Express Identity Resolver
+2025-05-02 15:36:36,680 - INFO - S3Manager initialized for bucket militaria-images
+2025-05-02 15:36:36,694 - ERROR - Error decoding JSON file C:/Users/keena/Desktop/Milivault/site-json/THE_WAR_FRONT.json: Expecting value: line 1 column 1 (char 0)
+2025-05-02 15:36:38,446 - INFO - Processing site: 20TH_CENTURY_MILITARIA
+2025-05-02 15:36:38,446 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-05-02 15:36:38,446 - DEBUG - SITE PROCESSOR: Debug: base_url: https://20thcenturymilitaria.com
+2025-05-02 15:36:38,446 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-05-02 15:36:38,447 - INFO - MILITARIA SITE        : 20TH_CENTURY_MILITARIA
+2025-05-02 15:36:38,447 - INFO - PRODUCTS URL          : https://20thcenturymilitaria.com
+2025-05-02 15:36:38,447 - INFO - CYCLES RUN            : False
+2025-05-02 15:36:38,447 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-02 15:36:38,447 - INFO - TIMESTAMP             : 2025-05-02 15:36:38.446923
+2025-05-02 15:36:38,447 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-05-02 15:36:38,447 - INFO - SITE PROCESSOR: Current product page: https://20thcenturymilitaria.com/shop.php?pg=0
+2025-05-02 15:36:38,448 - INFO - SITE PROCESSOR: Current page: 0
+2025-05-02 15:36:38,450 - DEBUG - Starting new HTTPS connection (1): 20thcenturymilitaria.com:443
+2025-05-02 15:36:39,735 - DEBUG - https://20thcenturymilitaria.com:443 "GET /shop.php?pg=0 HTTP/1.1" 200 5892
+2025-05-02 15:36:39,748 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-05-02 15:36:39,749 - DEBUG - TILE PROCESSOR: Extracted text from tag → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,751 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,751 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,751 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,751 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,751 - DEBUG - SITE PROCESSOR: Total tiles found: 10, Valid tiles: 10
+2025-05-02 15:36:39,751 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 10 
+2025-05-02 15:36:39,752 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:39,752 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:39,752 - DEBUG - TILE PROCESSOR: Extracted text from tag → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,752 - DEBUG - CLEAN TITLE: Raw input → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,752 - DEBUG - CLEAN TITLE: After unescape → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,753 - DEBUG - CLEAN TITLE: After removing HTML tags → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,753 - DEBUG - CLEAN TITLE: After normalizing quotes → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,753 - DEBUG - CLEAN TITLE: After collapsing spaces → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,753 - DEBUG - CLEAN TITLE: Final cleaned title → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,753 - DEBUG - TILE PROCESSOR: Extracted text from tag → 750.00 GBP
+2025-05-02 15:36:39,754 - DEBUG - CLEAN PRICE: Stripped text → 750.00
+2025-05-02 15:36:39,754 - DEBUG - CLEAN PRICE: Parsed value → 750.0
+2025-05-02 15:36:39,755 - DEBUG - [BEFORE AVAIL] <div class="shopitem newitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51569"><img alt="Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign" class="thumbnailList" src="photos/51569.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51569" title="Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign">
+<h2>Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign</h2>
+</a>
+<p class="itemDescription">
+                        During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war.  Sovereigns  were issued to British personnel deemed as at  risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actua...                         <a href="?code=51569">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51569">Code: 51569</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            750.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51569"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,756 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem', 'newitem']}
+2025-05-02 15:36:39,756 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,756 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,756 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,756 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,757 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51569
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51569
+
+                Raw Title          : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+                Cleaned Title      : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+
+                Raw Price          : 750.00
+                Cleaned Price      : 750.0
+
+                Raw Availability   : ['shopitem', 'newitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,757 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:39,757 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:39,757 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,757 - DEBUG - CLEAN TITLE: Raw input → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - CLEAN TITLE: After unescape → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:39,758 - DEBUG - TILE PROCESSOR: Extracted text from tag → 20.00 GBP
+2025-05-02 15:36:39,759 - DEBUG - CLEAN PRICE: Stripped text → 20.00
+2025-05-02 15:36:39,759 - DEBUG - CLEAN PRICE: Parsed value → 20.0
+2025-05-02 15:36:39,759 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51911"><img alt="WW2 Times of Malta Newspaper - August 1943" class="thumbnailList" src="photos/51911.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51911" title="WW2 Times of Malta Newspaper - August 1943">
+<h2>WW2 Times of Malta Newspaper - August 1943</h2>
+</a>
+<p class="itemDescription">
+                        A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states "For security reasons this copy must not be taken outside of Malta". <br/>
+Contains interesting new articles of the period. The paper is in pretty good condition for age.                         <a href="?code=51911">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51911">Code: 51911</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            20.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51911"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,760 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,760 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,760 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,760 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,760 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,761 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51911
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51911
+
+                Raw Title          : WW2 Times of Malta Newspaper - August 1943
+                Cleaned Title      : WW2 Times of Malta Newspaper - August 1943
+
+                Raw Price          : 20.00
+                Cleaned Price      : 20.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,761 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:39,761 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:39,761 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,761 - DEBUG - CLEAN TITLE: Raw input → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - CLEAN TITLE: After unescape → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:39,762 - DEBUG - TILE PROCESSOR: Extracted text from tag → 55.00 GBP
+2025-05-02 15:36:39,763 - DEBUG - CLEAN PRICE: Stripped text → 55.00
+2025-05-02 15:36:39,763 - DEBUG - CLEAN PRICE: Parsed value → 55.0
+2025-05-02 15:36:39,763 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51909"><img alt="WW2 Maltese Cigarette Packet &amp; Misc Contents" class="thumbnailList" src="photos/51909.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51909" title="WW2 Maltese Cigarette Packet &amp; Misc Contents">
+<h2>WW2 Maltese Cigarette Packet &amp; Misc Contents</h2>
+</a>
+<p class="itemDescription">
+                        A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).                         <a href="?code=51909">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51909">Code: 51909</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            55.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51909"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,764 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,764 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,764 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,764 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,764 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,765 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51909
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51909
+
+                Raw Title          : WW2 Maltese Cigarette Packet & Misc Contents
+                Cleaned Title      : WW2 Maltese Cigarette Packet & Misc Contents
+
+                Raw Price          : 55.00
+                Cleaned Price      : 55.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,765 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51910
+2025-05-02 15:36:39,765 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51910
+2025-05-02 15:36:39,765 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,765 - DEBUG - CLEAN TITLE: Raw input → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - CLEAN TITLE: After unescape → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Times of Malta Newspaper - July 1943
+2025-05-02 15:36:39,766 - DEBUG - TILE PROCESSOR: Extracted text from tag → 20.00 GBP
+2025-05-02 15:36:39,767 - DEBUG - CLEAN PRICE: Stripped text → 20.00
+2025-05-02 15:36:39,767 - DEBUG - CLEAN PRICE: Parsed value → 20.0
+2025-05-02 15:36:39,767 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51910"><img alt="WW2 Times of Malta Newspaper - July 1943" class="thumbnailList" src="photos/51910.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51910" title="WW2 Times of Malta Newspaper - July 1943">
+<h2>WW2 Times of Malta Newspaper - July 1943</h2>
+</a>
+<p class="itemDescription">
+                        A great example of a Times of Malta newspaper dated Wednesday, July 28, 1943. The top states "For security reasons this copy must not be taken outside of Malta". <br/>
+Contains interesting new articles of the period. The paper is in pretty good condition for age, however there has been a rip on the top left corner neatly repaired with tape.                         <a href="?code=51910">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51910">Code: 51910</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            20.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51910"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,768 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,768 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,768 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,768 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,768 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,768 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51910
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51910
+
+                Raw Title          : WW2 Times of Malta Newspaper - July 1943
+                Cleaned Title      : WW2 Times of Malta Newspaper - July 1943
+
+                Raw Price          : 20.00
+                Cleaned Price      : 20.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,769 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51907
+2025-05-02 15:36:39,769 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51907
+2025-05-02 15:36:39,769 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,769 - DEBUG - CLEAN TITLE: Raw input → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,769 - DEBUG - CLEAN TITLE: After unescape → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,769 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,770 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,770 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,770 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+2025-05-02 15:36:39,770 - DEBUG - TILE PROCESSOR: Extracted text from tag → 595.00 GBP
+2025-05-02 15:36:39,770 - DEBUG - CLEAN PRICE: Stripped text → 595.00
+2025-05-02 15:36:39,771 - DEBUG - CLEAN PRICE: Parsed value → 595.0
+2025-05-02 15:36:39,771 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51907"><img alt="WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA" class="thumbnailList" src="photos/51907.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51907" title="WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA">
+<h2>WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA</h2>
+</a>
+<p class="itemDescription">
+                        A British Mk.II helmet painted with the iconic textured Malta camouflage pattern with Royal Artillery decal to one side. The outside of the helmet has seen some wear and there is a dent to the front, visible rust discolouration can be seen coming through various areas of paint. The inside has a fair amount of surface rust with just a few spots of the original factory paint still visible particu...                         <a href="?code=51907">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51907">Code: 51907</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            595.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51907"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,772 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,772 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,772 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,772 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,772 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,772 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51907
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51907
+
+                Raw Title          : WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+                Cleaned Title      : WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+
+                Raw Price          : 595.00
+                Cleaned Price      : 595.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,773 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51915
+2025-05-02 15:36:39,773 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51915
+2025-05-02 15:36:39,773 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,773 - DEBUG - CLEAN TITLE: Raw input → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,773 - DEBUG - CLEAN TITLE: After unescape → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,773 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,774 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,774 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,774 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Malta - Wedding Photographs - Royal Artillery
+2025-05-02 15:36:39,774 - DEBUG - TILE PROCESSOR: Extracted text from tag → 25.00 GBP
+2025-05-02 15:36:39,775 - DEBUG - CLEAN PRICE: Stripped text → 25.00
+2025-05-02 15:36:39,775 - DEBUG - CLEAN PRICE: Parsed value → 25.0
+2025-05-02 15:36:39,775 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51915"><img alt="WW2 Malta - Wedding Photographs - Royal Artillery" class="thumbnailList" src="photos/51915.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51915" title="WW2 Malta - Wedding Photographs - Royal Artillery">
+<h2>WW2 Malta - Wedding Photographs - Royal Artillery</h2>
+</a>
+<p class="itemDescription">
+                        Two photographs depicting a Corporal in the Malta garrisoned Royal Artilery getting married to a local woman. The photographs measure 11.5 x 16 cm and are embossed with the photo studio in Hamrun, a town located just outside Valetta.                         <a href="?code=51915">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51915">Code: 51915</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            25.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51915"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,776 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,776 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,776 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,776 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,776 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,777 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51915
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51915
+
+                Raw Title          : WW2 Malta - Wedding Photographs - Royal Artillery
+                Cleaned Title      : WW2 Malta - Wedding Photographs - Royal Artillery
+
+                Raw Price          : 25.00
+                Cleaned Price      : 25.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,777 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51738
+2025-05-02 15:36:39,777 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51738
+2025-05-02 15:36:39,777 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,777 - DEBUG - CLEAN TITLE: Raw input → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,778 - DEBUG - CLEAN TITLE: After unescape → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,778 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,778 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,778 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,778 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:39,779 - DEBUG - TILE PROCESSOR: Extracted text from tag → 295.00 GBP
+2025-05-02 15:36:39,779 - DEBUG - CLEAN PRICE: Stripped text → 295.00
+2025-05-02 15:36:39,780 - DEBUG - CLEAN PRICE: Parsed value → 295.0
+2025-05-02 15:36:39,781 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51738"><img alt="WW2 1939 MkII Helmet - Czechoslovakia" class="thumbnailList" src="photos/51738.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51738" title="WW2 1939 MkII Helmet - Czechoslovakia">
+<h2>WW2 1939 MkII Helmet - Czechoslovakia</h2>
+</a>
+<p class="itemDescription">
+                        This is an early MkII British helmet painted in a rough textured camouflage. The Czechoslovakia flag has been painted to one side. The inside of the shell is stamped 1939 F.C. Co Ltd T 635 and retains its original factory finish paint. The helmet is fitted with a Mk1 cradle J. C. S &amp; W Ltd 1939 and is a size 6 1/3. Fitted with MkII lugs and MkII chin strap.                         <a href="?code=51738">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51738">Code: 51738</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            295.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51738"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,782 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,782 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,782 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,783 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,783 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,783 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51738
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51738
+
+                Raw Title          : WW2 1939 MkII Helmet - Czechoslovakia
+                Cleaned Title      : WW2 1939 MkII Helmet - Czechoslovakia
+
+                Raw Price          : 295.00
+                Cleaned Price      : 295.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,784 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51502
+2025-05-02 15:36:39,784 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51502
+2025-05-02 15:36:39,784 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,784 - DEBUG - CLEAN TITLE: Raw input → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - CLEAN TITLE: After unescape → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:39,785 - DEBUG - TILE PROCESSOR: Extracted text from tag → 40.00 GBP
+2025-05-02 15:36:39,786 - DEBUG - CLEAN PRICE: Stripped text → 40.00
+2025-05-02 15:36:39,786 - DEBUG - CLEAN PRICE: Parsed value → 40.0
+2025-05-02 15:36:39,787 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51502"><img alt="WW2 4 x Photos Graphic Photographes Japanese" class="thumbnailList" src="photos/51502.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51502" title="WW2 4 x Photos Graphic Photographes Japanese">
+<h2>WW2 4 x Photos Graphic Photographes Japanese</h2>
+</a>
+<p class="itemDescription">
+                        A set of four original graphic photographs taken in the Pacific Theatre of war. These appear to have been removed from an album and depict various photographs of dead Japanese troops. Some of these appear to show dead Japanese marines after a failed attack one of the Pacific islands, possibly Wake Island? Each photograph measure approx 11 x 9cm.                         <a href="?code=51502">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51502">Code: 51502</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            40.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51502"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,788 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,788 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,788 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,788 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,788 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,788 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51502
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51502
+
+                Raw Title          : WW2 4 x Photos Graphic Photographes Japanese
+                Cleaned Title      : WW2 4 x Photos Graphic Photographes Japanese
+
+                Raw Price          : 40.00
+                Cleaned Price      : 40.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,789 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51787
+2025-05-02 15:36:39,789 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51787
+2025-05-02 15:36:39,789 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,789 - DEBUG - CLEAN TITLE: Raw input → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,790 - DEBUG - CLEAN TITLE: After unescape → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,790 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,790 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,790 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,790 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:39,791 - DEBUG - TILE PROCESSOR: Extracted text from tag → 295.00 GBP
+2025-05-02 15:36:39,791 - DEBUG - CLEAN PRICE: Stripped text → 295.00
+2025-05-02 15:36:39,791 - DEBUG - CLEAN PRICE: Parsed value → 295.0
+2025-05-02 15:36:39,792 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51787"><img alt="WW2 Fountain Pen with Concealed Spike" class="thumbnailList" src="photos/51787.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51787" title="WW2 Fountain Pen with Concealed Spike">
+<h2>WW2 Fountain Pen with Concealed Spike</h2>
+</a>
+<p class="itemDescription">
+                        This is an ordinary fountain pen (Mentor) that has a spike concealed within. The spike is three sided, measures approx 6 cm in length and  the word England can be clearly bee seen stamped on one side of the blued blade. This would probably have been used by members of the SOE.<br/>
+<br/>
+** For sale to 18 and over only **                         <a href="?code=51787">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51787">Code: 51787</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            295.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51787"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,793 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,793 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,793 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,793 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,794 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,794 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51787
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51787
+
+                Raw Title          : WW2 Fountain Pen with Concealed Spike
+                Cleaned Title      : WW2 Fountain Pen with Concealed Spike
+
+                Raw Price          : 295.00
+                Cleaned Price      : 295.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,794 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51809
+2025-05-02 15:36:39,795 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51809
+2025-05-02 15:36:39,795 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,795 - DEBUG - CLEAN TITLE: Raw input → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,795 - DEBUG - CLEAN TITLE: After unescape → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,795 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,795 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,796 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,796 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:39,796 - DEBUG - TILE PROCESSOR: Extracted text from tag → 450.00 GBP
+2025-05-02 15:36:39,796 - DEBUG - CLEAN PRICE: Stripped text → 450.00
+2025-05-02 15:36:39,796 - DEBUG - CLEAN PRICE: Parsed value → 450.0
+2025-05-02 15:36:39,797 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=51809"><img alt="WW2 French Commando Beret &amp; Cap Badge - 192" class="thumbnailList" src="photos/51809.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=51809" title="WW2 French Commando Beret &amp; Cap Badge - 192">
+<h2>WW2 French Commando Beret &amp; Cap Badge - 192</h2>
+</a>
+<p class="itemDescription">
+                        Free French Commando Beret . The beret is in pretty good condition considering its age but has  obvious signs of wear with some minor moth damage, named Rennie. The badge is of solid brass construction, and weighs 35g.  There are no makers marks. Triangular in shape with the motive 1er Bllon F.M.Commando. The reverse is stamped 097.                         <a href="?code=51809">read more</a>
+</p>
+<p class="itemCode"><a href="?code=51809">Code: 51809</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            450.00 GBP                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="51809"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-05-02 15:36:39,798 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-05-02 15:36:39,799 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-05-02 15:36:39,799 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-02 15:36:39,799 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-02 15:36:39,799 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-02 15:36:39,800 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://20thcenturymilitaria.com/shop.php?code=51809
+                Cleaned URL        : https://20thcenturymilitaria.com/shop.php?code=51809
+
+                Raw Title          : WW2 French Commando Beret & Cap Badge - 192
+                Cleaned Title      : WW2 French Commando Beret & Cap Badge - 192
+
+                Raw Price          : 450.00
+                Cleaned Price      : 450.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-02 15:36:39,800 - INFO - SITE PROCESSOR: Product Dictionaries count: 10
+2025-05-02 15:36:39,800 - INFO - PRODUCT PROCESSOR: Categorizing products between old and new...
+2025-05-02 15:36:39,928 - DEBUG - PRODUCT PROCESSOR: [MISMATCH] Price changed → DB=710.00, TILE=750.0
+2025-05-02 15:36:39,928 - DEBUG - CLEAN TITLE: Raw input → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,928 - DEBUG - CLEAN TITLE: After unescape → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,928 - DEBUG - CLEAN TITLE: After removing HTML tags → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After normalizing quotes → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After collapsing spaces → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: Final cleaned title → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: Raw input → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After unescape → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After removing HTML tags → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After normalizing quotes → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,929 - DEBUG - CLEAN TITLE: After collapsing spaces → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,930 - DEBUG - CLEAN TITLE: Final cleaned title → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:39,930 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://20thcenturymilitaria.com/shop.php?code=51569
+    DB Title     : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title   : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    DB Price     : 710.00
+    Tile Price   : 750.0
+2025-05-02 15:36:39,930 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51569
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    DB Price             : 710.00
+    Tile Price           : 750.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-05-02 15:36:40,054 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:40,055 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51911
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : WW2 Times of Malta Newspaper - August 1943
+    DB Price             : 710.00
+    Tile Price           : 20.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-02 15:36:40,180 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:40,180 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51909
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : WW2 Maltese Cigarette Packet & Misc Contents
+    DB Price             : 710.00
+    Tile Price           : 55.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-02 15:36:40,304 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://20thcenturymilitaria.com/shop.php?code=51910
+2025-05-02 15:36:40,305 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51910
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : WW2 Times of Malta Newspaper - July 1943
+    DB Price             : 710.00
+    Tile Price           : 20.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-02 15:36:40,483 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://20thcenturymilitaria.com/shop.php?code=51907
+2025-05-02 15:36:40,483 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51907
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : WW2 British Mk.II Helmet - Iconic Malta Camouflage - RA
+    DB Price             : 710.00
+    Tile Price           : 595.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-02 15:36:40,623 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://20thcenturymilitaria.com/shop.php?code=51915
+2025-05-02 15:36:40,623 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51915
+    DB Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Tile Title           : WW2 Malta - Wedding Photographs - Royal Artillery
+    DB Price             : 710.00
+    Tile Price           : 25.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-02 15:36:40,776 - DEBUG - PRODUCT PROCESSOR: [MISMATCH] Price changed → DB=395.00, TILE=295.0
+2025-05-02 15:36:40,776 - DEBUG - CLEAN TITLE: Raw input → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: After unescape → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: Raw input → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,777 - DEBUG - CLEAN TITLE: After unescape → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,778 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,778 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,778 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,778 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 1939 MkII Helmet - Czechoslovakia
+2025-05-02 15:36:40,778 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://20thcenturymilitaria.com/shop.php?code=51738
+    DB Title     : WW2 1939 MkII Helmet - Czechoslovakia
+    Tile Title   : WW2 1939 MkII Helmet - Czechoslovakia
+    DB Price     : 395.00
+    Tile Price   : 295.0
+2025-05-02 15:36:40,778 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51738
+    DB Title             : WW2 1939 MkII Helmet - Czechoslovakia
+    Tile Title           : WW2 1939 MkII Helmet - Czechoslovakia
+    DB Price             : 395.00
+    Tile Price           : 295.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-05-02 15:36:40,949 - DEBUG - PRODUCT PROCESSOR: [MISMATCH] Price changed → DB=60.00, TILE=40.0
+2025-05-02 15:36:40,949 - DEBUG - CLEAN TITLE: Raw input → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After unescape → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: Raw input → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After unescape → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,950 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,951 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,951 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,951 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 4 x Photos Graphic Photographes Japanese
+2025-05-02 15:36:40,951 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://20thcenturymilitaria.com/shop.php?code=51502
+    DB Title     : WW2 4 x Photos Graphic Photographes Japanese
+    Tile Title   : WW2 4 x Photos Graphic Photographes Japanese
+    DB Price     : 60.00
+    Tile Price   : 40.0
+2025-05-02 15:36:40,951 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51502
+    DB Title             : WW2 4 x Photos Graphic Photographes Japanese
+    Tile Title           : WW2 4 x Photos Graphic Photographes Japanese
+    DB Price             : 60.00
+    Tile Price           : 40.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-05-02 15:36:41,132 - DEBUG - PRODUCT PROCESSOR: [MISMATCH] Price changed → DB=395.00, TILE=295.0
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: Raw input → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: After unescape → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: Raw input → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,133 - DEBUG - CLEAN TITLE: After unescape → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,134 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,134 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,134 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,134 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Fountain Pen with Concealed Spike
+2025-05-02 15:36:41,134 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://20thcenturymilitaria.com/shop.php?code=51787
+    DB Title     : WW2 Fountain Pen with Concealed Spike
+    Tile Title   : WW2 Fountain Pen with Concealed Spike
+    DB Price     : 395.00
+    Tile Price   : 295.0
+2025-05-02 15:36:41,134 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51787
+    DB Title             : WW2 Fountain Pen with Concealed Spike
+    Tile Title           : WW2 Fountain Pen with Concealed Spike
+    DB Price             : 395.00
+    Tile Price           : 295.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-05-02 15:36:41,293 - DEBUG - PRODUCT PROCESSOR: [MISMATCH] Price changed → DB=650.00, TILE=450.0
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: Raw input → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: After unescape → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,293 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: Raw input → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: After unescape → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 French Commando Beret & Cap Badge - 192
+2025-05-02 15:36:41,294 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://20thcenturymilitaria.com/shop.php?code=51809
+    DB Title     : WW2 French Commando Beret & Cap Badge - 192
+    Tile Title   : WW2 French Commando Beret & Cap Badge - 192
+    DB Price     : 650.00
+    Tile Price   : 450.0
+2025-05-02 15:36:41,294 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://20thcenturymilitaria.com/shop.php?code=51809
+    DB Title             : WW2 French Commando Beret & Cap Badge - 192
+    Tile Title           : WW2 French Commando Beret & Cap Badge - 192
+    DB Price             : 650.00
+    Tile Price           : 450.0
+    DB Availability      : True
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-05-02 15:36:41,295 - INFO - PRODUCT PROCESSOR: Products needing full processing  : 10
+2025-05-02 15:36:41,295 - INFO - PRODUCT PROCESSOR: Products needing availability updates: 0
+2025-05-02 15:36:41,295 - INFO - PRODUCT PROCESSOR: Products ignored (no updates needed): 0
+2025-05-02 15:36:41,295 - DEBUG - PRODUCT PROCESSOR: Processing required list count: 10
+2025-05-02 15:36:41,295 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-02 15:36:41,295 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,634 - DEBUG - https://20thcenturymilitaria.com:443 "GET /shop.php?code=51569 HTTP/1.1" 200 3244
+2025-05-02 15:36:41,640 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-02 15:36:41,640 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'shopitemTitle'}, attribute=None
+2025-05-02 15:36:41,641 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,641 - DEBUG - EXTRACT DETAILS TITLE: Final value → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,641 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-02 15:36:41,642 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → 750.00 GBP
+2025-05-02 15:36:41,642 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'btn-alert'}, attribute=None
+2025-05-02 15:36:41,642 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Element not found.
+2025-05-02 15:36:41,643 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: None
+2025-05-02 15:36:41,643 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: concept500
+2025-05-02 15:36:41,645 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'itemCode'}, attribute=None
+2025-05-02 15:36:41,646 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Code: 51569
+2025-05-02 15:36:41,646 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': False,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': 'During WW2 gold sovereigns were included in the survival kit '
+                'of SOE agents. This concept was reintroduced for the first '
+                'Gulf war.  Sovereigns  were issued to British personnel '
+                "deemed as at  risk of being stranded 'behind enemy lines' "
+                'i.e. SAS or RAF pilots, the coins could be used as bargaining '
+                'power. After the war all uncaptured coins were returned to '
+                'the MOD. This collection includes an actual issued coin with '
+                'certificate of authenticity signed by General Sir Peter de la '
+                'Billiere, as well as copy miniature medals and booklet. This '
+                'is a great investment opportunity.',
+ 'extracted_id': '51569',
+ 'grade': None,
+ 'item_type_site_designated': None,
+ 'nation_site_designated': None,
+ 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51569.jpg',
+                         'https://20thcenturymilitaria.com/photos/51569a.jpg',
+                         'https://20thcenturymilitaria.com/photos/51569b.jpg',
+                         'https://20thcenturymilitaria.com/photos/51569c.jpg',
+                         'https://20thcenturymilitaria.com/photos/51569d.jpg'],
+ 'price': '750.00',
+ 'title': 'Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51569'}
+2025-05-02 15:36:41,647 - DEBUG - CLEAN PRICE: Stripped text → 750.00
+2025-05-02 15:36:41,648 - DEBUG - CLEAN PRICE: Parsed value → 750.0
+2025-05-02 15:36:41,648 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://20thcenturymilitaria.com/shop.php?code=51569: {'available': 'False',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'During WW2 gold sovereigns were included in the survival kit '
+                'of SOE agents. This concept was reintroduced for the first '
+                'Gulf war.  Sovereigns  were issued to British personnel '
+                'deemed as at  risk of be',
+ 'extracted_id': '51569',
+ 'grade': 'None',
+ 'item_type_site_designated': 'None',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': "['https://20thcenturymilitaria.com/photos/51569.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51569a.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51569b.jpg', "
+                        "'https://20thcenturymilitaria.com/phot",
+ 'price': '750.00',
+ 'title': 'Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51569'}
+2025-05-02 15:36:41,649 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,649 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,649 - DEBUG - CLEAN TITLE: Raw input → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,649 - DEBUG - CLEAN TITLE: After unescape → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,649 - DEBUG - CLEAN TITLE: After removing HTML tags → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,649 - DEBUG - CLEAN TITLE: After normalizing quotes → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,649 - DEBUG - CLEAN TITLE: After collapsing spaces → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,650 - DEBUG - CLEAN TITLE: Final cleaned title → Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+2025-05-02 15:36:41,650 - DEBUG - CLEAN DESCRIPTION: Raw input → During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war.  Sovereigns  were issued to British personnel deemed as at  risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+2025-05-02 15:36:41,650 - DEBUG - CLEAN DESCRIPTION: After unescape → During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war.  Sovereigns  were issued to British personnel deemed as at  risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+2025-05-02 15:36:41,650 - DEBUG - CLEAN DESCRIPTION: Normalized quotes → During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war.  Sovereigns  were issued to British personnel deemed as at  risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+2025-05-02 15:36:41,651 - DEBUG - CLEAN DESCRIPTION: Collapsed whitespace → During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war. Sovereigns were issued to British personnel deemed as at risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+2025-05-02 15:36:41,651 - DEBUG - CLEAN DESCRIPTION: Final cleaned description → During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war. Sovereigns were issued to British personnel deemed as at risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+2025-05-02 15:36:41,651 - DEBUG - CLEAN PRICE: Stripped text → 750.00
+2025-05-02 15:36:41,651 - DEBUG - CLEAN PRICE: Parsed value → 750.0
+2025-05-02 15:36:41,652 - DEBUG - CLEAN URL LIST: Raw input → ['https://20thcenturymilitaria.com/photos/51569.jpg', 'https://20thcenturymilitaria.com/photos/51569a.jpg', 'https://20thcenturymilitaria.com/photos/51569b.jpg', 'https://20thcenturymilitaria.com/photos/51569c.jpg', 'https://20thcenturymilitaria.com/photos/51569d.jpg']
+2025-05-02 15:36:41,652 - DEBUG - CLEAN URL LIST: Cleaned URLs → ['https://20thcenturymilitaria.com/photos/51569.jpg', 'https://20thcenturymilitaria.com/photos/51569a.jpg', 'https://20thcenturymilitaria.com/photos/51569b.jpg', 'https://20thcenturymilitaria.com/photos/51569c.jpg', 'https://20thcenturymilitaria.com/photos/51569d.jpg']
+2025-05-02 15:36:41,652 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-02 15:36:41,652 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-02 15:36:41,652 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-02 15:36:41,652 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-02 15:36:41,652 - DEBUG - CLEAN ITEM TYPE: Raw input → None
+2025-05-02 15:36:41,653 - DEBUG - CLEAN ITEM TYPE: Input is empty or None.
+2025-05-02 15:36:41,653 - DEBUG - CLEAN EXTRACTED ID: Raw input → 51569
+2025-05-02 15:36:41,653 - DEBUG - CLEAN EXTRACTED ID: Cleaned → 51569
+2025-05-02 15:36:41,653 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-02 15:36:41,653 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-02 15:36:41,653 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-02 15:36:41,653 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-02 15:36:41,654 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://20thcenturymilitaria.com/shop.php?code=51569: {'url': 'https://20thcenturymilitaria.com/shop.php?code=51569', 'title': 'Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign', 'description': "During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war. Sovereigns were issued to British personnel deemed as at risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.", 'price': 750.0, 'available': False, 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51569.jpg', 'https://20thcenturymilitaria.com/photos/51569a.jpg', 'https://20thcenturymilitaria.com/photos/51569b.jpg', 'https://20thcenturymilitaria.com/photos/51569c.jpg', 'https://20thcenturymilitaria.com/photos/51569d.jpg'], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': None, 'extracted_id': '51569', 'grade': None, 'categories_site_designated': [], 'site': '20TH_CENTURY_MILITARIA', 'currency': 'GBP'}
+2025-05-02 15:36:41,654 - DEBUG - PRODUCT PROCESSOR: Product URL https://20thcenturymilitaria.com/shop.php?code=51569 identified as new.
+2025-05-02 15:36:41,654 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-02 15:36:41,654 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://20thcenturymilitaria.com/shop.php?code=51569
+    Post-clean URL               : https://20thcenturymilitaria.com/shop.php?code=51569
+    Pre-clean Title              : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Post-clean Title             : Behind Enemy Lines - 1990-91 Gulf War Gold Sovereign
+    Pre-clean Description        : During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war.  Sovereigns  were issued to British personnel deemed as at  risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+    Post-clean Description       : During WW2 gold sovereigns were included in the survival kit of SOE agents. This concept was reintroduced for the first Gulf war. Sovereigns were issued to British personnel deemed as at risk of being stranded 'behind enemy lines' i.e. SAS or RAF pilots, the coins could be used as bargaining power. After the war all uncaptured coins were returned to the MOD. This collection includes an actual issued coin with certificate of authenticity signed by General Sir Peter de la Billiere, as well as copy miniature medals and booklet. This is a great investment opportunity.
+    Pre-clean Price              : 750.00
+    Post-clean Price             : 750.0
+    Pre-clean Availability       : False
+    Post-clean Availability      : False
+    Pre-clean Image URLs         : ['https://20thcenturymilitaria.com/photos/51569.jpg', 'https://20thcenturymilitaria.com/photos/51569a.jpg', 'https://20thcenturymilitaria.com/photos/51569b.jpg', 'https://20thcenturymilitaria.com/photos/51569c.jpg', 'https://20thcenturymilitaria.com/photos/51569d.jpg']
+    Post-clean Image URLs        : ['https://20thcenturymilitaria.com/photos/51569.jpg', 'https://20thcenturymilitaria.com/photos/51569a.jpg', 'https://20thcenturymilitaria.com/photos/51569b.jpg', 'https://20thcenturymilitaria.com/photos/51569c.jpg', 'https://20thcenturymilitaria.com/photos/51569d.jpg']
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : None
+    Post-clean Item Type         : None
+    Pre-clean Extracted ID       : 51569
+    Post-clean Extracted ID      : 51569
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-02 15:36:41,655 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,656 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,914 - WARNING - RDS MANAGER: Skipping insert — product already exists for URL: https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,915 - INFO - PRODUCT PROCESSOR: Inserted new product https://20thcenturymilitaria.com/shop.php?code=51569 into database.
+2025-05-02 15:36:41,915 - DEBUG - PRODUCT PROCESSOR: Created new comparison_list entry for https://20thcenturymilitaria.com/shop.php?code=51569 with in_db=True
+2025-05-02 15:36:41,915 - INFO - PRODUCT PROCESSOR: New product processed successfully: https://20thcenturymilitaria.com/shop.php?code=51569
+2025-05-02 15:36:41,915 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-02 15:36:41,916 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,266 - DEBUG - https://20thcenturymilitaria.com:443 "GET /shop.php?code=51911 HTTP/1.1" 200 3044
+2025-05-02 15:36:42,272 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-02 15:36:42,272 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'shopitemTitle'}, attribute=None
+2025-05-02 15:36:42,273 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,273 - DEBUG - EXTRACT DETAILS TITLE: Final value → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,273 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-02 15:36:42,273 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → 20.00 GBP
+2025-05-02 15:36:42,274 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'btn-alert'}, attribute=None
+2025-05-02 15:36:42,274 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Element not found.
+2025-05-02 15:36:42,274 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: None
+2025-05-02 15:36:42,275 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: concept500
+2025-05-02 15:36:42,276 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'itemCode'}, attribute=None
+2025-05-02 15:36:42,277 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Code: 51911
+2025-05-02 15:36:42,277 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': False,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': 'A great example of a Times of Malta newspaper dated Tuesday, '
+                'August 17, 1943. The top states "For security reasons this '
+                'copy must not be taken outside of Malta".Contains interesting '
+                'new articles of the period. The paper is in pretty good '
+                'condition for age.',
+ 'extracted_id': '51911',
+ 'grade': None,
+ 'item_type_site_designated': None,
+ 'nation_site_designated': None,
+ 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51911.jpg',
+                         'https://20thcenturymilitaria.com/photos/51911a.jpg',
+                         'https://20thcenturymilitaria.com/photos/51911b.jpg',
+                         'https://20thcenturymilitaria.com/photos/51911c.jpg',
+                         'https://20thcenturymilitaria.com/photos/51911d.jpg',
+                         'https://20thcenturymilitaria.com/photos/51911e.jpg'],
+ 'price': '20.00',
+ 'title': 'WW2 Times of Malta Newspaper - August 1943',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51911'}
+2025-05-02 15:36:42,278 - DEBUG - CLEAN PRICE: Stripped text → 20.00
+2025-05-02 15:36:42,278 - DEBUG - CLEAN PRICE: Parsed value → 20.0
+2025-05-02 15:36:42,278 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://20thcenturymilitaria.com/shop.php?code=51911: {'available': 'False',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'A great example of a Times of Malta newspaper dated Tuesday, '
+                'August 17, 1943. The top states "For security reasons this '
+                'copy must not be taken outside of Malta".Contains interesting '
+                'new articles of th',
+ 'extracted_id': '51911',
+ 'grade': 'None',
+ 'item_type_site_designated': 'None',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': "['https://20thcenturymilitaria.com/photos/51911.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51911a.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51911b.jpg', "
+                        "'https://20thcenturymilitaria.com/phot",
+ 'price': '20.00',
+ 'title': 'WW2 Times of Malta Newspaper - August 1943',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51911'}
+2025-05-02 15:36:42,279 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,279 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,279 - DEBUG - CLEAN TITLE: Raw input → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,279 - DEBUG - CLEAN TITLE: After unescape → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,279 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,279 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,279 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,280 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,280 - DEBUG - CLEAN DESCRIPTION: Raw input → A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states "For security reasons this copy must not be taken outside of Malta".Contains interesting new articles of the period. The paper is in pretty good condition for age.
+2025-05-02 15:36:42,280 - DEBUG - CLEAN DESCRIPTION: After unescape → A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states "For security reasons this copy must not be taken outside of Malta".Contains interesting new articles of the period. The paper is in pretty good condition for age.
+2025-05-02 15:36:42,280 - DEBUG - CLEAN DESCRIPTION: Normalized quotes → A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.
+2025-05-02 15:36:42,280 - DEBUG - CLEAN DESCRIPTION: Collapsed whitespace → A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.
+2025-05-02 15:36:42,280 - DEBUG - CLEAN DESCRIPTION: Final cleaned description → A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.
+2025-05-02 15:36:42,281 - DEBUG - CLEAN PRICE: Stripped text → 20.00
+2025-05-02 15:36:42,281 - DEBUG - CLEAN PRICE: Parsed value → 20.0
+2025-05-02 15:36:42,281 - DEBUG - CLEAN URL LIST: Raw input → ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg']
+2025-05-02 15:36:42,281 - DEBUG - CLEAN URL LIST: Cleaned URLs → ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg']
+2025-05-02 15:36:42,281 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-02 15:36:42,281 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-02 15:36:42,282 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-02 15:36:42,282 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-02 15:36:42,282 - DEBUG - CLEAN ITEM TYPE: Raw input → None
+2025-05-02 15:36:42,282 - DEBUG - CLEAN ITEM TYPE: Input is empty or None.
+2025-05-02 15:36:42,282 - DEBUG - CLEAN EXTRACTED ID: Raw input → 51911
+2025-05-02 15:36:42,282 - DEBUG - CLEAN EXTRACTED ID: Cleaned → 51911
+2025-05-02 15:36:42,282 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-02 15:36:42,283 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-02 15:36:42,283 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-02 15:36:42,283 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-02 15:36:42,283 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://20thcenturymilitaria.com/shop.php?code=51911: {'url': 'https://20thcenturymilitaria.com/shop.php?code=51911', 'title': 'WW2 Times of Malta Newspaper - August 1943', 'description': "A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.", 'price': 20.0, 'available': False, 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg'], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': None, 'extracted_id': '51911', 'grade': None, 'categories_site_designated': [], 'site': '20TH_CENTURY_MILITARIA', 'currency': 'GBP'}
+2025-05-02 15:36:42,283 - DEBUG - PRODUCT PROCESSOR: Product URL https://20thcenturymilitaria.com/shop.php?code=51911 identified as new.
+2025-05-02 15:36:42,283 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-02 15:36:42,284 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://20thcenturymilitaria.com/shop.php?code=51911
+    Post-clean URL               : https://20thcenturymilitaria.com/shop.php?code=51911
+    Pre-clean Title              : WW2 Times of Malta Newspaper - August 1943
+    Post-clean Title             : WW2 Times of Malta Newspaper - August 1943
+    Pre-clean Description        : A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states "For security reasons this copy must not be taken outside of Malta".Contains interesting new articles of the period. The paper is in pretty good condition for age.
+    Post-clean Description       : A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.
+    Pre-clean Price              : 20.00
+    Post-clean Price             : 20.0
+    Pre-clean Availability       : False
+    Post-clean Availability      : False
+    Pre-clean Image URLs         : ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg']
+    Post-clean Image URLs        : ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg']
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : None
+    Post-clean Item Type         : None
+    Pre-clean Extracted ID       : 51911
+    Post-clean Extracted ID      : 51911
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-02 15:36:42,284 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,284 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,423 - DEBUG - RDS_MGR: Filtered data for insertion: dict_keys(['url', 'title', 'description', 'price', 'available', 'original_image_urls', 'nation_site_designated', 'conflict_site_designated', 'item_type_site_designated', 'extracted_id', 'grade', 'site', 'currency', 'date_collected', 'date_modified', 'last_seen', 'date_sold'])
+2025-05-02 15:36:42,424 - DEBUG - RDS_MGR: Prepared data for insertion: {'url': 'https://20thcenturymilitaria.com/shop.php?code=51911', 'title': 'WW2 Times of Malta Newspaper - August 1943', 'description': "A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.", 'price': 20.0, 'available': False, 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51911.jpg', 'https://20thcenturymilitaria.com/photos/51911a.jpg', 'https://20thcenturymilitaria.com/photos/51911b.jpg', 'https://20thcenturymilitaria.com/photos/51911c.jpg', 'https://20thcenturymilitaria.com/photos/51911d.jpg', 'https://20thcenturymilitaria.com/photos/51911e.jpg'], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': None, 'extracted_id': '51911', 'grade': None, 'site': '20TH_CENTURY_MILITARIA', 'currency': 'GBP', 'date_collected': '2025-05-02T06:36:42.423084+00:00', 'date_modified': '2025-05-02T06:36:42.423084+00:00', 'last_seen': '2025-05-02T06:36:42.423084+00:00', 'date_sold': '2025-05-02T06:36:42.423084+00:00'}
+2025-05-02 15:36:42,424 - DEBUG - Prepared data for insertion: {'url': 'https://20thcenturymilitaria.com/shop.php?code=51911', 'title': 'WW2 Times of Malta Newspaper - August 1943', 'description': "A great example of a Times of Malta newspaper dated Tuesday, August 17, 1943. The top states 'For security reasons this copy must not be taken outside of Malta'.Contains interesting new articles of the period. The paper is in pretty good condition for age.", 'price': 20.0, 'available': False, 'original_image_urls': '["https://20thcenturymilitaria.com/photos/51911.jpg", "https://20thcenturymilitaria.com/photos/51911a.jpg", "https://20thcenturymilitaria.com/photos/51911b.jpg", "https://20thcenturymilitaria.com/photos/51911c.jpg", "https://20thcenturymilitaria.com/photos/51911d.jpg", "https://20thcenturymilitaria.com/photos/51911e.jpg"]', 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': None, 'extracted_id': '51911', 'grade': None, 'site': '20TH_CENTURY_MILITARIA', 'currency': 'GBP', 'date_collected': '2025-05-02T06:36:42.423084+00:00', 'date_modified': '2025-05-02T06:36:42.423084+00:00', 'last_seen': '2025-05-02T06:36:42.423084+00:00', 'date_sold': '2025-05-02T06:36:42.423084+00:00'}
+2025-05-02 15:36:42,507 - INFO - Successfully inserted product: WW2 Times of Malta Newspaper - August 1943
+2025-05-02 15:36:42,508 - INFO - PRODUCT PROCESSOR: Inserted new product https://20thcenturymilitaria.com/shop.php?code=51911 into database.
+2025-05-02 15:36:42,508 - DEBUG - PRODUCT PROCESSOR: Created new comparison_list entry for https://20thcenturymilitaria.com/shop.php?code=51911 with in_db=True
+2025-05-02 15:36:42,508 - INFO - PRODUCT PROCESSOR: New product processed successfully: https://20thcenturymilitaria.com/shop.php?code=51911
+2025-05-02 15:36:42,508 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-02 15:36:42,508 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:42,855 - DEBUG - https://20thcenturymilitaria.com:443 "GET /shop.php?code=51909 HTTP/1.1" 200 3052
+2025-05-02 15:36:42,860 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-02 15:36:42,860 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'shopitemTitle'}, attribute=None
+2025-05-02 15:36:42,860 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,860 - DEBUG - EXTRACT DETAILS TITLE: Final value → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,860 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-02 15:36:42,860 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → 55.00 GBP
+2025-05-02 15:36:42,861 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'btn-alert'}, attribute=None
+2025-05-02 15:36:42,861 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Element not found.
+2025-05-02 15:36:42,861 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: None
+2025-05-02 15:36:42,861 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: concept500
+2025-05-02 15:36:42,862 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'itemCode'}, attribute=None
+2025-05-02 15:36:42,862 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Code: 51909
+2025-05-02 15:36:42,862 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': False,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': 'A Maltese cigarette packet containing a pair of Royal '
+                'Artillery arm of service stripes a North African campaign '
+                "service ribbon. Also included is a WW2 Maltese 'first run' "
+                'one shilling note. Apparently the latter is fairly rare and '
+                'sought after by money collectors (notaphilist).',
+ 'extracted_id': '51909',
+ 'grade': None,
+ 'item_type_site_designated': None,
+ 'nation_site_designated': None,
+ 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51909.jpg',
+                         'https://20thcenturymilitaria.com/photos/51909a.jpg',
+                         'https://20thcenturymilitaria.com/photos/51909b.jpg',
+                         'https://20thcenturymilitaria.com/photos/51909c.jpg',
+                         'https://20thcenturymilitaria.com/photos/51909d.jpg'],
+ 'price': '55.00',
+ 'title': 'WW2 Maltese Cigarette Packet & Misc Contents',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51909'}
+2025-05-02 15:36:42,863 - DEBUG - CLEAN PRICE: Stripped text → 55.00
+2025-05-02 15:36:42,863 - DEBUG - CLEAN PRICE: Parsed value → 55.0
+2025-05-02 15:36:42,863 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://20thcenturymilitaria.com/shop.php?code=51909: {'available': 'False',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'A Maltese cigarette packet containing a pair of Royal '
+                'Artillery arm of service stripes a North African campaign '
+                "service ribbon. Also included is a WW2 Maltese 'first run' "
+                'one shilling note. Apparently',
+ 'extracted_id': '51909',
+ 'grade': 'None',
+ 'item_type_site_designated': 'None',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': "['https://20thcenturymilitaria.com/photos/51909.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51909a.jpg', "
+                        "'https://20thcenturymilitaria.com/photos/51909b.jpg', "
+                        "'https://20thcenturymilitaria.com/phot",
+ 'price': '55.00',
+ 'title': 'WW2 Maltese Cigarette Packet & Misc Contents',
+ 'url': 'https://20thcenturymilitaria.com/shop.php?code=51909'}
+2025-05-02 15:36:42,864 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:42,864 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:42,864 - DEBUG - CLEAN TITLE: Raw input → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,864 - DEBUG - CLEAN TITLE: After unescape → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,864 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,865 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,865 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,865 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 Maltese Cigarette Packet & Misc Contents
+2025-05-02 15:36:42,865 - DEBUG - CLEAN DESCRIPTION: Raw input → A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+2025-05-02 15:36:42,865 - DEBUG - CLEAN DESCRIPTION: After unescape → A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+2025-05-02 15:36:42,866 - DEBUG - CLEAN DESCRIPTION: Normalized quotes → A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+2025-05-02 15:36:42,866 - DEBUG - CLEAN DESCRIPTION: Collapsed whitespace → A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+2025-05-02 15:36:42,866 - DEBUG - CLEAN DESCRIPTION: Final cleaned description → A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+2025-05-02 15:36:42,866 - DEBUG - CLEAN PRICE: Stripped text → 55.00
+2025-05-02 15:36:42,866 - DEBUG - CLEAN PRICE: Parsed value → 55.0
+2025-05-02 15:36:42,866 - DEBUG - CLEAN URL LIST: Raw input → ['https://20thcenturymilitaria.com/photos/51909.jpg', 'https://20thcenturymilitaria.com/photos/51909a.jpg', 'https://20thcenturymilitaria.com/photos/51909b.jpg', 'https://20thcenturymilitaria.com/photos/51909c.jpg', 'https://20thcenturymilitaria.com/photos/51909d.jpg']
+2025-05-02 15:36:42,867 - DEBUG - CLEAN URL LIST: Cleaned URLs → ['https://20thcenturymilitaria.com/photos/51909.jpg', 'https://20thcenturymilitaria.com/photos/51909a.jpg', 'https://20thcenturymilitaria.com/photos/51909b.jpg', 'https://20thcenturymilitaria.com/photos/51909c.jpg', 'https://20thcenturymilitaria.com/photos/51909d.jpg']
+2025-05-02 15:36:42,867 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-02 15:36:42,867 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-02 15:36:42,867 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-02 15:36:42,867 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-02 15:36:42,867 - DEBUG - CLEAN ITEM TYPE: Raw input → None
+2025-05-02 15:36:42,867 - DEBUG - CLEAN ITEM TYPE: Input is empty or None.
+2025-05-02 15:36:42,867 - DEBUG - CLEAN EXTRACTED ID: Raw input → 51909
+2025-05-02 15:36:42,868 - DEBUG - CLEAN EXTRACTED ID: Cleaned → 51909
+2025-05-02 15:36:42,868 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-02 15:36:42,868 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-02 15:36:42,868 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-02 15:36:42,868 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-02 15:36:42,868 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://20thcenturymilitaria.com/shop.php?code=51909: {'url': 'https://20thcenturymilitaria.com/shop.php?code=51909', 'title': 'WW2 Maltese Cigarette Packet & Misc Contents', 'description': "A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).", 'price': 55.0, 'available': False, 'original_image_urls': ['https://20thcenturymilitaria.com/photos/51909.jpg', 'https://20thcenturymilitaria.com/photos/51909a.jpg', 'https://20thcenturymilitaria.com/photos/51909b.jpg', 'https://20thcenturymilitaria.com/photos/51909c.jpg', 'https://20thcenturymilitaria.com/photos/51909d.jpg'], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': None, 'extracted_id': '51909', 'grade': None, 'categories_site_designated': [], 'site': '20TH_CENTURY_MILITARIA', 'currency': 'GBP'}
+2025-05-02 15:36:42,868 - DEBUG - PRODUCT PROCESSOR: Product URL https://20thcenturymilitaria.com/shop.php?code=51909 identified as new.
+2025-05-02 15:36:42,868 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-02 15:36:42,868 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://20thcenturymilitaria.com/shop.php?code=51909
+    Post-clean URL               : https://20thcenturymilitaria.com/shop.php?code=51909
+    Pre-clean Title              : WW2 Maltese Cigarette Packet & Misc Contents
+    Post-clean Title             : WW2 Maltese Cigarette Packet & Misc Contents
+    Pre-clean Description        : A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+    Post-clean Description       : A Maltese cigarette packet containing a pair of Royal Artillery arm of service stripes a North African campaign service ribbon. Also included is a WW2 Maltese 'first run' one shilling note. Apparently the latter is fairly rare and sought after by money collectors (notaphilist).
+    Pre-clean Price              : 55.00
+    Post-clean Price             : 55.0
+    Pre-clean Availability       : False
+    Post-clean Availability      : False
+    Pre-clean Image URLs         : ['https://20thcenturymilitaria.com/photos/51909.jpg', 'https://20thcenturymilitaria.com/photos/51909a.jpg', 'https://20thcenturymilitaria.com/photos/51909b.jpg', 'https://20thcenturymilitaria.com/photos/51909c.jpg', 'https://20thcenturymilitaria.com/photos/51909d.jpg']
+    Post-clean Image URLs        : ['https://20thcenturymilitaria.com/photos/51909.jpg', 'https://20thcenturymilitaria.com/photos/51909a.jpg', 'https://20thcenturymilitaria.com/photos/51909b.jpg', 'https://20thcenturymilitaria.com/photos/51909c.jpg', 'https://20thcenturymilitaria.com/photos/51909d.jpg']
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : None
+    Post-clean Item Type         : None
+    Pre-clean Extracted ID       : 51909
+    Post-clean Extracted ID      : 51909
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-02 15:36:42,869 - DEBUG - CLEAN URL: Stripped URL → https://20thcenturymilitaria.com/shop.php?code=51909
+2025-05-02 15:36:42,869 - DEBUG - CLEAN URL: Validated URL → https://20thcenturymilitaria.com/shop.php?code=51909
