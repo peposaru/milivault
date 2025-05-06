@@ -220,6 +220,7 @@ class ProductDetailsProcessor:
         self.comparison_list    = comparison_list
         self.counter            = managers.get('counter')
         self.rds_manager        = managers.get('rdsManager')
+        self.s3_manager         = managers.get("s3_manager")
         self.html_manager       = managers.get('html_manager')
         self.details_selectors  = site_profile.get("product_details_selectors", {})
         self.use_comparison_row = use_comparison_row
@@ -314,10 +315,7 @@ class ProductDetailsProcessor:
     def new_product_processor(self, clean_details_data, details_data):
         """
         Insert new product data into the database and mark it as in_db in the comparison list.
-
-        Args:
-            clean_details_data (dict): Cleaned product data ready for DB.
-            details_data (dict): Raw extracted product data for logging.
+        Uploads images to S3 using the database ID and updates DB with s3_image_urls.
         """
         try:
             logging.info('PRODUCT PROCESS: Starting data cleaning process...')
@@ -354,18 +352,54 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
-        # Insert into database
+        # STEP 1 — Insert product (without s3_image_urls)
         try:
             self.rds_manager.new_product_input(clean_details_data)
             logging.info(f"PRODUCT PROCESSOR: Inserted new product {clean_details_data.get('url')} into database.")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to insert new product: {e}")
-            return  # Skip comparison list update if insert fails
+            return
 
-        # Update in-memory comparison list to mark as in DB
+        # STEP 2 — Get real DB ID for S3 image naming
+        try:
+            fetch_id_query = "SELECT id FROM militaria WHERE url = %s AND site = %s;"
+            db_id = self.rds_manager.get_record_id(fetch_id_query, (clean_details_data["url"], clean_details_data["site"]))
+            if db_id is None:
+                logging.error(f"PRODUCT PROCESSOR: Could not retrieve DB ID for {clean_details_data['url']}")
+                return
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Failed to fetch DB ID: {e}")
+            return
+
+        # STEP 3 — Upload images using real DB ID
+        try:
+            site_name = clean_details_data.get("site")
+            image_urls = clean_details_data.get("original_image_urls")
+            product_url = clean_details_data.get("url")
+
+            s3_urls = self.s3_manager.upload_images_for_product(db_id, image_urls, site_name, product_url)
+            clean_details_data["s3_image_urls"] = s3_urls
+            logging.info(f"PRODUCT PROCESSOR: Uploaded images to S3 for DB ID {db_id}")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Failed to upload images for DB ID {db_id}: {e}")
+            return
+
+        # STEP 4 — Update DB with s3_image_urls
+        try:
+            update_query = """
+                UPDATE militaria
+                SET s3_image_urls = %s
+                WHERE id = %s;
+            """
+            self.rds_manager.execute(update_query, (json.dumps(s3_urls), db_id))
+            logging.info(f"PRODUCT PROCESSOR: Updated s3_image_urls in DB for product ID {db_id}")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Failed to update s3_image_urls for product ID {db_id}: {e}")
+            return
+
+        # STEP 5 — Update comparison_list
         try:
             url = clean_details_data.get("url")
-
             if url in self.comparison_list:
                 old_entry = self.comparison_list[url]
                 self.comparison_list[url] = (*old_entry[:5], True)
@@ -382,6 +416,8 @@ class ProductDetailsProcessor:
                 logging.debug(f"PRODUCT PROCESSOR: Created new comparison_list entry for {url} with in_db=True")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error updating comparison_list for {clean_details_data.get('url')}: {e}")
+
+
 
     def old_product_processor(self, clean_details_data):
         """

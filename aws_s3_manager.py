@@ -2,6 +2,7 @@ import boto3
 import requests
 import logging
 import json
+import time
 from urllib.parse import urlparse
 
 
@@ -59,23 +60,29 @@ class S3Manager:
     def upload_images_for_product(self, product_id, image_urls, site_name, product_url):
         # Uploads multiple images for a given product.
         uploaded_image_urls = []
+        start_time = time.time()
+
         for idx, image_url in enumerate(image_urls, start=1):
-            # Construct object name for S3
             parsed_url = urlparse(image_url)
             extension = parsed_url.path.split('.')[-1]
             object_name = f"{site_name}/{product_id}/{product_id}-{idx}.{extension}"
 
-            # Skip upload if the object already exists
             if self.object_exists(object_name):
                 logging.info(f"Skipping upload for {object_name}, already exists in S3.")
                 uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
                 continue
 
-            # Upload image
             self.upload_image(image_url, object_name)
             uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
 
+        end_time = time.time()
+        elapsed = round(end_time - start_time, 2)
+        logging.info(f"S3Manager: Uploaded {len(uploaded_image_urls)} images for {product_id} in {elapsed} sec")
+        
+        # Respectful delay between products to avoid spamming and getting banned.
+        time.sleep(3)  
         return uploaded_image_urls
+
     
 
     def should_skip_image_upload(self, product_url):

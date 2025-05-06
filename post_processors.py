@@ -427,5 +427,3 @@ def gielsmilitaria_hidden_price(value, **kwargs):
             logging.warning("[GIELSMILITARIA HIDDEN PRICE] BeautifulSoup object not available")
 
     return value
-
-
