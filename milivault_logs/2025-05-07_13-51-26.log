@@ -1,0 +1,90 @@
+2025-05-07 13:51:26,683 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-07_13-51-26.log
+2025-05-07 13:51:28,306 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-05-07 13:51:31,465 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-05-07 13:51:32,540 - INFO - Connection pool initialized successfully.
+2025-05-07 13:51:32,541 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-05-07 13:51:32,543 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-05-07 13:51:32,544 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-05-07 13:51:32,545 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-05-07 13:51:32,545 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-05-07 13:51:32,545 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-05-07 13:51:32,546 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-05-07 13:51:32,547 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-05-07 13:51:32,548 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-05-07 13:51:32,548 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-05-07 13:51:32,548 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-05-07 13:51:32,586 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\endpoints.json
+2025-05-07 13:51:32,602 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-05-07 13:51:32,602 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001805F329E40>
+2025-05-07 13:51:32,715 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-05-07 13:51:32,723 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-05-07 13:51:32,825 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-05-07 13:51:32,828 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\partitions.json
+2025-05-07 13:51:32,829 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001805F270680>
+2025-05-07 13:51:32,829 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001805F78C180>
+2025-05-07 13:51:32,883 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001805F270400>
+2025-05-07 13:51:32,883 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-05-07 13:51:32,883 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-05-07 13:51:32,883 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-05-07 13:51:32,883 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-05-07 13:51:32,883 - DEBUG - No configured endpoint found.
+2025-05-07 13:51:32,885 - DEBUG - Setting s3 timeout as (60, 60)
+2025-05-07 13:51:32,887 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\_retry.json
+2025-05-07 13:51:32,888 - DEBUG - Registering retry handlers for service: s3
+2025-05-07 13:51:32,889 - DEBUG - Registering S3 region redirector handler
+2025-05-07 13:51:32,889 - DEBUG - Registering S3Express Identity Resolver
+2025-05-07 13:51:32,890 - INFO - S3Manager initialized for bucket militaria-images
+2025-05-07 13:52:50,586 - INFO - Processing site: BASMILITARIA
+2025-05-07 13:52:50,586 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-05-07 13:52:50,586 - DEBUG - SITE PROCESSOR: Debug: base_url: https://basmilitaria.com
+2025-05-07 13:52:50,586 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-05-07 13:52:50,586 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:52:50,587 - INFO - PRODUCTS URL          : https://basmilitaria.com
+2025-05-07 13:52:50,587 - INFO - CYCLES RUN            : False
+2025-05-07 13:52:50,587 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:52:50,587 - INFO - TIMESTAMP             : 2025-05-07 13:52:50.586767
+2025-05-07 13:52:50,587 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-05-07 13:52:50,587 - INFO - SITE PROCESSOR: Current product page: https://basmilitaria.com/shop?page=0
+2025-05-07 13:52:50,587 - INFO - SITE PROCESSOR: Current page: 0
+2025-05-07 13:52:50,589 - DEBUG - Starting new HTTPS connection (1): basmilitaria.com:443
+2025-05-07 13:52:52,197 - DEBUG - https://basmilitaria.com:443 "GET /shop?page=0 HTTP/1.1" 200 None
+2025-05-07 13:52:52,494 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-05-07 13:52:52,496 - DEBUG - SITE PROCESSOR: Total tiles found: 12, Valid tiles: 0
+2025-05-07 13:52:52,496 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 0 
+2025-05-07 13:52:52,496 - INFO - SITE PROCESSOR: No products found on the current page. Stopping processing.
+2025-05-07 13:52:52,496 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 13:52:52,496 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:52:52,496 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 13:52:52,496 - INFO - CYCLES RUN            : False
+2025-05-07 13:52:52,496 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:52:52,496 - INFO - TIMESTAMP             : 2025-05-07 13:52:52.496336
+2025-05-07 13:52:52,497 - INFO - SITE PROCESSOR: Finished processing site: BASMILITARIA
+2025-05-07 13:52:52,497 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 13:52:52,497 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:52:52,497 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 13:52:52,497 - INFO - CYCLES RUN            : False
+2025-05-07 13:52:52,497 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:52:52,497 - INFO - TIMESTAMP             : 2025-05-07 13:52:52.497137
+2025-05-07 13:52:52,497 - INFO - Successfully processed site: BASMILITARIA
+2025-05-07 13:52:52,497 - INFO - 
+------------------------------------------------------------
+                  FINAL PROCESSING SUMMARY                  
+------------------------------------------------------------
+2025-05-07 13:52:52,498 - INFO - TIMESTAMP             : 2025-05-07 13:52:52.497906
+2025-05-07 13:52:52,498 - INFO - SITES PROCESSED       : BASMILITARIA
+2025-05-07 13:52:52,498 - INFO - TOTAL PRODUCTS        : 0
+2025-05-07 13:52:52,498 - INFO - NEW PRODUCTS          : 0
+2025-05-07 13:52:52,498 - INFO - OLD PRODUCTS          : 0
+2025-05-07 13:52:52,498 - INFO - SITES COUNT           : 0
+2025-05-07 13:52:52,498 - INFO - AVAILABILITY UPDATES  : 0
+2025-05-07 13:52:52,498 - INFO - PROCESSING REQUIRED   : 0
+2025-05-07 13:52:52,498 - INFO - Sleeping 900 seconds... Next check at 2025-05-07 14:07:52

@@ -1,0 +1,114 @@
+2025-05-07 13:59:06,274 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-07_13-59-06.log
+2025-05-07 13:59:07,083 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-05-07 13:59:09,897 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-05-07 13:59:10,914 - INFO - Connection pool initialized successfully.
+2025-05-07 13:59:10,915 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-05-07 13:59:10,916 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-05-07 13:59:10,917 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-05-07 13:59:10,918 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-05-07 13:59:10,918 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-05-07 13:59:10,919 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-05-07 13:59:10,919 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-05-07 13:59:10,921 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-05-07 13:59:10,921 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-05-07 13:59:10,921 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-05-07 13:59:10,921 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-05-07 13:59:10,980 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\endpoints.json
+2025-05-07 13:59:10,995 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-05-07 13:59:10,996 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x00000213CC369E40>
+2025-05-07 13:59:11,109 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-05-07 13:59:11,116 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-05-07 13:59:11,224 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-05-07 13:59:11,227 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\partitions.json
+2025-05-07 13:59:11,228 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x00000213CC2B0680>
+2025-05-07 13:59:11,228 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x00000213CC7D0180>
+2025-05-07 13:59:11,271 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x00000213CC2B0400>
+2025-05-07 13:59:11,272 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-05-07 13:59:11,272 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-05-07 13:59:11,272 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-05-07 13:59:11,272 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-05-07 13:59:11,272 - DEBUG - No configured endpoint found.
+2025-05-07 13:59:11,273 - DEBUG - Setting s3 timeout as (60, 60)
+2025-05-07 13:59:11,276 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\_retry.json
+2025-05-07 13:59:11,276 - DEBUG - Registering retry handlers for service: s3
+2025-05-07 13:59:11,276 - DEBUG - Registering S3 region redirector handler
+2025-05-07 13:59:11,277 - DEBUG - Registering S3Express Identity Resolver
+2025-05-07 13:59:11,277 - INFO - S3Manager initialized for bucket militaria-images
+2025-05-07 13:59:13,272 - INFO - Processing site: BASMILITARIA
+2025-05-07 13:59:13,272 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-05-07 13:59:13,273 - DEBUG - SITE PROCESSOR: Debug: base_url: https://basmilitaria.com
+2025-05-07 13:59:13,273 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-05-07 13:59:13,273 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:59:13,273 - INFO - PRODUCTS URL          : https://basmilitaria.com
+2025-05-07 13:59:13,273 - INFO - CYCLES RUN            : False
+2025-05-07 13:59:13,273 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:59:13,274 - INFO - TIMESTAMP             : 2025-05-07 13:59:13.273283
+2025-05-07 13:59:13,274 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-05-07 13:59:13,274 - INFO - SITE PROCESSOR: Current product page: https://basmilitaria.com/shop?page=0
+2025-05-07 13:59:13,274 - INFO - SITE PROCESSOR: Current page: 0
+2025-05-07 13:59:13,277 - DEBUG - Starting new HTTPS connection (1): basmilitaria.com:443
+2025-05-07 13:59:14,933 - DEBUG - https://basmilitaria.com:443 "GET /shop?page=0 HTTP/1.1" 200 None
+2025-05-07 13:59:15,232 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,234 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,235 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'type' not found.
+2025-05-07 13:59:15,236 - WARNING - Post-process function 'prefix' not found.
+2025-05-07 13:59:15,236 - DEBUG - SITE PROCESSOR: Total tiles found: 12, Valid tiles: 0
+2025-05-07 13:59:15,236 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 0 
+2025-05-07 13:59:15,236 - INFO - SITE PROCESSOR: No products found on the current page. Stopping processing.
+2025-05-07 13:59:15,237 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 13:59:15,237 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:59:15,237 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 13:59:15,237 - INFO - CYCLES RUN            : False
+2025-05-07 13:59:15,237 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:59:15,237 - INFO - TIMESTAMP             : 2025-05-07 13:59:15.237019
+2025-05-07 13:59:15,237 - INFO - SITE PROCESSOR: Finished processing site: BASMILITARIA
+2025-05-07 13:59:15,237 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 13:59:15,237 - INFO - MILITARIA SITE        : BASMILITARIA
+2025-05-07 13:59:15,237 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 13:59:15,238 - INFO - CYCLES RUN            : False
+2025-05-07 13:59:15,238 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 13:59:15,238 - INFO - TIMESTAMP             : 2025-05-07 13:59:15.237731
+2025-05-07 13:59:15,238 - INFO - Successfully processed site: BASMILITARIA
+2025-05-07 13:59:15,238 - INFO - 
+------------------------------------------------------------
+                  FINAL PROCESSING SUMMARY                  
+------------------------------------------------------------
+2025-05-07 13:59:15,238 - INFO - TIMESTAMP             : 2025-05-07 13:59:15.238479
+2025-05-07 13:59:15,238 - INFO - SITES PROCESSED       : BASMILITARIA
+2025-05-07 13:59:15,238 - INFO - TOTAL PRODUCTS        : 0
+2025-05-07 13:59:15,238 - INFO - NEW PRODUCTS          : 0
+2025-05-07 13:59:15,239 - INFO - OLD PRODUCTS          : 0
+2025-05-07 13:59:15,239 - INFO - SITES COUNT           : 0
+2025-05-07 13:59:15,239 - INFO - AVAILABILITY UPDATES  : 0
+2025-05-07 13:59:15,239 - INFO - PROCESSING REQUIRED   : 0
+2025-05-07 13:59:15,239 - INFO - Sleeping 900 seconds... Next check at 2025-05-07 14:14:15

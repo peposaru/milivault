@@ -1,0 +1,1432 @@
+2025-05-07 16:00:26,631 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-07_16-00-26.log
+2025-05-07 16:00:27,425 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-05-07 16:00:29,814 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-05-07 16:00:30,835 - INFO - Connection pool initialized successfully.
+2025-05-07 16:00:30,836 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-05-07 16:00:30,837 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-05-07 16:00:30,838 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-05-07 16:00:30,839 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-05-07 16:00:30,839 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-05-07 16:00:30,839 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-05-07 16:00:30,840 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-05-07 16:00:30,841 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-05-07 16:00:30,842 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-05-07 16:00:30,842 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-05-07 16:00:30,842 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-05-07 16:00:30,880 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\endpoints.json
+2025-05-07 16:00:30,893 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-05-07 16:00:30,893 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000002688E349E40>
+2025-05-07 16:00:30,992 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-05-07 16:00:30,999 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-05-07 16:00:31,098 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-05-07 16:00:31,101 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\partitions.json
+2025-05-07 16:00:31,102 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000002688E290680>
+2025-05-07 16:00:31,103 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000002688E7882C0>
+2025-05-07 16:00:31,145 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000002688E290400>
+2025-05-07 16:00:31,145 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-05-07 16:00:31,145 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-05-07 16:00:31,145 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-05-07 16:00:31,145 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-05-07 16:00:31,145 - DEBUG - No configured endpoint found.
+2025-05-07 16:00:31,147 - DEBUG - Setting s3 timeout as (60, 60)
+2025-05-07 16:00:31,149 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\_retry.json
+2025-05-07 16:00:31,150 - DEBUG - Registering retry handlers for service: s3
+2025-05-07 16:00:31,150 - DEBUG - Registering S3 region redirector handler
+2025-05-07 16:00:31,150 - DEBUG - Registering S3Express Identity Resolver
+2025-05-07 16:00:31,151 - INFO - S3Manager initialized for bucket militaria-images
+2025-05-07 16:00:35,157 - INFO - Processing site: SOUVENIRS_MILITAIRES
+2025-05-07 16:00:35,157 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-05-07 16:00:35,157 - DEBUG - SITE PROCESSOR: Debug: base_url: https://souvenirsmilitaires.com/
+2025-05-07 16:00:35,157 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-05-07 16:00:35,157 - INFO - MILITARIA SITE        : SOUVENIRS_MILITAIRES
+2025-05-07 16:00:35,157 - INFO - PRODUCTS URL          : https://souvenirsmilitaires.com/
+2025-05-07 16:00:35,158 - INFO - CYCLES RUN            : False
+2025-05-07 16:00:35,158 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 16:00:35,158 - INFO - TIMESTAMP             : 2025-05-07 16:00:35.157652
+2025-05-07 16:00:35,158 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-05-07 16:00:35,158 - INFO - SITE PROCESSOR: Current product page: https://souvenirsmilitaires.com/page/0/
+2025-05-07 16:00:35,158 - INFO - SITE PROCESSOR: Current page: 0
+2025-05-07 16:00:35,160 - DEBUG - Starting new HTTPS connection (1): souvenirsmilitaires.com:443
+2025-05-07 16:00:37,698 - DEBUG - https://souvenirsmilitaires.com:443 "GET /page/0/ HTTP/1.1" 200 22067
+2025-05-07 16:00:37,718 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-05-07 16:00:37,719 - DEBUG - TILE PROCESSOR: Extracted text from tag → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,719 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,719 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,720 - DEBUG - TILE PROCESSOR: Extracted text from tag → Couteau HJ
+2025-05-07 16:00:37,720 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille douane
+2025-05-07 16:00:37,720 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,720 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,720 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,721 - DEBUG - TILE PROCESSOR: Extracted text from tag → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,721 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,721 - DEBUG - TILE PROCESSOR: Extracted text from tag → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,721 - DEBUG - TILE PROCESSOR: Extracted text from tag → Ceinturon et boucle DJ
+2025-05-07 16:00:37,721 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,722 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,722 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,722 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,722 - DEBUG - TILE PROCESSOR: Extracted text from tag → Badge Spartakiades du Peuple et de l’URSS 1959
+2025-05-07 16:00:37,722 - DEBUG - TILE PROCESSOR: Extracted text from tag → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,722 - DEBUG - SITE PROCESSOR: Total tiles found: 18, Valid tiles: 18
+2025-05-07 16:00:37,722 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 18 
+2025-05-07 16:00:37,723 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:37,723 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:37,723 - DEBUG - TILE PROCESSOR: Extracted text from tag → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,723 - DEBUG - CLEAN TITLE: Raw input → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,723 - DEBUG - CLEAN TITLE: After unescape → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,723 - DEBUG - CLEAN TITLE: After removing HTML tags → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,724 - DEBUG - CLEAN TITLE: After normalizing quotes → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,724 - DEBUG - CLEAN TITLE: After collapsing spaces → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,724 - DEBUG - CLEAN TITLE: Final cleaned title → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:37,724 - DEBUG - TILE PROCESSOR: Extracted text from tag → $1.533,00
+2025-05-07 16:00:37,724 - DEBUG - CLEAN PRICE: Stripped text → 1.533,00
+2025-05-07 16:00:37,725 - DEBUG - CLEAN PRICE: Parsed value → 1533.0
+2025-05-07 16:00:37,725 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17331 status-publish first instock product_cat-italie has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/"><img alt="Dague fasciste italienne modèle 1937" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" fetchpriority="high" height="324" sizes="(max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02218-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02218-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02218-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02218-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Dague fasciste italienne modèle 1937</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 1.533,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17331" aria-label="Ajouter au panier : “Dague fasciste italienne modèle 1937”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17331" data-product_sku="09233M" data-quantity="1" data-success_message="« Dague fasciste italienne modèle 1937 » a été ajouté à votre panier" href="?add-to-cart=17331" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17331">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17331 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17331,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17331">
+</div>
+</li>
+2025-05-07 16:00:37,726 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17331', 'status-publish', 'first', 'instock', 'product_cat-italie', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,726 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,726 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,726 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,726 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,726 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+
+                Raw Title          : Dague fasciste italienne modèle 1937
+                Cleaned Title      : Dague fasciste italienne modèle 1937
+
+                Raw Price          : 1.533,00
+                Cleaned Price      : 1533.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17331', 'status-publish', 'first', 'instock', 'product_cat-italie', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,727 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:37,727 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:37,727 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,727 - DEBUG - CLEAN TITLE: Raw input → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,727 - DEBUG - CLEAN TITLE: After unescape → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,728 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,728 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,728 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,728 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:37,728 - DEBUG - TILE PROCESSOR: Extracted text from tag → $295,00
+2025-05-07 16:00:37,728 - DEBUG - CLEAN PRICE: Stripped text → 295,00
+2025-05-07 16:00:37,728 - DEBUG - CLEAN PRICE: Parsed value → 295.0
+2025-05-07 16:00:37,729 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17325 status-publish instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/"><img alt="Médaille commémorative de la campagne du Mexique 1862" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" sizes="(max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02247-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02247-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02247-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02247-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Médaille commémorative de la campagne du Mexique 1862</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 295,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17325" aria-label="Ajouter au panier : “Médaille commémorative de la campagne du Mexique 1862”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17325" data-product_sku="POI09232M" data-quantity="1" data-success_message="« Médaille commémorative de la campagne du Mexique 1862 » a été ajouté à votre panier" href="?add-to-cart=17325" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17325">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17325 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17325,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17325">
+</div>
+</li>
+2025-05-07 16:00:37,729 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17325', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,729 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,729 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,729 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,730 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,730 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+
+                Raw Title          : Médaille commémorative de la campagne du Mexique 1862
+                Cleaned Title      : Médaille commémorative de la campagne du Mexique 1862
+
+                Raw Price          : 295,00
+                Cleaned Price      : 295.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17325', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,730 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:37,730 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:37,730 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,730 - DEBUG - CLEAN TITLE: Raw input → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,730 - DEBUG - CLEAN TITLE: After unescape → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,731 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,731 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,731 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,731 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:37,731 - DEBUG - TILE PROCESSOR: Extracted text from tag → $108,00
+2025-05-07 16:00:37,731 - DEBUG - CLEAN PRICE: Stripped text → 108,00
+2025-05-07 16:00:37,731 - DEBUG - CLEAN PRICE: Parsed value → 108.0
+2025-05-07 16:00:37,732 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17076 status-publish last instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/"><img alt="Médaille 4 ans de service dans la Wehrmacht" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" sizes="(max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSC02013-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSC02013-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSC02013-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSC02013-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Médaille 4 ans de service dans la Wehrmacht</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 108,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17076" aria-label="Ajouter au panier : “Médaille 4 ans de service dans la Wehrmacht”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17076" data-product_sku="09186M" data-quantity="1" data-success_message="« Médaille 4 ans de service dans la Wehrmacht » a été ajouté à votre panier" href="?add-to-cart=17076" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17076">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17076 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17076,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17076">
+</div>
+</li>
+2025-05-07 16:00:37,732 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17076', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,732 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,732 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,732 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,732 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,733 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+
+                Raw Title          : Médaille 4 ans de service dans la Wehrmacht
+                Cleaned Title      : Médaille 4 ans de service dans la Wehrmacht
+
+                Raw Price          : 108,00
+                Cleaned Price      : 108.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17076', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,733 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/couteau-hj-4/
+2025-05-07 16:00:37,733 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/couteau-hj-4/
+2025-05-07 16:00:37,733 - DEBUG - TILE PROCESSOR: Extracted text from tag → Couteau HJ
+2025-05-07 16:00:37,733 - DEBUG - CLEAN TITLE: Raw input → Couteau HJ
+2025-05-07 16:00:37,733 - DEBUG - CLEAN TITLE: After unescape → Couteau HJ
+2025-05-07 16:00:37,733 - DEBUG - CLEAN TITLE: After removing HTML tags → Couteau HJ
+2025-05-07 16:00:37,734 - DEBUG - CLEAN TITLE: After normalizing quotes → Couteau HJ
+2025-05-07 16:00:37,734 - DEBUG - CLEAN TITLE: After collapsing spaces → Couteau HJ
+2025-05-07 16:00:37,734 - DEBUG - CLEAN TITLE: Final cleaned title → Couteau HJ
+2025-05-07 16:00:37,734 - DEBUG - TILE PROCESSOR: Extracted text from tag → $534,00
+2025-05-07 16:00:37,734 - DEBUG - CLEAN PRICE: Stripped text → 534,00
+2025-05-07 16:00:37,734 - DEBUG - CLEAN PRICE: Parsed value → 534.0
+2025-05-07 16:00:37,734 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17520 status-publish first instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/couteau-hj-4/"><img alt="Couteau HJ" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02461-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02461-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02461-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02461-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Couteau HJ</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 534,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17520" aria-label="Ajouter au panier : “Couteau HJ”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17520" data-product_sku="09264M" data-quantity="1" data-success_message="« Couteau HJ » a été ajouté à votre panier" href="?add-to-cart=17520" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17520">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17520 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17520,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17520">
+</div>
+</li>
+2025-05-07 16:00:37,735 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17520', 'status-publish', 'first', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,735 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,735 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,736 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,736 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,737 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/couteau-hj-4/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/couteau-hj-4/
+
+                Raw Title          : Couteau HJ
+                Cleaned Title      : Couteau HJ
+
+                Raw Price          : 534,00
+                Cleaned Price      : 534.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17520', 'status-publish', 'first', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,738 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-douane/
+2025-05-07 16:00:37,738 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-douane/
+2025-05-07 16:00:37,738 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille douane
+2025-05-07 16:00:37,738 - DEBUG - CLEAN TITLE: Raw input → Médaille douane
+2025-05-07 16:00:37,738 - DEBUG - CLEAN TITLE: After unescape → Médaille douane
+2025-05-07 16:00:37,739 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille douane
+2025-05-07 16:00:37,739 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille douane
+2025-05-07 16:00:37,739 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille douane
+2025-05-07 16:00:37,739 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille douane
+2025-05-07 16:00:37,739 - DEBUG - TILE PROCESSOR: Extracted text from tag → $312,00
+2025-05-07 16:00:37,739 - DEBUG - CLEAN PRICE: Stripped text → 312,00
+2025-05-07 16:00:37,740 - DEBUG - CLEAN PRICE: Parsed value → 312.0
+2025-05-07 16:00:37,740 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17542 status-publish instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/medaille-douane/"><img alt="Médaille douane" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSCN4703-324x324.jpeg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSCN4703-324x324.jpeg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSCN4703-150x150.jpeg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSCN4703-100x100.jpeg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Médaille douane</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 312,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17542" aria-label="Ajouter au panier : “Médaille douane”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17542" data-product_sku="09266" data-quantity="1" data-success_message="« Médaille douane » a été ajouté à votre panier" href="?add-to-cart=17542" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17542">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17542 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17542,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17542">
+</div>
+</li>
+2025-05-07 16:00:37,740 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17542', 'status-publish', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,741 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,741 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,741 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,741 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,741 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/medaille-douane/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/medaille-douane/
+
+                Raw Title          : Médaille douane
+                Cleaned Title      : Médaille douane
+
+                Raw Price          : 312,00
+                Cleaned Price      : 312.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17542', 'status-publish', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,741 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+2025-05-07 16:00:37,742 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+2025-05-07 16:00:37,742 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,742 - DEBUG - CLEAN TITLE: Raw input → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,742 - DEBUG - CLEAN TITLE: After unescape → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,742 - DEBUG - CLEAN TITLE: After removing HTML tags → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,742 - DEBUG - CLEAN TITLE: After normalizing quotes → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,742 - DEBUG - CLEAN TITLE: After collapsing spaces → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,743 - DEBUG - CLEAN TITLE: Final cleaned title → Brassard Deutsche Wehrmacht
+2025-05-07 16:00:37,743 - DEBUG - TILE PROCESSOR: Extracted text from tag → $131,00
+2025-05-07 16:00:37,743 - DEBUG - CLEAN PRICE: Stripped text → 131,00
+2025-05-07 16:00:37,743 - DEBUG - CLEAN PRICE: Parsed value → 131.0
+2025-05-07 16:00:37,744 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-16979 status-publish last instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/"><img alt="Brassard Deutsche Wehrmacht" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4652-324x324.jpeg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4652-324x324.jpeg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4652-150x150.jpeg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4652-100x100.jpeg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Brassard Deutsche Wehrmacht</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 131,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_16979" aria-label="Ajouter au panier : “Brassard Deutsche Wehrmacht”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="16979" data-product_sku="09168" data-quantity="1" data-success_message="« Brassard Deutsche Wehrmacht » a été ajouté à votre panier" href="?add-to-cart=16979" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_16979">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-16979 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":16979,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="16979">
+</div>
+</li>
+2025-05-07 16:00:37,745 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16979', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,745 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,745 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,745 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,745 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,745 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+
+                Raw Title          : Brassard Deutsche Wehrmacht
+                Cleaned Title      : Brassard Deutsche Wehrmacht
+
+                Raw Price          : 131,00
+                Cleaned Price      : 131.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16979', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,746 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+2025-05-07 16:00:37,746 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+2025-05-07 16:00:37,746 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,746 - DEBUG - CLEAN TITLE: Raw input → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,746 - DEBUG - CLEAN TITLE: After unescape → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,747 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,747 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,747 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,747 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille campagne de Russie 1941-1942 avec rappel
+2025-05-07 16:00:37,747 - DEBUG - TILE PROCESSOR: Extracted text from tag → $97,00
+2025-05-07 16:00:37,747 - DEBUG - CLEAN PRICE: Stripped text → 97,00
+2025-05-07 16:00:37,748 - DEBUG - CLEAN PRICE: Parsed value → 97.0
+2025-05-07 16:00:37,748 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-16982 status-publish first instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/"><img alt="Médaille campagne de Russie 1941-1942 avec rappel" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4654-324x324.jpeg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4654-324x324.jpeg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4654-150x150.jpeg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/03/DSCN4654-100x100.jpeg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Médaille campagne de Russie 1941-1942 avec rappel</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 97,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_16982" aria-label="Ajouter au panier : “Médaille campagne de Russie 1941-1942 avec rappel”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="16982" data-product_sku="09169" data-quantity="1" data-success_message="« Médaille campagne de Russie 1941-1942 avec rappel » a été ajouté à votre panier" href="?add-to-cart=16982" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_16982">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-16982 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":16982,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="16982">
+</div>
+</li>
+2025-05-07 16:00:37,749 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16982', 'status-publish', 'first', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,749 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,749 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,749 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,749 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,749 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+
+                Raw Title          : Médaille campagne de Russie 1941-1942 avec rappel
+                Cleaned Title      : Médaille campagne de Russie 1941-1942 avec rappel
+
+                Raw Price          : 97,00
+                Cleaned Price      : 97.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16982', 'status-publish', 'first', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,750 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+2025-05-07 16:00:37,750 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+2025-05-07 16:00:37,750 - DEBUG - TILE PROCESSOR: Extracted text from tag → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: Raw input → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: After unescape → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,751 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille de table Maréchal Foch armistice 1918
+2025-05-07 16:00:37,752 - DEBUG - TILE PROCESSOR: Extracted text from tag → $148,00
+2025-05-07 16:00:37,752 - DEBUG - CLEAN PRICE: Stripped text → 148,00
+2025-05-07 16:00:37,752 - DEBUG - CLEAN PRICE: Parsed value → 148.0
+2025-05-07 16:00:37,753 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17299 status-publish instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/"><img alt="Médaille de table Maréchal Foch armistice 1918" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02201-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02201-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02201-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02201-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Médaille de table Maréchal Foch armistice 1918</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 148,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17299" aria-label="Ajouter au panier : “Médaille de table Maréchal Foch armistice 1918”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17299" data-product_sku="POI09229M" data-quantity="1" data-success_message="« Médaille de table Maréchal Foch armistice 1918 » a été ajouté à votre panier" href="?add-to-cart=17299" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17299">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17299 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17299,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17299">
+</div>
+</li>
+2025-05-07 16:00:37,754 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17299', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,754 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,754 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,754 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,754 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,754 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+
+                Raw Title          : Médaille de table Maréchal Foch armistice 1918
+                Cleaned Title      : Médaille de table Maréchal Foch armistice 1918
+
+                Raw Price          : 148,00
+                Cleaned Price      : 148.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17299', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,755 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+2025-05-07 16:00:37,755 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+2025-05-07 16:00:37,755 - DEBUG - TILE PROCESSOR: Extracted text from tag → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,755 - DEBUG - CLEAN TITLE: Raw input → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,755 - DEBUG - CLEAN TITLE: After unescape → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,756 - DEBUG - CLEAN TITLE: After removing HTML tags → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,756 - DEBUG - CLEAN TITLE: After normalizing quotes → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,756 - DEBUG - CLEAN TITLE: After collapsing spaces → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,756 - DEBUG - CLEAN TITLE: Final cleaned title → Diplôme de la médaille des opérations de sécurité Algérie
+2025-05-07 16:00:37,756 - DEBUG - TILE PROCESSOR: Extracted text from tag → $23,00
+2025-05-07 16:00:37,756 - DEBUG - CLEAN PRICE: Stripped text → 23,00
+2025-05-07 16:00:37,757 - DEBUG - CLEAN PRICE: Parsed value → 23.0
+2025-05-07 16:00:37,757 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17537 status-publish last instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/"><img alt="Diplôme de la médaille des opérations de sécurité Algérie" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSC02489-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSC02489-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSC02489-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/05/DSC02489-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Diplôme de la médaille des opérations de sécurité Algérie</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 23,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17537" aria-label="Ajouter au panier : “Diplôme de la médaille des opérations de sécurité Algérie”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17537" data-product_sku="09265M" data-quantity="1" data-success_message="« Diplôme de la médaille des opérations de sécurité Algérie » a été ajouté à votre panier" href="?add-to-cart=17537" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17537">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17537 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17537,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17537">
+</div>
+</li>
+2025-05-07 16:00:37,757 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17537', 'status-publish', 'last', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,758 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,758 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,758 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,758 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,758 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+
+                Raw Title          : Diplôme de la médaille des opérations de sécurité Algérie
+                Cleaned Title      : Diplôme de la médaille des opérations de sécurité Algérie
+
+                Raw Price          : 23,00
+                Cleaned Price      : 23.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17537', 'status-publish', 'last', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,759 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+2025-05-07 16:00:37,759 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+2025-05-07 16:00:37,759 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,759 - DEBUG - CLEAN TITLE: Raw input → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,759 - DEBUG - CLEAN TITLE: After unescape → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,759 - DEBUG - CLEAN TITLE: After removing HTML tags → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,759 - DEBUG - CLEAN TITLE: After normalizing quotes → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,760 - DEBUG - CLEAN TITLE: After collapsing spaces → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,760 - DEBUG - CLEAN TITLE: Final cleaned title → Brochure face au Danger de Léon Degrelle
+2025-05-07 16:00:37,760 - DEBUG - TILE PROCESSOR: Extracted text from tag → $57,00
+2025-05-07 16:00:37,760 - DEBUG - CLEAN PRICE: Stripped text → 57,00
+2025-05-07 16:00:37,760 - DEBUG - CLEAN PRICE: Parsed value → 57.0
+2025-05-07 16:00:37,761 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-6582 status-publish first instock product_cat-organisations-politiques has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/"><img alt="brochure Léon Degrelle - Rex - militaria" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2022/04/leon-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2022/04/leon-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2022/04/leon-100x100.jpg 100w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2022/04/leon-150x150.jpg 150w" width="324"/><h2 class="woocommerce-loop-product__title">Brochure face au Danger de Léon Degrelle</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 57,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_6582" aria-label="Ajouter au panier : “Brochure face au Danger de Léon Degrelle”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="6582" data-product_sku="07469M" data-quantity="1" data-success_message="« Brochure face au Danger de Léon Degrelle » a été ajouté à votre panier" href="?add-to-cart=6582" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_6582">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-6582 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":6582,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="6582">
+</div>
+</li>
+2025-05-07 16:00:37,762 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-6582', 'status-publish', 'first', 'instock', 'product_cat-organisations-politiques', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,762 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,762 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,762 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,762 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,763 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+
+                Raw Title          : Brochure face au Danger de Léon Degrelle
+                Cleaned Title      : Brochure face au Danger de Léon Degrelle
+
+                Raw Price          : 57,00
+                Cleaned Price      : 57.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-6582', 'status-publish', 'first', 'instock', 'product_cat-organisations-politiques', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,763 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+2025-05-07 16:00:37,763 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+2025-05-07 16:00:37,764 - DEBUG - TILE PROCESSOR: Extracted text from tag → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,764 - DEBUG - CLEAN TITLE: Raw input → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,764 - DEBUG - CLEAN TITLE: After unescape → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,764 - DEBUG - CLEAN TITLE: After removing HTML tags → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,764 - DEBUG - CLEAN TITLE: After normalizing quotes → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,764 - DEBUG - CLEAN TITLE: After collapsing spaces → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,765 - DEBUG - CLEAN TITLE: Final cleaned title → Livre MK dédicacé Otto Riehs
+2025-05-07 16:00:37,765 - DEBUG - TILE PROCESSOR: Extracted text from tag → $335,00
+2025-05-07 16:00:37,765 - DEBUG - CLEAN PRICE: Stripped text → 335,00
+2025-05-07 16:00:37,765 - DEBUG - CLEAN PRICE: Parsed value → 335.0
+2025-05-07 16:00:37,766 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-16332 status-publish instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/"><img alt="Livre MK dédicacé Otto Riehs" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2024/12/mkor-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2024/12/mkor-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2024/12/mkor-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2024/12/mkor-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Livre MK dédicacé Otto Riehs</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 335,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_16332" aria-label="Ajouter au panier : “Livre MK dédicacé Otto Riehs”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="16332" data-product_sku="09065M" data-quantity="1" data-success_message="« Livre MK dédicacé Otto Riehs » a été ajouté à votre panier" href="?add-to-cart=16332" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_16332">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-16332 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":16332,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="16332">
+</div>
+</li>
+2025-05-07 16:00:37,767 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16332', 'status-publish', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,767 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,767 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,767 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,767 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,768 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+
+                Raw Title          : Livre MK dédicacé Otto Riehs
+                Cleaned Title      : Livre MK dédicacé Otto Riehs
+
+                Raw Price          : 335,00
+                Cleaned Price      : 335.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-16332', 'status-publish', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,768 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+2025-05-07 16:00:37,768 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+2025-05-07 16:00:37,768 - DEBUG - TILE PROCESSOR: Extracted text from tag → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: Raw input → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: After unescape → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: After removing HTML tags → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: After normalizing quotes → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: After collapsing spaces → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - CLEAN TITLE: Final cleaned title → Ceinturon et boucle DJ
+2025-05-07 16:00:37,769 - DEBUG - TILE PROCESSOR: Extracted text from tag → $335,00
+2025-05-07 16:00:37,770 - DEBUG - CLEAN PRICE: Stripped text → 335,00
+2025-05-07 16:00:37,770 - DEBUG - CLEAN PRICE: Parsed value → 335.0
+2025-05-07 16:00:37,770 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17514 status-publish last instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/"><img alt="Ceinturon et boucle DJ" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02482-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02482-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02482-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02482-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Ceinturon et boucle DJ</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 335,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17514" aria-label="Ajouter au panier : “Ceinturon et boucle DJ”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17514" data-product_sku="09263M" data-quantity="1" data-success_message="« Ceinturon et boucle DJ » a été ajouté à votre panier" href="?add-to-cart=17514" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17514">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17514 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17514,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17514">
+</div>
+</li>
+2025-05-07 16:00:37,771 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17514', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,771 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,772 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,772 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,772 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,772 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+
+                Raw Title          : Ceinturon et boucle DJ
+                Cleaned Title      : Ceinturon et boucle DJ
+
+                Raw Price          : 335,00
+                Cleaned Price      : 335.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17514', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,772 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+2025-05-07 16:00:37,773 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+2025-05-07 16:00:37,773 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: Raw input → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: After unescape → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: After removing HTML tags → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: After normalizing quotes → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: After collapsing spaces → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,773 - DEBUG - CLEAN TITLE: Final cleaned title → Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+2025-05-07 16:00:37,774 - DEBUG - TILE PROCESSOR: Extracted text from tag → $28,00
+2025-05-07 16:00:37,774 - DEBUG - CLEAN PRICE: Stripped text → 28,00
+2025-05-07 16:00:37,774 - DEBUG - CLEAN PRICE: Parsed value → 28.0
+2025-05-07 16:00:37,774 - DEBUG - [BEFORE AVAIL] <li class="reservation add-to-wishlist-after_add_to_cart product type-product post-17510 status-publish first instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/"><img alt="Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02491-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02491-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02491-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02491-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 28,00</bdi></span></span>
+<div class="reservationlien">Déjà Réservé</div></a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17510" aria-label="Ajouter au panier : “Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17510" data-product_sku="09262M" data-quantity="1" data-success_message="« Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD) » a été ajouté à votre panier" href="?add-to-cart=17510" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17510">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17510 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17510,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17510">
+</div>
+</li>
+2025-05-07 16:00:37,776 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17510', 'status-publish', 'first', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,776 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,776 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,776 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,776 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,776 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+
+                Raw Title          : Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+                Cleaned Title      : Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+
+                Raw Price          : 28,00
+                Cleaned Price      : 28.0
+
+                Raw Availability   : ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17510', 'status-publish', 'first', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,777 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+2025-05-07 16:00:37,777 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+2025-05-07 16:00:37,777 - DEBUG - TILE PROCESSOR: Extracted text from tag → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,777 - DEBUG - CLEAN TITLE: Raw input → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,777 - DEBUG - CLEAN TITLE: After unescape → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,777 - DEBUG - CLEAN TITLE: After removing HTML tags → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,777 - DEBUG - CLEAN TITLE: After normalizing quotes → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,777 - DEBUG - CLEAN TITLE: After collapsing spaces → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,778 - DEBUG - CLEAN TITLE: Final cleaned title → Brochure anti bolchevique RÉSERVÉ (CD)
+2025-05-07 16:00:37,778 - DEBUG - TILE PROCESSOR: Extracted text from tag → $74,00
+2025-05-07 16:00:37,778 - DEBUG - CLEAN PRICE: Stripped text → 74,00
+2025-05-07 16:00:37,778 - DEBUG - CLEAN PRICE: Parsed value → 74.0
+2025-05-07 16:00:37,778 - DEBUG - [BEFORE AVAIL] <li class="reservation add-to-wishlist-after_add_to_cart product type-product post-17504 status-publish instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/"><img alt="Brochure anti bolchevique RÉSERVÉ (CD)" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02497-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02497-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02497-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02497-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Brochure anti bolchevique RÉSERVÉ (CD)</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 74,00</bdi></span></span>
+<div class="reservationlien">Déjà Réservé</div></a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17504" aria-label="Ajouter au panier : “Brochure anti bolchevique RÉSERVÉ (CD)”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17504" data-product_sku="09261M" data-quantity="1" data-success_message="« Brochure anti bolchevique RÉSERVÉ (CD) » a été ajouté à votre panier" href="?add-to-cart=17504" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17504">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17504 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17504,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17504">
+</div>
+</li>
+2025-05-07 16:00:37,779 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17504', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,779 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,779 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,779 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,779 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,779 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+
+                Raw Title          : Brochure anti bolchevique RÉSERVÉ (CD)
+                Cleaned Title      : Brochure anti bolchevique RÉSERVÉ (CD)
+
+                Raw Price          : 74,00
+                Cleaned Price      : 74.0
+
+                Raw Availability   : ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17504', 'status-publish', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,780 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+2025-05-07 16:00:37,780 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+2025-05-07 16:00:37,780 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,780 - DEBUG - CLEAN TITLE: Raw input → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,780 - DEBUG - CLEAN TITLE: After unescape → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,780 - DEBUG - CLEAN TITLE: After removing HTML tags → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,780 - DEBUG - CLEAN TITLE: After normalizing quotes → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,781 - DEBUG - CLEAN TITLE: After collapsing spaces → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,781 - DEBUG - CLEAN TITLE: Final cleaned title → Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+2025-05-07 16:00:37,781 - DEBUG - TILE PROCESSOR: Extracted text from tag → $44,00
+2025-05-07 16:00:37,781 - DEBUG - CLEAN PRICE: Stripped text → 44,00
+2025-05-07 16:00:37,781 - DEBUG - CLEAN PRICE: Parsed value → 44.0
+2025-05-07 16:00:37,782 - DEBUG - [BEFORE AVAIL] <li class="reservation add-to-wishlist-after_add_to_cart product type-product post-17499 status-publish last instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/"><img alt="Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02313-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02313-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02313-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02313-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 44,00</bdi></span></span>
+<div class="reservationlien">Déjà Réservé</div></a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17499" aria-label="Ajouter au panier : “Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17499" data-product_sku="09260M" data-quantity="1" data-success_message="« Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD) » a été ajouté à votre panier" href="?add-to-cart=17499" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17499">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17499 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17499,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17499">
+</div>
+</li>
+2025-05-07 16:00:37,782 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17499', 'status-publish', 'last', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,782 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,782 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,782 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,783 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,783 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+
+                Raw Title          : Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+                Cleaned Title      : Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+
+                Raw Price          : 44,00
+                Cleaned Price      : 44.0
+
+                Raw Availability   : ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17499', 'status-publish', 'last', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,784 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+2025-05-07 16:00:37,784 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+2025-05-07 16:00:37,784 - DEBUG - TILE PROCESSOR: Extracted text from tag → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: Raw input → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: After unescape → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: After removing HTML tags → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: After normalizing quotes → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: After collapsing spaces → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,784 - DEBUG - CLEAN TITLE: Final cleaned title → Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+2025-05-07 16:00:37,785 - DEBUG - TILE PROCESSOR: Extracted text from tag → $102,00
+2025-05-07 16:00:37,785 - DEBUG - CLEAN PRICE: Stripped text → 102,00
+2025-05-07 16:00:37,785 - DEBUG - CLEAN PRICE: Parsed value → 102.0
+2025-05-07 16:00:37,785 - DEBUG - [BEFORE AVAIL] <li class="reservation add-to-wishlist-after_add_to_cart product type-product post-17488 status-publish first instock product_cat-france has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/"><img alt="Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02452-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02452-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02452-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02452-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 102,00</bdi></span></span>
+<div class="reservationlien">Déjà Réservé</div></a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17488" aria-label="Ajouter au panier : “Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17488" data-product_sku="09259M" data-quantity="1" data-success_message="« Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD) » a été ajouté à votre panier" href="?add-to-cart=17488" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17488">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17488 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17488,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17488">
+</div>
+</li>
+2025-05-07 16:00:37,786 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17488', 'status-publish', 'first', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,786 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,786 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,786 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,787 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,787 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+
+                Raw Title          : Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+                Cleaned Title      : Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+
+                Raw Price          : 102,00
+                Cleaned Price      : 102.0
+
+                Raw Availability   : ['reservation', 'add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17488', 'status-publish', 'first', 'instock', 'product_cat-france', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,787 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+2025-05-07 16:00:37,788 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+2025-05-07 16:00:37,788 - DEBUG - TILE PROCESSOR: Extracted text from tag → Badge Spartakiades du Peuple et de l’URSS 1959
+2025-05-07 16:00:37,788 - DEBUG - CLEAN TITLE: Raw input → Badge Spartakiades du Peuple et de l’URSS 1959
+2025-05-07 16:00:37,788 - DEBUG - CLEAN TITLE: After unescape → Badge Spartakiades du Peuple et de l’URSS 1959
+2025-05-07 16:00:37,788 - DEBUG - CLEAN TITLE: After removing HTML tags → Badge Spartakiades du Peuple et de l’URSS 1959
+2025-05-07 16:00:37,788 - DEBUG - CLEAN TITLE: After normalizing quotes → Badge Spartakiades du Peuple et de l'URSS 1959
+2025-05-07 16:00:37,789 - DEBUG - CLEAN TITLE: After collapsing spaces → Badge Spartakiades du Peuple et de l'URSS 1959
+2025-05-07 16:00:37,789 - DEBUG - CLEAN TITLE: Final cleaned title → Badge Spartakiades du Peuple et de l'URSS 1959
+2025-05-07 16:00:37,789 - DEBUG - TILE PROCESSOR: Extracted text from tag → $57,00
+2025-05-07 16:00:37,789 - DEBUG - CLEAN PRICE: Stripped text → 57,00
+2025-05-07 16:00:37,789 - DEBUG - CLEAN PRICE: Parsed value → 57.0
+2025-05-07 16:00:37,790 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-10001 status-publish instock product_cat-urss has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/"><img alt="Badge Spartakiades du Peuple et de l'URSS 1959. Très bon état." class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2023/04/DSCN1564-324x324.jpeg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2023/04/DSCN1564-324x324.jpeg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2023/04/DSCN1564-100x100.jpeg 100w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2023/04/DSCN1564-150x150.jpeg 150w" width="324"/><h2 class="woocommerce-loop-product__title">Badge Spartakiades du Peuple et de l’URSS 1959</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 57,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_10001" aria-label="Ajouter au panier : “Badge Spartakiades du Peuple et de l'URSS 1959”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="10001" data-product_sku="08012" data-quantity="1" data-success_message="« Badge Spartakiades du Peuple et de l'URSS 1959 » a été ajouté à votre panier" href="?add-to-cart=10001" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_10001">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-10001 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":10001,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="10001">
+</div>
+</li>
+2025-05-07 16:00:37,790 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-10001', 'status-publish', 'instock', 'product_cat-urss', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,791 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,791 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,791 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,791 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,791 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+
+                Raw Title          : Badge Spartakiades du Peuple et de l’URSS 1959
+                Cleaned Title      : Badge Spartakiades du Peuple et de l'URSS 1959
+
+                Raw Price          : 57,00
+                Cleaned Price      : 57.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-10001', 'status-publish', 'instock', 'product_cat-urss', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,792 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+2025-05-07 16:00:37,792 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+2025-05-07 16:00:37,792 - DEBUG - TILE PROCESSOR: Extracted text from tag → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,792 - DEBUG - CLEAN TITLE: Raw input → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,792 - DEBUG - CLEAN TITLE: After unescape → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,793 - DEBUG - CLEAN TITLE: After removing HTML tags → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,793 - DEBUG - CLEAN TITLE: After normalizing quotes → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,793 - DEBUG - CLEAN TITLE: After collapsing spaces → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,793 - DEBUG - CLEAN TITLE: Final cleaned title → Badge des blessés classe or avec son écrin
+2025-05-07 16:00:37,793 - DEBUG - TILE PROCESSOR: Extracted text from tag → $625,00
+2025-05-07 16:00:37,794 - DEBUG - CLEAN PRICE: Stripped text → 625,00
+2025-05-07 16:00:37,794 - DEBUG - CLEAN PRICE: Parsed value → 625.0
+2025-05-07 16:00:37,794 - DEBUG - [BEFORE AVAIL] <li class="add-to-wishlist-after_add_to_cart product type-product post-17482 status-publish last instock product_cat-allemagne product_cat-deuxieme-guerre has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
+<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/"><img alt="Badge des blessés classe or avec son écrin" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" decoding="async" height="324" loading="lazy" sizes="auto, (max-width: 324px) 100vw, 324px" src="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02430-324x324.jpg" srcset="https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02430-324x324.jpg 324w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02430-150x150.jpg 150w, https://souvenirsmilitaires.com/mili/wp-content/uploads/2025/04/DSC02430-100x100.jpg 100w" width="324"/><h2 class="woocommerce-loop-product__title">Badge des blessés classe or avec son écrin</h2>
+<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span> 625,00</bdi></span></span>
+</a><a aria-describedby="woocommerce_loop_add_to_cart_link_describedby_17482" aria-label="Ajouter au panier : “Badge des blessés classe or avec son écrin”" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="17482" data-product_sku="09258M" data-quantity="1" data-success_message="« Badge des blessés classe or avec son écrin » a été ajouté à votre panier" href="?add-to-cart=17482" rel="nofollow">Ajouter au panier</a> <span class="screen-reader-text" id="woocommerce_loop_add_to_cart_link_describedby_17482">
+</span>
+<div class="yith-wcwl-add-to-wishlist add-to-wishlist-17482 yith-wcwl-add-to-wishlist--link-style wishlist-fragment on-first-load" data-fragment-options='{"base_url":"","product_id":17482,"parent_product_id":0,"product_type":"simple","is_single":false,"in_default_wishlist":false,"show_view":false,"browse_wishlist_text":"Voir la liste d\u2019envies","already_in_wishslist_text":"Le produit est d\u00e9j\u00e0 dans votre liste de souhaits\u00a0!","product_added_text":"Produit ajout\u00e9 !","available_multi_wishlist":false,"disable_wishlist":false,"show_count":false,"ajax_loading":false,"loop_position":"after_add_to_cart","item":"add_to_wishlist"}' data-fragment-ref="17482">
+</div>
+</li>
+2025-05-07 16:00:37,794 - DEBUG - TILE ROOT ELEMENT: li, attrs: {'class': ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17482', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']}
+2025-05-07 16:00:37,795 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['li'], 'attribute': 'class', 'post_process': {'find_text_contains': {'value': 'outofstock', 'if_true': False, 'if_false': True}}}
+2025-05-07 16:00:37,795 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-05-07 16:00:37,795 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-05-07 16:00:37,795 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-05-07 16:00:37,795 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+                Cleaned URL        : https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+
+                Raw Title          : Badge des blessés classe or avec son écrin
+                Cleaned Title      : Badge des blessés classe or avec son écrin
+
+                Raw Price          : 625,00
+                Cleaned Price      : 625.0
+
+                Raw Availability   : ['add-to-wishlist-after_add_to_cart', 'product', 'type-product', 'post-17482', 'status-publish', 'last', 'instock', 'product_cat-allemagne', 'product_cat-deuxieme-guerre', 'has-post-thumbnail', 'taxable', 'shipping-taxable', 'purchasable', 'product-type-simple']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-05-07 16:00:37,796 - INFO - SITE PROCESSOR: Product Dictionaries count: 18
+2025-05-07 16:00:37,796 - INFO - PRODUCT PROCESSOR: Categorizing products between old and new...
+2025-05-07 16:00:37,932 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:37,933 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+    DB Title             : N/A
+    Tile Title           : Dague fasciste italienne modèle 1937
+    DB Price             : N/A
+    Tile Price           : 1533.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,059 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:38,060 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+    DB Title             : N/A
+    Tile Title           : Médaille commémorative de la campagne du Mexique 1862
+    DB Price             : N/A
+    Tile Price           : 295.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,187 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:38,187 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+    DB Title             : N/A
+    Tile Title           : Médaille 4 ans de service dans la Wehrmacht
+    DB Price             : N/A
+    Tile Price           : 108.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,313 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/couteau-hj-4/
+2025-05-07 16:00:38,313 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/couteau-hj-4/
+    DB Title             : N/A
+    Tile Title           : Couteau HJ
+    DB Price             : N/A
+    Tile Price           : 534.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,439 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/medaille-douane/
+2025-05-07 16:00:38,439 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/medaille-douane/
+    DB Title             : N/A
+    Tile Title           : Médaille douane
+    DB Price             : N/A
+    Tile Price           : 312.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,567 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+2025-05-07 16:00:38,567 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/brassard-deutsche-wehrmacht/
+    DB Title             : N/A
+    Tile Title           : Brassard Deutsche Wehrmacht
+    DB Price             : N/A
+    Tile Price           : 131.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,693 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+2025-05-07 16:00:38,693 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/medaille-campagne-de-russie-1941-1942-avec-rappel/
+    DB Title             : N/A
+    Tile Title           : Médaille campagne de Russie 1941-1942 avec rappel
+    DB Price             : N/A
+    Tile Price           : 97.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,818 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+2025-05-07 16:00:38,819 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/medaille-de-table-marechal-foch-armistice-19118/
+    DB Title             : N/A
+    Tile Title           : Médaille de table Maréchal Foch armistice 1918
+    DB Price             : N/A
+    Tile Price           : 148.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:38,946 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+2025-05-07 16:00:38,946 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/diplome-de-la-medaille-des-operations-de-securite-algerie/
+    DB Title             : N/A
+    Tile Title           : Diplôme de la médaille des opérations de sécurité Algérie
+    DB Price             : N/A
+    Tile Price           : 23.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,071 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+2025-05-07 16:00:39,072 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/brochure-face-au-danger-de-leon-degrelle/
+    DB Title             : N/A
+    Tile Title           : Brochure face au Danger de Léon Degrelle
+    DB Price             : N/A
+    Tile Price           : 57.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,196 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+2025-05-07 16:00:39,197 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/livre-mk-dedicace-otto-riehs/
+    DB Title             : N/A
+    Tile Title           : Livre MK dédicacé Otto Riehs
+    DB Price             : N/A
+    Tile Price           : 335.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,325 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+2025-05-07 16:00:39,326 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/ceinturon-et-boucle-dj/
+    DB Title             : N/A
+    Tile Title           : Ceinturon et boucle DJ
+    DB Price             : N/A
+    Tile Price           : 335.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,452 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+2025-05-07 16:00:39,452 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/lot-brochure-1er-mai-1942-et-lettre-du-marechal-a-un-enfant/
+    DB Title             : N/A
+    Tile Title           : Lot brochure 1er mai 1942 et lettre du Maréchal à un enfant RÉSERVÉ (CD)
+    DB Price             : N/A
+    Tile Price           : 28.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,583 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+2025-05-07 16:00:39,584 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/brochure-anti-bolchevique/
+    DB Title             : N/A
+    Tile Title           : Brochure anti bolchevique RÉSERVÉ (CD)
+    DB Price             : N/A
+    Tile Price           : 74.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,709 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+2025-05-07 16:00:39,709 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/lot-brochure-appel-aux-francais-et-carte-identite-1944/
+    DB Title             : N/A
+    Tile Title           : Lot brochure appel aux Français et carte identité 1944 RÉSERVÉ (CD)
+    DB Price             : N/A
+    Tile Price           : 44.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,839 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+2025-05-07 16:00:39,840 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/lot-livret-militaire-carte-lfc-carte-combattant/
+    DB Title             : N/A
+    Tile Title           : Lot livret militaire, carte LFC, carte combattant RÉSERVÉ (CD)
+    DB Price             : N/A
+    Tile Price           : 102.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:39,972 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+2025-05-07 16:00:39,972 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/badge-spartakiades-du-peuple-et-de-lurss-1959/
+    DB Title             : N/A
+    Tile Title           : Badge Spartakiades du Peuple et de l'URSS 1959
+    DB Price             : N/A
+    Tile Price           : 57.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:40,097 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+2025-05-07 16:00:40,097 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://souvenirsmilitaires.com/produit/badge-des-blesses-classe-or-avec-son-ecrin/
+    DB Title             : N/A
+    Tile Title           : Badge des blessés classe or avec son écrin
+    DB Price             : N/A
+    Tile Price           : 625.0
+    DB Availability      : N/A
+    Tile Availability    : True
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-05-07 16:00:40,098 - INFO - PRODUCT PROCESSOR: Products needing full processing  : 18
+2025-05-07 16:00:40,098 - INFO - PRODUCT PROCESSOR: Products needing availability updates: 0
+2025-05-07 16:00:40,098 - INFO - PRODUCT PROCESSOR: Products ignored (no updates needed): 0
+2025-05-07 16:00:40,098 - DEBUG - PRODUCT PROCESSOR: Processing required list count: 18
+2025-05-07 16:00:40,098 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-07 16:00:40,098 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:41,653 - DEBUG - https://souvenirsmilitaires.com:443 "GET /produit/dague-fasciste-italienne-modele-1937/ HTTP/1.1" 200 21786
+2025-05-07 16:00:41,665 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-07 16:00:41,665 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'product_title'}, attribute=None
+2025-05-07 16:00:41,665 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,665 - DEBUG - EXTRACT DETAILS TITLE: Final value → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,666 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-07 16:00:41,666 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → $1.533,00
+2025-05-07 16:00:41,666 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'stock'}, attribute=None
+2025-05-07 16:00:41,667 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → 1 en stock
+2025-05-07 16:00:41,667 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: 1 en stock
+2025-05-07 16:00:41,667 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: woocommerce
+2025-05-07 16:00:41,667 - ERROR - PRODUCT PROCESSOR: AttributeError: PRODUCT PROCESSOR: Function 'woocommerce' not found in image_extractor.
+2025-05-07 16:00:41,667 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['span'], kwargs={'class_': 'posted_in'}, attribute=None
+2025-05-07 16:00:41,668 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Catégorie :Italie
+2025-05-07 16:00:41,668 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['button'], kwargs={}, attribute=data-product_id
+2025-05-07 16:00:41,668 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute 'data-product_id' → 
+2025-05-07 16:00:41,668 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': True,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': None,
+ 'extracted_id': None,
+ 'grade': None,
+ 'item_type_site_designated': 'Catégorie\xa0:Italie',
+ 'nation_site_designated': None,
+ 'original_image_urls': [],
+ 'price': '1.533,00',
+ 'title': 'Dague fasciste italienne modèle 1937',
+ 'url': 'https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/'}
+2025-05-07 16:00:41,669 - DEBUG - CLEAN PRICE: Stripped text → 1.533,00
+2025-05-07 16:00:41,669 - DEBUG - CLEAN PRICE: Parsed value → 1533.0
+2025-05-07 16:00:41,669 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/: {'available': 'True',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'None',
+ 'extracted_id': 'None',
+ 'grade': 'None',
+ 'item_type_site_designated': 'Catégorie\xa0:Italie',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': '[]',
+ 'price': '1.533,00',
+ 'title': 'Dague fasciste italienne modèle 1937',
+ 'url': 'https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/'}
+2025-05-07 16:00:41,669 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:41,669 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: Raw input → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: After unescape → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: After removing HTML tags → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: After normalizing quotes → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: After collapsing spaces → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN TITLE: Final cleaned title → Dague fasciste italienne modèle 1937
+2025-05-07 16:00:41,670 - DEBUG - CLEAN DESCRIPTION: Description is None.
+2025-05-07 16:00:41,670 - DEBUG - CLEAN PRICE: Stripped text → 1.533,00
+2025-05-07 16:00:41,670 - DEBUG - CLEAN PRICE: Parsed value → 1533.0
+2025-05-07 16:00:41,670 - DEBUG - CLEAN URL LIST: Raw input → []
+2025-05-07 16:00:41,670 - DEBUG - CLEAN URL LIST: Cleaned URLs → []
+2025-05-07 16:00:41,671 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-07 16:00:41,671 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-07 16:00:41,671 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-07 16:00:41,671 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-07 16:00:41,671 - DEBUG - CLEAN ITEM TYPE: Raw input → Catégorie :Italie
+2025-05-07 16:00:41,671 - DEBUG - CLEAN ITEM TYPE: After decode and uppercase → CATÉGORIE :ITALIE
+2025-05-07 16:00:41,671 - DEBUG - CLEAN ITEM TYPE: Final result → CATÉGORIE :ITALIE
+2025-05-07 16:00:41,671 - DEBUG - CLEAN EXTRACTED ID: Raw input → None
+2025-05-07 16:00:41,671 - DEBUG - CLEAN EXTRACTED ID: Input is empty or None.
+2025-05-07 16:00:41,671 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-07 16:00:41,671 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-07 16:00:41,672 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-07 16:00:41,672 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-07 16:00:41,672 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/: {'url': 'https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/', 'title': 'Dague fasciste italienne modèle 1937', 'description': None, 'price': 1533.0, 'available': True, 'original_image_urls': [], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:ITALIE', 'extracted_id': None, 'grade': None, 'categories_site_designated': [], 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD'}
+2025-05-07 16:00:41,672 - DEBUG - PRODUCT PROCESSOR: Product URL https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/ identified as new.
+2025-05-07 16:00:41,672 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-07 16:00:41,672 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+    Post-clean URL               : https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+    Pre-clean Title              : Dague fasciste italienne modèle 1937
+    Post-clean Title             : Dague fasciste italienne modèle 1937
+    Pre-clean Description        : None
+    Post-clean Description       : None
+    Pre-clean Price              : 1.533,00
+    Post-clean Price             : 1533.0
+    Pre-clean Availability       : True
+    Post-clean Availability      : True
+    Pre-clean Image URLs         : []
+    Post-clean Image URLs        : []
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : Catégorie :Italie
+    Post-clean Item Type         : CATÉGORIE :ITALIE
+    Pre-clean Extracted ID       : None
+    Post-clean Extracted ID      : None
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-07 16:00:41,673 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:41,673 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:41,801 - DEBUG - RDS_MGR: Filtered data for insertion: dict_keys(['url', 'title', 'description', 'price', 'available', 'nation_site_designated', 'conflict_site_designated', 'item_type_site_designated', 'extracted_id', 'grade', 'site', 'currency', 'date_collected', 'date_modified', 'last_seen', 'date_sold'])
+2025-05-07 16:00:41,801 - DEBUG - RDS_MGR: Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/', 'title': 'Dague fasciste italienne modèle 1937', 'description': None, 'price': 1533.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:ITALIE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:41.801532+00:00', 'date_modified': '2025-05-07T07:00:41.801532+00:00', 'last_seen': '2025-05-07T07:00:41.801532+00:00', 'date_sold': None}
+2025-05-07 16:00:41,802 - DEBUG - Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/', 'title': 'Dague fasciste italienne modèle 1937', 'description': None, 'price': 1533.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:ITALIE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:41.801532+00:00', 'date_modified': '2025-05-07T07:00:41.801532+00:00', 'last_seen': '2025-05-07T07:00:41.801532+00:00', 'date_sold': None}
+2025-05-07 16:00:41,851 - ERROR - Error executing query: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/dague-fasciste-italienne..., Dague fasciste italienne modèle 1937, null, 1533.0, t, SOUVENIRS_MILITAIRES, 435315, null, null, null, null, null, CAD, null, 2025-05-07 07:00:40.997587+00, 2025-05-07 07:00:40.997587+00, null, null, null, null, null, null, CATÉGORIE :ITALIE, null, [], null, null, null, null, 2025-05-07 07:00:41.801532+00).
+
+2025-05-07 16:00:41,876 - ERROR - Error inserting product to RDS: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/dague-fasciste-italienne..., Dague fasciste italienne modèle 1937, null, 1533.0, t, SOUVENIRS_MILITAIRES, 435315, null, null, null, null, null, CAD, null, 2025-05-07 07:00:40.997587+00, 2025-05-07 07:00:40.997587+00, null, null, null, null, null, null, CATÉGORIE :ITALIE, null, [], null, null, null, null, 2025-05-07 07:00:41.801532+00).
+
+2025-05-07 16:00:41,876 - INFO - PRODUCT PROCESSOR: Inserted new product https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/ into database.
+2025-05-07 16:00:42,017 - ERROR - PRODUCT PROCESSOR: Could not retrieve DB ID for https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:42,017 - INFO - PRODUCT PROCESSOR: New product processed successfully: https://souvenirsmilitaires.com/produit/dague-fasciste-italienne-modele-1937/
+2025-05-07 16:00:42,017 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-07 16:00:42,018 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,554 - DEBUG - https://souvenirsmilitaires.com:443 "GET /produit/medaille-commemorative-de-la-campagne-du-mexique-1862/ HTTP/1.1" 200 21812
+2025-05-07 16:00:43,566 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-07 16:00:43,567 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'product_title'}, attribute=None
+2025-05-07 16:00:43,567 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,567 - DEBUG - EXTRACT DETAILS TITLE: Final value → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,568 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-07 16:00:43,568 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → $295,00
+2025-05-07 16:00:43,568 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'stock'}, attribute=None
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → 1 en stock
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: 1 en stock
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: woocommerce
+2025-05-07 16:00:43,569 - ERROR - PRODUCT PROCESSOR: AttributeError: PRODUCT PROCESSOR: Function 'woocommerce' not found in image_extractor.
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['span'], kwargs={'class_': 'posted_in'}, attribute=None
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Catégorie :France
+2025-05-07 16:00:43,569 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['button'], kwargs={}, attribute=data-product_id
+2025-05-07 16:00:43,570 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute 'data-product_id' → 
+2025-05-07 16:00:43,570 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': True,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': None,
+ 'extracted_id': None,
+ 'grade': None,
+ 'item_type_site_designated': 'Catégorie\xa0:France',
+ 'nation_site_designated': None,
+ 'original_image_urls': [],
+ 'price': '295,00',
+ 'title': 'Médaille commémorative de la campagne du Mexique 1862',
+ 'url': 'https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/'}
+2025-05-07 16:00:43,570 - DEBUG - CLEAN PRICE: Stripped text → 295,00
+2025-05-07 16:00:43,571 - DEBUG - CLEAN PRICE: Parsed value → 295.0
+2025-05-07 16:00:43,571 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/: {'available': 'True',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'None',
+ 'extracted_id': 'None',
+ 'grade': 'None',
+ 'item_type_site_designated': 'Catégorie\xa0:France',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': '[]',
+ 'price': '295,00',
+ 'title': 'Médaille commémorative de la campagne du Mexique 1862',
+ 'url': 'https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/'}
+2025-05-07 16:00:43,571 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,571 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,571 - DEBUG - CLEAN TITLE: Raw input → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,571 - DEBUG - CLEAN TITLE: After unescape → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,571 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,571 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,572 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,572 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille commémorative de la campagne du Mexique 1862
+2025-05-07 16:00:43,572 - DEBUG - CLEAN DESCRIPTION: Description is None.
+2025-05-07 16:00:43,572 - DEBUG - CLEAN PRICE: Stripped text → 295,00
+2025-05-07 16:00:43,572 - DEBUG - CLEAN PRICE: Parsed value → 295.0
+2025-05-07 16:00:43,572 - DEBUG - CLEAN URL LIST: Raw input → []
+2025-05-07 16:00:43,572 - DEBUG - CLEAN URL LIST: Cleaned URLs → []
+2025-05-07 16:00:43,572 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-07 16:00:43,573 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-07 16:00:43,573 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-07 16:00:43,573 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-07 16:00:43,573 - DEBUG - CLEAN ITEM TYPE: Raw input → Catégorie :France
+2025-05-07 16:00:43,573 - DEBUG - CLEAN ITEM TYPE: After decode and uppercase → CATÉGORIE :FRANCE
+2025-05-07 16:00:43,573 - DEBUG - CLEAN ITEM TYPE: Final result → CATÉGORIE :FRANCE
+2025-05-07 16:00:43,573 - DEBUG - CLEAN EXTRACTED ID: Raw input → None
+2025-05-07 16:00:43,574 - DEBUG - CLEAN EXTRACTED ID: Input is empty or None.
+2025-05-07 16:00:43,574 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-07 16:00:43,574 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-07 16:00:43,574 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-07 16:00:43,574 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-07 16:00:43,574 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/: {'url': 'https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/', 'title': 'Médaille commémorative de la campagne du Mexique 1862', 'description': None, 'price': 295.0, 'available': True, 'original_image_urls': [], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:FRANCE', 'extracted_id': None, 'grade': None, 'categories_site_designated': [], 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD'}
+2025-05-07 16:00:43,574 - DEBUG - PRODUCT PROCESSOR: Product URL https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/ identified as new.
+2025-05-07 16:00:43,574 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-07 16:00:43,574 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+    Post-clean URL               : https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+    Pre-clean Title              : Médaille commémorative de la campagne du Mexique 1862
+    Post-clean Title             : Médaille commémorative de la campagne du Mexique 1862
+    Pre-clean Description        : None
+    Post-clean Description       : None
+    Pre-clean Price              : 295,00
+    Post-clean Price             : 295.0
+    Pre-clean Availability       : True
+    Post-clean Availability      : True
+    Pre-clean Image URLs         : []
+    Post-clean Image URLs        : []
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : Catégorie :France
+    Post-clean Item Type         : CATÉGORIE :FRANCE
+    Pre-clean Extracted ID       : None
+    Post-clean Extracted ID      : None
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-07 16:00:43,575 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,575 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,698 - DEBUG - RDS_MGR: Filtered data for insertion: dict_keys(['url', 'title', 'description', 'price', 'available', 'nation_site_designated', 'conflict_site_designated', 'item_type_site_designated', 'extracted_id', 'grade', 'site', 'currency', 'date_collected', 'date_modified', 'last_seen', 'date_sold'])
+2025-05-07 16:00:43,698 - DEBUG - RDS_MGR: Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/', 'title': 'Médaille commémorative de la campagne du Mexique 1862', 'description': None, 'price': 295.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:FRANCE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:43.698433+00:00', 'date_modified': '2025-05-07T07:00:43.698433+00:00', 'last_seen': '2025-05-07T07:00:43.698433+00:00', 'date_sold': None}
+2025-05-07 16:00:43,699 - DEBUG - Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/', 'title': 'Médaille commémorative de la campagne du Mexique 1862', 'description': None, 'price': 295.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIE\xa0:FRANCE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:43.698433+00:00', 'date_modified': '2025-05-07T07:00:43.698433+00:00', 'last_seen': '2025-05-07T07:00:43.698433+00:00', 'date_sold': None}
+2025-05-07 16:00:43,748 - ERROR - Error executing query: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/medaille-commemorative-d..., Médaille commémorative de la campagne du Mexique 1862, null, 295.0, t, SOUVENIRS_MILITAIRES, 435316, null, null, null, null, null, CAD, null, 2025-05-07 07:00:42.895251+00, 2025-05-07 07:00:42.895251+00, null, null, null, null, null, null, CATÉGORIE :FRANCE, null, [], null, null, null, null, 2025-05-07 07:00:43.698433+00).
+
+2025-05-07 16:00:43,772 - ERROR - Error inserting product to RDS: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/medaille-commemorative-d..., Médaille commémorative de la campagne du Mexique 1862, null, 295.0, t, SOUVENIRS_MILITAIRES, 435316, null, null, null, null, null, CAD, null, 2025-05-07 07:00:42.895251+00, 2025-05-07 07:00:42.895251+00, null, null, null, null, null, null, CATÉGORIE :FRANCE, null, [], null, null, null, null, 2025-05-07 07:00:43.698433+00).
+
+2025-05-07 16:00:43,772 - INFO - PRODUCT PROCESSOR: Inserted new product https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/ into database.
+2025-05-07 16:00:43,954 - ERROR - PRODUCT PROCESSOR: Could not retrieve DB ID for https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,954 - INFO - PRODUCT PROCESSOR: New product processed successfully: https://souvenirsmilitaires.com/produit/medaille-commemorative-de-la-campagne-du-mexique-1862/
+2025-05-07 16:00:43,954 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-07 16:00:43,954 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,483 - DEBUG - https://souvenirsmilitaires.com:443 "GET /produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/ HTTP/1.1" 200 20905
+2025-05-07 16:00:45,494 - DEBUG - PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.
+2025-05-07 16:00:45,494 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['h1'], kwargs={'class_': 'product_title'}, attribute=None
+2025-05-07 16:00:45,495 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,495 - DEBUG - EXTRACT DETAILS TITLE: Final value → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,495 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'price'}, attribute=None
+2025-05-07 16:00:45,496 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → $108,00
+2025-05-07 16:00:45,496 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['p'], kwargs={'class_': 'stock'}, attribute=None
+2025-05-07 16:00:45,496 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → 1 en stock
+2025-05-07 16:00:45,496 - DEBUG - PRODUCT PROCESSOR: Extracted availability raw: 1 en stock
+2025-05-07 16:00:45,496 - DEBUG - PRODUCT PROCESSOR: Function name retrieved: woocommerce
+2025-05-07 16:00:45,496 - ERROR - PRODUCT PROCESSOR: AttributeError: PRODUCT PROCESSOR: Function 'woocommerce' not found in image_extractor.
+2025-05-07 16:00:45,497 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['span'], kwargs={'class_': 'posted_in'}, attribute=None
+2025-05-07 16:00:45,497 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → Catégories :Allemagne,Deuxième guerre
+2025-05-07 16:00:45,497 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: method=find, args=['button'], kwargs={}, attribute=data-product_id
+2025-05-07 16:00:45,497 - DEBUG - PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute 'data-product_id' → 
+2025-05-07 16:00:45,497 - DEBUG - CONSTRUCT DETAILS DATA: Extracted fields →
+{'available': True,
+ 'categories_site_designated': [],
+ 'conflict_site_designated': None,
+ 'description': None,
+ 'extracted_id': None,
+ 'grade': None,
+ 'item_type_site_designated': 'Catégories\xa0:Allemagne',
+ 'nation_site_designated': None,
+ 'original_image_urls': [],
+ 'price': '108,00',
+ 'title': 'Médaille 4 ans de service dans la Wehrmacht',
+ 'url': 'https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/'}
+2025-05-07 16:00:45,498 - DEBUG - CLEAN PRICE: Stripped text → 108,00
+2025-05-07 16:00:45,498 - DEBUG - CLEAN PRICE: Parsed value → 108.0
+2025-05-07 16:00:45,498 - DEBUG - PRODUCT PROCESSOR: Constructed details data (preview) for https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/: {'available': 'True',
+ 'categories_site_designated': '[]',
+ 'conflict_site_designated': 'None',
+ 'description': 'None',
+ 'extracted_id': 'None',
+ 'grade': 'None',
+ 'item_type_site_designated': 'Catégories\xa0:Allemagne',
+ 'nation_site_designated': 'None',
+ 'original_image_urls': '[]',
+ 'price': '108,00',
+ 'title': 'Médaille 4 ans de service dans la Wehrmacht',
+ 'url': 'https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/'}
+2025-05-07 16:00:45,499 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,499 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: Raw input → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: After unescape → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: After removing HTML tags → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: After normalizing quotes → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: After collapsing spaces → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN TITLE: Final cleaned title → Médaille 4 ans de service dans la Wehrmacht
+2025-05-07 16:00:45,499 - DEBUG - CLEAN DESCRIPTION: Description is None.
+2025-05-07 16:00:45,500 - DEBUG - CLEAN PRICE: Stripped text → 108,00
+2025-05-07 16:00:45,500 - DEBUG - CLEAN PRICE: Parsed value → 108.0
+2025-05-07 16:00:45,500 - DEBUG - CLEAN URL LIST: Raw input → []
+2025-05-07 16:00:45,500 - DEBUG - CLEAN URL LIST: Cleaned URLs → []
+2025-05-07 16:00:45,500 - DEBUG - CLEAN NATION: Raw input → None
+2025-05-07 16:00:45,500 - DEBUG - CLEAN NATION: Input is empty or None.
+2025-05-07 16:00:45,500 - DEBUG - CLEAN CONFLICT: Raw input → None
+2025-05-07 16:00:45,500 - DEBUG - CLEAN CONFLICT: Input is empty or None.
+2025-05-07 16:00:45,500 - DEBUG - CLEAN ITEM TYPE: Raw input → Catégories :Allemagne
+2025-05-07 16:00:45,501 - DEBUG - CLEAN ITEM TYPE: After decode and uppercase → CATÉGORIES :ALLEMAGNE
+2025-05-07 16:00:45,501 - DEBUG - CLEAN ITEM TYPE: Final result → CATÉGORIES :ALLEMAGNE
+2025-05-07 16:00:45,501 - DEBUG - CLEAN EXTRACTED ID: Raw input → None
+2025-05-07 16:00:45,501 - DEBUG - CLEAN EXTRACTED ID: Input is empty or None.
+2025-05-07 16:00:45,501 - DEBUG - CLEAN GRADE: Raw input → None
+2025-05-07 16:00:45,501 - DEBUG - CLEAN GRADE: Input is empty or None.
+2025-05-07 16:00:45,501 - DEBUG - CLEAN CATEGORIES: Raw input → []
+2025-05-07 16:00:45,501 - DEBUG - CLEAN CATEGORIES: Input is empty or not a list.
+2025-05-07 16:00:45,501 - DEBUG - PRODUCT PROCESSOR: Constructed clean details data for https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/: {'url': 'https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/', 'title': 'Médaille 4 ans de service dans la Wehrmacht', 'description': None, 'price': 108.0, 'available': True, 'original_image_urls': [], 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIES\xa0:ALLEMAGNE', 'extracted_id': None, 'grade': None, 'categories_site_designated': [], 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD'}
+2025-05-07 16:00:45,502 - DEBUG - PRODUCT PROCESSOR: Product URL https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/ identified as new.
+2025-05-07 16:00:45,502 - INFO - PRODUCT PROCESS: Starting data cleaning process...
+2025-05-07 16:00:45,502 - INFO - 
+    ====== Data Cleaning Summary ======
+    Pre-clean URL                : https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+    Post-clean URL               : https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+    Pre-clean Title              : Médaille 4 ans de service dans la Wehrmacht
+    Post-clean Title             : Médaille 4 ans de service dans la Wehrmacht
+    Pre-clean Description        : None
+    Post-clean Description       : None
+    Pre-clean Price              : 108,00
+    Post-clean Price             : 108.0
+    Pre-clean Availability       : True
+    Post-clean Availability      : True
+    Pre-clean Image URLs         : []
+    Post-clean Image URLs        : []
+    Pre-clean Nation             : None
+    Post-clean Nation            : None
+    Pre-clean Conflict           : None
+    Post-clean Conflict          : None
+    Pre-clean Item Type          : Catégories :Allemagne
+    Post-clean Item Type         : CATÉGORIES :ALLEMAGNE
+    Pre-clean Extracted ID       : None
+    Post-clean Extracted ID      : None
+    Pre-clean Grade              : None
+    Post-clean Grade             : None
+    Pre-clean Site Categories    : []
+    Post-clean Site Categories   : []
+    ===================================
+                
+2025-05-07 16:00:45,502 - DEBUG - CLEAN URL: Stripped URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,502 - DEBUG - CLEAN URL: Validated URL → https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,626 - DEBUG - RDS_MGR: Filtered data for insertion: dict_keys(['url', 'title', 'description', 'price', 'available', 'nation_site_designated', 'conflict_site_designated', 'item_type_site_designated', 'extracted_id', 'grade', 'site', 'currency', 'date_collected', 'date_modified', 'last_seen', 'date_sold'])
+2025-05-07 16:00:45,626 - DEBUG - RDS_MGR: Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/', 'title': 'Médaille 4 ans de service dans la Wehrmacht', 'description': None, 'price': 108.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIES\xa0:ALLEMAGNE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:45.626354+00:00', 'date_modified': '2025-05-07T07:00:45.626354+00:00', 'last_seen': '2025-05-07T07:00:45.626354+00:00', 'date_sold': None}
+2025-05-07 16:00:45,626 - DEBUG - Prepared data for insertion: {'url': 'https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/', 'title': 'Médaille 4 ans de service dans la Wehrmacht', 'description': None, 'price': 108.0, 'available': True, 'nation_site_designated': None, 'conflict_site_designated': None, 'item_type_site_designated': 'CATÉGORIES\xa0:ALLEMAGNE', 'extracted_id': None, 'grade': None, 'site': 'SOUVENIRS_MILITAIRES', 'currency': 'CAD', 'date_collected': '2025-05-07T07:00:45.626354+00:00', 'date_modified': '2025-05-07T07:00:45.626354+00:00', 'last_seen': '2025-05-07T07:00:45.626354+00:00', 'date_sold': None}
+2025-05-07 16:00:45,674 - ERROR - Error executing query: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/medaille-4-ans-de-servic..., Médaille 4 ans de service dans la Wehrmacht, null, 108.0, t, SOUVENIRS_MILITAIRES, 435317, null, null, null, null, null, CAD, null, 2025-05-07 07:00:44.822003+00, 2025-05-07 07:00:44.822003+00, null, null, null, null, null, null, CATÉGORIES :ALLEMAGNE, null, [], null, null, null, null, 2025-05-07 07:00:45.626354+00).
+
+2025-05-07 16:00:45,699 - ERROR - Error inserting product to RDS: null value in column "description" of relation "militaria" violates not-null constraint
+DETAIL:  Failing row contains (https://souvenirsmilitaires.com/produit/medaille-4-ans-de-servic..., Médaille 4 ans de service dans la Wehrmacht, null, 108.0, t, SOUVENIRS_MILITAIRES, 435317, null, null, null, null, null, CAD, null, 2025-05-07 07:00:44.822003+00, 2025-05-07 07:00:44.822003+00, null, null, null, null, null, null, CATÉGORIES :ALLEMAGNE, null, [], null, null, null, null, 2025-05-07 07:00:45.626354+00).
+
+2025-05-07 16:00:45,699 - INFO - PRODUCT PROCESSOR: Inserted new product https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/ into database.
+2025-05-07 16:00:45,848 - ERROR - PRODUCT PROCESSOR: Could not retrieve DB ID for https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,848 - INFO - PRODUCT PROCESSOR: New product processed successfully: https://souvenirsmilitaires.com/produit/medaille-4-ans-de-service-dans-la-wehrmacht-3/
+2025-05-07 16:00:45,848 - DEBUG - PRODUCT PROCESSOR: 
+    **************************************************              
+    ******************PRODUCT CHANGE******************
+    **************************************************
+2025-05-07 16:00:45,848 - DEBUG - PRODUCT PROCESSOR: Processing product URL: https://souvenirsmilitaires.com/produit/couteau-hj-4/

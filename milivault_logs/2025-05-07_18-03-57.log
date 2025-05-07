@@ -1,0 +1,94 @@
+2025-05-07 18:03:57,884 - DEBUG - Logging initialized. Log file: milivault_logs\2025-05-07_18-03-57.log
+2025-05-07 18:04:00,154 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-05-07 18:04:03,041 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-05-07 18:04:04,093 - INFO - Connection pool initialized successfully.
+2025-05-07 18:04:04,101 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-05-07 18:04:04,102 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-05-07 18:04:04,103 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-05-07 18:04:04,104 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-05-07 18:04:04,104 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-05-07 18:04:04,104 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-05-07 18:04:04,105 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-05-07 18:04:04,106 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-05-07 18:04:04,107 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-05-07 18:04:04,107 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-05-07 18:04:04,107 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-05-07 18:04:04,176 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\endpoints.json
+2025-05-07 18:04:04,203 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-05-07 18:04:04,204 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001D2B00D9E40>
+2025-05-07 18:04:04,351 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-05-07 18:04:04,365 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-05-07 18:04:04,489 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-05-07 18:04:04,502 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\partitions.json
+2025-05-07 18:04:04,504 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001D2B0020680>
+2025-05-07 18:04:04,504 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001D2B0590360>
+2025-05-07 18:04:04,599 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001D2B0020400>
+2025-05-07 18:04:04,600 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-05-07 18:04:04,600 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-05-07 18:04:04,600 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-05-07 18:04:04,600 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-05-07 18:04:04,600 - DEBUG - No configured endpoint found.
+2025-05-07 18:04:04,602 - DEBUG - Setting s3 timeout as (60, 60)
+2025-05-07 18:04:04,613 - DEBUG - Loading JSON file: C:\Users\keena\AppData\Local\Programs\Python\Python313\Lib\site-packages\botocore\data\_retry.json
+2025-05-07 18:04:04,614 - DEBUG - Registering retry handlers for service: s3
+2025-05-07 18:04:04,615 - DEBUG - Registering S3 region redirector handler
+2025-05-07 18:04:04,615 - DEBUG - Registering S3Express Identity Resolver
+2025-05-07 18:04:04,615 - INFO - S3Manager initialized for bucket militaria-images
+2025-05-07 18:04:04,628 - ERROR - Error decoding JSON file C:/Users/keena/Desktop/Milivault/site-json/661944.json: Expecting value: line 1 column 1 (char 0)
+2025-05-07 18:04:09,550 - INFO - Processing site: EAGLE_RELICS
+2025-05-07 18:04:09,551 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-05-07 18:04:09,551 - DEBUG - SITE PROCESSOR: Debug: base_url: https://www.eaglerelics.com
+2025-05-07 18:04:09,551 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-05-07 18:04:09,551 - INFO - MILITARIA SITE        : EAGLE_RELICS
+2025-05-07 18:04:09,551 - INFO - PRODUCTS URL          : https://www.eaglerelics.com
+2025-05-07 18:04:09,551 - INFO - CYCLES RUN            : False
+2025-05-07 18:04:09,551 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 18:04:09,552 - INFO - TIMESTAMP             : 2025-05-07 18:04:09.551381
+2025-05-07 18:04:09,552 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-05-07 18:04:09,552 - INFO - SITE PROCESSOR: Current product page: https://www.eaglerelics.com/shop/page/0/
+2025-05-07 18:04:09,552 - INFO - SITE PROCESSOR: Current page: 0
+2025-05-07 18:04:09,557 - DEBUG - Starting new HTTPS connection (1): www.eaglerelics.com:443
+2025-05-07 18:04:12,615 - DEBUG - https://www.eaglerelics.com:443 "GET /shop/page/0/ HTTP/1.1" 404 None
+2025-05-07 18:04:12,800 - ERROR - HTML MGR: Error occurred while accessing https://www.eaglerelics.com/shop/page/0/ (Attempt 1/3): 404 Client Error: Not Found for url: https://www.eaglerelics.com/shop/page/0/
+2025-05-07 18:04:15,452 - DEBUG - https://www.eaglerelics.com:443 "GET /shop/page/0/ HTTP/1.1" 404 None
+2025-05-07 18:04:15,458 - ERROR - HTML MGR: Error occurred while accessing https://www.eaglerelics.com/shop/page/0/ (Attempt 2/3): 404 Client Error: Not Found for url: https://www.eaglerelics.com/shop/page/0/
+2025-05-07 18:04:19,142 - DEBUG - https://www.eaglerelics.com:443 "GET /shop/page/0/ HTTP/1.1" 404 None
+2025-05-07 18:04:19,149 - ERROR - HTML MGR: Error occurred while accessing https://www.eaglerelics.com/shop/page/0/ (Attempt 3/3): 404 Client Error: Not Found for url: https://www.eaglerelics.com/shop/page/0/
+2025-05-07 18:04:23,149 - ERROR - HTML MGR: Failed to fetch https://www.eaglerelics.com/shop/page/0/ after 3 attempts.
+2025-05-07 18:04:23,150 - WARNING - SITE PROCESSOR: Empty/fetch failed for page: https://www.eaglerelics.com/shop/page/0/
+2025-05-07 18:04:23,150 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 18:04:23,151 - INFO - MILITARIA SITE        : EAGLE_RELICS
+2025-05-07 18:04:23,151 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 18:04:23,151 - INFO - CYCLES RUN            : False
+2025-05-07 18:04:23,151 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 18:04:23,151 - INFO - TIMESTAMP             : 2025-05-07 18:04:23.150629
+2025-05-07 18:04:23,151 - INFO - SITE PROCESSOR: Finished processing site: EAGLE_RELICS
+2025-05-07 18:04:23,151 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-05-07 18:04:23,152 - INFO - MILITARIA SITE        : EAGLE_RELICS
+2025-05-07 18:04:23,152 - INFO - CONSECUTIVE MATCHES   : 0 / 1
+2025-05-07 18:04:23,152 - INFO - CYCLES RUN            : False
+2025-05-07 18:04:23,152 - INFO - PRODUCTS PROCESSED    : 0
+2025-05-07 18:04:23,152 - INFO - TIMESTAMP             : 2025-05-07 18:04:23.151895
+2025-05-07 18:04:23,152 - INFO - Successfully processed site: EAGLE_RELICS
+2025-05-07 18:04:23,152 - INFO - 
+------------------------------------------------------------
+                  FINAL PROCESSING SUMMARY                  
+------------------------------------------------------------
+2025-05-07 18:04:23,153 - INFO - TIMESTAMP             : 2025-05-07 18:04:23.152826
+2025-05-07 18:04:23,153 - INFO - SITES PROCESSED       : EAGLE_RELICS
+2025-05-07 18:04:23,153 - INFO - TOTAL PRODUCTS        : 0
+2025-05-07 18:04:23,153 - INFO - NEW PRODUCTS          : 0
+2025-05-07 18:04:23,153 - INFO - OLD PRODUCTS          : 0
+2025-05-07 18:04:23,153 - INFO - SITES COUNT           : 0
+2025-05-07 18:04:23,153 - INFO - AVAILABILITY UPDATES  : 0
+2025-05-07 18:04:23,153 - INFO - PROCESSING REQUIRED   : 0
+2025-05-07 18:04:23,153 - INFO - Sleeping 900 seconds... Next check at 2025-05-07 18:19:23

@@ -412,3 +412,65 @@ def concept500_2(product_soup):
         return []
 
 
+def concept500_basmilitaria(product_soup):
+    """
+    Extracts image URLs from the product carousel on BASMILITARIA.
+
+    Args:
+        product_soup (BeautifulSoup): Parsed HTML of the product page.
+
+    Returns:
+        list[str]: List of full image URLs.
+    """
+    try:
+        image_tags = product_soup.select("div.carousel-inner img")
+        image_urls = [
+            tag['src'].strip()
+            for tag in image_tags
+            if tag.get('src', '').startswith("http")
+        ]
+        return image_urls
+    except Exception as e:
+        logging.error(f"Error in concept500_basmilitaria: {e}")
+        return []
+
+
+def tarnmilitaria(product_soup):
+    """
+    Extracts high-resolution image URLs from Tarn Militaria product pages.
+
+    Args:
+        product_soup (BeautifulSoup): Parsed HTML of the product page.
+
+    Returns:
+        list: List of full image URLs.
+    """
+    try:
+        # Find all gallery images in the detailed photo section
+        image_urls = [
+            a['href']
+            for a in product_soup.select("div.gallery-thumb a")
+            if a.has_attr('href')
+        ]
+
+        # Normalize to full URL if needed
+        return [
+            "https://www.tarnmilitaria.com" + url if url.startswith("/") else url
+            for url in image_urls
+        ]
+    except Exception as e:
+        logging.error(f"Error extracting Tarn Militaria images: {e}")
+        return []
+
+
+def eagle_relics_gallery(soup):
+    """
+    Extracts full-size image URLs from the Eagle Relics details page gallery.
+    Looks for all <a> tags under #product-slides .item-slide and returns their hrefs.
+    """
+    try:
+        gallery_divs = soup.select("div#product-slides div.item-slide a")
+        image_urls = [a["href"] for a in gallery_divs if a.get("href")]
+        return image_urls if image_urls else None
+    except Exception as e:
+        return None
