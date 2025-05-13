@@ -25,6 +25,37 @@ class OpenAIManager:
                 "PRE_19TH", "19TH_CENTURY", "PRE_WW1", "WW1", "PRE_WW2", "WW2",
                 "COLD_WAR", "VIETNAM_WAR", "KOREAN_WAR", "CIVIL_WAR", "MODERN", "UNKNOWN"
             ]
+            nation_enum = [     
+    "GERMANY",
+    "UNITED KINGDOM",
+    "USA",
+    "JAPAN",
+    "FRANCE",
+    "CANADA",
+    "AUSTRALIA",
+    "RUSSIA",
+    "USSR",
+    "ITALY",
+    "NETHERLANDS",
+    "POLAND",
+    "AUSTRIA",
+    "BELGIUM",
+    "CHINA",
+    "VIETNAM",
+    "SOUTH KOREA",
+    "NORTH KOREA",
+    "ISRAEL",
+    "CZECHOSLOVAKIA",
+    "HUNGARY",
+    "SPAIN",
+    "SWEDEN",
+    "FINLAND",
+    "INDIA",
+    "UNKNOWN",
+    "OTHER EUROPEAN",
+    "OTHER ASIAN",
+    "OTHER"
+            ]
 
             tools = [
                 {
@@ -36,7 +67,7 @@ class OpenAIManager:
                             "type": "object",
                             "properties": {
                                 "conflict": {"type": "string", "enum": conflict_enum},
-                                "nation": {"type": "string"},
+                                "nation": {"type": "string", "enum": nation_enum},
                                 "item_type": {"type": "string", "enum": item_type_enum}
                             },
                             "required": ["conflict", "nation", "item_type"]
@@ -67,9 +98,9 @@ Description: "{description}"
             result = json.loads(args)
 
             return {
-                "conflict_ai_generated": result.get("conflict"),
-                "nation_ai_generated": result.get("nation"),
-                "item_type_ai_generated": result.get("item_type")
+                "conflict_ai_generated": result.get("conflict", "").upper(),
+                "nation_ai_generated": result.get("nation", "").upper(),
+                "item_type_ai_generated": result.get("item_type", "").upper()
             }
 
         except Exception as e:
@@ -129,7 +160,8 @@ Description: "{description}"
 
             args = response.choices[0].message.tool_calls[0].function.arguments
             result = json.loads(args)
-            return result.get("subcategory")
+            return result.get("subcategory", "").upper()
+
 
         except Exception as e:
             logging.error(f"AI CLASSIFIER: Failed to classify sub-item type for {main_item_type} → {e}")
