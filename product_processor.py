@@ -352,6 +352,28 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
+        # STEP 0 — Generate AI classification (conflict, nation, item_type)
+        try:
+            ai_classifier = self.managers.get("openai_manager")
+            if ai_classifier:
+                ai_result = ai_classifier.classify_single_product(
+                    title=clean_details_data.get("title", ""),
+                    description=clean_details_data.get("description", "")
+                )
+                clean_details_data.update(ai_result)
+                logging.info(f"PRODUCT PROCESSOR: AI classification added → {ai_result}")
+            else:
+                logging.warning("PRODUCT PROCESSOR: OpenAI manager not available — skipping AI classification.")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
+
+        main_type = ai_result.get("item_type_ai_generated")
+        if main_type:
+            sub_type = ai_classifier.classify_sub_item_type(main_type, clean_details_data.get("title", ""), clean_details_data.get("description", ""))
+            clean_details_data["sub_item_type_ai_generated"] = sub_type
+            logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
+
+
         # STEP 1 — Insert product (without s3_image_urls)
         try:
             self.rds_manager.new_product_input(clean_details_data)

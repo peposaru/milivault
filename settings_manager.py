@@ -21,15 +21,18 @@ DEFAULT_RDS_SETTINGS = {
     "pgAdminCred"        : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
     "selectorJsonFolder" : "/home/ec2-user/milivault/site-json/",
     "s3Cred"             : "/home/ec2-user/milivault/credentials/s3_credentials.json",
-    "openaiCred"         : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json"
+    "openaiCred"         : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
+    "militariaCategories": "/home/ec2-user/milivault/categorization/militaria-categories.json"
     }
 
 DEFAULT_PC_SETTINGS = {
-    "infoLocation"       : r'C:/Users/keena/Desktop/Milivault/scraper',
-    "pgAdminCred"        : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
-    "selectorJsonFolder" : r'C:/Users/keena/Desktop/Milivault/site-json/',
-    "s3Cred"             : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
-    "openaiCred"         : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json'
+    "infoLocation"         : r'C:/Users/keena/Desktop/Milivault/scraper',
+    "pgAdminCred"          : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
+    "selectorJsonFolder"   : r'C:/Users/keena/Desktop/Milivault/site-json/',
+    "s3Cred"               : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
+    "openaiCred"           : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
+    "militariaCategories"  : r'C:/Users/keena/Desktop/Milivault/categorization/militaria-categories.json'
+
 }
 
 LAST_SETTINGS_FILE = "last_user_settings.json"
@@ -102,7 +105,10 @@ def setup_object_managers(user_settings):
         # Initialize independent managers
         rds_manager    = AwsRdsManager(credentials_file=user_settings["pgAdminCred"])
         s3_manager     = S3Manager(user_settings["s3Cred"])
-        openai_manager = OpenAIManager(user_settings["openaiCred"])
+        openai_manager = OpenAIManager(
+            openai_cred_path=user_settings["openaiCred"],
+            categories_path=user_settings["militariaCategories"]
+        )
         json_manager   = JsonManager()
         log_printer    = log_print()
         counter        = ProductsCounter()
