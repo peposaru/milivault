@@ -474,3 +474,26 @@ def eagle_relics_gallery(soup):
         return image_urls if image_urls else None
     except Exception as e:
         return None
+
+
+def stewarts_militaria(product_soup):
+    """
+    Extracts image URLs from Stewarts Military Antiques product pages.
+
+    Args:
+        product_soup (BeautifulSoup): Parsed HTML of the product page.
+
+    Returns:
+        list: List of image URLs.
+    """
+    try:
+        image_tags = product_soup.select("div.col-md-12 img")
+        image_urls = [
+            img['src'].strip()
+            for img in image_tags
+            if img.get('src', '').startswith("http")
+        ]
+        return image_urls
+    except Exception as e:
+        logging.error(f"Error in stewarts_militaria: {e}")
+        return []

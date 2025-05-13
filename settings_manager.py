@@ -13,20 +13,23 @@ from products_counter import ProductsCounter
 from site_processor import SiteProcessor
 from html_manager import HtmlManager
 from logging_manager import adjust_logging_level
+from openai_api_manager import OpenAIManager
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
     "infoLocation"       : "/home/ec2-user/milivault/",
     "pgAdminCred"        : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
     "selectorJsonFolder" : "/home/ec2-user/milivault/site-json/",
-    "s3Cred"             : "/home/ec2-user/milivault/credentials/s3_credentials.json"
+    "s3Cred"             : "/home/ec2-user/milivault/credentials/s3_credentials.json",
+    "openaiCred"         : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json"
     }
 
 DEFAULT_PC_SETTINGS = {
     "infoLocation"       : r'C:/Users/keena/Desktop/Milivault/scraper',
     "pgAdminCred"        : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
     "selectorJsonFolder" : r'C:/Users/keena/Desktop/Milivault/site-json/',
-    "s3Cred"             : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json'
+    "s3Cred"             : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
+    "openaiCred"         : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json'
 }
 
 LAST_SETTINGS_FILE = "last_user_settings.json"
@@ -97,27 +100,30 @@ def setup_object_managers(user_settings):
     """
     try:
         # Initialize independent managers
-        rds_manager  = AwsRdsManager(credentials_file=user_settings["pgAdminCred"])
-        s3_manager   = S3Manager(user_settings["s3Cred"])
-        json_manager = JsonManager()
-        log_printer  = log_print()
-        counter      = ProductsCounter()
-        html_manager = HtmlManager()
+        rds_manager    = AwsRdsManager(credentials_file=user_settings["pgAdminCred"])
+        s3_manager     = S3Manager(user_settings["s3Cred"])
+        openai_manager = OpenAIManager(user_settings["openaiCred"])
+        json_manager   = JsonManager()
+        log_printer    = log_print()
+        counter        = ProductsCounter()
+        html_manager   = HtmlManager()
 
         # Initialize dependent managers
         site_processor = SiteProcessor({
-            "rdsManager": rds_manager,
-            "s3_manager": s3_manager,
-            "jsonManager": json_manager,
-            "log_print": log_printer,
-            "counter": counter,
-            "html_manager": html_manager,
+            "rdsManager"    : rds_manager,
+            "s3_manager"    : s3_manager,
+            "openai_manager": openai_manager,
+            "jsonManager"   : json_manager,
+            "log_print"     : log_printer,
+            "counter"       : counter,
+            "html_manager"  : html_manager,
         })
 
         # Return all managers as a dictionary
         return {
             "rdsManager": rds_manager,
             "s3_manager": s3_manager,
+            "openai_manager": openai_manager,
             "jsonManager": json_manager,
             "log_print": log_printer,
             "counter": counter,
@@ -173,6 +179,7 @@ Choose your settings:
             settings["pgAdminCred"] = input("Enter the name of the pgAdmin credentials file: ").strip()
             settings["selectorJsonFolder"] = input("Enter the name of the JSON selector file: ").strip()
             settings["s3Cred"] = input("Enter the name of the S3 credentials file: ").strip()
+            settings["openaiCred"] = input("Enter the name of the OpenAI credentials file: ").strip()
 
         elif choice == '4':
             print("Running tests only...")

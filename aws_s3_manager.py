@@ -57,6 +57,7 @@ class S3Manager:
         except Exception as e:
             logging.error(f"Error uploading image to S3: {e}")
 
+
     def upload_images_for_product(self, product_id, image_urls, site_name, product_url):
         # Uploads multiple images for a given product.
         uploaded_image_urls = []
@@ -64,7 +65,7 @@ class S3Manager:
 
         for idx, image_url in enumerate(image_urls, start=1):
             parsed_url = urlparse(image_url)
-            extension = parsed_url.path.split('.')[-1]
+            extension = parsed_url.path.split('.')[-1].split('?')[0]  # remove query strings if present
             object_name = f"{site_name}/{product_id}/{product_id}-{idx}.{extension}"
 
             if self.object_exists(object_name):
@@ -72,16 +73,34 @@ class S3Manager:
                 uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
                 continue
 
-            self.upload_image(image_url, object_name)
-            uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
+            try:
+                # Use headers to mimic a browser
+                headers = {
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/90.0.4430.85 Safari/537.36"
+                    )
+                }
 
-        end_time = time.time()
-        elapsed = round(end_time - start_time, 2)
+                logging.debug(f"Fetching image: {image_url}")
+                response = requests.get(image_url, headers=headers, stream=True, timeout=10)
+                response.raise_for_status()
+
+                self.s3.upload_fileobj(response.raw, self.bucket_name, object_name)
+                uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
+                logging.info(f"Uploaded to S3: {object_name}")
+            except Exception as e:
+                logging.error(f"Error uploading image {image_url}: {e}")
+
+        elapsed = round(time.time() - start_time, 2)
         logging.info(f"S3Manager: Uploaded {len(uploaded_image_urls)} images for {product_id} in {elapsed} sec")
-        
-        # Respectful delay between products to avoid spamming and getting banned.
-        time.sleep(3)  
+
+        # Respectful delay to avoid hammering host
+        time.sleep(3)
+
         return uploaded_image_urls
+
 
     
 
