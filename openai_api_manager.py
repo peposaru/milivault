@@ -52,6 +52,8 @@ class OpenAIManager:
     "FINLAND",
     "INDIA",
     "UNKNOWN",
+    "OTHER ALLIED FORCES",
+    "OTHER AXIS FORCES",
     "OTHER EUROPEAN",
     "OTHER ASIAN",
     "OTHER"
@@ -116,7 +118,12 @@ Description: "{description}"
             with open(self.categories_path, "r", encoding="utf-8") as f:
                 category_data = json.load(f)
 
-            subcategories = category_data.get(main_item_type)
+            subcategories = None
+            for key, values in category_data.items():
+                if key.strip().lower() == main_item_type.strip().lower():
+                    subcategories = values
+                    break
+
             if not subcategories:
                 logging.warning(f"No subcategories found for main item type: {main_item_type}")
                 return None

@@ -243,13 +243,8 @@ Choose the type of inventory check:
                 if check_choice == "2":
                     pages_to_check = int(input("Enter your desired pages_to_check value: ").strip())
 
-                    print("""
-Choose comparison strategy:
-1. Use preloaded comparison list (faster, more memory)
-2. Query database for each product (slower, scalable)
-                    """)
-                    comp_choice = input("Enter 1 or 2: ").strip()
-                    use_comparison_row = (comp_choice == "2")
+                    use_comparison_row = True
+
 
             except ValueError:
                 print("Invalid input. Defaulting to New Inventory Check with pages_to_check = 1.")

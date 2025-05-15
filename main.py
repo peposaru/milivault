@@ -88,14 +88,8 @@ def main():
         logging.error(f"Error initializing SiteAvailabilityTracker: {e}")
         exit()
 
-    comparison_list = {}
-    if not use_comparison_row:
-        try:
-            selected_sources = [site['source_name'] for site in all_scrape_sites]
-            comparison_list = managers['rdsManager'].create_comparison_list(selected_sources)
-        except Exception as e:
-            logging.error(f"Error constructing url_comparison_list: {e}")
-            exit()
+    comparison_list = {}  # No longer used but passed to preserve interface
+
 
     # MAIN LOOP
     while True:
@@ -123,10 +117,8 @@ def main():
                 logging.info(f"Processing site: {selected_site['source_name']}")
                 try:
                     managers['siteprocessor'].site_processor_main(
-                        comparison_list,
                         selected_site,
                         user_settings["targetMatch"],
-                        use_comparison_row
                     )
                     logging.info(f"Successfully processed site: {selected_site['source_name']}")
                 except Exception as e:

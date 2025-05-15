@@ -8,15 +8,14 @@ from post_processors import normalize_input, apply_post_processors
 
 # This will handle the dictionary of data extracted from the tile on the products page tile.
 class ProductTileDictProcessor:
-    def __init__(self,site_profile, comparison_list, managers, use_comparison_row=False):
+    def __init__(self, site_profile, managers, use_comparison_row=True):
         self.site_profile       = site_profile
-        self.comparison_list    = comparison_list
+        self.use_comparison_list = not use_comparison_row
         self.managers           = managers
         self.counter            = managers.get('counter')
         self.rds_manager        = managers.get('rdsManager')
         self.log_print          = managers.get('logPrint')
         self.use_comparison_row = use_comparison_row
-        self.use_comparison_list = not use_comparison_row
         
     def product_tile_dict_processor_main(self, tile_product_data_list):
         processing_required_list = []
@@ -72,8 +71,6 @@ class ProductTileDictProcessor:
                 except Exception as e:
                     logging.error(f"PRODUCT PROCESSOR: DB lookup failed for URL {url}: {e}")
                     continue
-            elif self.use_comparison_list and url in self.comparison_list:
-                db_row = self.comparison_list[url]
 
             if db_row:
                 try:
@@ -133,16 +130,6 @@ class ProductTileDictProcessor:
                 processing_required_list.append(tile_product_dict)
                 reason = "New product"
                 self.counter.add_processing_required_count(1)
-
-                if self.use_comparison_list:
-                    self.comparison_list[url] = (
-                        title,
-                        price,
-                        available,
-                        "",   # description
-                        [],   # price history
-                        False
-                    )
 
             logging.info(
                 f"""
@@ -214,10 +201,9 @@ class ProductTileDictProcessor:
 
 
 class ProductDetailsProcessor:
-    def __init__(self, site_profile, managers, comparison_list, use_comparison_row):
+    def __init__(self, site_profile, managers, use_comparison_row=True):
         self.site_profile       = site_profile
         self.managers           = managers
-        self.comparison_list    = comparison_list
         self.counter            = managers.get('counter')
         self.rds_manager        = managers.get('rdsManager')
         self.s3_manager         = managers.get("s3_manager")
@@ -232,9 +218,6 @@ class ProductDetailsProcessor:
 
         Args:
             processing_required_list (list): List of products needing processing.
-
-        Returns:
-            None
         """
         logging.debug(f"PRODUCT PROCESSOR: Processing required list count: {len(processing_required_list)}")
 
@@ -246,20 +229,41 @@ class ProductDetailsProcessor:
     **************************************************""")
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
-            # Create BeautifulSoup object
+            # Step 1: Query availability and price in one go
+            try:
+                result = self.rds_manager.fetch(
+                    "SELECT available, price FROM militaria WHERE url = %s LIMIT 1", (product_url,)
+                )
+                db_present = bool(result)
+                db_available, db_price = result[0] if result else (None, None)
+            except Exception as e:
+                logging.error(f"PRODUCT PROCESSOR: DB check for availability/price failed: {e}")
+                db_present = False
+                db_available = db_price = None
+
+            # ✅ Skip early if product is sold in DB and likely unchanged
+            if db_present and db_available is False:
+                logging.debug(f"PRODUCT PROCESSOR: Fast check — item is sold in DB, validating if still sold on site...")
+                
+                # Use tile-level availability check to confirm it is *still* sold
+                site_thinks_sold = not product.get("available", True)
+
+                if site_thinks_sold:
+                    logging.info(f"PRODUCT PROCESSOR: Skipping sold product (still sold): {product_url}")
+                    continue
+
+            # ✅ Step 2: Load product HTML
             try:
                 product_url_soup = self.html_manager.parse_html(product_url)
-                logging.debug(f"PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.")
+                logging.debug("PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.")
             except Exception as e:
                 logging.error(f"PRODUCT PROCESSOR: Error parsing product URL {product_url}: {e}")
                 continue
 
-            # Construct details data
+            # ✅ Step 3: Extract raw details from HTML
             try:
                 details_data = self.construct_details_data(product_url, product_url_soup)
-
                 tile_price = product.get("price")
-                _, db_price, _, _, _, db_present = self.comparison_list.get(product_url, ("", None, None, "", [], False))
                 cleaned_details_price = CleanData.clean_price(details_data.get("price"))
 
                 if (
@@ -279,7 +283,7 @@ class ProductDetailsProcessor:
                 logging.error(f"PRODUCT PROCESSOR: Error constructing details data for {product_url}: {e}")
                 continue
 
-            # Clean the entire dataset
+            # ✅ Step 4: Clean extracted data
             try:
                 clean_details_data = self.construct_clean_details_data(details_data)
                 logging.debug(f"PRODUCT PROCESSOR: Constructed clean details data for {product_url}: {clean_details_data}")
@@ -288,22 +292,23 @@ class ProductDetailsProcessor:
                 logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
                 continue
 
-            # New product
+            # ✅ Step 5: Final availability check — skip if sold & still sold
+            if db_available is False and clean_details_data.get("available") is False:
+                logging.info(f"PRODUCT PROCESSOR: Skipping reprocessing of unchanged sold product: {product_url}")
+                continue
+
+            # ✅ Step 6: Choose new vs old handling
             if not db_present or product.get("force_new_upload"):
                 logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as new.")
                 self.counter.add_new_product_count()
-
                 try:
                     self.new_product_processor(clean_details_data, details_data)
                     logging.info(f"PRODUCT PROCESSOR: New product processed successfully: {product_url}")
                 except Exception as e:
                     logging.error(f"PRODUCT PROCESSOR: Error processing new product {product_url}: {e}")
-
-            # Existing product
             else:
                 logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as old.")
                 self.counter.add_old_product_count()
-
                 try:
                     self.old_product_processor(clean_details_data)
                     logging.info(f"PRODUCT PROCESSOR: Old product processed successfully: {product_url}")
@@ -312,9 +317,10 @@ class ProductDetailsProcessor:
 
         logging.debug(f"PRODUCT PROCESSOR: Processing completed for {len(processing_required_list)} products.")
 
+
     def new_product_processor(self, clean_details_data, details_data):
         """
-        Insert new product data into the database and mark it as in_db in the comparison list.
+        Insert new product data into the database.
         Uploads images to S3 using the database ID and updates DB with s3_image_urls.
         """
         try:
@@ -352,7 +358,7 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
-        # STEP 0 — Generate AI classification (conflict, nation, item_type)
+        # STEP 0 — Generate AI classification
         try:
             ai_classifier = self.managers.get("openai_manager")
             if ai_classifier:
@@ -367,14 +373,21 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
 
-        main_type = ai_result.get("item_type_ai_generated")
-        if main_type:
-            sub_type = ai_classifier.classify_sub_item_type(main_type, clean_details_data.get("title", ""), clean_details_data.get("description", ""))
-            clean_details_data["sub_item_type_ai_generated"] = sub_type
-            logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
+        # STEP 0.5 — Subcategory
+        main_type = clean_details_data.get("item_type_ai_generated")
+        if main_type and ai_classifier:
+            try:
+                sub_type = ai_classifier.classify_sub_item_type(
+                    main_type,
+                    clean_details_data.get("title", ""),
+                    clean_details_data.get("description", "")
+                )
+                clean_details_data["sub_item_type_ai_generated"] = sub_type
+                logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
+            except Exception as e:
+                logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
 
-
-        # STEP 1 — Insert product (without s3_image_urls)
+        # STEP 1 — Insert product
         try:
             self.rds_manager.new_product_input(clean_details_data)
             logging.info(f"PRODUCT PROCESSOR: Inserted new product {clean_details_data.get('url')} into database.")
@@ -382,7 +395,7 @@ class ProductDetailsProcessor:
             logging.error(f"PRODUCT PROCESSOR: Failed to insert new product: {e}")
             return
 
-        # STEP 2 — Get real DB ID for S3 image naming
+        # STEP 2 — Get DB ID
         try:
             fetch_id_query = "SELECT id FROM militaria WHERE url = %s AND site = %s;"
             db_id = self.rds_manager.get_record_id(fetch_id_query, (clean_details_data["url"], clean_details_data["site"]))
@@ -393,51 +406,39 @@ class ProductDetailsProcessor:
             logging.error(f"PRODUCT PROCESSOR: Failed to fetch DB ID: {e}")
             return
 
-        # STEP 3 — Upload images using real DB ID
+        # STEP 3 — Upload images to S3 if image URLs exist
         try:
             site_name = clean_details_data.get("site")
             image_urls = clean_details_data.get("original_image_urls")
             product_url = clean_details_data.get("url")
 
-            s3_urls = self.s3_manager.upload_images_for_product(db_id, image_urls, site_name, product_url)
-            clean_details_data["s3_image_urls"] = s3_urls
-            logging.info(f"PRODUCT PROCESSOR: Uploaded images to S3 for DB ID {db_id}")
+            if not image_urls:
+                logging.warning(f"PRODUCT PROCESSOR: No image URLs found for {product_url} — skipping S3 upload")
+                s3_urls = []
+            else:
+                s3_urls = self.s3_manager.upload_images_for_product(db_id, image_urls, site_name, product_url)
+                clean_details_data["s3_image_urls"] = s3_urls
+                logging.info(f"PRODUCT PROCESSOR: Uploaded images to S3 for DB ID {db_id}")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to upload images for DB ID {db_id}: {e}")
             return
 
-        # STEP 4 — Update DB with s3_image_urls
+
+        # STEP 4 — Update DB with s3_image_urls if any were uploaded
         try:
-            update_query = """
-                UPDATE militaria
-                SET s3_image_urls = %s
-                WHERE id = %s;
-            """
-            self.rds_manager.execute(update_query, (json.dumps(s3_urls), db_id))
-            logging.info(f"PRODUCT PROCESSOR: Updated s3_image_urls in DB for product ID {db_id}")
+            if s3_urls:
+                update_query = """
+                    UPDATE militaria
+                    SET s3_image_urls = %s
+                    WHERE id = %s;
+                """
+                self.rds_manager.execute(update_query, (json.dumps(s3_urls), db_id))
+                logging.info(f"PRODUCT PROCESSOR: Updated s3_image_urls in DB for product ID {db_id}")
+            else:
+                logging.info(f"PRODUCT PROCESSOR: Skipping DB update for s3_image_urls — no images uploaded.")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to update s3_image_urls for product ID {db_id}: {e}")
             return
-
-        # STEP 5 — Update comparison_list
-        try:
-            url = clean_details_data.get("url")
-            if url in self.comparison_list:
-                old_entry = self.comparison_list[url]
-                self.comparison_list[url] = (*old_entry[:5], True)
-                logging.debug(f"PRODUCT PROCESSOR: Updated comparison_list entry for {url} to in_db=True")
-            else:
-                self.comparison_list[url] = (
-                    clean_details_data.get("title"),
-                    clean_details_data.get("price"),
-                    clean_details_data.get("available"),
-                    clean_details_data.get("description"),
-                    [],  # fresh price history
-                    True
-                )
-                logging.debug(f"PRODUCT PROCESSOR: Created new comparison_list entry for {url} with in_db=True")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error updating comparison_list for {clean_details_data.get('url')}: {e}")
 
 
 
@@ -447,191 +448,118 @@ class ProductDetailsProcessor:
 
         Args:
             clean_details_data (dict): The cleaned product details to compare and update.
-
-        Returns:
-            None
         """
         url = clean_details_data.get('url')
         now = datetime.now().isoformat()
         now_utc = datetime.now(timezone.utc).isoformat()
 
-        if url in self.comparison_list:
-            try:
-                # Unpack database values
-                db_title, db_price, db_available, db_description, db_price_history, db_present = self.comparison_list[url]
+        try:
+            # Fetch existing DB values (you may want to include original_image_urls here too)
+            result = self.rds_manager.fetch(
+                "SELECT title, price, available, description, price_history, original_image_urls FROM militaria WHERE url = %s",
+                (url,)
+            )
+            if not result:
+                logging.warning(f"PRODUCT PROCESSOR: Old product not found in DB, skipping → {url}")
+                return
 
-                updates = {}
-                now_utc = datetime.now(timezone.utc).isoformat()
-                only_availability_changed = True  # Track if only availability changed
+            db_title, db_price, db_available, db_description, db_price_history, db_image_urls = result[0]
+            updates = {}
+            only_availability_changed = True
 
-                # Check and update title
-                if clean_details_data.get('title') and clean_details_data.get('title') != db_title:
-                    updates['title'] = clean_details_data.get('title')
-                    only_availability_changed = False  
+            # Update title
+            if clean_details_data.get('title') and clean_details_data['title'] != db_title:
+                updates['title'] = clean_details_data['title']
+                only_availability_changed = False
 
-                # Check and update description
-                if clean_details_data.get('description') and clean_details_data.get('description') != db_description:
-                    updates['description'] = clean_details_data.get('description')
-                    only_availability_changed = False  
+            # Update description
+            if clean_details_data.get('description') and clean_details_data['description'] != db_description:
+                updates['description'] = clean_details_data['description']
+                only_availability_changed = False
 
-                # Prevent overwriting price with NULL or 0 when a valid price exists
-                if clean_details_data.get('price') is not None and clean_details_data.get('price') != db_price:
-                    # Prevent overwriting a valid price with 0
-                    if clean_details_data['price'] == 0.0 and db_price not in (None, 0.0):
-                        logging.info(f"PRODUCT PROCESSOR: Skipping price update for {url}, keeping {db_price}")
-                    else:
-                        updates['price'] = clean_details_data['price']
+            # Update price
+            if clean_details_data.get('price') is not None and clean_details_data['price'] != db_price:
+                if clean_details_data['price'] == 0.0 and db_price not in (None, 0.0):
+                    logging.info(f"PRODUCT PROCESSOR: Skipping price update for {url}, keeping {db_price}")
+                else:
+                    updates['price'] = clean_details_data['price']
+                    try:
+                        price_history = json.loads(db_price_history) if isinstance(db_price_history, str) else db_price_history or []
+                    except:
+                        price_history = []
 
-                        # Ensure price_history is initialized correctly
-                        if isinstance(db_price_history, str):
-                            try:
-                                price_history = json.loads(db_price_history)  # Convert string JSON to list
-                            except json.JSONDecodeError:
-                                logging.error(f"PRODUCT PROCESSOR: Invalid JSON in price history for {url}")
-                                price_history = []
-                        else:
-                            price_history = db_price_history if db_price_history is not None else []
+                    price_history.append({
+                        "price": float(db_price) if db_price is not None else None,
+                        "date": now
+                    })
+                    updates['price_history'] = json.dumps(price_history)
 
-                        # Append previous price to history
-                        price_history.append({"price": db_price, "date": now})
-                        updates['price_history'] = json.dumps(price_history)  # Convert back to JSON
+                    only_availability_changed = False
 
-                        only_availability_changed = False  # Mark that more than just availability changed
+            # Update availability
+            if clean_details_data.get('available') != db_available:
+                new_availability = clean_details_data.get('available')
+                updates['available'] = new_availability
+                updates['last_seen'] = now_utc
+                updates['date_sold'] = None if new_availability else now_utc
 
-
-                # Check and update availability separately
-                if clean_details_data.get('available') != db_available:
-                    new_availability = clean_details_data.get('available')
-                    updates['available'] = new_availability
-                    updates['last_seen'] = now_utc
-
-                    if new_availability is False:
-                        updates['date_sold'] = now_utc
-                    else:
-                        updates['date_sold'] = None
-
-                    if only_availability_changed:
-                        update_query = """
-                        UPDATE militaria
-                        SET available = %s,
-                            date_sold = %s,
-                            date_modified = %s,
-                            last_seen = %s
-                        WHERE url = %s;
-                        """
-                        self.rds_manager.execute(update_query, (new_availability, updates['date_sold'], now_utc, now_utc, url))
-                        logging.info(f"PRODUCT PROCESSOR: Updated availability for {url} to {new_availability}")
-                        return
-                    else:
-                        only_availability_changed = False  # Reset flag if other updates are present    
-
-
-                # Check and update image URLs safely
-                if clean_details_data.get('original_image_urls'):
-                    original_images = clean_details_data.get('original_image_urls')
-                    updates['original_image_urls'] = json.dumps(original_images) if isinstance(original_images, list) else original_images
-                    only_availability_changed = False  
-
-                # Check and update nation
-                if clean_details_data.get('nation_site_designated'):
-                    updates['nation_site_designated'] = clean_details_data.get('nation_site_designated')
-                    only_availability_changed = False  
-
-                # Check and update conflict
-                if clean_details_data.get('conflict_site_designated'):
-                    updates['conflict_site_designated'] = clean_details_data.get('conflict_site_designated')
-                    only_availability_changed = False  
-
-                # Check and update item type
-                if clean_details_data.get('item_type_site_designated'):
-                    updates['item_type_site_designated'] = clean_details_data.get('item_type_site_designated')
-                    only_availability_changed = False  
-
-                # Check and update extracted ID
-                if clean_details_data.get('extracted_id'):
-                    updates['extracted_id'] = clean_details_data.get('extracted_id')
-                    only_availability_changed = False  
-
-                # Check and update grade
-                if clean_details_data.get('grade'):
-                    updates['grade'] = clean_details_data.get('grade')
-                    only_availability_changed = False  
-
-                # Check and update site categories safely
-                if clean_details_data.get('categories_site_designated'):
-                    categories = clean_details_data.get('categories_site_designated')
-                    updates['categories_site_designated'] = json.dumps(categories) if isinstance(categories, list) else categories
-                    only_availability_changed = False  
-
-                # Log the processing summary
-                logging.info(f"PRODUCT PROCESSOR: Updated product {url} with changes: {updates}")
-
-                # Perform database update if there are changes
-                if updates:
-                    updates['date_modified'] = now_utc
-                    updates['last_seen'] = now_utc
-
-                    set_clause = ', '.join([f"{key} = %s" for key in updates.keys()])
-                    update_query = f"""
+                if only_availability_changed:
+                    # Fast-path: availability is the only thing that changed
+                    update_query = """
                     UPDATE militaria
-                    SET {set_clause}
-                    WHERE url = %s
+                    SET available = %s,
+                        date_sold = %s,
+                        date_modified = %s,
+                        last_seen = %s
+                    WHERE url = %s;
                     """
+                    self.rds_manager.execute(update_query, (
+                        new_availability, updates['date_sold'], now_utc, now_utc, url
+                    ))
+                    logging.info(f"PRODUCT PROCESSOR: Availability-only update completed for {url}")
+                    return
 
-                    # Execute the query
-                    self.rds_manager.execute(update_query, list(updates.values()) + [url])
-                    logging.info(f"PRODUCT PROCESSOR: Successfully updated product {url}")
+            # Update original image URLs — only if changed
+            new_images = clean_details_data.get('original_image_urls')
+            if new_images:
+                try:
+                    current_images = json.loads(db_image_urls) if isinstance(db_image_urls, str) else db_image_urls or []
+                except:
+                    current_images = []
 
-            except ValueError as e:
-                logging.error(f"PRODUCT PROCESSOR: Error unpacking comparison data for URL {url}: {e}")
-            except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Error processing old product {url}: {e}")
-        else:
-            # 🛠 If product is NEW and price is missing, set it to 0 before inserting
-            if clean_details_data.get('price') is None:
-                clean_details_data['price'] = 0
+                if new_images != current_images:
+                    updates['original_image_urls'] = json.dumps(new_images)
+                    only_availability_changed = False
+                    logging.info(f"PRODUCT PROCESSOR: Image URLs changed for {url}")
 
-            logging.info(f"PRODUCT PROCESSOR: New product detected, setting price to 0 if missing: {url}")
+            # Update remaining fields if different
+            for field in [
+                'nation_site_designated', 'conflict_site_designated',
+                'item_type_site_designated', 'extracted_id', 'grade',
+                'categories_site_designated'
+            ]:
+                value = clean_details_data.get(field)
+                if value:
+                    updates[field] = json.dumps(value) if isinstance(value, list) else value
+                    only_availability_changed = False
 
-            now_utc = datetime.now(timezone.utc).isoformat()
-            is_available = clean_details_data.get('available', True)
-            date_sold = None if is_available else now_utc
+            # ✅ Skip unnecessary DB update if nothing changed
+            if not updates:
+                logging.info(f"PRODUCT PROCESSOR: No changes detected — skipping update for {url}")
+                return
 
-            # Now insert the new product into the database
-            insert_query = """
-            INSERT INTO militaria (
-                url, title, description, price, available, original_image_urls,
-                nation_site_designated, conflict_site_designated, item_type_site_designated,
-                extracted_id, grade, categories_site_designated,
-                date_collected, date_modified, last_seen, date_sold
-            )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
+            # Finalize update
+            updates['date_modified'] = now_utc
+            updates['last_seen'] = now_utc
+            set_clause = ', '.join(f"{key} = %s" for key in updates)
+            query = f"UPDATE militaria SET {set_clause} WHERE url = %s"
+            self.rds_manager.execute(query, list(updates.values()) + [url])
+            logging.info(f"PRODUCT PROCESSOR: Successfully updated old product {url}")
 
-            values = (
-                clean_details_data.get('url'),
-                clean_details_data.get('title'),
-                clean_details_data.get('description'),
-                clean_details_data.get('price'),
-                is_available,
-                json.dumps(clean_details_data.get('original_image_urls')) if clean_details_data.get('original_image_urls') else None,
-                clean_details_data.get('nation_site_designated'),
-                clean_details_data.get('conflict_site_designated'),
-                clean_details_data.get('item_type_site_designated'),
-                clean_details_data.get('extracted_id'),
-                clean_details_data.get('grade'),
-                json.dumps(clean_details_data.get('categories_site_designated')) if clean_details_data.get('categories_site_designated') else None,
-                now_utc,   # date_collected
-                now_utc,   # date_modified
-                now_utc,   # last_seen
-                date_sold  # date_sold
-            )
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Error processing old product {url}: {e}")
 
-            try:
-                self.rds_manager.execute(insert_query, values)
-                logging.info(f"PRODUCT PROCESSOR: Inserted new product {url} with price {clean_details_data['price']}")
-            except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Error inserting new product {url}: {e}")
+
 
     def extract_data(self, soup, method, args, kwargs, attribute, config=None):
         from post_processors import normalize_input

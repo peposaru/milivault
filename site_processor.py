@@ -20,7 +20,7 @@ class SiteProcessor:
         self.counter             = managers.get('counter')
         self.html_manager        = managers.get('html_manager')
 
-    def site_processor_main(self, comparison_list, selected_site, targetMatch, use_comparison_row):
+    def site_processor_main(self, selected_site, targetMatch):
         # site_profile is all the site selectors for one the selected site
         try:
             site_profile = self.jsonManager.json_unpacker(selected_site)   
@@ -119,17 +119,17 @@ class SiteProcessor:
             try:
                 product_tile_dict_processor = ProductTileDictProcessor(
                     site_profile,
-                    comparison_list,
-                    self.managers,
-                    use_comparison_row=use_comparison_row
+                    managers=self.managers,
+                    use_comparison_row=True
                 )
+
                 processing_required_list, availability_update_list    = product_tile_dict_processor.product_tile_dict_processor_main(tile_product_data_list)
             except Exception as e:
                 logging.error(f"SITE PROCESSOR: Error product_tile_dict_processor: {e}")
                 continue
 
             try:
-                product_details_processor = ProductDetailsProcessor(site_profile, self.managers, comparison_list, use_comparison_row)
+                product_details_processor = ProductDetailsProcessor(site_profile, self.managers, use_comparison_row=True)
 
                 # I don't remember why I made output but maybe it will come to me later.
                 output = product_details_processor.product_details_processor_main(processing_required_list)
@@ -145,12 +145,8 @@ class SiteProcessor:
                 untouched_urls = all_tile_urls - touched_urls
 
                 # Keep only ones known to exist in the DB (comparison_list[url][-1] == True)
-                existing_untouched_urls = [
-                    url for url in untouched_urls
-                    if comparison_list.get(url, (None, None, None, None, None, False))[-1] is True
-                ]
+                self.rds_manager.update_last_seen_bulk(list(untouched_urls))
 
-                self.rds_manager.update_last_seen_bulk(existing_untouched_urls)
             except Exception as e:
                 logging.error(f"SITE PROCESSOR: Error bulk-updating last_seen for untouched URLs: {e}")
 
