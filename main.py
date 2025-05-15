@@ -21,7 +21,6 @@ def main():
 
     run_mode = user_settings.get("run_mode", "both")
     pages_to_check = user_settings.get("pages_to_check", 1)
-    use_comparison_row = user_settings.get("use_comparison_row", True)
     availability_sleeptime = user_settings.get("availability_sleeptime", 900)
     scrape_sleeptime = user_settings.get("scrape_sleeptime", 3600)
 
@@ -32,7 +31,6 @@ def main():
         "last_scrape_run": now - scrape_sleeptime
     })
 
-
     # Prepare environment
     setup_user_path(user_settings)
     managers = setup_object_managers(user_settings)
@@ -40,8 +38,8 @@ def main():
         logging.error("Error setting up object managers.")
         exit()
 
-    log_print    = managers.get("log_print")
-    counter      = managers.get("counter")
+    log_print = managers.get("log_print")
+    counter = managers.get("counter")
     json_manager = managers.get("jsonManager")
 
     if not json_manager:
@@ -59,24 +57,17 @@ def main():
         logging.error("No sites selected. Exiting program.")
         exit()
 
-    # Split into availability_sites and scrape_sites
+    # Group sites
     availability_sites = []
     scrape_sites = []
 
     for site in selected_sites:
         if isinstance(site, list):  # availability mode returns grouped lists
             for s in site:
-                if s.get("is_sold_archive", False):
-                    scrape_sites.append(s)
-                else:
-                    availability_sites.append(s)
-        else:  # scrape mode returns flat list
-            if site.get("is_sold_archive", False):
-                scrape_sites.append(site)
-            else:
-                availability_sites.append(site)
+                (scrape_sites if s.get("is_sold_archive", False) else availability_sites).append(s)
+        else:
+            (scrape_sites if site.get("is_sold_archive", False) else availability_sites).append(site)
 
-    # Final scrape list is both
     all_scrape_sites = availability_sites + scrape_sites
 
     print(f"Sites selected for availability: {[site['source_name'] for site in availability_sites]}")
@@ -88,10 +79,7 @@ def main():
         logging.error(f"Error initializing SiteAvailabilityTracker: {e}")
         exit()
 
-    comparison_list = {}  # No longer used but passed to preserve interface
-
-
-    # MAIN LOOP
+    # 🔁 MAIN LOOP
     while True:
         now = time.time()
 
@@ -108,7 +96,7 @@ def main():
                 except Exception as e:
                     logging.error(f"Availability tracker failed for group: {e}")
 
-            user_settings["last_avail_run"] = now
+            user_settings["last_avail_run"] = time.time()
             logging.info("Availability check attempt completed.")
 
         # SCRAPE MODE
@@ -123,15 +111,25 @@ def main():
                     logging.info(f"Successfully processed site: {selected_site['source_name']}")
                 except Exception as e:
                     logging.error(f"Error processing site {selected_site['source_name']}: {e}")
-            user_settings["last_scrape_run"] = now
+
+            user_settings["last_scrape_run"] = time.time()
             log_print.final_summary(all_scrape_sites, counter)
 
-        # Calculate next check timing
-        # Fixed sleep after each full cycle, defaulting to 1800s if undefined
-        sleep_seconds = min(
-            user_settings.get("availability_sleeptime", 1800) or 1800,
-            user_settings.get("scrape_sleeptime", 1800) or 1800
-        )
+        # ⏱ Calculate actual time to next check
+        future_times = []
+
+        if run_mode in ("availability", "both"):
+            future_times.append(user_settings["last_avail_run"] + availability_sleeptime)
+
+        if run_mode in ("scrape", "both"):
+            future_times.append(user_settings["last_scrape_run"] + scrape_sleeptime)
+
+        # If nothing is scheduled, wait 60s by default
+        if not future_times:
+            sleep_seconds = 60
+        else:
+            next_due_time = min(future_times)
+            sleep_seconds = max(1, int(next_due_time - time.time()))
 
         next_wakeup_time = datetime.fromtimestamp(time.time() + sleep_seconds).strftime("%Y-%m-%d %H:%M:%S")
         logging.info(f"Sleeping {sleep_seconds} seconds... Next check at {next_wakeup_time}")
