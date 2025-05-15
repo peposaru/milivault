@@ -102,7 +102,7 @@ def main():
         # SCRAPE MODE
         if run_mode in ("scrape", "both") and now - user_settings["last_scrape_run"] >= scrape_sleeptime:
             for selected_site in all_scrape_sites:
-                logging.info(f"Processing site: {selected_site['source_name']}")
+                logging.warning(f"🔁 SWITCHING TO SITE: {selected_site['source_name']}")
                 try:
                     managers['siteprocessor'].site_processor_main(
                         selected_site,
