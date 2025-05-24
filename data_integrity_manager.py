@@ -127,13 +127,13 @@ class DataIntegrityManager:
                 self.logger.warning(f"⚠️ Failed to calculate ETA: {e}")
 
             # Final summary
-            self.logger.info("📊 INTEGRITY SUMMARY")
-            self.logger.info(f"✔️ Products processed       : {total_products}")
-            self.logger.info(f"🖼️ Total images uploaded    : {total_images}")
-            self.logger.info(f"🏷️ Sites touched            : {len(sites_touched)} ({', '.join(sorted(sites_touched))})")
-            self.logger.info(f"⏱️ Elapsed time             : {elapsed} seconds")
-            self.logger.info(f"📦 Estimated remaining      : {estimated_remaining}")
-            self.logger.info(f"📅 Estimated time remaining : {eta_text}")
+            self.logger.warning("📊 INTEGRITY SUMMARY")
+            self.logger.warning(f"✔️ Products processed       : {total_products}")
+            self.logger.warning(f"🖼️ Total images uploaded    : {total_images}")
+            self.logger.warning(f"🏷️ Sites touched            : {len(sites_touched)} ({', '.join(sorted(sites_touched))})")
+            self.logger.warning(f"⏱️ Elapsed time             : {elapsed} seconds")
+            self.logger.warning(f"📦 Estimated remaining      : {estimated_remaining}")
+            self.logger.warning(f"📅 Estimated time remaining : {eta_text}")
 
             offset += batch_size
             batch_number += 1
