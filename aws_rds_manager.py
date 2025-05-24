@@ -335,4 +335,59 @@ class AwsRdsManager:
             logging.error(f"RDS MANAGER: Failed to update sold status for URLs: {e}")
 
 
+    def get_missing_s3_images(self, batch_size=100, offset=0):
+        """
+        Returns one row per group (by title+description+price) that lacks s3_image_urls,
+        and where no other row in the group has them. Filters out null/empty original_image_urls.
+        """
+        try:
+            query = f"""
+                SELECT 
+                    MIN(id) AS id,
+                    MIN(url) AS url,
+                    MIN(site) AS site,
+                    MIN(original_image_urls::text) AS original_image_urls
+                FROM militaria AS m
+                WHERE 
+                (m.s3_image_urls IS NULL OR m.s3_image_urls = '[]')
+                AND (m.original_image_urls IS NOT NULL AND m.original_image_urls <> '[]')
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM militaria AS other
+                    WHERE 
+                    other.title = m.title
+                    AND other.description = m.description
+                    AND other.price = m.price
+                    AND (other.s3_image_urls IS NOT NULL AND other.s3_image_urls <> '[]')
+                )
+                GROUP BY m.title, m.description, m.price
+                ORDER BY MIN(id) DESC
+                LIMIT %s OFFSET %s;
+            """
+            return self.fetch(query, (batch_size, offset))
+        except Exception as e:
+            logging.error(f"RDS MANAGER: Failed to fetch missing S3 image rows: {e}")
+            return []
 
+
+    def count_missing_s3_image_products(self):
+        query = """
+            SELECT COUNT(*) FROM militaria
+            WHERE (s3_image_urls IS NULL OR s3_image_urls = '[]')
+            AND (original_image_urls IS NOT NULL AND original_image_urls <> '[]');
+        """
+        try:
+            result = self.fetch(query)
+            return result[0][0] if result else 0
+        except Exception as e:
+            logging.error(f"Error counting remaining image products: {e}")
+            return 0
+        
+    def reconnect(self):
+        import psycopg2
+        try:
+            self.conn.close()
+        except Exception:
+            pass
+        self.conn = psycopg2.connect(**self.connection_params)
+        logging.info("RDS MANAGER: Reconnected to PostgreSQL.")

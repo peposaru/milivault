@@ -121,4 +121,3 @@ class S3Manager:
         except Exception as e:
             logging.error(f"Error checking if image upload should be skipped for {product_url}: {e}")
             return False
-

@@ -212,8 +212,9 @@ Choose run mode:
 1. Availability Tracker - Check to see if any items in site have been sold.
 2. New Item / Full Product Check - Does a detail check of every product in given page range.
 3. Both Availability and Scrape
-        """)
-        run_mode_choice = input("Enter your choice (1/2/3): ").strip()
+4. Data Integrity - Fix missing images and clean data
+""")
+        run_mode_choice = input("Enter your choice (1/2/3/4): ").strip()
         run_mode = "both"  # default
 
         if run_mode_choice == "1":
@@ -222,6 +223,8 @@ Choose run mode:
             run_mode = "scrape"
         elif run_mode_choice == "3":
             run_mode = "both"
+        elif run_mode_choice == "4":
+            run_mode = "data_integrity"
         else:
             print("Invalid input. Defaulting to 'both'.")
             logging.warning("Invalid run_mode input. Defaulted to 'both'.")

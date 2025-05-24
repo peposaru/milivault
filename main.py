@@ -8,6 +8,7 @@ from datetime import datetime
 from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
 from logging_manager import initialize_logging
 from availability_tracker import SiteAvailabilityTracker
+from data_integrity_manager import DataIntegrityManager
 
 def main():
     # Initialize logging
@@ -44,6 +45,14 @@ def main():
 
     if not json_manager:
         logging.error("JsonManager is not initialized in managers.")
+        exit()
+
+    # DATA INTEGRITY MODE
+    if run_mode == "data_integrity":
+        integrity_manager = DataIntegrityManager(
+            managers["rdsManager"], managers["s3_manager"]
+        )
+        integrity_manager.check_data_integrity()
         exit()
 
     try:
