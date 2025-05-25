@@ -333,9 +333,6 @@ def site_choice(all_sites, run_availability_check=False):
 
 
 def is_running_on_ec2():
-    """Detects if we're on an EC2 instance via the metadata URL."""
-    try:
-        response = requests.get("http://169.254.169.254/latest/meta-data/", timeout=0.2)
-        return response.status_code == 200
-    except requests.exceptions.RequestException:
-        return False
+    """Detects if running on EC2 by checking hostname prefix."""
+    hostname = socket.gethostname()
+    return hostname.startswith("ip-")
