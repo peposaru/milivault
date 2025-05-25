@@ -26,7 +26,7 @@ class DataIntegrityManager:
         # USER-CONTROLLED SETTINGS 👇👇👇
         batch_size = 10                # 💡 Number of products to process per batch
         delay_between_products = 2   # 💡 Delay in seconds between each product's image downloads
-        max_batches = None             # 💡 Optional: set to a number like 5 to stop after X batches (None = no limit)
+        max_batches = 2             # 💡 Optional: set to a number like 5 to stop after X batches (None = no limit)
         # 👆👆👆 CHANGE THESE VALUES TO CONTROL DOWNLOAD SPEED
 
         start_time = time.time()
@@ -39,6 +39,13 @@ class DataIntegrityManager:
         batch_number = 0
 
         while True:
+    # 🩺 Check DB connection health before each batch
+            try:
+                self.db.fetch("SELECT 1;")
+            except Exception as e:
+                self.logger.warning(f"DB ping failed, attempting reconnect: {e}")
+                if hasattr(self.db, "reconnect"):
+                    self.db.reconnect()
             if max_batches is not None and batch_number >= max_batches:
                 self.logger.info("Reached max_batches limit. Stopping.")
                 break
