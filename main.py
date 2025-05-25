@@ -5,7 +5,7 @@ from time import sleep
 from datetime import datetime
 
 # These are modules made for this program specifically.
-from settings_manager import site_choice, setup_user_path, load_user_settings, setup_object_managers
+from settings_manager import site_choice, setup_user_path,load_user_settings, setup_object_managers
 from logging_manager import initialize_logging
 from availability_tracker import SiteAvailabilityTracker
 from data_integrity_manager import DataIntegrityManager

@@ -36,31 +36,6 @@ DEFAULT_PC_SETTINGS = {
 
 }
 
-LAST_SETTINGS_FILE = "last_user_settings.json"
-
-
-def save_last_settings(settings):
-    """Save settings to disk for reuse."""
-    try:
-        with open(LAST_SETTINGS_FILE, "w", encoding="utf-8") as f:
-            json.dump(settings, f, indent=4)
-        logging.debug("Saved last user settings.")
-    except Exception as e:
-        logging.error(f"Error saving last settings: {e}")
-
-def load_last_settings():
-    """Load last settings from disk if available."""
-    if not os.path.exists(LAST_SETTINGS_FILE):
-        return None
-    try:
-        with open(LAST_SETTINGS_FILE, "r", encoding="utf-8") as f:
-            settings = json.load(f)
-        logging.debug("Loaded last user settings.")
-        return settings
-    except Exception as e:
-        logging.error(f"Error loading last settings: {e}")
-        return None
-
 def load_user_settings():
     try:
         settings = get_user_settings()
@@ -79,9 +54,6 @@ def load_user_settings():
     except KeyError as e:
         logging.error(f"SETTINGS MANAGER: Error accessing user settings: {e}")
         return None
-
-
-
 
 def setup_user_path(user_settings):
     # Switching to designated info / credentials location.
@@ -144,16 +116,6 @@ def setup_object_managers(user_settings):
 
 
 def get_user_settings():
-    # Try loading previous settings
-    previous_settings = load_last_settings()
-
-    if previous_settings:
-        print("\nFound previous settings.")
-        reuse = input("Press Enter to reuse previous settings, or type 'n' to configure new: ").strip().lower()
-        if reuse == "":
-            print("Reusing previous settings...")
-            return previous_settings
-
     # Auto-detect environment
     settings = {}
 
