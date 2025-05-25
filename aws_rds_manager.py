@@ -359,6 +359,7 @@ class AwsRdsManager:
                     AND other.description = m.description
                     AND other.price = m.price
                     AND (other.s3_image_urls IS NOT NULL AND other.s3_image_urls <> '[]')
+                    AND (m.image_download_failed IS NOT TRUE)
                 )
                 GROUP BY m.title, m.description, m.price
                 ORDER BY MIN(id) DESC

@@ -24,10 +24,24 @@ class DataIntegrityManager:
         """
 
         # USER-CONTROLLED SETTINGS 👇👇👇
-        batch_size = 10                # 💡 Number of products to process per batch
-        delay_between_products = 2   # 💡 Delay in seconds between each product's image downloads
-        max_batches = 2             # 💡 Optional: set to a number like 5 to stop after X batches (None = no limit)
-        # 👆👆👆 CHANGE THESE VALUES TO CONTROL DOWNLOAD SPEED
+        print("\n🛠️ Data Integrity Configuration")
+        try:
+            batch_size = int(input("Batch size (default = 10): ").strip() or 10)
+        except ValueError:
+            batch_size = 10
+
+        try:
+            delay_between_products = int(input("Delay between products in seconds (default = 2): ").strip() or 2)
+        except ValueError:
+            delay_between_products = 2
+
+        max_batches_input = input("Max batches to run (press Enter for unlimited): ").strip()
+        max_batches = int(max_batches_input) if max_batches_input.isdigit() else None
+
+        self.logger.info(f"Running data integrity with: batch_size={batch_size}, delay={delay_between_products}, max_batches={max_batches or '∞'}")
+
+        successful_products = 0
+        failed_products = 0
 
         start_time = time.time()
         total_products = 0
@@ -99,6 +113,18 @@ class DataIntegrityManager:
                 images_per_product[product_id] = len(image_urls)
                 sites_touched.add(site)
 
+                # 👇 Track success/failure
+                try:
+                    result = self.db.fetch("SELECT s3_image_urls FROM militaria WHERE id = %s;", (product_id,))
+                    if result and result[0][0] and len(result[0][0]) > 0:
+                        successful_products += 1
+                    else:
+                        failed_products += 1
+                except Exception as e:
+                    self.logger.warning(f"⚠️ Unable to verify upload for product {product_id}: {e}")
+                    failed_products += 1
+
+
                 # USER-CONTROLLED DELAY
                 self.logger.info(f"⏳ Waiting {delay_between_products} seconds before next product...")
                 time.sleep(delay_between_products)
@@ -136,6 +162,8 @@ class DataIntegrityManager:
             # Final summary
             self.logger.warning("📊 INTEGRITY SUMMARY")
             self.logger.warning(f"✔️ Products processed       : {total_products}")
+            self.logger.warning(f"✅ Products with successful uploads: {successful_products}")
+            self.logger.warning(f"❌ Products that failed to upload   : {failed_products}")
             self.logger.warning(f"🖼️ Total images uploaded    : {total_images}")
             self.logger.warning(f"🏷️ Sites touched            : {len(sites_touched)} ({', '.join(sorted(sites_touched))})")
             self.logger.warning(f"⏱️ Elapsed time             : {elapsed} seconds")
@@ -182,6 +210,15 @@ class DataIntegrityManager:
 
             else:
                 self.logger.warning(f"⚠️ No images uploaded for product {product_id}")
+                try:
+                    self.db.execute(
+                        "UPDATE militaria SET image_download_failed = TRUE WHERE id = %s;",
+                        (product_id,)
+                    )
+                    self.logger.info(f"📛 Marked product {product_id} as failed to download images")
+                except Exception as e:
+                    self.logger.error(f"❌ Failed to update image_download_failed for product {product_id}: {e}")
+
 
         except Exception as e:
             self.logger.error(f"❌ Failed image upload or DB update for product {product_id}: {e}")

@@ -3,7 +3,8 @@ import logging
 import json
 import subprocess
 from collections import defaultdict
-
+import requests
+import socket
 
 from aws_rds_manager import AwsRdsManager
 from json_manager import JsonManager
@@ -153,142 +154,129 @@ def get_user_settings():
             print("Reusing previous settings...")
             return previous_settings
 
-    while True:
-        print("""
-Choose your settings:
-1. Amazon RDS Settings
-2. Personal Computer Settings
-3. Custom Settings
-4. Run Tests Only
-5. Run Coverage Report Only
-6. Run Tests + Coverage
-        """)
-        choice = input("Enter the number corresponding to your choice (1–6): ").strip()
+    # Auto-detect environment
+    settings = {}
 
-        settings = {}
-
-        if choice == '1':
-            print("Using Amazon RDS Settings...")
+    try:
+        if is_running_on_ec2():
+            print("✅ Environment detected: AWS EC2")
             settings.update(DEFAULT_RDS_SETTINGS)
-            settings["environment"] = "aws" 
+            settings["environment"] = "aws"
             adjust_logging_level("aws")
-
-        elif choice == '2':
-            print("Using Personal Computer Settings...")
+        else:
+            print("✅ Environment detected: Local PC")
             settings.update(DEFAULT_PC_SETTINGS)
             settings["environment"] = "local"
             adjust_logging_level("local")
+    except Exception as e:
+        print(f"⚠️ Failed to detect environment automatically: {e}")
+        print("Defaulting to Local PC settings.")
+        settings.update(DEFAULT_PC_SETTINGS)
+        settings["environment"] = "local"
+        adjust_logging_level("local")
+
+    while True:
+        print("""
+What do you want to do?
+
+1. Run Scraper (Check Availability, New Items, or Both)
+2. Run Data Integrity Tools (Recover Images / Clean Data)
+3. Run Tests Only
+4. Run Coverage Report Only
+5. Run Tests + Coverage
+6. Enter Custom Configuration
+        """)
+        choice = input("Enter your choice (1–6): ").strip()
+
+        if choice == '1':
+            print("""
+Select scraper mode:
+1. Availability Tracker (detect sold items)
+2. New Item / Full Product Check
+3. Both Availability + Scrape
+""")
+            mode = input("Choose run mode (1/2/3): ").strip()
+            run_mode = {"1": "availability", "2": "scrape", "3": "both"}.get(mode, "both")
+
+            # Scraper config
+            pages_to_check = 1
+            use_comparison_row = True
+
+            if run_mode in ("scrape", "both"):
+                print("""
+Inventory check type:
+1. New Inventory (check only 1 page)
+2. Custom (specify page count)
+""")
+                custom_check = input("Enter your choice (1 or 2): ").strip()
+                if custom_check == "2":
+                    try:
+                        pages_to_check = int(input("How many pages should be checked?: ").strip())
+                    except ValueError:
+                        print("Invalid input. Defaulting to 1 page.")
+                        pages_to_check = 1
+
+            # Sleeptimes
+            availability_sleeptime = 15 * 60
+            scrape_sleeptime = 60 * 60
+
+            if run_mode in ("availability", "both"):
+                try:
+                    availability_sleeptime = int(input("Availability check delay (seconds): ").strip())
+                except ValueError:
+                    print("Invalid input. Defaulting to 900 seconds.")
+
+            if run_mode in ("scrape", "both"):
+                try:
+                    scrape_sleeptime = int(input("Scrape cycle delay (seconds): ").strip())
+                except ValueError:
+                    print("Invalid input. Defaulting to 3600 seconds.")
+
+            settings.update({
+                "run_mode": run_mode,
+                "pages_to_check": pages_to_check,
+                "use_comparison_row": use_comparison_row,
+                "availability_sleeptime": availability_sleeptime,
+                "scrape_sleeptime": scrape_sleeptime
+            })
+
+            return settings
+
+        elif choice == '2':
+            print("Running Data Integrity Tools...")
+            settings["run_mode"] = "data_integrity"
+            return settings
 
         elif choice == '3':
-            print("Custom settings selected.")
-            settings["infoLocation"] = input("Enter the directory path for configuration files: ").strip()
-            settings["pgAdminCred"] = input("Enter the name of the pgAdmin credentials file: ").strip()
-            settings["selectorJsonFolder"] = input("Enter the name of the JSON selector file: ").strip()
-            settings["s3Cred"] = input("Enter the name of the S3 credentials file: ").strip()
-            settings["openaiCred"] = input("Enter the name of the OpenAI credentials file: ").strip()
-
-        elif choice == '4':
             print("Running tests only...")
             subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_scraper.bat", shell=True)
-            continue
 
-        elif choice == '5':
+        elif choice == '4':
             print("Running coverage report only...")
             subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\coverage_report.bat", shell=True)
-            continue
 
-        elif choice == '6':
+        elif choice == '5':
             print("Running tests with coverage...")
             subprocess.call(r"C:\Users\keena\Desktop\Milivault\tests_scraper\test_and_coverage.bat", shell=True)
-            continue
+
+        elif choice == '6':
+            print("Custom configuration selected.")
+            settings["infoLocation"] = input("Enter config directory path: ").strip()
+            settings["pgAdminCred"] = input("Enter pgAdmin credentials filename: ").strip()
+            settings["selectorJsonFolder"] = input("Enter selector JSON folder name: ").strip()
+            settings["s3Cred"] = input("Enter S3 credentials filename: ").strip()
+            settings["openaiCred"] = input("Enter OpenAI credentials filename: ").strip()
+            return settings
 
         else:
             print("Invalid choice. Please enter a number from 1 to 6.")
-            continue
 
-        # Inventory behavior config
-        print("""
-Choose run mode:
-1. Availability Tracker - Check to see if any items in site have been sold.
-2. New Item / Full Product Check - Does a detail check of every product in given page range.
-3. Both Availability and Scrape
-4. Data Integrity - Fix missing images and clean data
-""")
-        run_mode_choice = input("Enter your choice (1/2/3/4): ").strip()
-        run_mode = "both"  # default
-
-        if run_mode_choice == "1":
-            run_mode = "availability"
-        elif run_mode_choice == "2":
-            run_mode = "scrape"
-        elif run_mode_choice == "3":
-            run_mode = "both"
-        elif run_mode_choice == "4":
-            run_mode = "data_integrity"
-        else:
-            print("Invalid input. Defaulting to 'both'.")
-            logging.warning("Invalid run_mode input. Defaulted to 'both'.")
-
-        # Set defaults
-        pages_to_check = 1
-        use_comparison_row = True
-
-        # Only ask for pages_to_check if scrape is involved
-        if run_mode in ("scrape", "both"):
-            print("""
-Choose the type of inventory check:
-1. New Inventory Check (pages_to_check = 1)
-2. Custom Check (Enter your own pages_to_check and comparison type)
-            """)
-            check_choice = input("Enter your choice (1 or 2): ").strip()
-
-            try:
-                if check_choice == "2":
-                    pages_to_check = int(input("Enter your desired pages_to_check value: ").strip())
-
-                    use_comparison_row = True
-
-
-            except ValueError:
-                print("Invalid input. Defaulting to New Inventory Check with pages_to_check = 1.")
-                logging.warning("Defaulting to pages_to_check = 1 due to input error.")
-
-        # Sleep settings
-        availability_sleeptime = 15 * 60
-        scrape_sleeptime = 60 * 60
-
-        if run_mode in ("availability", "both"):
-            try:
-                availability_sleeptime = int(input("Enter availability check sleeptime (in seconds): ").strip())
-            except ValueError:
-                print("Invalid input. Defaulting availability sleeptime to 15 minutes.")
-                logging.warning("Defaulting availability_sleeptime to 900 seconds.")
-
-        if run_mode in ("scrape", "both"):
-            try:
-                scrape_sleeptime = int(input("Enter scrape cycle sleeptime (in seconds): ").strip())
-            except ValueError:
-                print("Invalid input. Defaulting scrape sleeptime to 60 minutes.")
-                logging.warning("Defaulting scrape_sleeptime to 3600 seconds.")
-
-        # Build final settings dict
-        settings.update({
-            "pages_to_check": pages_to_check,
-            "run_mode": run_mode,
-            "use_comparison_row": use_comparison_row,
-            "availability_sleeptime": availability_sleeptime,
-            "scrape_sleeptime": scrape_sleeptime
-        })
-
-        return settings
 
 
 
 
 def site_choice(all_sites, run_availability_check=False):
-    """Display eligible sites, archive-only sites, and broken ones. 
-       Groups by source_name automatically if run_availability_check=True.
-    """
+    """Display eligible sites and allow user to select or choose all working sites."""
     from collections import defaultdict
     import shutil
 
@@ -325,27 +313,43 @@ def site_choice(all_sites, run_availability_check=False):
 
     display_sites(broken_sites, index, "❌ NOT WORKING SITES")
 
+    print(f"\n999. All Working Sites")
+
+    # 🧭 Prompt user for input
     while True:
         try:
-            choice = input("\nSelect sites to scrape (e.g., '1,3-5,7'): ").strip()
+            choice = input(
+                "\n🔢 Select site(s) to scrape (e.g. '1,3-5,7' or '999' for all working): "
+            ).strip()
+
             if not choice:
-                print("Please enter a valid selection.")
+                print("⚠️  No input received. Please enter at least one number.")
                 continue
 
-            selected_indices = set()
-            for part in choice.split(','):
-                if '-' in part:
-                    start, end = map(int, part.split('-'))
-                    if start > end:
-                        raise ValueError(f"Invalid range: {start}-{end}")
-                    selected_indices.update(range(start - 1, end))
-                else:
-                    selected_indices.add(int(part) - 1)
+            if choice == "999":
+                selected_sites = eligible_sites if run_availability_check else working_sites
+            else:
+                selected_indices = set()
+                for part in choice.split(','):
+                    part = part.strip()
+                    if not part:
+                        continue
+                    if '-' in part:
+                        try:
+                            start, end = map(int, part.split('-'))
+                            if start > end:
+                                raise ValueError(f"Invalid range: {part}")
+                            selected_indices.update(range(start - 1, end))
+                        except:
+                            raise ValueError(f"Invalid range format: '{part}'")
+                    else:
+                        idx = int(part) - 1
+                        selected_indices.add(idx)
 
-            if any(idx < 0 or idx >= len(all_display_sites) for idx in selected_indices):
-                raise ValueError("One or more indices are out of range.")
+                if any(idx < 0 or idx >= len(all_display_sites) for idx in selected_indices):
+                    raise ValueError("One or more indices are out of range.")
 
-            selected_sites = [all_display_sites[idx] for idx in sorted(selected_indices)]
+                selected_sites = [all_display_sites[idx] for idx in sorted(selected_indices)]
 
             if run_availability_check:
                 sold_only = [s for s in selected_sites if s.get("is_sold_archive", False)]
@@ -354,18 +358,22 @@ def site_choice(all_sites, run_availability_check=False):
                     print(f"⚠️  The following are sold-only archives and cannot be used in availability mode:\n → {names}")
                     continue
 
-                # 📦 Group selected sites by source_name
                 grouped_sites = defaultdict(list)
                 for site in selected_sites:
                     grouped_sites[site['source_name']].append(site)
-
-                # Return a list of grouped site profiles
                 return list(grouped_sites.values())
 
             else:
-                # Normal scrape mode — no grouping needed
                 return selected_sites
 
         except ValueError as e:
-            print(f"SETTINGS MANAGER: Invalid selection: {e}. Please try again.")
+            print(f"❌ Invalid selection: {e}. Please try again.")
 
+
+def is_running_on_ec2():
+    """Detects if we're on an EC2 instance via the metadata URL."""
+    try:
+        response = requests.get("http://169.254.169.254/latest/meta-data/", timeout=0.2)
+        return response.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
