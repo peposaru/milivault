@@ -61,3 +61,31 @@ class JsonManager:
         except Exception as e:
             logging.error(f"Error loading site profile: {e}")
             raise
+
+    def compile_working_site_profiles(self, directory_path):
+        profiles = []
+        for filename in os.listdir(directory_path):
+            if not filename.endswith(".json"):
+                continue
+
+            filepath = os.path.join(directory_path, filename)
+
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception as e:
+                logging.error(f"Error decoding JSON file {filepath}: {e}")
+                continue
+
+            if not data.get("is_working", True):
+                logging.info(f"⏩ Skipping {filename}: marked as not working")
+                continue
+
+            if "source_name" not in data:
+                logging.warning(f"⛔ Skipping {filename}: missing source_name")
+                continue
+
+            profiles.append(data)
+
+        logging.info(f"✅ Loaded {len(profiles)} working site profiles from {directory_path}")
+        return profiles

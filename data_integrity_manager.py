@@ -4,6 +4,7 @@ import logging
 import post_processors as post_processors
 from product_tile_processor import TileProcessor
 from site_processor import SiteProcessor
+import image_extractor
 
 import random
 import time
@@ -12,16 +13,20 @@ import requests
 from collections import defaultdict
 
 class DataIntegrityManager:
-    def __init__(self, db, s3_client):
-        self.db = db
-        self.s3_client = s3_client
-        self.logger = logging.getLogger(__name__)
+    def __init__(self, managers):
+        self.managers     = managers
+        self.rds_manager = managers.get("rdsManager")
+        self.s3_manager   = managers.get("s3_manager")
+        selector_path = self.managers['user_settings']['selectorJsonFolder']
+        self.db = self.rds_manager
+        self.logger       = logging.getLogger(__name__)
 
     def run_submenu(self):
         print("""
     DATA INTEGRITY MENU
     1. Recover missing images
     2. Generate thumbnails from first S3 image
+    3. Recover datapoints with URL
     (Press Enter to exit)
         """)
         choice = input("Select an option: ").strip()
@@ -30,8 +35,11 @@ class DataIntegrityManager:
             tool = ImageRecoveryProcessor(self.managers)
             tool.recover_images()
         elif choice == "2":
-            tool = ThumbnailGenerator(self.db, self.s3_client)
+            tool = ThumbnailGenerator(self.db, self.s3_manager)
             tool.generate()
+        elif choice == "3":
+            tool = DataPointRecoverer(self.db, self.s3_manager)
+            tool.recover()
         else:
             print("Exited integrity submenu.")
 
@@ -191,8 +199,6 @@ class DataIntegrityManager:
             offset += batch_size
             batch_number += 1
 
-
-
     def download_and_upload_images(self, product_id, site, image_urls):
         """
         Uploads all images for a product using S3Manager, and updates the database with resulting S3 URLs.
@@ -200,7 +206,7 @@ class DataIntegrityManager:
         """
         try:
             # Upload images using centralized logic in S3Manager
-            s3_urls = self.s3_client.upload_images_for_product(
+            s3_urls = self.s3_manager.upload_images_for_product(
                 product_id=product_id,
                 image_urls=image_urls,
                 site_name=site,
@@ -272,52 +278,146 @@ class DataIntegrityManager:
 
 class ImageRecoveryProcessor:
     def __init__(self, managers):
-        self.rds = managers["rdsManager"]
-        self.s3 = managers["s3_manager"]
-        self.html = managers["html_manager"]
-        self.json = managers["jsonManager"]
-        self.sleep_between = 5  # adjustable delay in seconds
+        self.managers = managers
+        self.rds_manager = managers.get('rdsManager')
+        self.s3 = managers.get("s3_manager")
+        self.html = managers.get('html_manager')
+        self.json = managers.get("jsonManager")
+        self.sleep_between = 5
+        self.selector_path = self.managers["user_settings"]["selectorJsonFolder"]
 
     def recover_images(self, batch_size=10):
-        # 1. Get up to N products with missing images
-        query = """
-        SELECT url, site
-        FROM militaria
-        WHERE (
-            original_image_urls IS NULL OR original_image_urls = '[]'
-        ) AND (
-            s3_image_urls IS NULL OR s3_image_urls = '[]'
-        )
-        AND image_download_failed IS false
-        LIMIT 100;
-        """
-        records = self.rds.fetch(query)
+        site_profiles = self.json.compile_working_site_profiles(self.selector_path)
+        working_sites = [p["source_name"] for p in site_profiles]
+        site_filter = "('" + "', '".join(working_sites) + "')"
 
-        # 2. Track which sites we've already touched in this round
-        used_sites = set()
+        while True:
+            # Count remaining products needing image recovery
+            count_query = f"""
+            SELECT COUNT(*)
+            FROM militaria
+            WHERE (
+                original_image_urls IS NULL OR original_image_urls = '[]'
+            ) AND (
+                s3_image_urls IS NULL OR s3_image_urls = '[]'
+            )
+            AND image_download_failed IS false
+            AND site IN {site_filter};
+            """
+            remaining = self.rds_manager.fetch(count_query)[0][0]
+            if remaining == 0:
+                logging.info("🎉 All image recovery complete.")
+                break
 
-        for url, site in records:
-            if site in used_sites:
-                continue  # skip if already used this site in this round
+            estimated_minutes = (remaining / batch_size) * self.sleep_between / 60
+            logging.info(f"📦 {remaining} products still need image recovery.")
+            logging.info(f"⏳ Estimated time to complete: {estimated_minutes:.1f} minutes assuming full batches.")
 
-            # 3. Download and upload logic here...
-            # - get soup
-            # - extract image URLs
-            # - upload with `self.s3.upload_images_for_product(...)`
+            query = f"""
+            SELECT url, site
+            FROM militaria
+            WHERE (
+                original_image_urls IS NULL OR original_image_urls = '[]'
+            ) AND (
+                s3_image_urls IS NULL OR s3_image_urls = '[]'
+            )
+            AND image_download_failed IS false
+            AND site IN {site_filter}
+            LIMIT 100;
+            """
+            records = self.rds_manager.fetch(query)
+            logging.info(f"🛠️ Attempting image recovery for {len(records)} records...")
 
-            used_sites.add(site)
+            used_sites = set()
 
-            # Reset after batch
-            if len(used_sites) >= batch_size:
-                used_sites.clear()
-                logging.info(f"Sleeping {self.sleep_between} sec before next image batch...")
-                time.sleep(self.sleep_between)
+            for url, site in records:
+                if site in used_sites:
+                    logging.info(f"⚠️ Skipping {site}: already processed in this batch.")
+                    continue
+
+                logging.info(f"\n🔍 Processing product URL: {url} (site: {site})")
+                site_profile = next((p for p in site_profiles if p.get("source_name") == site), None)
+
+                if not site_profile:
+                    logging.warning(f"❌ No site profile found for {site}. Skipping.")
+                    continue
+
+                extractor_func_name = site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
+                if not extractor_func_name:
+                    logging.warning(f"❌ No image extractor function defined for {site}.")
+                    continue
+
+                if not hasattr(self.s3, "upload_images_for_product"):
+                    logging.error("❌ Missing method 'upload_images_for_product' in S3 manager.")
+                    break
+
+                try:
+                    soup = self.html.parse_html(url)
+                    if not soup:
+                        logging.warning(f"❌ Could not fetch or parse HTML for: {url}")
+                        continue
+                except Exception as e:
+                    logging.warning(f"❌ Exception while fetching/parsing HTML for {url}: {e}")
+                    continue
+
+                try:
+                    image_func = getattr(image_extractor, extractor_func_name)
+                    image_urls = image_func(soup)
+                    if not image_urls:
+                        logging.warning(f"🚫 No images extracted for {url} using {extractor_func_name}")
+                        continue
+
+                    logging.info(f"🖼️ Extracted {len(image_urls)} image(s) for {url}. Uploading...")
+
+                    s3_urls = self.s3.upload_images_for_product(None, image_urls, site, url, self.rds_manager)
+
+                    if s3_urls:
+                        update_query = """
+                            UPDATE militaria
+                            SET original_image_urls = %s, s3_image_urls = %s
+                            WHERE url = %s;
+                        """
+                        self.rds_manager.execute(update_query, (
+                            json.dumps(image_urls),
+                            json.dumps(s3_urls),
+                            url
+                        ))
+                        logging.info(f"✅ Successfully uploaded and updated DB for {url}")
+                    else:
+                        logging.warning(f"⚠️ Upload failed for {url} — no S3 URLs returned.")
+                        self.mark_image_failed(url)
+
+                except Exception as e:
+                    logging.error(f"❌ Exception during image extraction/upload for {url}: {e}")
+                    if image_urls:
+                        self.mark_image_failed(url)
+
+                used_sites.add(site)
+
+                if len(used_sites) >= batch_size:
+                    used_sites.clear()
+                    logging.info(f"⏸️ Sleeping {self.sleep_between} sec before next batch...")
+                    time.sleep(self.sleep_between)
+
+            logging.info("🎉 Image recovery loop completed.")
+
+
+    def mark_image_failed(self, url):
+        try:
+            self.rds_manager.execute(
+                "UPDATE militaria SET image_download_failed = TRUE WHERE url = %s;",
+                (url,)
+            )
+            logging.info(f"🛑 Marked {url} as failed in database.")
+        except Exception as e:
+            logging.error(f"❌ Could not mark {url} as failed: {e}")
+
 
 
 class ThumbnailGenerator:
-    def __init__(self, db, s3_client):
+    def __init__(self, db, s3_manager):
         self.db = db
-        self.s3 = s3_client
+        self.s3 = s3_manager
         self.logger = logging.getLogger(__name__)
 
     def generate(self, limit=100000):
@@ -389,3 +489,5 @@ class ThumbnailGenerator:
         self.logger.warning(f"❌ Failures         : {fail}")
         self.logger.warning(f"🧾 Product IDs      : {processed_ids}")
 
+class DataPointRecoverer:
+    pass

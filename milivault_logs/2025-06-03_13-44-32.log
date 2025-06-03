@@ -1,0 +1,337 @@
+2025-06-03 13:44:32,553 - DEBUG - Logging initialized. Log file: milivault_logs\2025-06-03_13-44-32.log
+2025-06-03 13:44:32,553 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-06-03 13:44:35,735 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-06-03 13:44:36,715 - INFO - Connection pool initialized successfully.
+2025-06-03 13:44:36,717 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-06-03 13:44:36,718 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-06-03 13:44:36,719 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-06-03 13:44:36,720 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-06-03 13:44:36,721 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-06-03 13:44:36,721 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-06-03 13:44:36,722 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-06-03 13:44:36,723 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-06-03 13:44:36,724 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-06-03 13:44:36,724 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-06-03 13:44:36,724 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-06-03 13:44:36,737 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\endpoints.json
+2025-06-03 13:44:36,779 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-06-03 13:44:36,780 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x0000021728FEACB0>
+2025-06-03 13:44:36,892 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-06-03 13:44:36,898 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-06-03 13:44:37,009 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-06-03 13:44:37,014 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\partitions.json
+2025-06-03 13:44:37,016 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x0000021728F492D0>
+2025-06-03 13:44:37,016 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000002172A8C1510>
+2025-06-03 13:44:37,039 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x0000021728F49090>
+2025-06-03 13:44:37,039 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-06-03 13:44:37,039 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-06-03 13:44:37,040 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-06-03 13:44:37,040 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-06-03 13:44:37,040 - DEBUG - No configured endpoint found.
+2025-06-03 13:44:37,042 - DEBUG - Setting s3 timeout as (60, 60)
+2025-06-03 13:44:37,044 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\_retry.json
+2025-06-03 13:44:37,044 - DEBUG - Registering retry handlers for service: s3
+2025-06-03 13:44:37,044 - DEBUG - Registering S3 region redirector handler
+2025-06-03 13:44:37,044 - DEBUG - Registering S3Express Identity Resolver
+2025-06-03 13:44:37,045 - INFO - S3Manager initialized for bucket militaria-images
+2025-06-03 13:44:38,617 - INFO - 🛠️ Attempting image recovery for 100 records...
+2025-06-03 13:44:38,617 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/canadian-wwii-army-enlisted-overseas-hat.51013.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,617 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,618 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=51638 (site: ARNHEM44)
+2025-06-03 13:44:38,618 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,618 - INFO - 
+🔍 Processing product URL: https://mindenmilitaria.com/shop.php?code=59288 (site: MINDEN_MILITARIA)
+2025-06-03 13:44:38,618 - WARNING - ❌ No site profile found for MINDEN_MILITARIA. Skipping.
+2025-06-03 13:44:38,618 - INFO - 
+🔍 Processing product URL: https://www.rg-militaria.com/product/18710451/original-ww2-french-press-photo-dutch-queen-wilhelmina-returns-to-holland-maastricht-1945 (site: RG_MILITARIA)
+2025-06-03 13:44:38,619 - WARNING - ❌ No site profile found for RG_MILITARIA. Skipping.
+2025-06-03 13:44:38,619 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/hoffmann-photo-book-jugend-um-hitler-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,619 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,619 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=72202 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,619 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,619 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50836 (site: APG_MILITARIA)
+2025-06-03 13:44:38,619 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,619 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50835 (site: APG_MILITARIA)
+2025-06-03 13:44:38,619 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,619 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/bdm-leather-belt-2-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,621 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,621 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=51631 (site: ARNHEM44)
+2025-06-03 13:44:38,621 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,621 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=51582 (site: ARNHEM44)
+2025-06-03 13:44:38,621 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,621 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=69906 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,621 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,621 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=56478 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,621 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,621 - INFO - 
+🔍 Processing product URL: https://a2zmilitarycollectables.co.uk/shop.php?code=24918 (site: A2Z_MILITARY_COLLECTABLES)
+2025-06-03 13:44:38,622 - WARNING - ❌ No site profile found for A2Z_MILITARY_COLLECTABLES. Skipping.
+2025-06-03 13:44:38,622 - INFO - 
+🔍 Processing product URL: https://mindenmilitaria.com/shop.php?code=54012 (site: MINDEN_MILITARIA)
+2025-06-03 13:44:38,622 - WARNING - ❌ No site profile found for MINDEN_MILITARIA. Skipping.
+2025-06-03 13:44:38,622 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=71404 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,622 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,622 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=72441 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,623 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,623 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50725 (site: APG_MILITARIA)
+2025-06-03 13:44:38,623 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,623 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=58940 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,623 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,623 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl/new/british-skeleton-assault-jerkin-1944-23984-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,624 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,624 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=58645 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,624 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,624 - INFO - 
+🔍 Processing product URL: https://chasemilitaria.com/shop.php?code=5371 (site: CHASE_MILITARIA)
+2025-06-03 13:44:38,624 - WARNING - ❌ No site profile found for CHASE_MILITARIA. Skipping.
+2025-06-03 13:44:38,624 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/russian-medal-for-the-liberation-of-warsaw-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,625 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,625 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=54921 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,625 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,626 - INFO - 
+🔍 Processing product URL: https://www.rg-militaria.com/product/17074493/original-ww2-dutch-collaboration-brochure-volksche-wacht-6th-year-no-10-hamer-1942 (site: RG_MILITARIA)
+2025-06-03 13:44:38,626 - WARNING - ❌ No site profile found for RG_MILITARIA. Skipping.
+2025-06-03 13:44:38,626 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-wwii-usaaf-officers-ocs-certificate-nok-dogtag-lot.55612.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,626 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,626 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-indian-war-2nd-michigan-cavalry-m1872-officers-kepi.59133.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,627 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,627 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-pre-wwi-rpc-herzog-ernst-august-of-braunschweig.54697.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,627 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,627 - INFO - 
+🔍 Processing product URL: https://armyzdar.cz/en/product/repro-k98-gewehrgranaten-tasche-2/ (site: ARMYZDAR)
+2025-06-03 13:44:38,627 - WARNING - ❌ No site profile found for ARMYZDAR. Skipping.
+2025-06-03 13:44:38,627 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-patriotic-postcard-unsere-waffenss-series-mg-nach-vorn.49776.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,627 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,627 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-daf-dues-book-1-october-1935.47336.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,628 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,628 - INFO - 
+🔍 Processing product URL: https://armyzdar.cz/en/product/wh-m34-drillich-arbeitsjacke-2/ (site: ARMYZDAR)
+2025-06-03 13:44:38,628 - WARNING - ❌ No site profile found for ARMYZDAR. Skipping.
+2025-06-03 13:44:38,628 - INFO - 
+🔍 Processing product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-nationale-jeugdstorm-documents-den-haag-wassenaar/ (site: OORLOGSSPULLEN)
+2025-06-03 13:44:38,628 - WARNING - ❌ No site profile found for OORLOGSSPULLEN. Skipping.
+2025-06-03 13:44:38,628 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=51457 (site: ARNHEM44)
+2025-06-03 13:44:38,628 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,628 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-wwii-era-fire-helmet-with-neck-skirt.50021.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,629 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,629 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=51480 (site: ARNHEM44)
+2025-06-03 13:44:38,629 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,629 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50602 (site: APG_MILITARIA)
+2025-06-03 13:44:38,629 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,630 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-wwii-unusual-officer-messkit.25571.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,630 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,630 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-trinkwasser-drinking-water-can.57454.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,630 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,630 - INFO - 
+🔍 Processing product URL: https://fjm44.com/product/mutterkreuz-3/ (site: FJM44)
+2025-06-03 13:44:38,630 - WARNING - ❌ No site profile found for FJM44. Skipping.
+2025-06-03 13:44:38,632 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-wwii-m1943-folding-shovel-cover-mint.24197.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,632 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,632 - INFO - 
+🔍 Processing product URL: https://www.rg-militaria.com/product/17150069/original-ww2-dutch-press-photo-dutch-soldiers-clearing-barriers-in-utrecht-1940 (site: RG_MILITARIA)
+2025-06-03 13:44:38,632 - WARNING - ❌ No site profile found for RG_MILITARIA. Skipping.
+2025-06-03 13:44:38,632 - INFO - 
+🔍 Processing product URL: https://mindenmilitaria.com/shop.php?code=52834 (site: MINDEN_MILITARIA)
+2025-06-03 13:44:38,632 - WARNING - ❌ No site profile found for MINDEN_MILITARIA. Skipping.
+2025-06-03 13:44:38,633 - INFO - 
+🔍 Processing product URL: https://www.hiscoll.com/shop.php?code=38480 (site: HISCOLL_MILITARY_ANTIQUES)
+2025-06-03 13:44:38,633 - WARNING - ❌ No site profile found for HISCOLL_MILITARY_ANTIQUES. Skipping.
+2025-06-03 13:44:38,633 - INFO - 
+🔍 Processing product URL: https://www.ea-militaria.com/4-marked-verwundetenabzeichen-in-silber-steinhauer-luck-ludenscheid.html (site: EA_MILITARIA)
+2025-06-03 13:44:38,633 - WARNING - ❌ No site profile found for EA_MILITARIA. Skipping.
+2025-06-03 13:44:38,633 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-mg3442-50-round-basket-magazine-coded-ddf.52868.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,633 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,634 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=72414 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,634 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,634 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=68969 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,634 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,634 - INFO - 
+🔍 Processing product URL: https://armyzdar.cz/en/product/us-duffle-bag-small-black/ (site: ARMYZDAR)
+2025-06-03 13:44:38,634 - WARNING - ❌ No site profile found for ARMYZDAR. Skipping.
+2025-06-03 13:44:38,634 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=56159 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,634 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,634 - INFO - 
+🔍 Processing product URL: https://www.ea-militaria.com/motor-hitler-jugend-raute-des-2-model-sleeve-patch.html (site: EA_MILITARIA)
+2025-06-03 13:44:38,635 - WARNING - ❌ No site profile found for EA_MILITARIA. Skipping.
+2025-06-03 13:44:38,635 - INFO - 
+🔍 Processing product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-nsb-w-a-armband-with-documents-2/ (site: OORLOGSSPULLEN)
+2025-06-03 13:44:38,635 - WARNING - ❌ No site profile found for OORLOGSSPULLEN. Skipping.
+2025-06-03 13:44:38,635 - INFO - 
+🔍 Processing product URL: https://enemymilitaria.com/product/north-vietnamese-army-issue-green-diary-with-hand-drawn-art/ (site: ENEMY_MILITARIA)
+2025-06-03 13:44:38,635 - WARNING - ❌ No site profile found for ENEMY_MILITARIA. Skipping.
+2025-06-03 13:44:38,635 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=73106 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,635 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,636 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=56095 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,636 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,636 - INFO - 
+🔍 Processing product URL: https://www.rg-militaria.com/product/17150685/original-ww2-dutch-press-photo-children-from-rotterdam-leave-for-ostmark-austria-for-relaxation-1940 (site: RG_MILITARIA)
+2025-06-03 13:44:38,636 - WARNING - ❌ No site profile found for RG_MILITARIA. Skipping.
+2025-06-03 13:44:38,636 - INFO - 
+🔍 Processing product URL: https://www.rg-militaria.com/product/17150077/original-ww2-dutch-press-photo-dutch-soldiers-clearing-barriers-in-utrecht-1940 (site: RG_MILITARIA)
+2025-06-03 13:44:38,636 - WARNING - ❌ No site profile found for RG_MILITARIA. Skipping.
+2025-06-03 13:44:38,637 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl/new/german-8-piece-medal-bar-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,637 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,637 - INFO - 
+🔍 Processing product URL: https://fjm44.com/product/heer-waffen-ss-m43-officer-field-cap/ (site: FJM44)
+2025-06-03 13:44:38,637 - WARNING - ❌ No site profile found for FJM44. Skipping.
+2025-06-03 13:44:38,637 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=56093 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,637 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,638 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50497 (site: APG_MILITARIA)
+2025-06-03 13:44:38,638 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,638 - INFO - 
+🔍 Processing product URL: https://oorlogsspullen.nl/product/original-wwii-dutch-nsb-cuff-title-overste-mussert-2/ (site: OORLOGSSPULLEN)
+2025-06-03 13:44:38,638 - WARNING - ❌ No site profile found for OORLOGSSPULLEN. Skipping.
+2025-06-03 13:44:38,638 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-army-officers-sword-herder-mfg.61149.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,638 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,639 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/king-country-fob027-british-prone-rifleman-retired-boxed.59409.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,639 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,639 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl/new/police-18-years-long-service-award-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,639 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,639 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-wwii-army-cigarette-case.39462.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,639 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,640 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl/new/police-8-years-long-service-award-1-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,640 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,640 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/soviet-wwii-antigerman-surrender-leaflet-eine-kleine-clique.33163.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,640 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,640 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/original-case-with-invasion-maps-kaukasien-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,640 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,641 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/messerschmidt-bf-me-110-photograph-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,641 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,641 - INFO - 
+🔍 Processing product URL: https://armyzdar.cz/en/product/repro-lw-k98-mauser-bayonet-frog-with-loop/ (site: ARMYZDAR)
+2025-06-03 13:44:38,641 - WARNING - ❌ No site profile found for ARMYZDAR. Skipping.
+2025-06-03 13:44:38,641 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/wh-heer-tropical-trousers-2-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,641 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,642 - INFO - 
+🔍 Processing product URL: https://armyzdar.cz/en/product/scarf-at-digital/ (site: ARMYZDAR)
+2025-06-03 13:44:38,642 - WARNING - ❌ No site profile found for ARMYZDAR. Skipping.
+2025-06-03 13:44:38,642 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50184 (site: APG_MILITARIA)
+2025-06-03 13:44:38,642 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,642 - INFO - 
+🔍 Processing product URL: https://www.ea-militaria.com/die-wehrmacht-2-dezember-1938-magazine.html (site: EA_MILITARIA)
+2025-06-03 13:44:38,643 - WARNING - ❌ No site profile found for EA_MILITARIA. Skipping.
+2025-06-03 13:44:38,643 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/british-victorian-era-1821-pattern-canadian-artillery-sword-firmin-sons-of-london.39141.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,643 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,643 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-wwii-time-expired-soldiers-league-membership-book-large-pattern-badge-partial-translation.44656.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,644 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,644 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-press-release-photo-assault-gun-netherlands-1944.63382.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,644 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,644 - INFO - 
+🔍 Processing product URL: https://marnamilitaria.com/shop.php?code=52715 (site: MARNA_MILITARIA)
+2025-06-03 13:44:38,644 - WARNING - ❌ No site profile found for MARNA_MILITARIA. Skipping.
+2025-06-03 13:44:38,645 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl/new/luftwaffe-flak-artillery-war-badge-g-b-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,645 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,645 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/staffelformation-von-jagdeinsitzern-postcard-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,645 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,645 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-post-wwi-air-service-private-purchase-identity-discs-good-luck-tokens.43067.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,645 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,646 - INFO - 
+🔍 Processing product URL: https://apgmilitaria.com/shop.php?code=50165 (site: APG_MILITARIA)
+2025-06-03 13:44:38,646 - WARNING - ❌ No site profile found for APG_MILITARIA. Skipping.
+2025-06-03 13:44:38,646 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-post-wwii-8th-class-order-of-the-rising-sun-cased.48863.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,646 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,646 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-wwii-europeanafricanmiddle-eastern-campaign-medal-four-stars.53356.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,647 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,647 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/british-korean-war-turtle-helmet-complete.50924.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,647 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,647 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwii-soldiers-songbook.35047.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,647 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,647 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/german-wwi-rpc-group-photo-saxon-reserve-jager-battalion-12-felt-shakos.53929.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,648 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,648 - INFO - 
+🔍 Processing product URL: https://fjm44.com/product/wehrmacht-issue-compass-marked-r-fuess/ (site: FJM44)
+2025-06-03 13:44:38,648 - WARNING - ❌ No site profile found for FJM44. Skipping.
+2025-06-03 13:44:38,648 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/japanese-wwii-type-99-front-ammo-pouch-paper-cartridge-internal-boxes.36614.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,648 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,649 - INFO - 
+🔍 Processing product URL: https://qmsmilitaria.com/shop.php?code=66252 (site: QMS_MILITARIA)
+2025-06-03 13:44:38,649 - WARNING - ❌ No site profile found for QMS_MILITARIA. Skipping.
+2025-06-03 13:44:38,649 - INFO - 
+🔍 Processing product URL: https://crowvalleymilitaria.com/shop.php?code=58294 (site: CROW_VALLEY_MILITARIA)
+2025-06-03 13:44:38,649 - WARNING - ❌ No site profile found for CROW_VALLEY_MILITARIA. Skipping.
+2025-06-03 13:44:38,649 - INFO - 
+🔍 Processing product URL: https://worldwarcollectibles.com/shop.php?code=76172 (site: WORLDWAR_COLLECTIBLES)
+2025-06-03 13:44:38,650 - WARNING - ❌ No site profile found for WORLDWAR_COLLECTIBLES. Skipping.
+2025-06-03 13:44:38,650 - INFO - 
+🔍 Processing product URL: https://www.csmilitaria.co.uk/shop.php?code=14014 (site: CS_MILITARIA)
+2025-06-03 13:44:38,650 - WARNING - ❌ No site profile found for CS_MILITARIA. Skipping.
+2025-06-03 13:44:38,650 - INFO - 
+🔍 Processing product URL: https://mindenmilitaria.com/shop.php?code=51879 (site: MINDEN_MILITARIA)
+2025-06-03 13:44:38,650 - WARNING - ❌ No site profile found for MINDEN_MILITARIA. Skipping.
+2025-06-03 13:44:38,650 - INFO - 
+🔍 Processing product URL: https://chasemilitaria.com/shop.php?code=3090 (site: CHASE_MILITARIA)
+2025-06-03 13:44:38,651 - WARNING - ❌ No site profile found for CHASE_MILITARIA. Skipping.
+2025-06-03 13:44:38,651 - INFO - 
+🔍 Processing product URL: https://arnhem44.com/shop.php?code=50906 (site: ARNHEM44)
+2025-06-03 13:44:38,651 - WARNING - ❌ No site profile found for ARNHEM44. Skipping.
+2025-06-03 13:44:38,651 - INFO - 
+🔍 Processing product URL: https://stewartsmilitaryantiques.com/us-wwi-trench-periscope.57888.archive.htm (site: STEWARTS_MILITARIA)
+2025-06-03 13:44:38,651 - WARNING - ❌ No site profile found for STEWARTS_MILITARIA. Skipping.
+2025-06-03 13:44:38,651 - INFO - 
+🔍 Processing product URL: https://militariaplaza.nl//new/wh-heer-award-documents-5-detail (site: MILITARIA_PLAZA)
+2025-06-03 13:44:38,651 - WARNING - ❌ No site profile found for MILITARIA_PLAZA. Skipping.
+2025-06-03 13:44:38,651 - INFO - 
+🔍 Processing product URL: https://mindenmilitaria.com/shop.php?code=52896 (site: MINDEN_MILITARIA)
+2025-06-03 13:44:38,652 - WARNING - ❌ No site profile found for MINDEN_MILITARIA. Skipping.

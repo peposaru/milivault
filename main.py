@@ -35,6 +35,7 @@ def main():
     # Prepare environment
     setup_user_path(user_settings)
     managers = setup_object_managers(user_settings)
+    managers["user_settings"] = user_settings 
     if not managers:
         logging.error("Error setting up object managers.")
         exit()
@@ -49,16 +50,9 @@ def main():
 
     # DATA INTEGRITY MODE
     if run_mode == "data_integrity":
-        rds = managers.get("rdsManager")
-        s3 = managers.get("s3_manager")
-
-        if not rds or not s3:
-            logging.error("❌ Missing RDS or S3 manager — cannot run data integrity mode.")
-            return
-
-        integrity_manager = DataIntegrityManager(rds, s3)
+        integrity_manager = DataIntegrityManager(managers)
         integrity_manager.run_submenu()
-        return  # Exit cleanly after running
+        return 
 
     try:
         jsonData = json_manager.compile_json_profiles(user_settings["selectorJsonFolder"])
