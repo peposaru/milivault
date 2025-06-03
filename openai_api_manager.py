@@ -93,7 +93,8 @@ Description: "{description}"
                 model=self.model,
                 messages=messages,
                 tools=tools,
-                tool_choice="auto"
+                tool_choice="auto",
+                temperature=0,
             )
 
             args = response.choices[0].message.tool_calls[0].function.arguments
@@ -146,23 +147,28 @@ Description: "{description}"
             ]
 
             messages = [
-                {
-                    "role": "user",
-                    "content": f"""This item was classified as '{main_item_type}'.
+    {
+        "role": "system",
+        "content": f"You are a militaria classification assistant. Based on the title and description, choose the best subcategory for '{main_item_type}' from the provided enum."
+    },
+    {
+        "role": "user",
+        "content": f"""This item was classified as '{main_item_type}'.
 
-    Now choose the most appropriate subcategory from the list.
+Now choose the most appropriate subcategory from the list below:
 
-    Title: "{title}"
-    Description: "{description}"
-    """
-                }
-            ]
+Title: "{title}"
+Description: "{description}"
+"""
+    }
+]
 
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
                 tools=tools,
-                tool_choice="auto"
+                tool_choice="auto",
+                temperature=0
             )
 
             args = response.choices[0].message.tool_calls[0].function.arguments

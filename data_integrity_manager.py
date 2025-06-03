@@ -30,7 +30,6 @@ class DataIntegrityManager:
             tool = ImageRecoveryProcessor(self.managers)
             tool.recover_images()
         elif choice == "2":
-            from data_integrity_manager import ThumbnailGenerator  # optional if same file
             tool = ThumbnailGenerator(self.db, self.s3_client)
             tool.generate()
         else:
