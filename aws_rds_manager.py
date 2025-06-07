@@ -5,9 +5,10 @@ from datetime import datetime, timezone
 
 class AwsRdsManager:
     def __init__(self, credentials_file, min_connections=5, max_connections=10):
-        """
-        Initialize a PostgreSQL connection pool using credentials from a file.
-        """
+        """Initialize a PostgreSQL connection pool using credentials from a file."""
+        self.credentials_file = credentials_file
+        self.min_connections = min_connections
+        self.max_connections = max_connections
         self._initialize_connection_pool(credentials_file, min_connections, max_connections)
 
     def _initialize_connection_pool(self, credentials_file, min_connections, max_connections):
@@ -385,10 +386,14 @@ class AwsRdsManager:
             return 0
         
     def reconnect(self):
-        import psycopg2
+        """Reinitialize the connection pool using the stored credentials."""
         try:
-            self.conn.close()
+            self.connection_pool.closeall()
         except Exception:
             pass
-        self.conn = psycopg2.connect(**self.connection_params)
+        self._initialize_connection_pool(
+            self.credentials_file,
+            self.min_connections,
+            self.max_connections,
+        )
         logging.info("RDS MANAGER: Reconnected to PostgreSQL.")

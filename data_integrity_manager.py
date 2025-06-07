@@ -314,7 +314,7 @@ class ImageRecoveryProcessor:
             logging.info(f"⏳ Estimated time to complete: {estimated_minutes:.1f} minutes assuming full batches.")
 
             query = f"""
-            SELECT url, site
+            SELECT url, site, id
             FROM militaria
             WHERE (
                 original_image_urls IS NULL OR original_image_urls = '[]'
@@ -330,7 +330,7 @@ class ImageRecoveryProcessor:
 
             used_sites = set()
 
-            for url, site in records:
+            for url, site, product_id in records:
                 if site in used_sites:
                     logging.info(f"⚠️ Skipping {site}: already processed in this batch.")
                     continue
@@ -369,7 +369,7 @@ class ImageRecoveryProcessor:
 
                     logging.info(f"🖼️ Extracted {len(image_urls)} image(s) for {url}. Uploading...")
 
-                    s3_urls = self.s3.upload_images_for_product(None, image_urls, site, url, self.rds_manager)
+                    s3_urls = self.s3.upload_images_for_product(product_id, image_urls, site, url, self.rds_manager)
 
                     if s3_urls:
                         update_query = """

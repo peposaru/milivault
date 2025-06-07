@@ -127,7 +127,7 @@ class S3Manager:
         return uploaded_image_urls
 
 
-    def should_skip_image_upload(self, product_url):
+    def should_skip_image_upload(self, product_url, rds_manager):
         # Checking if product needs an image upload.
         try:
             query = """
@@ -135,7 +135,7 @@ class S3Manager:
             FROM militaria 
             WHERE url = %s;
             """
-            result = self.sqlFetch(query, (product_url,))
+            result = rds_manager.fetch(query, (product_url,))
             if result:
                 original_image_urls, s3_image_urls = result[0]
                 if original_image_urls and s3_image_urls and len(original_image_urls) == len(s3_image_urls):

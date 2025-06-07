@@ -6,7 +6,7 @@ from datetime import datetime
 from collections import defaultdict
 
 """This program is a redesign of the availability tracker to be much leaner.
-    I realize that we need the availability and the url for the availbility check.
+    I realize that we need the availability and the url for the availability check.
     Make a list of sold items and 
 
 """
