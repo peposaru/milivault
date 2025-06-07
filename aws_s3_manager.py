@@ -8,6 +8,8 @@ from PIL import Image
 from io import BytesIO
 import requests
 import random 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import os
 
 class S3Manager:
     def __init__(self, credentials_file):
@@ -61,45 +63,61 @@ class S3Manager:
             logging.error(f"Error uploading image to S3: {e}")
 
 
-    def upload_images_for_product(self, product_id, image_urls, site_name, product_url,rds_manager):
+    def upload_images_for_product(self, product_id, image_urls, site_name, product_url, rds_manager, max_workers=4):
         region = "ap-southeast-2"
-        uploaded_image_urls = []
         start_time = time.time()
+        uploaded_image_results = []
 
-        for idx, image_url in enumerate(image_urls, start=1):
-            parsed_url = urlparse(image_url)
-            extension = parsed_url.path.split('.')[-1].split('?')[0]
-            object_name = f"{site_name}/{product_id}/{product_id}-{idx}.{extension}"
-
-            if self.object_exists(object_name):
-                logging.info(f"Skipping upload for {object_name}, already exists in S3.")
-                uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
-                continue
-
-            USER_AGENTS = [
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                "Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/117.0",
-            ]
-
+        def upload_one(idx, image_url):
             try:
+                parsed_url = urlparse(image_url)
+                _, extension = os.path.splitext(parsed_url.path)
+                extension = extension.lstrip(".").lower() or "jpg"  # fallback to jpg if missing
+                object_name = f"{site_name}/{product_id}/{product_id}-{idx}.{extension}"
+
+                if self.object_exists(object_name):
+                    logging.info(f"Skipping upload for {object_name}, already exists in S3.")
+                    return (idx, f"s3://{self.bucket_name}/{object_name}")
+
+                USER_AGENTS = [
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/117.0",
+                ]
+
                 headers = {"User-Agent": random.choice(USER_AGENTS)}
-                logging.debug(f"Fetching image: {image_url}")
                 response = requests.get(image_url, headers=headers, stream=True, timeout=10)
                 response.raise_for_status()
-
                 self.s3.upload_fileobj(response.raw, self.bucket_name, object_name)
-                uploaded_image_urls.append(f"s3://{self.bucket_name}/{object_name}")
                 logging.info(f"Uploaded to S3: {object_name}")
+                return (idx, f"s3://{self.bucket_name}/{object_name}")
             except Exception as e:
                 logging.error(f"Error uploading image {image_url}: {e}")
+                return (idx, None)
+
+        # --- Parallelize downloads/uploads per product ---
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = [
+                executor.submit(upload_one, idx, image_url)
+                for idx, image_url in enumerate(image_urls, start=1)
+            ]
+            for future in as_completed(futures):
+                result = future.result()
+                uploaded_image_results.append(result)
+
+        # Restore order to match input image_urls
+        uploaded_image_results.sort()
+        uploaded_image_urls = [url for idx, url in uploaded_image_results if url]
 
         elapsed = round(time.time() - start_time, 2)
         logging.info(f"S3Manager: Uploaded {len(uploaded_image_urls)} images for {product_id} in {elapsed} sec")
 
-        time.sleep(3)
+        # Short randomized sleep for politeness
+        sleep_time = random.uniform(1.0, 2.5)
+        logging.info(f"Sleeping {sleep_time:.2f} seconds before next product.")
+        time.sleep(sleep_time)
 
         # ✅ Generate thumbnail from first uploaded image
         if uploaded_image_urls:
