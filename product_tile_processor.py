@@ -63,7 +63,8 @@ class TileProcessor:
                     "url"      : clean_product_tile_url,
                     "title"    : clean_product_tile_title,
                     "price"    : clean_product_tile_price,
-                    "available": clean_product_tile_available
+                    "available": clean_product_tile_available,
+                    "site"     : self.site_profile.get("site")
                 }
 
                 logging.info(

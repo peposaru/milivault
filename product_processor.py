@@ -47,9 +47,18 @@ class ProductTileDictProcessor:
         ignored_update_count = 0       # Count products with no updates required
 
         for tile_product_dict in tile_product_data_list:
+            # Always reset these at the start!
+            db_title = None
+            db_price = None
+            db_available = None
+            db_description = None
+            db_price_history = None
+            db_present = None
+
             try:
-                url       = tile_product_dict['url']            
+                url       = tile_product_dict['url']  
                 title     = tile_product_dict['title']
+                print (f"PRODUCT PROCESSOR: Processing tile product title: {title}")
                 price     = tile_product_dict['price']
                 available = tile_product_dict['available']
             except Exception as e:
@@ -59,19 +68,18 @@ class ProductTileDictProcessor:
             product_category = "Processing Required"
             reason = "New product or mismatched details"
 
+            # Layered deduplication: URL → extracted_id → image → (title, price)
             db_row = None
             if self.use_comparison_row:
                 try:
-                    result = self.rds_manager.fetch(
-                        "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s",
-                        (url,)
-                    )
-                    if result:
-                        db_row = (*result[0], True)
+                    db_row = find_existing_db_row(tile_product_dict, self.site_profile, self.rds_manager)
+                    if db_row:
+                        db_row = (*db_row, True)
                 except Exception as e:
-                    logging.error(f"PRODUCT PROCESSOR: DB lookup failed for URL {url}: {e}")
+                    logging.error(f"PRODUCT PROCESSOR: DB deduplication lookup failed for product: {e}")
                     continue
 
+            # If the database already has this product, compare the details
             if db_row:
                 try:
                     db_title, db_price, db_available, db_description, db_price_history, db_present = db_row
@@ -79,8 +87,14 @@ class ProductTileDictProcessor:
                     logging.error(f"PRODUCT PROCESSOR: Error unpacking db_row for URL {url}: {e}")
                     continue
 
-                # Determine price match logic
-                if db_available == False and available == False and self.is_empty_price(price):
+                # Early skip if both are sold/unavailable and at least one price is zero/empty/null
+                if db_available is False and available is False and (self.is_empty_price(db_price) or self.is_empty_price(price)):
+                    logging.info(f"SKIP: Already sold and price is blank/zero for at least one → URL: {url}")
+                    ignored_update_count += 1
+                    continue
+
+                # Price match logic
+                if db_available is False and available is False and (self.is_empty_price(db_price) or self.is_empty_price(price)):
                     price_match = True
                     logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
                 elif self.is_empty_price(db_price) and not self.is_empty_price(price):
@@ -91,13 +105,19 @@ class ProductTileDictProcessor:
                     price_match = True
                     logging.debug(f"PRODUCT PROCESSOR: [IGNORE] Tile price is 0 but DB still has value → DB={db_price}, TILE={price}")
                 else:
-                    try:
-                        price_match = float(db_price) == float(price)
-                        if not price_match:
-                            logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
-                    except (TypeError, ValueError):
-                        price_match = False
-                        logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
+                    if self.is_empty_price(db_price) and self.is_empty_price(price):
+                        price_match = True
+                        logging.debug(f"PRODUCT PROCESSOR: [MATCH] Both prices empty/zero/None: DB={db_price}, TILE={price}")
+                    else:
+                        try:
+                            price_match = float(db_price) == float(price)
+                            if not price_match:
+                                logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
+                        except (TypeError, ValueError):
+                            price_match = False
+                            logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
+
+
 
                 # Compare cleaned titles
                 title_cleaned = CleanData.clean_title(title)
@@ -148,18 +168,23 @@ class ProductTileDictProcessor:
                 """
             )
 
-        logging.info(f'PRODUCT PROCESSOR: Products needing full processing  : {len(processing_required_list)}')
+        logging.info(f'PRODUCT PROCESSOR: Products needing full processing     : {len(processing_required_list)}')
         logging.info(f'PRODUCT PROCESSOR: Products needing availability updates: {len(availability_update_list)}')
-        logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed): {ignored_update_count}')
+        logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed) : {ignored_update_count}')
 
         return processing_required_list, availability_update_list
 
 
-
-
     def is_empty_price(self, value):
-        """Check if a price is empty (None, 0, 0.0, or an empty string)."""
-        return value is None or value == 0 or value == 0.0 or value == ""
+        """Return True if the price is None, 0, 0.0, '', '0', '0.0', Decimal('0'), Decimal('0.0'), or only whitespace."""
+        if value is None:
+            return True
+        if isinstance(value, str):
+            return value.strip() in ("", "0", "0.0")
+        try:
+            return float(value) == 0.0
+        except (TypeError, ValueError):
+            return False
 
     def process_availability_update_list(self, availability_update_list):
         for product in availability_update_list:
@@ -1190,3 +1215,92 @@ class ProductDetailsProcessor:
         elif isinstance(config, dict):
             return extractor_func(soup)
         return None
+
+# Below are the functions that handle finding existing rows in the database and deduplication logic.
+def find_existing_db_row(product, site_profile, rds_manager):
+    """
+    Deduplication order:
+    1. Exact URL match
+    2. extracted_id + title + site match
+    3. First image URL + site match (optional/weak)
+    4. site + title + description match
+    Returns the matching row (tuple) or None.
+    """
+    url = product.get("url")
+    site = site_profile.get("source_name")
+    extracted_id = product.get("extracted_id")
+    title = product.get("title")
+    description = product.get("description")
+    image_urls = product.get("original_image_urls") or []
+
+    # 1. Exact URL match
+    if url:
+        row = rds_manager.fetch(
+            "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1", 
+            (url,))
+        if row:
+            logging.info(f"DEDUPLICATION: Matched by URL: {url}")
+            return row[0]
+
+    # 2. extracted_id + title + site match
+    if extracted_id and title and site:
+        row = rds_manager.fetch(
+            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND extracted_id = %s AND title = %s LIMIT 1",
+            (site, extracted_id, title))
+        if row:
+            logging.info(f"DEDUPLICATION: Matched by extracted_id+title+site: {site}, {extracted_id}, {title}")
+            return row[0]
+
+    # 3. First image (weak signal)
+    def safe_first_real_image(image_urls):
+        if not image_urls or not isinstance(image_urls, (list, tuple)):
+            return None
+        for url in image_urls:
+            if url and isinstance(url, str) and url.strip().lower() not in {"", "none", "null", "nan"} and not is_placeholder_image(url):
+                return url
+        return None
+
+    def is_placeholder_image(url):
+        placeholders = {"default.jpg", "placeholder.jpg", "help.png", "no-image.png"}
+        return any(placeholder in (url or "").lower() for placeholder in placeholders)
+
+    first_img = safe_first_real_image(image_urls)
+    if first_img and site:
+        row = rds_manager.fetch(
+            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND original_image_urls::text LIKE %s LIMIT 1",
+            (site, f"%{first_img}%"))
+        if row:
+            logging.info(f"DEDUPLICATION: Matched by image: {site}, {first_img}")
+            return row[0]
+
+    # 4. site + title + description (very strong)
+    if site and title and description:
+        row = rds_manager.fetch(
+            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s AND description = %s LIMIT 1",
+            (site, title, description))
+        if row:
+            logging.info(f"DEDUPLICATION: Matched by site+title+description: {site}, {title}")
+            return row[0]
+
+    logging.debug(f"DEDUPLICATION: No match found for Site={site}, URL={url}, ID={extracted_id}, Title={title}")
+    return None
+
+
+
+def is_placeholder_image(url):
+    """
+    Returns True if image URL is a known placeholder or dummy image.
+    """
+    placeholders = {"default.jpg", "placeholder.jpg", "help.png", "no-image.png"}
+    return any(placeholder in (url or "").lower() for placeholder in placeholders)
+
+def safe_first_real_image(image_urls):
+    """
+    Returns the first non-placeholder, non-empty, non-None image URL from the list, or None if none found.
+    """
+    if not image_urls or not isinstance(image_urls, (list, tuple)):
+        return None
+    for url in image_urls:
+        if url and isinstance(url, str) and url.strip().lower() not in {"", "none", "null", "nan"} and not is_placeholder_image(url):
+            return url
+    return None

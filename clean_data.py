@@ -4,43 +4,30 @@ import html
 import logging
 from price_parser import Price
 from bs4 import BeautifulSoup
-
+from urllib.parse import urlparse, urlunparse
 
 class CleanData:
     @staticmethod
     def clean_url(url):
         """
-        Cleans and validates a URL.
-
-        Args:
-            url (str): The URL to clean.
-
-        Returns:
-            str: The cleaned and validated URL.
-        Raises:
-            ValueError: If the URL is invalid.
+        Minimal cleaning:
+        - Strip leading/trailing whitespace.
+        - Validate input is a string and non-empty.
+        - Does NOT alter slashes or any internal part of the URL.
         """
-
         if not isinstance(url, str):
             logging.error("CLEAN URL: Input is not a string.")
             raise ValueError("URL must be a string.")
 
         url = url.strip()
-        logging.debug(f"CLEAN URL: Stripped URL → {url}")
+        if not url:
+            logging.error("CLEAN URL: Input is empty after strip.")
+            raise ValueError("URL is empty after cleaning.")
 
-        url_pattern = re.compile(
-            r"^(https?://)"          # http or https
-            r"([a-zA-Z0-9.-]+)"      # Domain
-            r"(\.[a-zA-Z]{2,})"      # Top-level domain
-            r"(:[0-9]+)?(/.*)?$"     # Optional port and path
-        )
-
-        if not url_pattern.match(url):
-            logging.warning(f"CLEAN URL: Failed to match pattern → {url}")
-            raise ValueError(f"Invalid URL format: {url}")
-
-        logging.debug(f"CLEAN URL: Validated URL → {url}")
+        logging.debug(f"CLEAN URL: Cleaned URL → {url}")
         return url
+
+
     
 
     @staticmethod

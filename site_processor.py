@@ -155,7 +155,7 @@ class SiteProcessor:
                 self.counter.add_current_page_count(
                     count=site_profile.get("access_config", {}).get("page_increment_step", 1)
                 )
-                logging.info(f"SITE PROCESSOR: Moved to next page: {self.counter.get_current_page_count()}")
+                logging.info(f"----------------------SITE PROCESSOR: MOVING TO PAGE: {self.counter.get_current_page_count()}----------------------")
             except Exception as e:
                 logging.error(f'SITE PROCESSOR: Failed to add to page count.')
 

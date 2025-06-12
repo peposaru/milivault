@@ -6,31 +6,50 @@ from requests.exceptions import RequestException, Timeout
 
 
 class HtmlManager:
-    def __init__(self, user_agent=None, retries=3, backoff_factor=2, timeout=20):
-        #Initialize the HtmlManager with default headers and session.
+    def __init__(self, user_agent=None, retries=3, backoff_factor=2, timeout=20, cookies=None):
         self.headers = {
-            "User-Agent": user_agent or "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            "User-Agent": user_agent or (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/125.0.0.0 Safari/537.36"
+            ),
+            "Accept": (
+                "text/html,application/xhtml+xml,application/xml;"
+                "q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+            ),
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-Fetch-Site": "none",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-User": "?1",
+            "Sec-Fetch-Dest": "document",
+            "Referer": "https://www.google.com/"
         }
         self.session = requests.Session()
         self.retries = retries
         self.backoff_factor = backoff_factor
         self.timeout = timeout
+        if cookies:
+            for name, value in cookies.items():
+                self.session.cookies.set(name, value)
+
 
     def fetch_url(self, url):
-        # Fetch a URL with retry and backoff logic.
         for attempt in range(self.retries):
             try:
                 response = self.session.get(url, headers=self.headers, timeout=self.timeout)
                 response.raise_for_status()
+                # Set encoding
+                if not response.encoding or response.encoding.lower() == 'utf-8':
+                    response.encoding = response.apparent_encoding
                 return response
             except Timeout:
                 logging.warning(f"HTML MGR: Timeout occurred while accessing {url}. Retrying...")
             except RequestException as e:
                 logging.error(f"HTML MGR: Error occurred while accessing {url} (Attempt {attempt + 1}/{self.retries}): {e}")
-            
-            # Exponential backoff
             time.sleep(self.backoff_factor ** attempt)
-        
         logging.error(f"HTML MGR: Failed to fetch {url} after {self.retries} attempts.")
         return None
 
