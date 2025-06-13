@@ -18,7 +18,6 @@ class HtmlManager:
                 "q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
             ),
             "Accept-Language": "en-US,en;q=0.9",
-            "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
             "Upgrade-Insecure-Requests": "1",
             "Sec-Fetch-Site": "none",
@@ -42,8 +41,8 @@ class HtmlManager:
                 response = self.session.get(url, headers=self.headers, timeout=self.timeout)
                 response.raise_for_status()
                 # Set encoding
-                if not response.encoding or response.encoding.lower() == 'utf-8':
-                    response.encoding = response.apparent_encoding
+                #if not response.encoding or response.encoding.lower() == 'utf-8':
+                 #   response.encoding = response.apparent_encoding
                 return response
             except Timeout:
                 logging.warning(f"HTML MGR: Timeout occurred while accessing {url}. Retrying...")

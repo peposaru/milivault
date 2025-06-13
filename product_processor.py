@@ -47,6 +47,7 @@ class ProductTileDictProcessor:
         ignored_update_count = 0       # Count products with no updates required
 
         for tile_product_dict in tile_product_data_list:
+
             # Always reset these at the start!
             db_title = None
             db_price = None
@@ -58,7 +59,6 @@ class ProductTileDictProcessor:
             try:
                 url       = tile_product_dict['url']  
                 title     = tile_product_dict['title']
-                print (f"PRODUCT PROCESSOR: Processing tile product title: {title}")
                 price     = tile_product_dict['price']
                 available = tile_product_dict['available']
             except Exception as e:
@@ -239,10 +239,7 @@ class ProductDetailsProcessor:
 
     def product_details_processor_main(self, processing_required_list):
         """
-        Process product details for new and old products, adding debugging information.
-
-        Args:
-            processing_required_list (list): List of products needing processing.
+        Process product details for new and old products, using robust detail-level deduplication.
         """
         logging.debug(f"PRODUCT PROCESSOR: Processing required list count: {len(processing_required_list)}")
 
@@ -254,7 +251,7 @@ class ProductDetailsProcessor:
     **************************************************""")
             logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
 
-            # Step 1: Query availability and price in one go
+            # Step 1: (Optional) Quick availability/price check for skipping unchanged sold items
             try:
                 result = self.rds_manager.fetch(
                     "SELECT available, price FROM militaria WHERE url = %s LIMIT 1", (product_url,)
@@ -266,16 +263,17 @@ class ProductDetailsProcessor:
                 db_present = False
                 db_available = db_price = None
 
-            # ✅ Skip early if product is sold in DB and likely unchanged
+            # ✅ Early skip: If sold in DB and still sold on site, skip reprocessing
             if db_present and db_available is False:
-                logging.debug(f"PRODUCT PROCESSOR: Fast check — item is sold in DB, validating if still sold on site...")
-                
-                # Use tile-level availability check to confirm it is *still* sold
+                logging.debug("PRODUCT PROCESSOR: Fast check — item is sold in DB, validating if still sold on site...")
                 site_thinks_sold = not product.get("available", True)
-
-                if site_thinks_sold:
-                    logging.info(f"PRODUCT PROCESSOR: Skipping sold product (still sold): {product_url}")
+                # --- If the tile price is different from the DB, force further processing ---
+                price_changed = "price" in product and product["price"] not in (None, "", "None", 0.0) and float(product["price"]) != float(db_price)
+                if site_thinks_sold and not price_changed:
+                    logging.info(f"PRODUCT PROCESSOR: Skipping sold product (still sold, price unchanged): {product_url}")
                     continue
+                if site_thinks_sold and price_changed:
+                    logging.info(f"PRODUCT PROCESSOR: Sold product {product_url} has price change (DB: {db_price}, tile: {product['price']}) — will process for price history.")
 
             # ✅ Step 2: Load product HTML
             try:
@@ -319,26 +317,53 @@ class ProductDetailsProcessor:
 
             # ✅ Step 5: Final availability check — skip if sold & still sold
             if db_available is False and clean_details_data.get("available") is False:
-                logging.info(f"PRODUCT PROCESSOR: Skipping reprocessing of unchanged sold product: {product_url}")
-                continue
+                # If price is different, DO NOT SKIP — update for price history!
+                price_changed = (db_price != clean_details_data.get("price"))
+                if not price_changed:
+                    logging.info(f"PRODUCT PROCESSOR: Skipping reprocessing of unchanged sold product: {product_url}")
+                    continue
+                else:
+                    logging.info(
+                        f"PRODUCT PROCESSOR: Sold product {product_url} has price change (DB: {db_price}, tile: {clean_details_data.get('price')}) — will process for price history."
+                    )
 
-            # ✅ Step 6: Choose new vs old handling
-            if not db_present or product.get("force_new_upload"):
-                logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as new.")
+            # ✅ Step 6: Robust detail-level deduplication (NEW LOGIC)
+            matched_id, db_row_details = find_existing_db_row_details(clean_details_data, self.site_profile, self.rds_manager)
+
+            if matched_id:
+                logging.debug(f"PRODUCT PROCESSOR: Detail dedup found old product for {product_url}.")
+
+                # Build readable comparison
+                compare_fields = [
+                    ("title", clean_details_data.get("title"), db_row_details[1]),
+                    ("price", clean_details_data.get("price"), db_row_details[2]),
+                    ("available", clean_details_data.get("available"), db_row_details[3]),
+                    ("description", clean_details_data.get("description"), db_row_details[4]),
+                    ("price_history", clean_details_data.get("price_history"), db_row_details[5] if len(db_row_details) > 5 else None),
+                ]
+                log_lines = ["\n--- PRODUCT DETAIL DEDUPLICATION: Side-by-side comparison ---"]
+                log_lines.append(f"URL: {product_url}")
+                log_lines.append("{:<15} | {:<35} | {:<35}".format("Field", "INCOMING", "DB VALUE"))
+                log_lines.append("-" * 90)
+                for field, incoming, dbval in compare_fields:
+                    log_lines.append("{:<15} | {:<35} | {:<35}".format(str(field), str(incoming), str(dbval)))
+                log_lines.append("-" * 90)
+                logging.info("\n".join(log_lines))
+
+                self.counter.add_old_product_count()
+                try:
+                    self.old_product_processor(clean_details_data, matched_id)
+                    logging.info(f"PRODUCT PROCESSOR: Old product processed successfully: {product_url}")
+                except Exception as e:
+                    logging.error(f"PRODUCT PROCESSOR: Error processing old product {product_url}: {e}")
+            else:
+                logging.debug(f"PRODUCT PROCESSOR: Detail dedup found NEW product for {product_url}.")
                 self.counter.add_new_product_count()
                 try:
                     self.new_product_processor(clean_details_data, details_data)
                     logging.info(f"PRODUCT PROCESSOR: New product processed successfully: {product_url}")
                 except Exception as e:
                     logging.error(f"PRODUCT PROCESSOR: Error processing new product {product_url}: {e}")
-            else:
-                logging.debug(f"PRODUCT PROCESSOR: Product URL {product_url} identified as old.")
-                self.counter.add_old_product_count()
-                try:
-                    self.old_product_processor(clean_details_data)
-                    logging.info(f"PRODUCT PROCESSOR: Old product processed successfully: {product_url}")
-                except Exception as e:
-                    logging.error(f"PRODUCT PROCESSOR: Error processing old product {product_url}: {e}")
 
         logging.debug(f"PRODUCT PROCESSOR: Processing completed for {len(processing_required_list)} products.")
 
@@ -464,28 +489,26 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to update s3_image_urls for product ID {db_id}: {e}")
             return
+        
 
-
-
-    def old_product_processor(self, clean_details_data):
+    def old_product_processor(self, clean_details_data, matched_id):
         """
         Process existing products to compare and update changes in the database.
-
         Args:
             clean_details_data (dict): The cleaned product details to compare and update.
+            matched_id (int): The unique DB id of the matched product.
         """
-        url = clean_details_data.get('url')
         now = datetime.now().isoformat()
         now_utc = datetime.now(timezone.utc).isoformat()
 
         try:
-            # Fetch existing DB values (you may want to include original_image_urls here too)
+            # Fetch existing DB values by id, not url
             result = self.rds_manager.fetch(
-                "SELECT title, price, available, description, price_history, original_image_urls FROM militaria WHERE url = %s",
-                (url,)
+                "SELECT title, price, available, description, price_history, original_image_urls FROM militaria WHERE id = %s",
+                (matched_id,)
             )
             if not result:
-                logging.warning(f"PRODUCT PROCESSOR: Old product not found in DB, skipping → {url}")
+                logging.warning(f"PRODUCT PROCESSOR: Old product not found in DB, skipping (id={matched_id})")
                 return
 
             db_title, db_price, db_available, db_description, db_price_history, db_image_urls = result[0]
@@ -503,23 +526,32 @@ class ProductDetailsProcessor:
                 only_availability_changed = False
 
             # Update price
-            if clean_details_data.get('price') is not None and clean_details_data['price'] != db_price:
-                if clean_details_data['price'] == 0.0 and db_price not in (None, 0.0):
-                    logging.info(f"PRODUCT PROCESSOR: Skipping price update for {url}, keeping {db_price}")
-                else:
-                    updates['price'] = clean_details_data['price']
+            incoming_price = clean_details_data.get('price')
+            old_price = db_price
+
+            def is_valid_price(val):
+                try:
+                    return val is not None and float(val) != 0.0 and str(val).strip() != ""
+                except Exception:
+                    return False
+
+            if is_valid_price(incoming_price) and float(incoming_price) != float(old_price):
+                updates['price'] = float(incoming_price)
+                # Only log old price if it was valid and nonzero
+                if is_valid_price(old_price):
                     try:
                         price_history = json.loads(db_price_history) if isinstance(db_price_history, str) else db_price_history or []
-                    except:
+                    except Exception:
                         price_history = []
-
                     price_history.append({
-                        "price": float(db_price) if db_price is not None else None,
+                        "price": float(old_price),
                         "date": now
                     })
                     updates['price_history'] = json.dumps(price_history)
+                only_availability_changed = False
+            elif not is_valid_price(incoming_price):
+                logging.info(f"PRODUCT PROCESSOR: Skipping price update for id={matched_id}, incoming price is not valid: {incoming_price}")
 
-                    only_availability_changed = False
 
             # Update availability
             if clean_details_data.get('available') != db_available:
@@ -536,12 +568,12 @@ class ProductDetailsProcessor:
                         date_sold = %s,
                         date_modified = %s,
                         last_seen = %s
-                    WHERE url = %s;
+                    WHERE id = %s;
                     """
                     self.rds_manager.execute(update_query, (
-                        new_availability, updates['date_sold'], now_utc, now_utc, url
+                        new_availability, updates['date_sold'], now_utc, now_utc, matched_id
                     ))
-                    logging.info(f"PRODUCT PROCESSOR: Availability-only update completed for {url}")
+                    logging.info(f"PRODUCT PROCESSOR: Availability-only update completed for id={matched_id}")
                     return
 
             # Update original image URLs — only if changed
@@ -555,7 +587,7 @@ class ProductDetailsProcessor:
                 if new_images != current_images:
                     updates['original_image_urls'] = json.dumps(new_images)
                     only_availability_changed = False
-                    logging.info(f"PRODUCT PROCESSOR: Image URLs changed for {url}")
+                    logging.info(f"PRODUCT PROCESSOR: Image URLs changed for id={matched_id}")
 
             # Update remaining fields if different
             for field in [
@@ -570,19 +602,19 @@ class ProductDetailsProcessor:
 
             # ✅ Skip unnecessary DB update if nothing changed
             if not updates:
-                logging.info(f"PRODUCT PROCESSOR: No changes detected — skipping update for {url}")
+                logging.info(f"PRODUCT PROCESSOR: No changes detected — skipping update for id={matched_id}")
                 return
 
             # Finalize update
             updates['date_modified'] = now_utc
             updates['last_seen'] = now_utc
             set_clause = ', '.join(f"{key} = %s" for key in updates)
-            query = f"UPDATE militaria SET {set_clause} WHERE url = %s"
-            self.rds_manager.execute(query, list(updates.values()) + [url])
-            logging.info(f"PRODUCT PROCESSOR: Successfully updated old product {url}")
+            query = f"UPDATE militaria SET {set_clause} WHERE id = %s"
+            self.rds_manager.execute(query, list(updates.values()) + [matched_id])
+            logging.info(f"PRODUCT PROCESSOR: Successfully updated old product id={matched_id}")
 
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error processing old product {url}: {e}")
+            logging.error(f"PRODUCT PROCESSOR: Error processing old product id={matched_id}: {e}")
 
 
 
@@ -1216,91 +1248,114 @@ class ProductDetailsProcessor:
             return extractor_func(soup)
         return None
 
-# Below are the functions that handle finding existing rows in the database and deduplication logic.
+# Product Tile Deduplication Logic
 def find_existing_db_row(product, site_profile, rds_manager):
     """
-    Deduplication order:
-    1. Exact URL match
-    2. extracted_id + title + site match
-    3. First image URL + site match (optional/weak)
-    4. site + title + description match
-    Returns the matching row (tuple) or None.
+    Tile-level deduplication:
+    1. Exact URL match (highest confidence)
+    2. site + title match (fallback; not 100% reliable, but best available)
+    Returns: First matching DB row as (title, price, available, description, price_history) tuple, or None if not found.
     """
+    # --- Normalize/clean tile fields ---
     url = product.get("url")
-    site = site_profile.get("source_name")
-    extracted_id = product.get("extracted_id")
-    title = product.get("title")
-    description = product.get("description")
-    image_urls = product.get("original_image_urls") or []
+    url = CleanData.clean_url(url) if url else None
 
-    # 1. Exact URL match
+    site = site_profile.get("source_name")
+    title = product.get("title")
+    title = CleanData.clean_title(title) if title else None
+
+    logging.debug(f"DEDUP: Checking site={site!r}, url={url!r}, title={title!r}")
+
+    # --- 1. Exact URL match ---
     if url:
         row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1", 
+            "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1",
             (url,))
         if row:
             logging.info(f"DEDUPLICATION: Matched by URL: {url}")
             return row[0]
 
-    # 2. extracted_id + title + site match
-    if extracted_id and title and site:
+    # --- 2. site + title match (fallback) ---
+    if site and title:
         row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND extracted_id = %s AND title = %s LIMIT 1",
-            (site, extracted_id, title))
+            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s LIMIT 1",
+            (site, title))
         if row:
-            logging.info(f"DEDUPLICATION: Matched by extracted_id+title+site: {site}, {extracted_id}, {title}")
+            logging.info(f"DEDUPLICATION: Matched by site+title: {site}, {title}")
             return row[0]
 
-    # 3. First image (weak signal)
-    def safe_first_real_image(image_urls):
-        if not image_urls or not isinstance(image_urls, (list, tuple)):
-            return None
-        for url in image_urls:
-            if url and isinstance(url, str) and url.strip().lower() not in {"", "none", "null", "nan"} and not is_placeholder_image(url):
-                return url
-        return None
+    logging.debug(f"DEDUPLICATION: No match found (site={site!r}, url={url!r}, title={title!r})")
+    return None
 
-    def is_placeholder_image(url):
-        placeholders = {"default.jpg", "placeholder.jpg", "help.png", "no-image.png"}
-        return any(placeholder in (url or "").lower() for placeholder in placeholders)
+# Product Details Deduplication Logic
+def find_existing_db_row_details(product, site_profile, rds_manager):
+    """
+    Detail-level deduplication:
+    1. Exact URL match (highest confidence)
+    2. site + first original image URL match (using JSONB; strong and reliable)
+    3. site + extracted_id + title match (very strong, especially for sites with SKUs)
+    4. site + title + description match (fallback; unique for most militaria)
+    Returns: (matched_id, db_row_tuple) or (None, None) if not found.
+    """
+    url = product.get("url")
+    url = CleanData.clean_url(url) if url else None
 
-    first_img = safe_first_real_image(image_urls)
-    if first_img and site:
+    site = site_profile.get("source_name")
+    title = CleanData.clean_title(product.get("title") or "")
+    description = CleanData.clean_description(product.get("description") or "")
+    extracted_id = CleanData.clean_extracted_id(product.get("extracted_id") or "")
+    image_urls = product.get("original_image_urls") or []
+
+    # Get the first real image URL (skip placeholders)
+    first_img = None
+    for img_url in image_urls:
+        if img_url and "placeholder" not in img_url.lower():
+            first_img = img_url
+            break
+
+    logging.debug(f"DETAIL DEDUP: Checking site={site!r}, url={url!r}, first_img={first_img!r}, extracted_id={extracted_id!r}, title={title!r}")
+
+    # 1. Exact URL match
+    if url:
         row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND original_image_urls::text LIKE %s LIMIT 1",
-            (site, f"%{first_img}%"))
+            "SELECT id, title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1",
+            (url,))
         if row:
-            logging.info(f"DEDUPLICATION: Matched by image: {site}, {first_img}")
-            return row[0]
+            logging.info(f"DETAIL DEDUP: Matched by URL: {url}")
+            return row[0][0], row[0]
 
-    # 4. site + title + description (very strong)
+    # 2. site + first image URL match (Postgres JSONB array; very strong)
+    if site and first_img:
+        row = rds_manager.fetch(
+            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND original_image_urls ? %s LIMIT 1",
+            (site, first_img)
+        )
+        if row:
+            logging.info(f"DETAIL DEDUP: Matched by site+first image: {site}, {first_img}")
+            return row[0][0], row[0]
+
+    # 3. site + extracted_id + title match (robust for sites with SKUs)
+    if site and extracted_id and title:
+        row = rds_manager.fetch(
+            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND extracted_id = %s AND title = %s LIMIT 1",
+            (site, extracted_id, title)
+        )
+        if row:
+            logging.info(f"DETAIL DEDUP: Matched by site+extracted_id+title: {site}, {extracted_id}, {title}")
+            return row[0][0], row[0]
+
+    # 4. site + title + description match (fallback)
     if site and title and description:
         row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s AND description = %s LIMIT 1",
-            (site, title, description))
+            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s AND description = %s LIMIT 1",
+            (site, title, description)
+        )
         if row:
-            logging.info(f"DEDUPLICATION: Matched by site+title+description: {site}, {title}")
-            return row[0]
+            logging.info(f"DETAIL DEDUP: Matched by site+title+description: {site}, {title}")
+            return row[0][0], row[0]
 
-    logging.debug(f"DEDUPLICATION: No match found for Site={site}, URL={url}, ID={extracted_id}, Title={title}")
-    return None
+    logging.debug(
+        f"DETAIL DEDUP: No match found for Site={site}, URL={url}, First image={first_img}, Extracted ID={extracted_id}, Title={title}"
+    )
+    return None, None
 
-
-
-def is_placeholder_image(url):
-    """
-    Returns True if image URL is a known placeholder or dummy image.
-    """
-    placeholders = {"default.jpg", "placeholder.jpg", "help.png", "no-image.png"}
-    return any(placeholder in (url or "").lower() for placeholder in placeholders)
-
-def safe_first_real_image(image_urls):
-    """
-    Returns the first non-placeholder, non-empty, non-None image URL from the list, or None if none found.
-    """
-    if not image_urls or not isinstance(image_urls, (list, tuple)):
-        return None
-    for url in image_urls:
-        if url and isinstance(url, str) and url.strip().lower() not in {"", "none", "null", "nan"} and not is_placeholder_image(url):
-            return url
-    return None

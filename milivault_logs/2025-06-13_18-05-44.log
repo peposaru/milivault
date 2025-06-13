@@ -1,0 +1,915 @@
+2025-06-13 18:05:44,778 - DEBUG - Logging initialized. Log file: milivault_logs\2025-06-13_18-05-44.log
+2025-06-13 18:05:44,779 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-06-13 18:05:51,047 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-06-13 18:05:52,076 - INFO - Connection pool initialized successfully.
+2025-06-13 18:05:52,077 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-06-13 18:05:52,079 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-06-13 18:05:52,080 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-06-13 18:05:52,081 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-06-13 18:05:52,081 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-06-13 18:05:52,081 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-06-13 18:05:52,082 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-06-13 18:05:52,083 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-06-13 18:05:52,084 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-06-13 18:05:52,084 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-06-13 18:05:52,084 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-06-13 18:05:52,104 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\endpoints.json
+2025-06-13 18:05:52,176 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-06-13 18:05:52,176 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001C6DEDFAB00>
+2025-06-13 18:05:52,265 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-06-13 18:05:52,274 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-06-13 18:05:52,357 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-06-13 18:05:52,362 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\partitions.json
+2025-06-13 18:05:52,363 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001C6DED59120>
+2025-06-13 18:05:52,364 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001C6E06D6170>
+2025-06-13 18:05:52,379 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001C6DED58EE0>
+2025-06-13 18:05:52,380 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-06-13 18:05:52,380 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-06-13 18:05:52,380 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-06-13 18:05:52,380 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-06-13 18:05:52,380 - DEBUG - No configured endpoint found.
+2025-06-13 18:05:52,384 - DEBUG - Setting s3 timeout as (60, 60)
+2025-06-13 18:05:52,385 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\_retry.json
+2025-06-13 18:05:52,386 - DEBUG - Registering retry handlers for service: s3
+2025-06-13 18:05:52,386 - DEBUG - Registering S3 region redirector handler
+2025-06-13 18:05:52,387 - DEBUG - Registering S3Express Identity Resolver
+2025-06-13 18:05:52,387 - INFO - S3Manager initialized for bucket militaria-images
+2025-06-13 18:05:52,419 - ERROR - Error decoding JSON file C:/Users/keena/Desktop/Milivault/site-json/661944.json: Expecting value: line 1 column 1 (char 0)
+2025-06-13 18:05:53,772 - WARNING - 🔁 SWITCHING TO SITE: MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:53,772 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-06-13 18:05:53,772 - DEBUG - SITE PROCESSOR: Debug: base_url: https://militarycollectables.co.nz
+2025-06-13 18:05:53,772 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-06-13 18:05:53,772 - INFO - MILITARIA SITE        : MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:53,772 - INFO - PRODUCTS URL          : https://militarycollectables.co.nz
+2025-06-13 18:05:53,772 - INFO - CYCLES RUN            : False
+2025-06-13 18:05:53,772 - INFO - PRODUCTS PROCESSED    : 0
+2025-06-13 18:05:53,772 - INFO - TIMESTAMP             : 2025-06-13 18:05:53.772732
+2025-06-13 18:05:53,772 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-06-13 18:05:53,772 - INFO - SITE PROCESSOR: Current product page: https://militarycollectables.co.nz/shop.php?pg=0
+2025-06-13 18:05:53,772 - INFO - SITE PROCESSOR: Current page: 0
+2025-06-13 18:05:53,776 - DEBUG - Starting new HTTPS connection (1): militarycollectables.co.nz:443
+2025-06-13 18:05:55,186 - DEBUG - https://militarycollectables.co.nz:443 "GET /shop.php?pg=0 HTTP/1.1" 200 5876
+2025-06-13 18:05:55,199 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-06-13 18:05:55,200 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,200 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,200 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,201 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,202 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,202 - DEBUG - SITE PROCESSOR: Total tiles found: 10, Valid tiles: 10
+2025-06-13 18:05:55,202 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 10 
+2025-06-13 18:05:55,202 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50052
+2025-06-13 18:05:55,202 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,202 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,204 - DEBUG - TILE PROCESSOR: Extracted text from tag → 9500.00 NZD
+2025-06-13 18:05:55,204 - DEBUG - CLEAN PRICE: Stripped text → 9500.00
+2025-06-13 18:05:55,204 - DEBUG - CLEAN PRICE: Parsed value → 9500.0
+2025-06-13 18:05:55,205 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50052"><img alt="WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM" class="thumbnailList" src="photos/50052.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50052" title="WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM">
+<h2>WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM</h2>
+</a>
+<p class="itemDescription">
+                        A superb Bavarian officers 1910 pattern tunic and matching trousers for a lieutenant in the German Army Air Service. Tailored fine gaberdine grey material with Swedish cuffs, silver buttons and double matt silver litzen to the collar on patches of black velvet with poppy-red edging. Correct Bavarian threaded matching shoulder boards, each with propellers, however, one propeller is missing a win...                         <a href="?code=50052">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50052">Code: 50052</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            9500.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50052"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,206 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,206 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,206 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,206 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,206 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,207 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50052
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50052
+
+                Raw Title          : WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+                Cleaned Title      : WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+
+                Raw Price          : 9500.00
+                Cleaned Price      : 9500.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,207 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50180
+2025-06-13 18:05:55,207 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,208 - DEBUG - TILE PROCESSOR: Extracted text from tag → 7500.00 NZD
+2025-06-13 18:05:55,209 - DEBUG - CLEAN PRICE: Stripped text → 7500.00
+2025-06-13 18:05:55,209 - DEBUG - CLEAN PRICE: Parsed value → 7500.0
+2025-06-13 18:05:55,209 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50180"><img alt="WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC" class="thumbnailList" src="photos/50180.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50180" title="WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC">
+<h2>WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC</h2>
+</a>
+<p class="itemDescription">
+                        A pristine Prussian junior officers classic model 1910 pattern tunic for a lieutenant in the German Army Air Service. <br/>
+<br/>
+A tailored mid to later war (circa 1917) typical field grey wool material with a row of 8 matching matted front crown buttons. An EK2 ribbon to the 2nd button hole which has lost most of it's white in the ribbon (which happens with the finer silk type delicate ri...                         <a href="?code=50180">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50180">Code: 50180</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            7500.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50180"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,210 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,210 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,210 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,211 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,211 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,211 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50180
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50180
+
+                Raw Title          : WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+                Cleaned Title      : WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+
+                Raw Price          : 7500.00
+                Cleaned Price      : 7500.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,211 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50141
+2025-06-13 18:05:55,211 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,211 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,212 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,212 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,212 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+2025-06-13 18:05:55,212 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,212 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,212 - DEBUG - TILE PROCESSOR: Extracted text from tag → 5500.00 NZD
+2025-06-13 18:05:55,212 - DEBUG - CLEAN PRICE: Stripped text → 5500.00
+2025-06-13 18:05:55,213 - DEBUG - CLEAN PRICE: Parsed value → 5500.0
+2025-06-13 18:05:55,213 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50141"><img alt="WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED" class="thumbnailList" src="photos/50141.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50141" title="WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED">
+<h2>WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED</h2>
+</a>
+<p class="itemDescription">
+                        WW1 Bavarian aviation officers early war Litewka tunic and trousers (not to be confused with the 'Kleiner Rock', which were introduced from late 1915).<br/>
+<br/>
+Both the Litewka's and Kleiner Rock's were very popular with pilots because they were a more comfortable uniform to wear.<br/>
+<br/>
+Made with the distinct Litewka soft doeskin silvery grey wool material and with the straight ...                         <a href="?code=50141">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50141">Code: 50141</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            5500.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50141"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,214 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,214 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,214 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,214 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,214 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,214 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50141
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50141
+
+                Raw Title          : WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM -  NAMED
+                Cleaned Title      : WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+
+                Raw Price          : 5500.00
+                Cleaned Price      : 5500.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,214 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50786
+2025-06-13 18:05:55,214 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,214 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,214 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,215 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,215 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,215 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,215 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,215 - DEBUG - TILE PROCESSOR: Extracted text from tag → 1500.00 NZD
+2025-06-13 18:05:55,215 - DEBUG - CLEAN PRICE: Stripped text → 1500.00
+2025-06-13 18:05:55,215 - DEBUG - CLEAN PRICE: Parsed value → 1500.0
+2025-06-13 18:05:55,216 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50786"><img alt="WW1 GERMAN PRUSSIAN OFFICERS CAP" class="thumbnailList" src="photos/50786.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50786" title="WW1 GERMAN PRUSSIAN OFFICERS CAP">
+<h2>WW1 GERMAN PRUSSIAN OFFICERS CAP</h2>
+</a>
+<p class="itemDescription">
+                        WW1 German Prussian Officers 1910 model field grey cap for an infantry officer.<br/>
+<br/>
+An honest and classic officers cap complete with original strap. Totally untampered and untouched after over 100 years!<br/>
+<br/>
+Good overall condition with only a few small moth nips. A small repair to inside as shown and does not detract.<br/>
+<br/>
+Approx size is 57cms which is good news ...                         <a href="?code=50786">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50786">Code: 50786</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            1500.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50786"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,216 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,216 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,217 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,217 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,217 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,217 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50786
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50786
+
+                Raw Title          : WW1 GERMAN PRUSSIAN OFFICERS CAP
+                Cleaned Title      : WW1 GERMAN PRUSSIAN OFFICERS CAP
+
+                Raw Price          : 1500.00
+                Cleaned Price      : 1500.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,217 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50785
+2025-06-13 18:05:55,217 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,217 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,217 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,218 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,218 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,218 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,218 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,218 - DEBUG - TILE PROCESSOR: Extracted text from tag → 1000.00 NZD
+2025-06-13 18:05:55,218 - DEBUG - CLEAN PRICE: Stripped text → 1000.00
+2025-06-13 18:05:55,219 - DEBUG - CLEAN PRICE: Parsed value → 1000.0
+2025-06-13 18:05:55,219 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50785"><img alt="WW1 GERMAN OFFICERS BREECHES" class="thumbnailList" src="photos/50785.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50785" title="WW1 GERMAN OFFICERS BREECHES">
+<h2>WW1 GERMAN OFFICERS BREECHES</h2>
+</a>
+<p class="itemDescription">
+                        WW1 German Officers Breeches<br/>
+<br/>
+A nice set of very good quality early to mid war officers breeches. Field grey and with the correct red piping down each outer leg. Creases to the front.<br/>
+<br/>
+Used interior with a sign of where the owners label was, however has unfortunately been unstitched. Also, faint traces of ink stamp but not legible. A slight alteration to the front ma...                         <a href="?code=50785">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50785">Code: 50785</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            1000.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50785"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,220 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,220 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,220 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,220 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,220 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,220 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50785
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50785
+
+                Raw Title          : WW1 GERMAN OFFICERS BREECHES
+                Cleaned Title      : WW1 GERMAN OFFICERS BREECHES
+
+                Raw Price          : 1000.00
+                Cleaned Price      : 1000.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,221 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50872
+2025-06-13 18:05:55,221 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,221 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:55,222 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-13 18:05:55,222 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50872"><img alt="WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS" class="thumbnailList" src="photos/50872.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50872" title="WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS">
+<h2>WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS</h2>
+</a>
+<p class="itemDescription">
+                        WW2 Distinguished Service Medal Group for Sinking of the Graaf Spee to Sergeant Frank Saunders, H.M.N.Z.S. ACHILLES. <br/>
+<br/>
+Distinguished Service Medal Group of Eight to 22053 Sergeant Frank Thomas Saunders, H.M.N.Z.S Achilles, Royal Marines, Royal New Zealand Navy.<br/>
+<br/>
+Frank won his D.S.M in the Battle of the River Plate (Graff Spee) and was later Killed in Action off Guada...                         <a href="?code=50872">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50872">Code: 50872</a></p>
+<div class="actioncontainer">
+<p class="price">
+</p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50872"/>
+<input name="pg" type="hidden" value="1"/>
+<p class="btn-alert">Reserved</p> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,222 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,222 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,222 - DEBUG - TILE PROCESSOR: Extracted text from tag → Reserved
+2025-06-13 18:05:55,224 - DEBUG - RAW AVAILABILITY VALUE: Reserved
+2025-06-13 18:05:55,224 - DEBUG - NORMALIZED AVAILABILITY VALUE: Reserved
+2025-06-13 18:05:55,224 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,224 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50872
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50872
+
+                Raw Title          : WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+                Cleaned Title      : WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,224 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50870
+2025-06-13 18:05:55,224 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,224 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,225 - DEBUG - TILE PROCESSOR: Extracted text from tag → 13000.00 NZD
+2025-06-13 18:05:55,226 - DEBUG - CLEAN PRICE: Stripped text → 13000.00
+2025-06-13 18:05:55,226 - DEBUG - CLEAN PRICE: Parsed value → 13000.0
+2025-06-13 18:05:55,227 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50870"><img alt="WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK" class="thumbnailList" src="photos/50870.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50870" title="WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK">
+<h2>WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK</h2>
+</a>
+<p class="itemDescription">
+                        Greece and Crete Double Gallantry Group to Petty Officer Alan Beck. <br/>
+<br/>
+Distinguished Service Medal/Mentioned in Despatches Group of 9 to C/5226 Petty Officer Alan Derek Beck, Royal New Zealand Naval Volunteer Reserve.<br/>
+<br/>
+Distinguished Service Medal, GV1 (NZ.. C.5226 A.D.BECK. A.B. N.Z. H.M.S. PHOEBE), 1939/45 Star, Atlantic Star, Africa Star, Pacific Star, Defence Medal...                         <a href="?code=50870">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50870">Code: 50870</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            13000.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50870"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,228 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,228 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,228 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,228 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,228 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,228 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50870
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50870
+
+                Raw Title          : WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+                Cleaned Title      : WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+
+                Raw Price          : 13000.00
+                Cleaned Price      : 13000.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,229 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50871
+2025-06-13 18:05:55,229 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,229 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,229 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,229 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,229 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,229 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,230 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:55,230 - DEBUG - TILE PROCESSOR: Extracted text from tag → 13000.00 NZD
+2025-06-13 18:05:55,230 - DEBUG - CLEAN PRICE: Stripped text → 13000.00
+2025-06-13 18:05:55,230 - DEBUG - CLEAN PRICE: Parsed value → 13000.0
+2025-06-13 18:05:55,231 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50871"><img alt="WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK" class="thumbnailList" src="photos/50871.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50871" title="WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK">
+<h2>WW2 NEW ZEALAND GREECE &amp; CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK</h2>
+</a>
+<p class="itemDescription">
+                        Additional photo's.                         <a href="?code=50871">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50871">Code: 50871</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            13000.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50871"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,231 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,231 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,231 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,232 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,232 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,232 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50871
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50871
+
+                Raw Title          : WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+                Cleaned Title      : WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+
+                Raw Price          : 13000.00
+                Cleaned Price      : 13000.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,232 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50869
+2025-06-13 18:05:55,232 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,232 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,232 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,233 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,233 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,233 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,233 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:55,233 - DEBUG - TILE PROCESSOR: Extracted text from tag → 1600.00 NZD
+2025-06-13 18:05:55,233 - DEBUG - CLEAN PRICE: Stripped text → 1600.00
+2025-06-13 18:05:55,233 - DEBUG - CLEAN PRICE: Parsed value → 1600.0
+2025-06-13 18:05:55,234 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50869"><img alt="WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE" class="thumbnailList" src="photos/50869.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50869" title="WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE">
+<h2>WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE</h2>
+</a>
+<p class="itemDescription">
+                        Murdered by the Japanese Group to Able Seaman William Holland. <br/>
+<br/>
+Murdered by Japanese P.O.W. Group of 5 to Able Seaman William Holland, New Zealand Shipping Company's Motor Vessel "Hauraki".<br/>
+<br/>
+1939/45 Star, Pacific Star, War Medal and New Zealand War Service Medal unnamed as issued. New Zealand Memorial Cross GVI in presentation case the reverse correctly impressed W ...                         <a href="?code=50869">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50869">Code: 50869</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            1600.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50869"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,234 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,234 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,234 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,234 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,234 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,234 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50869
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50869
+
+                Raw Title          : WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+                Cleaned Title      : WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+
+                Raw Price          : 1600.00
+                Cleaned Price      : 1600.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,235 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50867
+2025-06-13 18:05:55,235 - DEBUG - TILE PROCESSOR: Extracted text from tag → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,235 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:55,236 - DEBUG - TILE PROCESSOR: Extracted text from tag → 7500.00 NZD
+2025-06-13 18:05:55,236 - DEBUG - CLEAN PRICE: Stripped text → 7500.00
+2025-06-13 18:05:55,236 - DEBUG - CLEAN PRICE: Parsed value → 7500.0
+2025-06-13 18:05:55,236 - DEBUG - [BEFORE AVAIL] <div class="shopitem">
+<div class="inner-wrapper">
+<div class="content-part block-image">
+<a href="?code=50867"><img alt="WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD" class="thumbnailList" src="photos/50867.jpg"/></a>
+</div>
+<div class="content-part block-text">
+<a class="shopitemTitle" href="?code=50867" title="WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD">
+<h2>WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD</h2>
+</a>
+<p class="itemDescription">
+                        WW2 Distinguished Service Medal Group to Robert Jerrard, H.M.N.Z.S. ACHILLES. <br/>
+<br/>
+Achilles Battle Of The River Plate D.S.M. Group of 8 to Chief Engine Room Artificer Robert Leslie Jerrard, Royal Navy and Royal New Zealand Navy.<br/>
+<br/>
+Second War ‘Far East’ D.S.M. group of eight awarded to Chief Engine Room Artificer R. L. Jerrard, Royal Navy and Royal New Zealand Navy, who s...                         <a href="?code=50867">read more</a>
+</p>
+<p class="itemCode"><a href="?code=50867">Code: 50867</a></p>
+<div class="actioncontainer">
+<p class="price">
+                            7500.00 NZD                        </p>
+<form action="basket.php" method="post">
+<input name="id" type="hidden" value="50867"/>
+<input name="pg" type="hidden" value="1"/>
+<button class="btn cta add2cart" type="submit"><img alt="add to basket" src="images/add-to-cart.png" title="add to basket"/>Add to basket</button> </form>
+</div>
+</div>
+</div>
+</div>
+2025-06-13 18:05:55,237 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['shopitem']}
+2025-06-13 18:05:55,237 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['p'], 'kwargs': {'class_': 'btn-alert'}, 'extract': 'text', 'post_process': {'type': 'contains', 'value': 'sold', 'if_true': False, 'if_false': True, 'case_insensitive': True}}
+2025-06-13 18:05:55,237 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-13 18:05:55,237 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-13 18:05:55,237 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: True
+2025-06-13 18:05:55,237 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://militarycollectables.co.nz/shop.php?code=50867
+                Cleaned URL        : https://militarycollectables.co.nz/shop.php?code=50867
+
+                Raw Title          : WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+                Cleaned Title      : WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+
+                Raw Price          : 7500.00
+                Cleaned Price      : 7500.0
+
+                Raw Availability   : ['shopitem']
+                Cleaned Availability: True
+                ======================================
+                    
+2025-06-13 18:05:55,238 - INFO - SITE PROCESSOR: Product Dictionaries count: 10
+2025-06-13 18:05:55,238 - INFO - PRODUCT PROCESSOR: Categorizing products between old and new...
+2025-06-13 18:05:55,238 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50052
+2025-06-13 18:05:55,238 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,238 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,238 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,239 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,239 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,239 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,239 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50052', title='WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM'
+2025-06-13 18:05:55,419 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50052
+2025-06-13 18:05:55,419 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,419 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,419 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,420 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS MODEL 1910 FIELD UNIFORM
+2025-06-13 18:05:55,421 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50052
+2025-06-13 18:05:55,421 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50180
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,421 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,422 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50180', title='WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC'
+2025-06-13 18:05:55,609 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50180
+2025-06-13 18:05:55,609 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,609 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,609 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,610 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE PRUSSIAN OFFICERS M1910 TUNIC
+2025-06-13 18:05:55,611 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50180
+2025-06-13 18:05:55,611 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50141
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,611 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50141', title='WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED'
+2025-06-13 18:05:55,762 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50141
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,763 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN ARMY AIR SERVICE BAVARIAN OFFICERS LITEWKA UNIFORM - NAMED
+2025-06-13 18:05:55,764 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50141
+2025-06-13 18:05:55,764 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50786
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,764 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,765 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,765 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,765 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,765 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50786', title='WW1 GERMAN PRUSSIAN OFFICERS CAP'
+2025-06-13 18:05:55,921 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50786
+2025-06-13 18:05:55,921 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,921 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,921 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,922 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN PRUSSIAN OFFICERS CAP
+2025-06-13 18:05:55,923 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50786
+2025-06-13 18:05:55,923 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50785
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,923 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:55,924 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50785', title='WW1 GERMAN OFFICERS BREECHES'
+2025-06-13 18:05:56,084 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50785
+2025-06-13 18:05:56,084 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,084 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,084 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,084 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: Raw input → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: After unescape → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: After removing HTML tags → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: After normalizing quotes → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: After collapsing spaces → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,085 - DEBUG - CLEAN TITLE: Final cleaned title → WW1 GERMAN OFFICERS BREECHES
+2025-06-13 18:05:56,086 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50785
+2025-06-13 18:05:56,086 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50872
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,086 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50872', title='WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS'
+2025-06-13 18:05:56,239 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50872
+2025-06-13 18:05:56,239 - DEBUG - PRODUCT PROCESSOR: [IGNORE] Tile price is 0 but DB still has value → DB=12000.00, TILE=None
+2025-06-13 18:05:56,239 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,239 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,239 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,240 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO SERGEANT FRANK SAUNDERS
+2025-06-13 18:05:56,241 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50872
+2025-06-13 18:05:56,241 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50870
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,241 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50870', title='WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK'
+2025-06-13 18:05:56,396 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50870
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,396 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,397 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50870
+2025-06-13 18:05:56,397 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50871
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,398 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50871', title='WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK'
+2025-06-13 18:05:56,551 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50871
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,551 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GREECE & CRETE DOUBLE GALLANTRY GROUP TO PETTY OFFICER ALAN BECK
+2025-06-13 18:05:56,552 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50871
+2025-06-13 18:05:56,552 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50869
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,552 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50869', title='WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE'
+2025-06-13 18:05:56,715 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50869
+2025-06-13 18:05:56,715 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,715 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,715 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,715 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,715 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND GROUP TO ABLE SEAMAN WILLIAM HOLLAND WHO WAS MURDERED BY THE JAPANESE
+2025-06-13 18:05:56,716 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50869
+2025-06-13 18:05:56,716 - DEBUG - CLEAN URL: Cleaned URL → https://militarycollectables.co.nz/shop.php?code=50867
+2025-06-13 18:05:56,716 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,717 - DEBUG - DEDUP: Checking site='MILITARY_COLLECTABLES_NZ', url='https://militarycollectables.co.nz/shop.php?code=50867', title='WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD'
+2025-06-13 18:05:56,899 - INFO - DEDUPLICATION: Matched by URL: https://militarycollectables.co.nz/shop.php?code=50867
+2025-06-13 18:05:56,900 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,900 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,900 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,900 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: Raw input → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: After unescape → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: After removing HTML tags → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: After normalizing quotes → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: After collapsing spaces → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - DEBUG - CLEAN TITLE: Final cleaned title → WW2 NEW ZEALAND HMNZS ACHILLES (BATTLE OF THE RIVER PLATE) DSM GROUP TO ROBERT JERRARD
+2025-06-13 18:05:56,901 - INFO - SKIP: No changes → URL: https://militarycollectables.co.nz/shop.php?code=50867
+2025-06-13 18:05:56,901 - INFO - PRODUCT PROCESSOR: Products needing full processing     : 0
+2025-06-13 18:05:56,902 - INFO - PRODUCT PROCESSOR: Products needing availability updates: 0
+2025-06-13 18:05:56,902 - INFO - PRODUCT PROCESSOR: Products ignored (no updates needed) : 10
+2025-06-13 18:05:56,902 - DEBUG - PRODUCT PROCESSOR: Processing required list count: 0
+2025-06-13 18:05:56,902 - DEBUG - PRODUCT PROCESSOR: Processing completed for 0 products.
+2025-06-13 18:05:57,127 - INFO - RDS MANAGER: last_seen updated for 10 products (bulk).
+2025-06-13 18:05:57,127 - INFO - ----------------------SITE PROCESSOR: MOVING TO PAGE: 1----------------------
+2025-06-13 18:05:57,127 - INFO - SITE PROCESSOR: No products require further processing. Stopping site processing.
+2025-06-13 18:05:57,127 - INFO - 
+====== Processing Summary ======
+Total Products Count       : 10
+New Products Count         : 0
+Old Products Count         : 0
+Sites Processed Count      : 0
+Current Page Count         : 1
+Availability Updates Count : 0
+Processing Required Count  : 0
+===============================
+                    
+2025-06-13 18:05:57,127 - DEBUG - SITE PROCESSOR: Exiting site_processor_main.
+2025-06-13 18:05:57,128 - INFO - SITE PROCESSOR: Finished processing site: MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:57,128 - INFO - 
+------------------------------------------------------------
+                    INSTANCE TERMINATED                     
+------------------------------------------------------------
+2025-06-13 18:05:57,128 - INFO - MILITARIA SITE        : MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:57,128 - INFO - CONSECUTIVE MATCHES   : 1 / 1
+2025-06-13 18:05:57,128 - INFO - CYCLES RUN            : False
+2025-06-13 18:05:57,128 - INFO - PRODUCTS PROCESSED    : 10
+2025-06-13 18:05:57,128 - INFO - TIMESTAMP             : 2025-06-13 18:05:57.128178
+2025-06-13 18:05:57,128 - INFO - Successfully processed site: MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:57,128 - INFO - 
+------------------------------------------------------------
+                  FINAL PROCESSING SUMMARY                  
+------------------------------------------------------------
+2025-06-13 18:05:57,128 - INFO - TIMESTAMP             : 2025-06-13 18:05:57.128681
+2025-06-13 18:05:57,128 - INFO - SITES PROCESSED       : MILITARY_COLLECTABLES_NZ
+2025-06-13 18:05:57,128 - INFO - TOTAL PRODUCTS        : 10
+2025-06-13 18:05:57,128 - INFO - NEW PRODUCTS          : 0
+2025-06-13 18:05:57,129 - INFO - OLD PRODUCTS          : 0
+2025-06-13 18:05:57,129 - INFO - SITES COUNT           : 0
+2025-06-13 18:05:57,129 - INFO - AVAILABILITY UPDATES  : 0
+2025-06-13 18:05:57,129 - INFO - PROCESSING REQUIRED   : 0
+2025-06-13 18:05:57,129 - INFO - Sleeping 123130 seconds... Next check at 2025-06-15 04:18:07
