@@ -26,7 +26,7 @@ class DataIntegrityManager:
         self.logger       = logging.getLogger(__name__)
 
         # Initialize OpenAIManager
-        self.openai_manager = OpenAIManager("../credentials/chatgpt_api_key.json", categories_path=None)
+        self.openai_manager = managers.get("openai_manager")
 
         # Vector generator is now fully wired
         self.vector_generator = VectorEmbeddingGenerator(
