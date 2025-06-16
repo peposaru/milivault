@@ -145,9 +145,13 @@ class CleanData:
             description = " ".join(description.split())
             logging.debug(f"CLEAN DESCRIPTION: Collapsed whitespace → {description}")
 
+            # Strip leading/trailing colons
+            description = description.strip(":").strip()
+
             if not description:
-                logging.warning("CLEAN DESCRIPTION: Description is empty after cleaning.")
-                raise ValueError("Description cannot be empty after cleaning.")
+                logging.warning("CLEAN DESCRIPTION: Description is empty after cleaning — using fallback.")
+                return "No description available."
+
 
             logging.debug(f"CLEAN DESCRIPTION: Final cleaned description → {description}")
             return description

@@ -52,7 +52,6 @@ class TileProcessor:
                 )
 
                 # Extract and clean availability
-                logging.debug(f"[BEFORE AVAIL] {product_tile}")
                 clean_product_tile_available = self.extract_tile_available(product_tile)
                 if clean_product_tile_available is None:
                     logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile_url}")

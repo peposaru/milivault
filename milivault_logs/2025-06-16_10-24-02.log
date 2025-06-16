@@ -1,0 +1,2105 @@
+2025-06-16 10:24:02,240 - DEBUG - Logging initialized. Log file: milivault_logs\2025-06-16_10-24-02.log
+2025-06-16 10:24:02,240 - DEBUG - Adjusted logging level to DEBUG for environment: local
+2025-06-16 10:24:04,154 - INFO - SETTINGS MANAGER: Changed directory to C:/Users/keena/Desktop/Milivault/scraper
+2025-06-16 10:24:05,476 - INFO - Connection pool initialized successfully.
+2025-06-16 10:24:05,477 - DEBUG - Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+2025-06-16 10:24:05,478 - DEBUG - Changing event name from before-call.apigateway to before-call.api-gateway
+2025-06-16 10:24:05,479 - DEBUG - Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+2025-06-16 10:24:05,480 - DEBUG - Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+2025-06-16 10:24:05,480 - DEBUG - Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+2025-06-16 10:24:05,481 - DEBUG - Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+2025-06-16 10:24:05,481 - DEBUG - Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+2025-06-16 10:24:05,483 - DEBUG - Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+2025-06-16 10:24:05,483 - DEBUG - Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+2025-06-16 10:24:05,483 - DEBUG - Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+2025-06-16 10:24:05,483 - DEBUG - Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+2025-06-16 10:24:05,497 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\endpoints.json
+2025-06-16 10:24:05,547 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\sdk-default-configuration.json
+2025-06-16 10:24:05,548 - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x000001A4EB88AB00>
+2025-06-16 10:24:05,613 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+2025-06-16 10:24:05,620 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\service-2.sdk-extras.json
+2025-06-16 10:24:05,685 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+2025-06-16 10:24:05,689 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\partitions.json
+2025-06-16 10:24:05,690 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x000001A4EB7E9120>
+2025-06-16 10:24:05,690 - DEBUG - Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x000001A4ED166200>
+2025-06-16 10:24:05,705 - DEBUG - Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x000001A4EB7E8EE0>
+2025-06-16 10:24:05,705 - DEBUG - Looking for endpoint for s3 via: environment_service
+2025-06-16 10:24:05,706 - DEBUG - Looking for endpoint for s3 via: environment_global
+2025-06-16 10:24:05,706 - DEBUG - Looking for endpoint for s3 via: config_service
+2025-06-16 10:24:05,706 - DEBUG - Looking for endpoint for s3 via: config_global
+2025-06-16 10:24:05,706 - DEBUG - No configured endpoint found.
+2025-06-16 10:24:05,709 - DEBUG - Setting s3 timeout as (60, 60)
+2025-06-16 10:24:05,711 - DEBUG - Loading JSON file: C:\Users\keena\Desktop\Milivault\scraper\venv\lib\site-packages\botocore\data\_retry.json
+2025-06-16 10:24:05,711 - DEBUG - Registering retry handlers for service: s3
+2025-06-16 10:24:05,711 - DEBUG - Registering S3 region redirector handler
+2025-06-16 10:24:05,712 - DEBUG - Registering S3Express Identity Resolver
+2025-06-16 10:24:05,712 - INFO - S3Manager initialized for bucket militaria-images
+2025-06-16 10:24:05,742 - ERROR - Error decoding JSON file C:/Users/keena/Desktop/Milivault/site-json/661944.json: Expecting value: line 1 column 1 (char 0)
+2025-06-16 10:24:07,935 - WARNING - 🔁 SWITCHING TO SITE: TARN_MILITARIA
+2025-06-16 10:24:07,935 - INFO - SITE PROCESSOR: Running with targetMatch = 1
+2025-06-16 10:24:07,935 - DEBUG - SITE PROCESSOR: Debug: base_url: https://tarnmilitaria.com
+2025-06-16 10:24:07,936 - INFO - 
+------------------------------------------------------------
+                    NEW INSTANCE STARTED                    
+------------------------------------------------------------
+2025-06-16 10:24:07,936 - INFO - MILITARIA SITE        : TARN_MILITARIA
+2025-06-16 10:24:07,936 - INFO - PRODUCTS URL          : https://tarnmilitaria.com
+2025-06-16 10:24:07,936 - INFO - CYCLES RUN            : False
+2025-06-16 10:24:07,936 - INFO - PRODUCTS PROCESSED    : 0
+2025-06-16 10:24:07,936 - INFO - TIMESTAMP             : 2025-06-16 10:24:07.936645
+2025-06-16 10:24:07,936 - DEBUG - SITE PROCESSOR: products_list_page loaded
+2025-06-16 10:24:07,936 - INFO - SITE PROCESSOR: Current product page: https://tarnmilitaria.com/home?page=0
+2025-06-16 10:24:07,937 - INFO - SITE PROCESSOR: Current page: 0
+2025-06-16 10:24:07,938 - DEBUG - Starting new HTTPS connection (1): tarnmilitaria.com:443
+2025-06-16 10:24:09,640 - DEBUG - https://tarnmilitaria.com:443 "GET /home?page=0 HTTP/1.1" 200 None
+2025-06-16 10:24:09,796 - DEBUG - Encoding detection: Found cp1252 as plausible (best-candidate) for content. With 36 alternatives.
+2025-06-16 10:24:09,831 - DEBUG - SITE PROCESSOR: products_list_page_soup loaded.
+2025-06-16 10:24:09,834 - DEBUG - TILE PROCESSOR: Extracted text from tag → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,835 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,835 - DEBUG - TILE PROCESSOR: Extracted text from tag → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,835 - DEBUG - TILE PROCESSOR: Extracted text from tag → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,835 - DEBUG - TILE PROCESSOR: Extracted text from tag → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,835 - DEBUG - TILE PROCESSOR: Extracted text from tag → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,836 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,836 - DEBUG - TILE PROCESSOR: Extracted text from tag → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,836 - DEBUG - TILE PROCESSOR: Extracted text from tag → Dutch CM39 greatcoat
+2025-06-16 10:24:09,836 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,837 - DEBUG - TILE PROCESSOR: Extracted text from tag → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,837 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,837 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,837 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,837 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,838 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,839 - DEBUG - TILE PROCESSOR: Extracted text from tag → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,839 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,839 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,839 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,839 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → POLICE CAP EAGLE.
+2025-06-16 10:24:09,840 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → Field Post Chess Game
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,841 - DEBUG - TILE PROCESSOR: Extracted text from tag → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Game
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,842 - DEBUG - TILE PROCESSOR: Extracted text from tag → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,843 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,843 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,843 - DEBUG - SITE PROCESSOR: Total tiles found: 48, Valid tiles: 48
+2025-06-16 10:24:09,843 - DEBUG - SITE PROCESSOR: Length of products_tile_list: 48 
+2025-06-16 10:24:09,843 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+2025-06-16 10:24:09,844 - DEBUG - TILE PROCESSOR: Extracted text from tag → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: Raw input → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: After unescape → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: After removing HTML tags → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: After normalizing quotes → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: After collapsing spaces → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - CLEAN TITLE: Final cleaned title → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,844 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 425,00
+2025-06-16 10:24:09,845 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,845 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,845 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 425,00
+2025-06-16 10:24:09,845 - DEBUG - CLEAN PRICE: Parsed value → 425.0
+2025-06-16 10:24:09,845 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,845 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,846 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,846 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,846 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,846 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,846 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,846 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,846 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+
+                Raw Title          : Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+                Cleaned Title      : Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+
+                Raw Price          : â‚¬ 425,00
+                Cleaned Price      : 425.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,847 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+2025-06-16 10:24:09,847 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,847 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:09,848 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 1.250,00
+2025-06-16 10:24:09,848 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,848 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,848 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 1.250,00
+2025-06-16 10:24:09,848 - DEBUG - CLEAN PRICE: Parsed value → 1250.0
+2025-06-16 10:24:09,848 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,848 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,848 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,849 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,849 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,849 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,849 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,849 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,849 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+
+                Raw Title          : Wehrmacht Tropical  EM/NCO's M40 Cap (TropenfeldmÃ [...]
+                Cleaned Title      : Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+
+                Raw Price          : â‚¬ 1.250,00
+                Cleaned Price      : 1250.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,849 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+2025-06-16 10:24:09,850 - DEBUG - TILE PROCESSOR: Extracted text from tag → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: Raw input → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: After unescape → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: After removing HTML tags → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: After normalizing quotes → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: After collapsing spaces → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - CLEAN TITLE: Final cleaned title → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:09,850 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,851 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,851 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,851 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,851 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,851 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,851 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,851 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,851 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+
+                Raw Title          : Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+                Cleaned Title      : Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,852 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+2025-06-16 10:24:09,852 - DEBUG - TILE PROCESSOR: Extracted text from tag → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,852 - DEBUG - CLEAN TITLE: Raw input → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,852 - DEBUG - CLEAN TITLE: After unescape → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,852 - DEBUG - CLEAN TITLE: After removing HTML tags → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,852 - DEBUG - CLEAN TITLE: After normalizing quotes → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,852 - DEBUG - CLEAN TITLE: After collapsing spaces → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,853 - DEBUG - CLEAN TITLE: Final cleaned title → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:09,853 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,853 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,853 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,853 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,853 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,853 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,853 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,853 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,853 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+
+                Raw Title          : Postcard NÃ¼rnberg Reichsparteitag 1937,
+                Cleaned Title      : Postcard NÃ¼rnberg Reichsparteitag 1937,
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,855 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+2025-06-16 10:24:09,855 - DEBUG - TILE PROCESSOR: Extracted text from tag → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,855 - DEBUG - CLEAN TITLE: Raw input → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,855 - DEBUG - CLEAN TITLE: After unescape → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,855 - DEBUG - CLEAN TITLE: After removing HTML tags → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,855 - DEBUG - CLEAN TITLE: After normalizing quotes → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,855 - DEBUG - CLEAN TITLE: After collapsing spaces → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,856 - DEBUG - CLEAN TITLE: Final cleaned title → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:09,856 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,856 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,856 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,856 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,856 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,856 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,856 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,857 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,857 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+
+                Raw Title          : M43 Wehrmacht (Heer) field cap
+                Cleaned Title      : M43 Wehrmacht (Heer) field cap
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,857 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+2025-06-16 10:24:09,857 - DEBUG - TILE PROCESSOR: Extracted text from tag → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,857 - DEBUG - CLEAN TITLE: Raw input → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,857 - DEBUG - CLEAN TITLE: After unescape → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,858 - DEBUG - CLEAN TITLE: After removing HTML tags → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,858 - DEBUG - CLEAN TITLE: After normalizing quotes → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,858 - DEBUG - CLEAN TITLE: After collapsing spaces → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,858 - DEBUG - CLEAN TITLE: Final cleaned title → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:09,858 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,858 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,858 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,858 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,859 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,859 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,859 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,859 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,859 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+                Cleaned URL        : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+
+                Raw Title          : WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+                Cleaned Title      : WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,860 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+2025-06-16 10:24:09,860 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,860 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:09,861 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,861 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,861 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,861 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,861 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,861 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,861 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,861 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,862 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+
+                Raw Title          : Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+                Cleaned Title      : Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,862 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+2025-06-16 10:24:09,862 - DEBUG - TILE PROCESSOR: Extracted text from tag → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: Raw input → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: After unescape → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: After removing HTML tags → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: After normalizing quotes → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: After collapsing spaces → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - CLEAN TITLE: Final cleaned title → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:09,862 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,863 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,863 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,863 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,863 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,863 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,863 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,864 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,864 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+                Cleaned URL        : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+
+                Raw Title          : WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+                Cleaned Title      : WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,864 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+2025-06-16 10:24:09,864 - DEBUG - TILE PROCESSOR: Extracted text from tag → Dutch CM39 greatcoat
+2025-06-16 10:24:09,864 - DEBUG - CLEAN TITLE: Raw input → Dutch CM39 greatcoat
+2025-06-16 10:24:09,864 - DEBUG - CLEAN TITLE: After unescape → Dutch CM39 greatcoat
+2025-06-16 10:24:09,864 - DEBUG - CLEAN TITLE: After removing HTML tags → Dutch CM39 greatcoat
+2025-06-16 10:24:09,864 - DEBUG - CLEAN TITLE: After normalizing quotes → Dutch CM39 greatcoat
+2025-06-16 10:24:09,865 - DEBUG - CLEAN TITLE: After collapsing spaces → Dutch CM39 greatcoat
+2025-06-16 10:24:09,865 - DEBUG - CLEAN TITLE: Final cleaned title → Dutch CM39 greatcoat
+2025-06-16 10:24:09,865 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,865 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,865 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,865 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,865 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,865 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,865 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,865 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,866 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+
+                Raw Title          : Dutch CM39 greatcoat
+                Cleaned Title      : Dutch CM39 greatcoat
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,866 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+2025-06-16 10:24:09,866 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,866 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,866 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,866 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,866 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,866 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,867 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:09,867 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,867 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,867 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,867 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,867 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,867 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,867 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,867 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,868 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+
+                Raw Title          : Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+                Cleaned Title      : Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,868 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+2025-06-16 10:24:09,868 - DEBUG - TILE PROCESSOR: Extracted text from tag → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,868 - DEBUG - CLEAN TITLE: Raw input → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,868 - DEBUG - CLEAN TITLE: After unescape → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,868 - DEBUG - CLEAN TITLE: After removing HTML tags → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,868 - DEBUG - CLEAN TITLE: After normalizing quotes → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,868 - DEBUG - CLEAN TITLE: After collapsing spaces → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,869 - DEBUG - CLEAN TITLE: Final cleaned title → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:09,869 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 675,00
+2025-06-16 10:24:09,869 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,869 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,869 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 675,00
+2025-06-16 10:24:09,869 - DEBUG - CLEAN PRICE: Parsed value → 675.0
+2025-06-16 10:24:09,870 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,870 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,870 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,870 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,870 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,870 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,870 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,871 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,871 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+                Cleaned URL        : https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+
+                Raw Title          : WO1 BLACK EM/NCO'S MARCHING BOOTS.
+                Cleaned Title      : WO1 BLACK EM/NCO'S MARCHING BOOTS.
+
+                Raw Price          : â‚¬ 675,00
+                Cleaned Price      : 675.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,871 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+2025-06-16 10:24:09,871 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,871 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht motorcycle number plate
+2025-06-16 10:24:09,872 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,872 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,872 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,873 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,873 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,873 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,873 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,873 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,874 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+
+                Raw Title          : Wehrmacht motorcycle number plate
+                Cleaned Title      : Wehrmacht motorcycle number plate
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,874 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+2025-06-16 10:24:09,874 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,874 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,874 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,874 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,875 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,875 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,875 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:09,875 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 135,00
+2025-06-16 10:24:09,875 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,875 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,875 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 135,00
+2025-06-16 10:24:09,876 - DEBUG - CLEAN PRICE: Parsed value → 135.0
+2025-06-16 10:24:09,876 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,876 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,876 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,876 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,876 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,876 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,876 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,877 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,877 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+
+                Raw Title          : Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+                Cleaned Title      : Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+
+                Raw Price          : â‚¬ 135,00
+                Cleaned Price      : 135.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,877 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+2025-06-16 10:24:09,877 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,877 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,877 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,877 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,878 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,878 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,878 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:09,878 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,878 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,878 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,878 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,879 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,879 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,879 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,879 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,879 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+                Cleaned URL        : https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+
+                Raw Title          : WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+                Cleaned Title      : WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,879 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+2025-06-16 10:24:09,880 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:09,880 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,880 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,881 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,881 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,881 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,881 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,881 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,881 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,881 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+
+                Raw Title          : Wehrmacht (Heer) M43 greatcoat
+                Cleaned Title      : Wehrmacht (Heer) M43 greatcoat
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,882 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/dog-tag-62-899-stab-fallsch-panzerjager-abtlg-1
+2025-06-16 10:24:09,882 - DEBUG - TILE PROCESSOR: Extracted text from tag → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: Raw input → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: After unescape → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: After removing HTML tags → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: After normalizing quotes → DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: After collapsing spaces → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - CLEAN TITLE: Final cleaned title → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:09,882 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,882 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,882 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,882 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,882 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,883 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,883 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,883 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,883 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/dog-tag-62-899-stab-fallsch-panzerjager-abtlg-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/dog-tag-62-899-stab-fallsch-panzerjager-abtlg-1
+
+                Raw Title          : DOG TAG, 62 899 - Stab  /Fallsch-Panzerjager-Abtlg 1,
+                Cleaned Title      : DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,883 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/medical-equipment/medical-equipment-jodtinktur
+2025-06-16 10:24:09,883 - DEBUG - TILE PROCESSOR: Extracted text from tag → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: Raw input → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: After unescape → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: After removing HTML tags → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: After normalizing quotes → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: After collapsing spaces → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - CLEAN TITLE: Final cleaned title → MEDICAL EQUIPMENT ''Jodtinktur''
+2025-06-16 10:24:09,884 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,884 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,884 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,885 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,885 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,885 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,885 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,885 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,885 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/medical-equipment/medical-equipment-jodtinktur
+                Cleaned URL        : https://tarnmilitaria.com/product/german/medical-equipment/medical-equipment-jodtinktur
+
+                Raw Title          : MEDICAL EQUIPMENT ''Jodtinktur''
+                Cleaned Title      : MEDICAL EQUIPMENT ''Jodtinktur''
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,886 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/flare-gun-/german-wh-lp34-z-flare-gun-ayf-1942
+2025-06-16 10:24:09,886 - DEBUG - TILE PROCESSOR: Extracted text from tag → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,886 - DEBUG - CLEAN TITLE: Raw input → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,886 - DEBUG - CLEAN TITLE: After unescape → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,886 - DEBUG - CLEAN TITLE: After removing HTML tags → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,887 - DEBUG - CLEAN TITLE: After normalizing quotes → German WH LP34-Z  Flare Gun ,ayf 1942
+2025-06-16 10:24:09,887 - DEBUG - CLEAN TITLE: After collapsing spaces → German WH LP34-Z Flare Gun ,ayf 1942
+2025-06-16 10:24:09,887 - DEBUG - CLEAN TITLE: Final cleaned title → German WH LP34-Z Flare Gun ,ayf 1942
+2025-06-16 10:24:09,887 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,887 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,887 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,887 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,888 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,888 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,888 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,888 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,888 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/flare-gun-/german-wh-lp34-z-flare-gun-ayf-1942
+                Cleaned URL        : https://tarnmilitaria.com/product/german/flare-gun-/german-wh-lp34-z-flare-gun-ayf-1942
+
+                Raw Title          : German WH LP34-Z  Flare Gun ,ayf 1942
+                Cleaned Title      : German WH LP34-Z Flare Gun ,ayf 1942
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,888 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-marche-belgie1941
+2025-06-16 10:24:09,888 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Marche B [...]
+2025-06-16 10:24:09,889 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 135,00
+2025-06-16 10:24:09,890 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,890 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,890 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 135,00
+2025-06-16 10:24:09,890 - DEBUG - CLEAN PRICE: Parsed value → 135.0
+2025-06-16 10:24:09,890 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,890 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,891 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,891 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,891 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,891 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,891 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,891 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,891 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-marche-belgie1941
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-marche-belgie1941
+
+                Raw Title          : Wehrmacht Ardennenoffensief Map card from Marche B [...]
+                Cleaned Title      : Wehrmacht Ardennenoffensief Map card from Marche B [...]
+
+                Raw Price          : â‚¬ 135,00
+                Cleaned Price      : 135.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,892 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-hilferin-m43-combat-field-pants
+2025-06-16 10:24:09,892 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,892 - DEBUG - CLEAN TITLE: Raw input → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - CLEAN TITLE: After unescape → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - CLEAN TITLE: After removing HTML tags → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - CLEAN TITLE: After normalizing quotes → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - CLEAN TITLE: After collapsing spaces → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - CLEAN TITLE: Final cleaned title → Luftwaffe Hilferin M43 Combat Field Pants
+2025-06-16 10:24:09,893 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,893 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,893 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,893 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,894 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,894 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,894 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,894 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,894 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-hilferin-m43-combat-field-pants
+                Cleaned URL        : https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-hilferin-m43-combat-field-pants
+
+                Raw Title          : Luftwaffe Hilferin M43 Combat Field Pants
+                Cleaned Title      : Luftwaffe Hilferin M43 Combat Field Pants
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,894 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-
+2025-06-16 10:24:09,894 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Helmet Liner
+2025-06-16 10:24:09,895 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,895 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,896 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,896 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,896 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,896 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,896 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,896 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,896 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-
+
+                Raw Title          : Wehrmacht Helmet Liner
+                Cleaned Title      : Wehrmacht Helmet Liner
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,897 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/dog-tag62-890-stab-fallsch-panzerjager-abtlg-1
+2025-06-16 10:24:09,897 - DEBUG - TILE PROCESSOR: Extracted text from tag → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: Raw input → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: After unescape → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: After removing HTML tags → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: After normalizing quotes → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: After collapsing spaces → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - CLEAN TITLE: Final cleaned title → DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+2025-06-16 10:24:09,897 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 175,00
+2025-06-16 10:24:09,898 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,898 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,898 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 175,00
+2025-06-16 10:24:09,898 - DEBUG - CLEAN PRICE: Parsed value → 175.0
+2025-06-16 10:24:09,898 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,898 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,898 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,899 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,899 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,899 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,899 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,899 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,899 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/dog-tag62-890-stab-fallsch-panzerjager-abtlg-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/dog-tag62-890-stab-fallsch-panzerjager-abtlg-1
+
+                Raw Title          : DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+                Cleaned Title      : DOG TAG,62 890 -Stab /Fallsch-Panzerjager-Abtlg 1
+
+                Raw Price          : â‚¬ 175,00
+                Cleaned Price      : 175.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,899 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-neufchateau-belgie1941
+2025-06-16 10:24:09,900 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+2025-06-16 10:24:09,900 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 135,00
+2025-06-16 10:24:09,900 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,901 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,901 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 135,00
+2025-06-16 10:24:09,901 - DEBUG - CLEAN PRICE: Parsed value → 135.0
+2025-06-16 10:24:09,901 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,901 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,901 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,901 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,901 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,901 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,902 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,902 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,902 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-neufchateau-belgie1941
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-neufchateau-belgie1941
+
+                Raw Title          : Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+                Cleaned Title      : Wehrmacht Ardennenoffensief Map card from Neufchat [...]
+
+                Raw Price          : â‚¬ 135,00
+                Cleaned Price      : 135.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,902 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-schmutzfresseer-soap
+2025-06-16 10:24:09,902 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,903 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,903 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,903 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,903 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,903 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,904 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT ''SCHMUTZFRESSEER SOAP
+2025-06-16 10:24:09,904 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,904 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,904 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,904 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,904 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,904 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,904 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,905 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,905 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-schmutzfresseer-soap
+                Cleaned URL        : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-schmutzfresseer-soap
+
+                Raw Title          : WEHRMACHT ''SCHMUTZFRESSEER SOAP
+                Cleaned Title      : WEHRMACHT ''SCHMUTZFRESSEER SOAP
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,906 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limerle-belgie1941
+2025-06-16 10:24:09,906 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Limerle [...]
+2025-06-16 10:24:09,906 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Limerle [...]
+2025-06-16 10:24:09,907 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 135,00
+2025-06-16 10:24:09,907 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,907 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,907 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 135,00
+2025-06-16 10:24:09,907 - DEBUG - CLEAN PRICE: Parsed value → 135.0
+2025-06-16 10:24:09,907 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,907 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,908 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,908 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,908 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,908 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,908 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,908 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,908 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limerle-belgie1941
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limerle-belgie1941
+
+                Raw Title          : Wehrmacht Ardennenoffensief Map card from Limerle  [...]
+                Cleaned Title      : Wehrmacht Ardennenoffensief Map card from Limerle [...]
+
+                Raw Price          : â‚¬ 135,00
+                Cleaned Price      : 135.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,909 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-m43-greatcoat
+2025-06-16 10:24:09,909 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: Raw input → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: After unescape → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: After removing HTML tags → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: After normalizing quotes → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: After collapsing spaces → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,909 - DEBUG - CLEAN TITLE: Final cleaned title → Luftwaffe M43 greatcoat
+2025-06-16 10:24:09,910 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 550,00
+2025-06-16 10:24:09,910 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,910 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,910 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 550,00
+2025-06-16 10:24:09,910 - DEBUG - CLEAN PRICE: Parsed value → 550.0
+2025-06-16 10:24:09,910 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,910 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,911 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,911 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,911 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,911 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,911 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,911 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,911 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-m43-greatcoat
+                Cleaned URL        : https://tarnmilitaria.com/product/german/uniforms-acceoires/luftwaffe-m43-greatcoat
+
+                Raw Title          : Luftwaffe M43 greatcoat
+                Cleaned Title      : Luftwaffe M43 greatcoat
+
+                Raw Price          : â‚¬ 550,00
+                Cleaned Price      : 550.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,912 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-taifun-cigarette-lighter-in-box
+2025-06-16 10:24:09,912 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Taifun Cigarette Lighter in box
+2025-06-16 10:24:09,912 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,912 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,912 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,912 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,913 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,913 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,913 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,913 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,913 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-taifun-cigarette-lighter-in-box
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-taifun-cigarette-lighter-in-box
+
+                Raw Title          : Wehrmacht Taifun Cigarette Lighter in box
+                Cleaned Title      : Wehrmacht Taifun Cigarette Lighter in box
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,913 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-stahlhelm-innenfutter-size-6658-1944
+2025-06-16 10:24:09,913 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+2025-06-16 10:24:09,914 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 300,00
+2025-06-16 10:24:09,914 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,914 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,915 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 300,00
+2025-06-16 10:24:09,915 - DEBUG - CLEAN PRICE: Parsed value → 300.0
+2025-06-16 10:24:09,915 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,915 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,915 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,915 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,915 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,915 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,915 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,916 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,916 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-stahlhelm-innenfutter-size-6658-1944
+                Cleaned URL        : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-helmet-liner-stahlhelm-innenfutter-size-6658-1944
+
+                Raw Title          : Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+                Cleaned Title      : Wehrmacht Helmet Liner (Stahlhelm Innenfutter). Si [...]
+
+                Raw Price          : â‚¬ 300,00
+                Cleaned Price      : 300.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,916 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-pionier-nco-waffenrock
+2025-06-16 10:24:09,916 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,916 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,916 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,916 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,916 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,917 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,917 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Pionier NCO Waffenrock
+2025-06-16 10:24:09,917 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,917 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,917 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,917 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,917 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,917 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,917 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,918 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,918 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-pionier-nco-waffenrock
+                Cleaned URL        : https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-pionier-nco-waffenrock
+
+                Raw Title          : Wehrmacht Pionier NCO Waffenrock
+                Cleaned Title      : Wehrmacht Pionier NCO Waffenrock
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,918 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmenteye-patch-
+2025-06-16 10:24:09,918 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+2025-06-16 10:24:09,918 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 30,00
+2025-06-16 10:24:09,920 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,920 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,920 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 30,00
+2025-06-16 10:24:09,920 - DEBUG - CLEAN PRICE: Parsed value → 30.0
+2025-06-16 10:24:09,920 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,920 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,921 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,921 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,921 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,921 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,921 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,921 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,921 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmenteye-patch-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmenteye-patch-
+
+                Raw Title          : WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+                Cleaned Title      : WEHRMACHT MEDICAL EQUIPMENT''Eye patch''
+
+                Raw Price          : â‚¬ 30,00
+                Cleaned Price      : 30.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,922 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/police-cap-eagle
+2025-06-16 10:24:09,922 - DEBUG - TILE PROCESSOR: Extracted text from tag → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: Raw input → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: After unescape → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: After removing HTML tags → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: After normalizing quotes → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: After collapsing spaces → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - CLEAN TITLE: Final cleaned title → POLICE CAP EAGLE.
+2025-06-16 10:24:09,922 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,922 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,923 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,923 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,923 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,923 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,923 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,924 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,924 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/police-cap-eagle
+                Cleaned URL        : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/police-cap-eagle
+
+                Raw Title          : POLICE CAP EAGLE.
+                Cleaned Title      : POLICE CAP EAGLE.
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,924 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-nsb-poster-tentoonstelling-het-nederlandsch-handelsaffiche-1942
+2025-06-16 10:24:09,924 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: Raw input → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: After unescape → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: After removing HTML tags → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: After normalizing quotes → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: After collapsing spaces → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - CLEAN TITLE: Final cleaned title → DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+2025-06-16 10:24:09,925 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 60,00
+2025-06-16 10:24:09,925 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,926 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,926 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 60,00
+2025-06-16 10:24:09,926 - DEBUG - CLEAN PRICE: Parsed value → 60.0
+2025-06-16 10:24:09,926 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,926 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,926 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,926 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,926 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,927 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,927 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,927 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,927 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-nsb-poster-tentoonstelling-het-nederlandsch-handelsaffiche-1942
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-nsb-poster-tentoonstelling-het-nederlandsch-handelsaffiche-1942
+
+                Raw Title          : DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+                Cleaned Title      : DUTCH NSB POSTER ''Tentoonstelling Het Nederlandsc [...]
+
+                Raw Price          : â‚¬ 60,00
+                Cleaned Price      : 60.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,927 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/buckles-belts-straps/wehrmachtluftwaffen-belt-koppel-size-95-cm-1
+2025-06-16 10:24:09,927 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,927 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+2025-06-16 10:24:09,928 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 120,00
+2025-06-16 10:24:09,928 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,928 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,929 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 120,00
+2025-06-16 10:24:09,929 - DEBUG - CLEAN PRICE: Parsed value → 120.0
+2025-06-16 10:24:09,929 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,929 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,929 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,929 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,929 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,929 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,929 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,929 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,930 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/buckles-belts-straps/wehrmachtluftwaffen-belt-koppel-size-95-cm-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/buckles-belts-straps/wehrmachtluftwaffen-belt-koppel-size-95-cm-1
+
+                Raw Title          : WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+                Cleaned Title      : WEHRMACHT/LUFTWAFFEN BELT. ( Koppel ) , Size 95 cm
+
+                Raw Price          : â‚¬ 120,00
+                Cleaned Price      : 120.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,930 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-spoon-
+2025-06-16 10:24:09,930 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,930 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,930 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,930 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,930 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,931 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,931 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MESS HALL SERVING SPOON .
+2025-06-16 10:24:09,931 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 35,00
+2025-06-16 10:24:09,931 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,931 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,931 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 35,00
+2025-06-16 10:24:09,931 - DEBUG - CLEAN PRICE: Parsed value → 35.0
+2025-06-16 10:24:09,931 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,931 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,932 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,932 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,932 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,932 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,932 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,932 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,932 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-spoon-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-spoon-
+
+                Raw Title          : WEHRMACHT MESS HALL SERVING SPOON .
+                Cleaned Title      : WEHRMACHT MESS HALL SERVING SPOON .
+
+                Raw Price          : â‚¬ 35,00
+                Cleaned Price      : 35.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,933 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/field-post-chess-game
+2025-06-16 10:24:09,933 - DEBUG - TILE PROCESSOR: Extracted text from tag → Field Post Chess Game
+2025-06-16 10:24:09,933 - DEBUG - CLEAN TITLE: Raw input → Field Post Chess Game
+2025-06-16 10:24:09,933 - DEBUG - CLEAN TITLE: After unescape → Field Post Chess Game
+2025-06-16 10:24:09,933 - DEBUG - CLEAN TITLE: After removing HTML tags → Field Post Chess Game
+2025-06-16 10:24:09,934 - DEBUG - CLEAN TITLE: After normalizing quotes → Field Post Chess Game
+2025-06-16 10:24:09,934 - DEBUG - CLEAN TITLE: After collapsing spaces → Field Post Chess Game
+2025-06-16 10:24:09,934 - DEBUG - CLEAN TITLE: Final cleaned title → Field Post Chess Game
+2025-06-16 10:24:09,934 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 120,00
+2025-06-16 10:24:09,934 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,934 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,934 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 120,00
+2025-06-16 10:24:09,934 - DEBUG - CLEAN PRICE: Parsed value → 120.0
+2025-06-16 10:24:09,934 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,935 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,935 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,935 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,935 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,935 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,935 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,935 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,935 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/field-post-chess-game
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/field-post-chess-game
+
+                Raw Title          : Field Post Chess Game
+                Cleaned Title      : Field Post Chess Game
+
+                Raw Price          : â‚¬ 120,00
+                Cleaned Price      : 120.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,936 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-het-nederlandsch-arbeidsfront-1
+2025-06-16 10:24:09,936 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: Raw input → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: After unescape → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: After removing HTML tags → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: After normalizing quotes → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: After collapsing spaces → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,936 - DEBUG - CLEAN TITLE: Final cleaned title → DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+2025-06-16 10:24:09,937 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 60,00
+2025-06-16 10:24:09,937 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,937 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,937 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 60,00
+2025-06-16 10:24:09,937 - DEBUG - CLEAN PRICE: Parsed value → 60.0
+2025-06-16 10:24:09,937 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,938 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,938 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,938 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,938 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,938 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,938 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,938 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,939 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-het-nederlandsch-arbeidsfront-1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-het-nederlandsch-arbeidsfront-1
+
+                Raw Title          : DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+                Cleaned Title      : DUTCH POSTER ''het Nederlandsch Arbeidsfront.
+
+                Raw Price          : â‚¬ 60,00
+                Cleaned Price      : 60.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,939 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/dutch-collaboration/nsb-nsvo/nsb-postcardmet-mussert-hou-zee--4
+2025-06-16 10:24:09,939 - DEBUG - TILE PROCESSOR: Extracted text from tag → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: Raw input → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: After unescape → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: After removing HTML tags → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: After normalizing quotes → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: After collapsing spaces → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - CLEAN TITLE: Final cleaned title → NSB POSTCARD,Met mussert hou zee
+2025-06-16 10:24:09,940 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 20,00
+2025-06-16 10:24:09,940 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,940 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,941 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 20,00
+2025-06-16 10:24:09,941 - DEBUG - CLEAN PRICE: Parsed value → 20.0
+2025-06-16 10:24:09,941 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,941 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,941 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,941 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,941 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,941 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,942 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,942 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,942 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/dutch-collaboration/nsb-nsvo/nsb-postcardmet-mussert-hou-zee--4
+                Cleaned URL        : https://tarnmilitaria.com/product/dutch-collaboration/nsb-nsvo/nsb-postcardmet-mussert-hou-zee--4
+
+                Raw Title          : NSB POSTCARD,Met mussert hou zee
+                Cleaned Title      : NSB POSTCARD,Met mussert hou zee
+
+                Raw Price          : â‚¬ 20,00
+                Cleaned Price      : 20.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,942 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/communications-equipment-binoculars-optics/6-x-30-field-binoculars-bakelite-eye-rings-
+2025-06-16 10:24:09,942 - DEBUG - TILE PROCESSOR: Extracted text from tag → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: Raw input → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: After unescape → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: After removing HTML tags → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: After normalizing quotes → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: After collapsing spaces → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,942 - DEBUG - CLEAN TITLE: Final cleaned title → 6 X 30 Field Binoculars ,bakelite eye rings!
+2025-06-16 10:24:09,943 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,943 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,943 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,943 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,943 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,943 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,943 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,943 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,944 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/communications-equipment-binoculars-optics/6-x-30-field-binoculars-bakelite-eye-rings-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/communications-equipment-binoculars-optics/6-x-30-field-binoculars-bakelite-eye-rings-
+
+                Raw Title          : 6 X 30 Field Binoculars ,bakelite eye rings!
+                Cleaned Title      : 6 X 30 Field Binoculars ,bakelite eye rings!
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,944 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-medical-equipmentinspirol-pastillen-
+2025-06-16 10:24:09,944 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,944 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,944 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,944 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,944 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,944 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,945 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+2025-06-16 10:24:09,945 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 45,00
+2025-06-16 10:24:09,945 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,945 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,945 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 45,00
+2025-06-16 10:24:09,945 - DEBUG - CLEAN PRICE: Parsed value → 45.0
+2025-06-16 10:24:09,945 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,945 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,945 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,946 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,946 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,946 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,946 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,946 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,946 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-medical-equipmentinspirol-pastillen-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-medical-equipmentinspirol-pastillen-
+
+                Raw Title          : WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+                Cleaned Title      : WEHRMACHT MEDICAL EQUIPMENT''Inspirol-pastillen''
+
+                Raw Price          : â‚¬ 45,00
+                Cleaned Price      : 45.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,946 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/training-manual/luftwaffe-fallschirm-pruffschein-ausweis
+2025-06-16 10:24:09,947 - DEBUG - TILE PROCESSOR: Extracted text from tag → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: Raw input → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: After unescape → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: After removing HTML tags → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: After normalizing quotes → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: After collapsing spaces → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - CLEAN TITLE: Final cleaned title → Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+2025-06-16 10:24:09,947 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 160,00
+2025-06-16 10:24:09,947 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,947 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,948 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 160,00
+2025-06-16 10:24:09,948 - DEBUG - CLEAN PRICE: Parsed value → 160.0
+2025-06-16 10:24:09,948 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,948 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,948 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,948 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,948 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,948 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,948 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,949 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,949 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/training-manual/luftwaffe-fallschirm-pruffschein-ausweis
+                Cleaned URL        : https://tarnmilitaria.com/product/german/training-manual/luftwaffe-fallschirm-pruffschein-ausweis
+
+                Raw Title          : Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+                Cleaned Title      : Luftwaffe 'Fallschirm-Pruffschein-Ausweis'
+
+                Raw Price          : â‚¬ 160,00
+                Cleaned Price      : 160.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,949 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-field-issue-folding-spoonfork-combo-cutlery-set-stamp-cc-w44-
+2025-06-16 10:24:09,949 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,949 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,949 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,949 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,949 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,950 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,950 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+2025-06-16 10:24:09,950 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,950 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,950 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,950 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,950 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,950 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,950 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,951 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,951 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-field-issue-folding-spoonfork-combo-cutlery-set-stamp-cc-w44-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/wehrmacht-field-issue-folding-spoonfork-combo-cutlery-set-stamp-cc-w44-
+
+                Raw Title          : WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+                Cleaned Title      : WEHRMACHT FIELD ISSUE FOLDING SPOON/FORK COMBO CUT [...]
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,951 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-game
+2025-06-16 10:24:09,951 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht Game
+2025-06-16 10:24:09,951 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Game
+2025-06-16 10:24:09,951 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Game
+2025-06-16 10:24:09,951 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Game
+2025-06-16 10:24:09,951 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Game
+2025-06-16 10:24:09,952 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Game
+2025-06-16 10:24:09,952 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Game
+2025-06-16 10:24:09,952 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 120,00
+2025-06-16 10:24:09,952 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,952 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,952 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 120,00
+2025-06-16 10:24:09,952 - DEBUG - CLEAN PRICE: Parsed value → 120.0
+2025-06-16 10:24:09,952 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,953 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,953 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,953 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,953 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,953 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,953 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,953 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,953 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-game
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-game
+
+                Raw Title          : Wehrmacht Game
+                Cleaned Title      : Wehrmacht Game
+
+                Raw Price          : â‚¬ 120,00
+                Cleaned Price      : 120.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,954 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/medals-awards/ek1-cross-1st-class-iron-cross-1939
+2025-06-16 10:24:09,954 - DEBUG - TILE PROCESSOR: Extracted text from tag → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,954 - DEBUG - CLEAN TITLE: Raw input → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,954 - DEBUG - CLEAN TITLE: After unescape → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,954 - DEBUG - CLEAN TITLE: After removing HTML tags → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,955 - DEBUG - CLEAN TITLE: After normalizing quotes → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,955 - DEBUG - CLEAN TITLE: After collapsing spaces → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,955 - DEBUG - CLEAN TITLE: Final cleaned title → EK1 cross . 1st class iron cross, 1939.
+2025-06-16 10:24:09,955 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 185,00
+2025-06-16 10:24:09,955 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,955 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,956 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 185,00
+2025-06-16 10:24:09,956 - DEBUG - CLEAN PRICE: Parsed value → 185.0
+2025-06-16 10:24:09,956 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,956 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,956 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,957 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,957 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,957 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,957 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,958 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,958 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/medals-awards/ek1-cross-1st-class-iron-cross-1939
+                Cleaned URL        : https://tarnmilitaria.com/product/german/medals-awards/ek1-cross-1st-class-iron-cross-1939
+
+                Raw Title          : EK1 cross . 1st class iron cross, 1939.
+                Cleaned Title      : EK1 cross . 1st class iron cross, 1939.
+
+                Raw Price          : â‚¬ 185,00
+                Cleaned Price      : 185.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,959 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-fork-and-spoon-
+2025-06-16 10:24:09,960 - DEBUG - TILE PROCESSOR: Extracted text from tag → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,960 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,960 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,960 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,960 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,960 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,961 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MESS HALL SERVING FORK AND SPOON
+2025-06-16 10:24:09,961 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 70,00
+2025-06-16 10:24:09,961 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,961 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,961 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 70,00
+2025-06-16 10:24:09,962 - DEBUG - CLEAN PRICE: Parsed value → 70.0
+2025-06-16 10:24:09,962 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,962 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,962 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,962 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,962 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,962 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,963 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,963 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,963 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-fork-and-spoon-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-mess-hall-serving-fork-and-spoon-
+
+                Raw Title          : WEHRMACHT MESS HALL SERVING FORK AND SPOON
+                Cleaned Title      : WEHRMACHT MESS HALL SERVING FORK AND SPOON
+
+                Raw Price          : â‚¬ 70,00
+                Cleaned Price      : 70.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,964 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-dienstbrille-container--1
+2025-06-16 10:24:09,964 - DEBUG - TILE PROCESSOR: Extracted text from tag → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,964 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,964 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,964 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,964 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,964 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,965 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht 'Dienstbrille container''
+2025-06-16 10:24:09,965 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 40,00
+2025-06-16 10:24:09,965 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,965 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,965 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 40,00
+2025-06-16 10:24:09,965 - DEBUG - CLEAN PRICE: Parsed value → 40.0
+2025-06-16 10:24:09,966 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,966 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,966 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,966 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,966 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,966 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,966 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,967 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,967 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/equipment/wehrmacht-dienstbrille-container--1
+                Cleaned URL        : https://tarnmilitaria.com/product/german/equipment/wehrmacht-dienstbrille-container--1
+
+                Raw Title          : Wehrmacht 'Dienstbrille container''
+                Cleaned Title      : Wehrmacht 'Dienstbrille container''
+
+                Raw Price          : â‚¬ 40,00
+                Cleaned Price      : 40.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,967 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/documents-books-soldbuch-newspaper/book-so-wird-man-fallschirmjger
+2025-06-16 10:24:09,968 - DEBUG - TILE PROCESSOR: Extracted text from tag → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: Raw input → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: After unescape → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: After removing HTML tags → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: After normalizing quotes → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: After collapsing spaces → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,968 - DEBUG - CLEAN TITLE: Final cleaned title → Book, So wird man FallschirmjÃ¤ger..!
+2025-06-16 10:24:09,969 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 95,00
+2025-06-16 10:24:09,969 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,969 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,969 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 95,00
+2025-06-16 10:24:09,970 - DEBUG - CLEAN PRICE: Parsed value → 95.0
+2025-06-16 10:24:09,970 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,970 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,970 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,970 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,970 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,971 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,971 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,971 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,971 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/documents-books-soldbuch-newspaper/book-so-wird-man-fallschirmjger
+                Cleaned URL        : https://tarnmilitaria.com/product/german/documents-books-soldbuch-newspaper/book-so-wird-man-fallschirmjger
+
+                Raw Title          : Book, So wird man FallschirmjÃ¤ger..!
+                Cleaned Title      : Book, So wird man FallschirmjÃ¤ger..!
+
+                Raw Price          : â‚¬ 95,00
+                Cleaned Price      : 95.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,972 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-winterhulp-poster-offer-voor-uw-volk
+2025-06-16 10:24:09,972 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,972 - DEBUG - CLEAN TITLE: Raw input → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,972 - DEBUG - CLEAN TITLE: After unescape → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,973 - DEBUG - CLEAN TITLE: After removing HTML tags → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,973 - DEBUG - CLEAN TITLE: After normalizing quotes → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,973 - DEBUG - CLEAN TITLE: After collapsing spaces → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,974 - DEBUG - CLEAN TITLE: Final cleaned title → DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+2025-06-16 10:24:09,974 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,974 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,974 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,974 - DEBUG - RAW AVAILABILITY VALUE: None
+2025-06-16 10:24:09,974 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,975 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,975 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,975 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,975 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-winterhulp-poster-offer-voor-uw-volk
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-winterhulp-poster-offer-voor-uw-volk
+
+                Raw Title          : DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+                Cleaned Title      : DUTCH WINTERHULP POSTER, ''Offer voor uw volk''
+
+                Raw Price          : None
+                Cleaned Price      : None
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,976 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-welvaart-in-uw-gezin-door-arbeid-in-duitschland-
+2025-06-16 10:24:09,976 - DEBUG - TILE PROCESSOR: Extracted text from tag → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,976 - DEBUG - CLEAN TITLE: Raw input → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,976 - DEBUG - CLEAN TITLE: After unescape → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,976 - DEBUG - CLEAN TITLE: After removing HTML tags → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,977 - DEBUG - CLEAN TITLE: After normalizing quotes → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,977 - DEBUG - CLEAN TITLE: After collapsing spaces → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,977 - DEBUG - CLEAN TITLE: Final cleaned title → DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+2025-06-16 10:24:09,977 - DEBUG - TILE PROCESSOR: Extracted text from tag → â‚¬ 90,00
+2025-06-16 10:24:09,977 - WARNING - Post-process function 'type' not found.
+2025-06-16 10:24:09,977 - WARNING - Post-process function 'pattern' not found.
+2025-06-16 10:24:09,978 - DEBUG - CLEAN PRICE: Stripped text → â‚¬ 90,00
+2025-06-16 10:24:09,978 - DEBUG - CLEAN PRICE: Parsed value → 90.0
+2025-06-16 10:24:09,978 - DEBUG - TILE ROOT ELEMENT: div, attrs: {'class': ['article']}
+2025-06-16 10:24:09,978 - DEBUG - EXTRACT AVAILABILITY CONFIG: {'method': 'find', 'args': ['span'], 'kwargs': {'class_': 'glyphicon glyphicon-shopping-cart'}, 'post_process': {'type': 'exists', 'if_true': True, 'if_false': False}}
+2025-06-16 10:24:09,979 - DEBUG - TILE PROCESSOR: Extracted text from tag → 
+2025-06-16 10:24:09,979 - DEBUG - RAW AVAILABILITY VALUE: 
+2025-06-16 10:24:09,979 - DEBUG - NORMALIZED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,979 - DEBUG - POST-PROCESSED AVAILABILITY VALUE: 
+2025-06-16 10:24:09,979 - DEBUG - AVAILABILITY: Value is empty or None — fallback will be used.
+2025-06-16 10:24:09,979 - WARNING - TILE PROCESSOR: No availability info found. Defaulting to False.
+2025-06-16 10:24:09,980 - INFO - 
+                ======== TILE PRODUCT SUMMARY ========
+                Raw URL            : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-welvaart-in-uw-gezin-door-arbeid-in-duitschland-
+                Cleaned URL        : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/dutch-poster-welvaart-in-uw-gezin-door-arbeid-in-duitschland-
+
+                Raw Title          : DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+                Cleaned Title      : DUTCH POSTER ,'Welvaart in uw gezin door arbeid in [...]
+
+                Raw Price          : â‚¬ 90,00
+                Cleaned Price      : 90.0
+
+                Raw Availability   : ['article']
+                Cleaned Availability: False
+                ======================================
+                    
+2025-06-16 10:24:09,980 - INFO - SITE PROCESSOR: Product Dictionaries count: 48
+2025-06-16 10:24:09,980 - INFO - PRODUCT PROCESSOR: Categorizing products between old and new...
+2025-06-16 10:24:09,980 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+2025-06-16 10:24:09,980 - DEBUG - CLEAN TITLE: Raw input → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - CLEAN TITLE: After unescape → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - CLEAN TITLE: After removing HTML tags → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - CLEAN TITLE: After normalizing quotes → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - CLEAN TITLE: After collapsing spaces → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - CLEAN TITLE: Final cleaned title → Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+2025-06-16 10:24:09,981 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1', title='Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]'
+2025-06-16 10:24:10,295 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1', title='Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]')
+2025-06-16 10:24:10,295 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+2025-06-16 10:24:10,295 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/kriegsmarine-kstenartillerie-overseas-cap-schiffchen-1940-1
+    DB Title             : None
+    Tile Title           : Kriegsmarine KÃ¼stenartillerie overseas cap â€˜Sch [...]
+    DB Price             : None
+    Tile Price           : 425.0
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:10,296 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,296 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze', title="Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]"
+2025-06-16 10:24:10,524 - INFO - DEDUPLICATION: Matched by URL: https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+2025-06-16 10:24:10,525 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,525 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,525 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,525 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,525 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+2025-06-16 10:24:10,526 - INFO - PROCESSING REQUIRED: Title or price mismatch → URL: https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+    DB Title     : Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+    Tile Title   : Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+    DB Price     : 1250.0
+    Tile Price   : 1250.0
+2025-06-16 10:24:10,527 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-tropical-emncos-m40-cap-tropenfeldmtze
+    DB Title             : Wehrmacht Tropical EM/NCO's M40 Cap (Tropenfeldmütze)
+    Tile Title           : Wehrmacht Tropical EM/NCO's M40 Cap (TropenfeldmÃ [...]
+    DB Price             : 1250.0
+    Tile Price           : 1250.0
+    DB Availability      : False
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : Mismatch in title or price
+    ==================================
+                
+2025-06-16 10:24:10,527 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+2025-06-16 10:24:10,527 - DEBUG - CLEAN TITLE: Raw input → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,527 - DEBUG - CLEAN TITLE: After unescape → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,527 - DEBUG - CLEAN TITLE: After removing HTML tags → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,527 - DEBUG - CLEAN TITLE: After normalizing quotes → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,527 - DEBUG - CLEAN TITLE: After collapsing spaces → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,528 - DEBUG - CLEAN TITLE: Final cleaned title → Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+2025-06-16 10:24:10,528 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2', title='Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]'
+2025-06-16 10:24:10,929 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2', title='Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]')
+2025-06-16 10:24:10,929 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+2025-06-16 10:24:10,929 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-5-bis-12-september-1938-2
+    DB Title             : None
+    Tile Title           : Postcard NÃ¼rnberg, Reichsparteitag 5 bis 12 Septe [...]
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:10,930 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: Raw input → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: After unescape → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: After removing HTML tags → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: After normalizing quotes → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: After collapsing spaces → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,930 - DEBUG - CLEAN TITLE: Final cleaned title → Postcard NÃ¼rnberg Reichsparteitag 1937,
+2025-06-16 10:24:10,931 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937', title='Postcard NÃ¼rnberg Reichsparteitag 1937,'
+2025-06-16 10:24:11,309 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937', title='Postcard NÃ¼rnberg Reichsparteitag 1937,')
+2025-06-16 10:24:11,309 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+2025-06-16 10:24:11,310 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/posters-leaflets-photos-postcards/postcard-nrnberg-reichsparteitag-1937
+    DB Title             : None
+    Tile Title           : Postcard NÃ¼rnberg Reichsparteitag 1937,
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:11,310 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+2025-06-16 10:24:11,310 - DEBUG - CLEAN TITLE: Raw input → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,310 - DEBUG - CLEAN TITLE: After unescape → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,311 - DEBUG - CLEAN TITLE: After removing HTML tags → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,311 - DEBUG - CLEAN TITLE: After normalizing quotes → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,311 - DEBUG - CLEAN TITLE: After collapsing spaces → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,311 - DEBUG - CLEAN TITLE: Final cleaned title → M43 Wehrmacht (Heer) field cap
+2025-06-16 10:24:11,311 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1', title='M43 Wehrmacht (Heer) field cap'
+2025-06-16 10:24:11,704 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1', title='M43 Wehrmacht (Heer) field cap')
+2025-06-16 10:24:11,705 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+2025-06-16 10:24:11,705 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/m43-wehrmacht-heer-field-cap-1
+    DB Title             : None
+    Tile Title           : M43 Wehrmacht (Heer) field cap
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:11,705 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: Raw input → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: After unescape → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: After removing HTML tags → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: After normalizing quotes → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: After collapsing spaces → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - CLEAN TITLE: Final cleaned title → WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+2025-06-16 10:24:11,706 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs', title="WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS."
+2025-06-16 10:24:12,110 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs', title="WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.")
+2025-06-16 10:24:12,110 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+2025-06-16 10:24:12,110 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-hauptsturmfhrers-collar-tabs
+    DB Title             : None
+    Tile Title           : WAFFEN-SS-HAUPTSTURMFÃœHRER'S COLLAR TABS.
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:12,111 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+2025-06-16 10:24:12,111 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,111 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,111 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,111 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,112 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,112 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+2025-06-16 10:24:12,112 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1', title='Wehrmacht Winter Fur Cap (PelzmÃ¼tze).'
+2025-06-16 10:24:12,445 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1', title='Wehrmacht Winter Fur Cap (PelzmÃ¼tze).')
+2025-06-16 10:24:12,445 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+2025-06-16 10:24:12,446 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/helmets-headwear-accesoires/wehrmacht-winter-fur-cap-pelzmtze-1
+    DB Title             : None
+    Tile Title           : Wehrmacht Winter Fur Cap (PelzmÃ¼tze).
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:12,446 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+2025-06-16 10:24:12,446 - DEBUG - CLEAN TITLE: Raw input → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,446 - DEBUG - CLEAN TITLE: After unescape → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,446 - DEBUG - CLEAN TITLE: After removing HTML tags → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,446 - DEBUG - CLEAN TITLE: After normalizing quotes → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,446 - DEBUG - CLEAN TITLE: After collapsing spaces → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,447 - DEBUG - CLEAN TITLE: Final cleaned title → WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+2025-06-16 10:24:12,447 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board', title="WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD."
+2025-06-16 10:24:12,851 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board', title="WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.")
+2025-06-16 10:24:12,851 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+2025-06-16 10:24:12,852 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/insignia-headgear-insigniainsigniacollar-tabsshoulder-boards-/waffen-ss-infantry-hauptsturmfhrers-shoulder-board
+    DB Title             : None
+    Tile Title           : WAFFEN-SS INFANTRY HAUPTSTURMFÃœHRER'S SHOULDER BOARD.
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:12,852 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: Raw input → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: After unescape → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: After removing HTML tags → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: After normalizing quotes → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: After collapsing spaces → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - CLEAN TITLE: Final cleaned title → Dutch CM39 greatcoat
+2025-06-16 10:24:12,852 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-', title='Dutch CM39 greatcoat'
+2025-06-16 10:24:13,141 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-', title='Dutch CM39 greatcoat')
+2025-06-16 10:24:13,141 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+2025-06-16 10:24:13,142 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/uniforms-acceoires/dutch-cm39-greatcoat-
+    DB Title             : None
+    Tile Title           : Dutch CM39 greatcoat
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:13,142 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+2025-06-16 10:24:13,142 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941', title='Wehrmacht Ardennenoffensief Map card from Limbourg [...]'
+2025-06-16 10:24:13,480 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941', title='Wehrmacht Ardennenoffensief Map card from Limbourg [...]')
+2025-06-16 10:24:13,480 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+2025-06-16 10:24:13,480 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-limbourg-belgie1941
+    DB Title             : None
+    Tile Title           : Wehrmacht Ardennenoffensief Map card from Limbourg [...]
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:13,481 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+2025-06-16 10:24:13,481 - DEBUG - CLEAN TITLE: Raw input → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,481 - DEBUG - CLEAN TITLE: After unescape → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,481 - DEBUG - CLEAN TITLE: After removing HTML tags → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,481 - DEBUG - CLEAN TITLE: After normalizing quotes → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,482 - DEBUG - CLEAN TITLE: After collapsing spaces → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,482 - DEBUG - CLEAN TITLE: Final cleaned title → WO1 BLACK EM/NCO'S MARCHING BOOTS.
+2025-06-16 10:24:13,482 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots', title="WO1 BLACK EM/NCO'S MARCHING BOOTS."
+2025-06-16 10:24:13,894 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots', title="WO1 BLACK EM/NCO'S MARCHING BOOTS.")
+2025-06-16 10:24:13,895 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+2025-06-16 10:24:13,895 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/ww1/0/-wo1-black-emncos-marching-boots
+    DB Title             : None
+    Tile Title           : WO1 BLACK EM/NCO'S MARCHING BOOTS.
+    DB Price             : None
+    Tile Price           : 675.0
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:13,895 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+2025-06-16 10:24:13,895 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,895 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,896 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,896 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,896 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,896 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht motorcycle number plate
+2025-06-16 10:24:13,896 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-', title='Wehrmacht motorcycle number plate'
+2025-06-16 10:24:14,265 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-', title='Wehrmacht motorcycle number plate')
+2025-06-16 10:24:14,265 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+2025-06-16 10:24:14,265 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/equipment/wehrmacht-motorcycle-number-plate-
+    DB Title             : None
+    Tile Title           : Wehrmacht motorcycle number plate
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:14,265 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+2025-06-16 10:24:14,266 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941', title='Wehrmacht Ardennenoffensief Map card from Paliseul [...]'
+2025-06-16 10:24:14,655 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941', title='Wehrmacht Ardennenoffensief Map card from Paliseul [...]')
+2025-06-16 10:24:14,655 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+2025-06-16 10:24:14,656 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/equipment/wehrmacht-ardennenoffensief-map-card-from-paliseul-belgie1941
+    DB Title             : None
+    Tile Title           : Wehrmacht Ardennenoffensief Map card from Paliseul [...]
+    DB Price             : None
+    Tile Price           : 135.0
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:14,656 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+2025-06-16 10:24:14,656 - DEBUG - CLEAN TITLE: Raw input → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,656 - DEBUG - CLEAN TITLE: After unescape → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,656 - DEBUG - CLEAN TITLE: After removing HTML tags → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,657 - DEBUG - CLEAN TITLE: After normalizing quotes → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,657 - DEBUG - CLEAN TITLE: After collapsing spaces → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,657 - DEBUG - CLEAN TITLE: Final cleaned title → WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+2025-06-16 10:24:14,657 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944', title="WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944"
+2025-06-16 10:24:15,019 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944', title="WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944")
+2025-06-16 10:24:15,019 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+2025-06-16 10:24:15,019 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/medical-equipment/wehrmacht-medical-equipmentvilcoplast-1944
+    DB Title             : None
+    Tile Title           : WEHRMACHT MEDICAL EQUIPMENT''Vilcoplast'' 1944
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:15,019 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+2025-06-16 10:24:15,019 - DEBUG - CLEAN TITLE: Raw input → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - CLEAN TITLE: After unescape → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - CLEAN TITLE: After removing HTML tags → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - CLEAN TITLE: After normalizing quotes → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - CLEAN TITLE: After collapsing spaces → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - CLEAN TITLE: Final cleaned title → Wehrmacht (Heer) M43 greatcoat
+2025-06-16 10:24:15,021 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-', title='Wehrmacht (Heer) M43 greatcoat'
+2025-06-16 10:24:15,288 - DEBUG - DEDUPLICATION: No match found (site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-', title='Wehrmacht (Heer) M43 greatcoat')
+2025-06-16 10:24:15,288 - INFO - NEW PRODUCT: Not found in DB or comparison list → URL: https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+2025-06-16 10:24:15,288 - INFO - 
+    ======== Product Summary ========
+    URL                  : https://tarnmilitaria.com/product/german/uniforms-acceoires/wehrmacht-heer-m43-greatcoat-
+    DB Title             : None
+    Tile Title           : Wehrmacht (Heer) M43 greatcoat
+    DB Price             : None
+    Tile Price           : None
+    DB Availability      : None
+    Tile Availability    : False
+    ==================================
+    Product Category     : Processing Required
+    Reason               : New product
+    ==================================
+                
+2025-06-16 10:24:15,289 - DEBUG - CLEAN URL: Cleaned URL → https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/dog-tag-62-899-stab-fallsch-panzerjager-abtlg-1
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: Raw input → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: After unescape → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: After removing HTML tags → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: After normalizing quotes → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: After collapsing spaces → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,289 - DEBUG - CLEAN TITLE: Final cleaned title → DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,
+2025-06-16 10:24:15,290 - DEBUG - DEDUP: Checking site='TARN_MILITARIA', url='https://tarnmilitaria.com/product/german/personal-items-id-card-soldbuch/dog-tag-62-899-stab-fallsch-panzerjager-abtlg-1', title='DOG TAG, 62 899 - Stab /Fallsch-Panzerjager-Abtlg 1,'

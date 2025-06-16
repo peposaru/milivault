@@ -497,3 +497,8 @@ def stewarts_militaria(product_soup):
     except Exception as e:
         logging.error(f"Error in stewarts_militaria: {e}")
         return []
+
+def tarn_militaria(soup):
+    base_url = "https://tarnmilitaria.com"
+    return [base_url + tag["href"] for tag in soup.select(".vergroot a[href]")]
+
