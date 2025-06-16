@@ -10,24 +10,50 @@ class AwsRdsManager:
         self.min_connections = min_connections
         self.max_connections = max_connections
         self._initialize_connection_pool(credentials_file, min_connections, max_connections)
-
+        self.db_config = {
+            "host": self.db_host,
+            "port": self.db_port,
+            "user": self.db_user,
+            "password": self.db_password,
+            "dbname": self.db_name,
+}
+        
     def _initialize_connection_pool(self, credentials_file, min_connections, max_connections):
         try:
             with open(credentials_file, 'r') as file:
                 credentials = json.load(file)
 
+            # Store individual fields for db_config reuse
+            self.db_user     = credentials.get("userName")
+            self.db_password = credentials.get("pwd")
+            self.db_host     = credentials.get("hostName")
+            self.db_name     = credentials.get("dataBase")
+            self.db_port     = credentials.get("portId")
+
             self.connection_pool = pool.SimpleConnectionPool(
                 min_connections, max_connections,
-                user=credentials.get("userName"),
-                password=credentials.get("pwd"),
-                host=credentials.get("hostName"),
-                database=credentials.get("dataBase"),
-                port=credentials.get("portId")
+                user=self.db_user,
+                password=self.db_password,
+                host=self.db_host,
+                database=self.db_name,
+                port=self.db_port
             )
+
             logging.info("Connection pool initialized successfully.")
+
+            # Store reusable config for multiprocessing
+            self.db_config = {
+                "host": self.db_host,
+                "port": self.db_port,
+                "user": self.db_user,
+                "password": self.db_password,
+                "dbname": self.db_name,
+            }
+
         except Exception as e:
             logging.error(f"Failed to initialize connection pool: {e}")
             raise
+
 
     def _execute_query(self, query, params=None, fetch=False):
         """

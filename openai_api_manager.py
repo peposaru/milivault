@@ -6,7 +6,8 @@ class OpenAIManager:
     def __init__(self, openai_cred_path, categories_path):
         self.openai_cred_path = openai_cred_path
         self.categories_path = categories_path
-        self.client = openai.OpenAI(api_key=self._load_api_key())
+        self.api_key = self._load_api_key()
+        self.client = openai.OpenAI(api_key=self.api_key)
         self.model = "gpt-4.1-mini"
 
     def _load_api_key(self):

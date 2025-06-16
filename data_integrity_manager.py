@@ -5,6 +5,11 @@ import post_processors as post_processors
 from product_tile_processor import TileProcessor
 from site_processor import SiteProcessor
 import image_extractor
+from time import sleep
+from openai_api_manager import OpenAIManager
+import signal
+from multiprocessing import Pool, cpu_count
+from functools import partial
 
 import random
 import time
@@ -15,19 +20,28 @@ from collections import defaultdict
 class DataIntegrityManager:
     def __init__(self, managers):
         self.managers     = managers
-        self.rds_manager = managers.get("rdsManager")
+        self.rds_manager  = managers.get("rdsManager")
         self.s3_manager   = managers.get("s3_manager")
-        selector_path = self.managers['user_settings']['selectorJsonFolder']
-        self.db = self.rds_manager
+        self.db           = self.rds_manager
         self.logger       = logging.getLogger(__name__)
+
+        # Initialize OpenAIManager
+        self.openai_manager = OpenAIManager("../credentials/chatgpt_api_key.json", categories_path=None)
+
+        # Vector generator is now fully wired
+        self.vector_generator = VectorEmbeddingGenerator(
+            rds_manager=self.rds_manager,
+            openai_manager=self.openai_manager
+        )
 
     def run_submenu(self):
         print("""
-    DATA INTEGRITY MENU
-    1. Recover missing images
-    2. Generate thumbnails from first S3 image
-    3. Recover datapoints with URL
-    (Press Enter to exit)
+        DATA INTEGRITY MENU
+        1. Recover missing images
+        2. Generate thumbnails from first S3 image
+        3. Recover datapoints with URL
+        4. Generate OpenAI vector embeddings
+        (Press Enter to exit)
         """)
         choice = input("Select an option: ").strip()
 
@@ -40,8 +54,16 @@ class DataIntegrityManager:
         elif choice == "3":
             tool = DataPointRecoverer(self.db, self.s3_manager)
             tool.recover()
+        elif choice == "4":
+            use_parallel = input("Run in parallel? [y/N]: ").strip().lower() == "y"
+            tool = VectorEmbeddingGenerator(self.db, self.openai_manager)
+            if use_parallel:
+                tool.run_all_parallel()
+            else:
+                tool.run_all()
         else:
             print("Exited integrity submenu.")
+
 
     def check_data_integrity(self):
         """
@@ -525,3 +547,165 @@ class ThumbnailGenerator:
 
 class DataPointRecoverer:
     pass
+
+
+class VectorEmbeddingGenerator:
+    def __init__(self, rds_manager, openai_manager, batch_size=100, num_workers=4):
+        self.rds_manager = rds_manager
+        self.openai_manager = openai_manager
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.stop_requested = False
+        self._setup_signal_handlers()
+
+    def _setup_signal_handlers(self):
+        def handler(signum, frame):
+            if self.stop_requested:
+                logging.warning("Force exiting immediately...")
+                exit(1)
+            else:
+                self.stop_requested = True
+                logging.warning("Graceful shutdown requested. Finishing current batch... (Press Ctrl+C again to force quit)")
+        signal.signal(signal.SIGINT, handler)
+
+    def generate_embedding(self, text):
+        try:
+            response = self.openai_manager.client.embeddings.create(
+                input=[text],
+                model="text-embedding-3-small"
+            )
+            return response.data[0].embedding
+        except Exception as e:
+            logging.error(f"Embedding failed: {e}")
+            return None
+
+    def update_vector(self, db_id, vector):
+        try:
+            query = """
+                UPDATE militaria
+                SET openai_vector = %s, date_modified = CURRENT_TIMESTAMP
+                WHERE id = %s;
+            """
+            self.rds_manager.execute(query, (vector, db_id))
+            logging.info(f"✅ Updated vector for DB ID {db_id}")
+        except Exception as e:
+            logging.error(f"Failed to update vector for DB ID {db_id}: {e}")
+
+    def process_row(self, row):
+        db_id, title, description = row
+        text = f"{title or ''} {description or ''}".strip()
+        if not text:
+            logging.warning(f"⚠️ Empty input for DB ID {db_id} — skipping.")
+            return
+
+        vector = self.generate_embedding(text)
+        if vector:
+            self.update_vector(db_id, vector)
+        time.sleep(1.2)  # stay under 60 RPM per worker
+
+    def run_all(self):
+        count_query = "SELECT COUNT(*) FROM militaria WHERE openai_vector IS NULL;"
+        total = self.rds_manager.fetch(count_query)[0][0]
+        logging.info(f"🔢 Total rows needing vectors: {total}")
+        estimated_total_time = (total * 1.5) / 60  # approx in minutes
+        logging.info(f"⏳ Estimated total time: ~{estimated_total_time:.1f} minutes")
+
+        start_time = time.time()
+        processed = 0
+
+        for offset in range(0, total, self.batch_size):
+            if self.stop_requested:
+                break
+            self.process_batch(offset)
+            processed += self.batch_size
+            elapsed = time.time() - start_time
+            rate = processed / elapsed if elapsed > 0 else 0
+            remaining = max(0, total - processed)
+            eta_sec = remaining / rate if rate > 0 else 0
+            eta_min = eta_sec / 60
+            logging.info(f"📊 Progress: {processed}/{total} ({(processed/total)*100:.1f}%) — ETA: ~{eta_min:.1f} min")
+
+        logging.info("✅ Embedding process complete (or interrupted).")
+
+    def process_batch(self, offset):
+        query = """
+            SELECT id, title, description
+            FROM militaria
+            WHERE openai_vector IS NULL
+            ORDER BY id DESC
+            LIMIT %s OFFSET %s;
+        """
+        rows = self.rds_manager.fetch(query, (self.batch_size, offset))
+        logging.info(f"🔄 Processing batch at offset {offset} — {len(rows)} rows")
+
+        for row in rows:
+            if self.stop_requested:
+                logging.warning("⏹️ Stop requested. Ending after this batch.")
+                break
+            self.process_row(row)
+
+    def run_all_parallel(self):
+        query = """
+            SELECT id, title, description
+            FROM militaria
+            WHERE openai_vector IS NULL
+            ORDER BY id DESC;
+        """
+        rows = self.rds_manager.fetch(query)
+        total = len(rows)
+        logging.info(f"🚀 Starting parallel processing with {self.num_workers} workers — Total: {total}")
+
+        # Extract OpenAI API key and DB creds
+        openai_api_key = self.openai_manager.api_key
+        db_credentials = self.rds_manager.db_config  # assumes this exists as a dict
+
+        from functools import partial
+        worker_func = partial(process_row_parallel, openai_api_key=openai_api_key, db_credentials=db_credentials)
+
+        from multiprocessing import Pool
+        with Pool(processes=self.num_workers) as pool:
+            try:
+                pool.map(worker_func, rows, chunksize=10)
+            except KeyboardInterrupt:
+                logging.warning("❌ Ctrl+C detected — terminating pool.")
+                pool.terminate()
+                pool.join()
+
+        logging.info("✅ Parallel embedding complete.")
+
+
+
+def process_row_parallel(row, openai_api_key, db_credentials):
+    from openai import OpenAI
+    import psycopg2
+
+    db_id, title, description = row
+    text = f"{title or ''} {description or ''}".strip()
+    if not text:
+        return
+
+    try:
+        # Re-init OpenAI client
+        client = OpenAI(api_key=openai_api_key)
+        response = client.embeddings.create(
+            input=[text],
+            model="text-embedding-3-small"
+        )
+        vector = response.data[0].embedding
+    except Exception as e:
+        logging.error(f"Embedding failed: {e}")
+        return
+
+    try:
+        conn = psycopg2.connect(**db_credentials)
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE militaria SET openai_vector = %s, date_modified = CURRENT_TIMESTAMP WHERE id = %s;",
+            (vector, db_id)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+        logging.info(f"✅ Updated vector for DB ID {db_id}")
+    except Exception as e:
+        logging.error(f"DB update failed for {db_id}: {e}")
