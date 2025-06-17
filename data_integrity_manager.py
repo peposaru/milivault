@@ -325,12 +325,12 @@ class ImageRecoveryProcessor:
         self.batch_size_per_site = 3  # Number of products processed per site per round
 
     def recover_images(self):
-        # 1. Compile working site profiles (which sites are live/configured)
+        # 1. Compile working site profiles
         site_profiles = self.json.compile_working_site_profiles(self.selector_path)
         working_sites = [p["source_name"] for p in site_profiles]
         limits = {site: self.site_limits.get(site, self.default_limit) for site in working_sites}
 
-        # 2. Fetch batches for each site (only products that need images, up to that site's daily limit)
+        # 2. Fetch batches per site (only those needing image uploads)
         site_batches = {}
         for site in working_sites:
             limit = limits[site]
@@ -342,7 +342,7 @@ class ImageRecoveryProcessor:
                 ) AND (
                     s3_image_urls IS NULL OR s3_image_urls = '[]'
                 )
-                AND image_download_failed IS false
+                AND image_download_failed IS FALSE
                 AND site = %s
                 ORDER BY id DESC
                 LIMIT %s;
@@ -350,33 +350,27 @@ class ImageRecoveryProcessor:
             records = self.rds_manager.fetch(query, (site, limit))
             site_batches[site] = records
 
-        # 3. Setup round-robin batch processing pointers
+        # 3. Setup round-robin state
         cursors = {site: 0 for site in working_sites}
         done_sites = set()
         total = sum(len(batch) for batch in site_batches.values())
         logging.info(f"🟢 Starting adaptive mini-batch image recovery: {total} total records across {len(site_batches)} sites")
 
-        # 4. Adaptive mini-batch round robin main loop
+        # 4. Main processing loop
         while len(done_sites) < len(working_sites):
             for site in working_sites:
                 if site in done_sites:
                     continue
                 batch = site_batches[site]
                 cursor = cursors[site]
-                # How many left to process in this round?
                 remaining = len(batch) - cursor
                 to_do = min(self.batch_size_per_site, remaining)
                 if to_do <= 0:
                     done_sites.add(site)
                     continue
 
-                # --- Per-site settings
-                if site in self.site_limits:
-                    max_workers = 2
-                    sleep_range = (2, 5)
-                else:
-                    max_workers = 4
-                    sleep_range = (1, 2.5)
+                max_workers = 2 if site in self.site_limits else 4
+                sleep_range = (2, 5) if site in self.site_limits else (1, 2.5)
 
                 for _ in range(to_do):
                     url, site_name, product_id = batch[cursor]
@@ -403,10 +397,12 @@ class ImageRecoveryProcessor:
                         soup = self.html.parse_html(url)
                         if not soup:
                             logging.warning(f"❌ Could not fetch or parse HTML for: {url}")
+                            self.mark_image_failed(url)
                             cursors[site] += 1
                             continue
                     except Exception as e:
                         logging.warning(f"❌ Exception while fetching/parsing HTML for {url}: {e}")
+                        self.mark_image_failed(url)
                         cursors[site] += 1
                         continue
 
@@ -415,6 +411,7 @@ class ImageRecoveryProcessor:
                         image_urls = image_func(soup)
                         if not image_urls:
                             logging.warning(f"🚫 No images extracted for {url} using {extractor_func_name}")
+                            self.mark_image_failed(url)
                             cursors[site] += 1
                             continue
 
@@ -441,21 +438,18 @@ class ImageRecoveryProcessor:
 
                     except Exception as e:
                         logging.error(f"❌ Exception during image extraction/upload for {url}: {e}")
-                        if image_urls:
-                            self.mark_image_failed(url)
+                        self.mark_image_failed(url)
 
-                    # Per-site polite sleep after every product
                     sleep_time = random.uniform(*sleep_range)
                     logging.info(f"Sleeping {sleep_time:.2f} seconds...")
                     time.sleep(sleep_time)
-
                     cursors[site] += 1
 
-                # Mark as done if all processed
                 if cursors[site] >= len(batch):
                     done_sites.add(site)
 
         logging.info("🎉 All adaptive mini-batch image recovery for today complete.")
+
 
     def mark_image_failed(self, url):
         try:
