@@ -399,12 +399,12 @@ class ImageRecoveryProcessor:
                             logging.warning(f"❌ Could not fetch or parse HTML for: {url}")
                             self.mark_image_failed(url)
                             cursors[site] += 1
-                            continue
+                            break
                     except Exception as e:
                         logging.warning(f"❌ Exception while fetching/parsing HTML for {url}: {e}")
                         self.mark_image_failed(url)
                         cursors[site] += 1
-                        continue
+                        break
 
                     try:
                         image_func = getattr(image_extractor, extractor_func_name)
@@ -413,7 +413,7 @@ class ImageRecoveryProcessor:
                             logging.warning(f"🚫 No images extracted for {url} using {extractor_func_name}")
                             self.mark_image_failed(url)
                             cursors[site] += 1
-                            continue
+                            break
 
                         logging.info(f"🖼️ Extracted {len(image_urls)} image(s) for {url}. Uploading...")
                         s3_urls = self.s3.upload_images_for_product(
@@ -435,10 +435,11 @@ class ImageRecoveryProcessor:
                         else:
                             logging.warning(f"⚠️ Upload failed for {url} — no S3 URLs returned.")
                             self.mark_image_failed(url)
-
+                            break
                     except Exception as e:
                         logging.error(f"❌ Exception during image extraction/upload for {url}: {e}")
                         self.mark_image_failed(url)
+                        break
 
                     sleep_time = random.uniform(*sleep_range)
                     logging.info(f"Sleeping {sleep_time:.2f} seconds...")
@@ -449,7 +450,6 @@ class ImageRecoveryProcessor:
                     done_sites.add(site)
 
         logging.info("🎉 All adaptive mini-batch image recovery for today complete.")
-
 
     def mark_image_failed(self, url):
         try:
