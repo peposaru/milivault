@@ -2,13 +2,15 @@ import json, sys, logging
 from psycopg2 import pool
 from decimal import Decimal
 from datetime import datetime, timezone
+from clean_data import CleanData  # if not already imported
 
 class AwsRdsManager:
-    def __init__(self, credentials_file, min_connections=5, max_connections=10):
+    def __init__(self, credentials_file, openai_manager=None, min_connections=5, max_connections=10):
         """Initialize a PostgreSQL connection pool using credentials from a file."""
         self.credentials_file = credentials_file
         self.min_connections = min_connections
         self.max_connections = max_connections
+        self.openai_manager = openai_manager
         self._initialize_connection_pool(credentials_file, min_connections, max_connections)
         self.db_config = {
             "host": self.db_host,
@@ -199,6 +201,7 @@ class AwsRdsManager:
     def new_product_input(self, clean_details_data):
         """
         Insert product data into the database without conflict checks, skipping blank or empty fields.
+        Automatically generates and attaches an OpenAI vector embedding based on the product's title and description.
 
         Args:
             clean_details_data (dict): The clean product details to upload.
@@ -221,7 +224,16 @@ class AwsRdsManager:
                 logging.warning(f"RDS MANAGER: Skipping insert — product already exists for URL: {url}")
                 return
 
-            # Ensure price is never None, but do not replace a valid DB price
+            # ✅ Generate OpenAI vector from title and description
+            if self.openai_manager:
+                vector = self.openai_manager.generate_vector_from_text(
+                    clean_details_data.get("title", ""),
+                    clean_details_data.get("description", "")
+                )
+                if vector:
+                    clean_details_data["openai_vector"] = vector
+
+            # ✅ Ensure price is not None
             if 'price' not in clean_details_data or clean_details_data['price'] is None:
                 clean_details_data['price'] = 0.0
 
@@ -233,7 +245,7 @@ class AwsRdsManager:
             clean_details_data["last_seen"] = now_utc
             clean_details_data["date_sold"] = None if is_available else now_utc
 
-            # Filter out empty fields
+            # ✅ Filter out empty fields
             required_fields = {"date_sold", "date_collected", "date_modified", "last_seen"}
             filtered_data = {
                 k: v for k, v in clean_details_data.items()
@@ -243,7 +255,7 @@ class AwsRdsManager:
             logging.debug(f"RDS_MGR: Filtered data for insertion: {filtered_data.keys()}")
             logging.debug(f"RDS_MGR: Prepared data for insertion: {filtered_data}")
 
-            # Convert Decimal fields to float and handle JSON serialization
+            # ✅ Convert Decimal fields and JSON serialize lists
             json_fields = ["original_image_urls", "categories_site_designated"]
             for key, value in filtered_data.items():
                 if isinstance(value, Decimal):
@@ -251,7 +263,7 @@ class AwsRdsManager:
                 if key in json_fields:
                     filtered_data[key] = json.dumps(value, default=float)
 
-            # Prepare the query
+            # ✅ Insert into database
             columns = ", ".join(filtered_data.keys())
             placeholders = ", ".join(["%s"] * len(filtered_data))
             insert_query = f"""
@@ -259,9 +271,6 @@ class AwsRdsManager:
             VALUES ({placeholders})
             """
 
-            logging.debug(f"Prepared data for insertion: {filtered_data}")
-
-            # Execute the insert
             self.execute(insert_query, tuple(filtered_data.values()))
             logging.info(f"Successfully inserted product: {clean_details_data.get('title')}")
 

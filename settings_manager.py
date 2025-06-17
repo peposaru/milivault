@@ -76,12 +76,15 @@ def setup_object_managers(user_settings):
     """
     try:
         # Initialize independent managers
-        rds_manager    = AwsRdsManager(credentials_file=user_settings["pgAdminCred"])
-        s3_manager     = S3Manager(user_settings["s3Cred"])
         openai_manager = OpenAIManager(
             openai_cred_path=user_settings["openaiCred"],
             categories_path=user_settings["militariaCategories"]
         )
+        rds_manager = AwsRdsManager(
+            credentials_file=user_settings["pgAdminCred"],
+            openai_manager=openai_manager
+        )
+        s3_manager     = S3Manager(user_settings["s3Cred"])
         json_manager   = JsonManager()
         log_printer    = log_print()
         counter        = ProductsCounter()

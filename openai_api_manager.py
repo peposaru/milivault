@@ -180,3 +180,19 @@ Description: "{description}"
         except Exception as e:
             logging.error(f"AI CLASSIFIER: Failed to classify sub-item type for {main_item_type} → {e}")
             return None
+
+
+    def generate_vector_from_text(self, title, description):
+        """Generate an OpenAI vector from title and description text."""
+        try:
+            combined = f"{title or ''} {description or ''}".strip()
+            if not combined:
+                return None
+            response = self.client.embeddings.create(
+                input=[combined],
+                model="text-embedding-3-small"
+            )
+            return response.data[0].embedding
+        except Exception as e:
+            logging.error(f"OpenAIManager: Failed to generate vector: {e}")
+            return None

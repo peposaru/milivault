@@ -478,25 +478,27 @@ def eagle_relics_gallery(soup):
 
 def stewarts_militaria(product_soup):
     """
-    Extracts image URLs from Stewarts Military Antiques product pages.
+    Extracts original product image URLs from Stewarts Military Antiques product pages,
+    skipping thumbnails and placeholder icons.
 
     Args:
         product_soup (BeautifulSoup): Parsed HTML of the product page.
 
     Returns:
-        list: List of image URLs.
+        list: List of valid image URLs (excluding thumbnails and icons).
     """
     try:
-        image_tags = product_soup.select("div.col-md-12 img")
+        image_tags = product_soup.select("div.p-2.my-flex-item img")
         image_urls = [
             img['src'].strip()
             for img in image_tags
-            if img.get('src', '').startswith("http")
+            if img.get('src', '').startswith("http") and "icons/help.png" not in img['src']
         ]
         return image_urls
     except Exception as e:
         logging.error(f"Error in stewarts_militaria: {e}")
         return []
+
 
 def tarn_militaria(soup):
     base_url = "https://tarnmilitaria.com"
