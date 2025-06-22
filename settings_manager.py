@@ -4,7 +4,7 @@ import json
 import subprocess
 from collections import defaultdict
 import requests
-import socket
+import socket, shutil
 
 from aws_rds_manager import AwsRdsManager
 from json_manager import JsonManager
@@ -240,99 +240,136 @@ Inventory check type:
 
 
 
-def site_choice(all_sites, run_availability_check=False):
-    """Display eligible sites and allow user to select or choose all working sites."""
-    from collections import defaultdict
-    import shutil
+from collections import defaultdict
+import math
 
-    working_sites = [s for s in all_sites if s.get("is_working", False)]
-    broken_sites = [s for s in all_sites if not s.get("is_working", False)]
+def site_choice(site_profiles, availability_mode=False):
+    """
+    Prompt user to search and select sites interactively, showing working/not working groups.
+    """
+    def group_sites(profiles):
+        working = []
+        not_working = []
+        for i, site in enumerate(profiles, 1):
+            if site.get("is_working", True):
+                working.append((i, site))
+            else:
+                not_working.append((i, site))
+        return working, not_working
 
-    if run_availability_check:
-        eligible_sites = [s for s in working_sites if not s.get("is_sold_archive", False)]
-        archive_sites  = [s for s in working_sites if s.get("is_sold_archive", False)]
-        all_display_sites = eligible_sites + archive_sites + broken_sites
-    else:
-        eligible_sites = working_sites
-        archive_sites = []
-        all_display_sites = working_sites + broken_sites
 
-    term_width = shutil.get_terminal_size((80, 20)).columns
-    max_name_length = max(len(site['json_desc']) for site in all_display_sites)
-    max_notes_length = term_width - 4
+    def print_grouped_sites(working, not_working):
+        def print_columns(items, label):
+            if not items:
+                return
 
-    def display_sites(sites, start_index, label):
-        print(f"\n{label}")
-        for i, site in enumerate(sites, start=start_index):
-            name = f"{i:>3}. {site['json_desc']:<{max_name_length}}"
-            note = site.get("notes", "").strip()
-            print(f"{name}\n     ↳ {note[:max_notes_length]}" if note else name)
-        return start_index + len(sites)
+            print(f"\n{label}")
+            terminal_width = shutil.get_terminal_size((100, 20)).columns
+            col_width = 35
+            num_cols = max(1, terminal_width // col_width)
 
-    index = 1
-    if run_availability_check:
-        index = display_sites(eligible_sites, index, "✅ AVAILABLE FOR TRACKING")
-        index = display_sites(archive_sites, index, "🔒 SOLD-ONLY ARCHIVES (Skipping)")
-    else:
-        index = display_sites(working_sites, index, "✅ WORKING SITES")
+            # ✅ Slice row-first instead of column-first
+            rows = math.ceil(len(items) / num_cols)
+            padded = items + [("", {"source_name": ""})] * (rows * num_cols - len(items))
 
-    display_sites(broken_sites, index, "❌ NOT WORKING SITES")
+            for row_idx in range(rows):
+                line = ""
+                for col_idx in range(num_cols):
+                    idx = row_idx + col_idx * rows
+                    i, site = padded[idx]
+                    if i != "":
+                        entry = f"{i:>3}: {site['source_name']}"
+                        line += entry.ljust(col_width)
+                print(line)
+            print()
 
-    print(f"\n999. All Working Sites")
+        print_columns(working, "🟢 WORKING SITES:")
+        print_columns(not_working, "🔴 NOT WORKING SITES:")
 
-    # 🧭 Prompt user for input
-    while True:
+    def search_sites(query):
+        query = query.lower()
+        return [(i + 1, site) for i, site in enumerate(site_profiles)
+                if query in site.get("source_name", "").lower()]
+
+    def parse_fractional_input(input_text, working_sites):
         try:
-            choice = input(
-                "\n🔢 Select site(s) to scrape (e.g. '1,3-5,7' or '999' for all working): "
-            ).strip()
+            num, denom = map(int, input_text.split("/"))
+            total = len(working_sites)
+            chunk_size = math.ceil(total / denom)
+            start = (num - 1) * chunk_size
+            end = min(start + chunk_size, total)
+            print(f"\n📦 Selected working chunk {num}/{denom} → rows {start + 1} to {end}")
+            return [site for _, site in working_sites[start:end]]
+        except Exception:
+            return None
 
-            if not choice:
-                print("⚠️  No input received. Please enter at least one number.")
+    # Initial display
+    working_sites, not_working_sites = group_sites(site_profiles)
+    print_grouped_sites(working_sites, not_working_sites)
+
+    while True:
+        user_input = input("🔎 Type a site name to filter, or use format like '2/3', or press ENTER for all: ").strip()
+
+        # Fractional shortcut
+        if "/" in user_input:
+            chunk = parse_fractional_input(user_input, working_sites)
+            if chunk:
+                if availability_mode:
+                    grouped = defaultdict(list)
+                    for s in chunk:
+                        grouped[s['source_name']].append(s)
+                    return list(grouped.values())
+                return chunk
+            else:
+                print("⚠️ Invalid format or out of range. Try again.")
                 continue
 
-            if choice == "999":
-                selected_sites = eligible_sites if run_availability_check else working_sites
+        if user_input == "":
+            matching = list(enumerate(site_profiles, 1))
+        else:
+            matching = search_sites(user_input)
+
+        if not matching:
+            print("No matches found. Try again.")
+            continue
+
+        match_working = [(i, s) for i, s in matching if s.get("is_working", True)]
+        match_not_working = [(i, s) for i, s in matching if not s.get("is_working", True)]
+        print_grouped_sites(match_working, match_not_working)
+
+        selection = input("👉 Enter site numbers (e.g. 1,3-5) or 'all': ").strip().lower()
+        if selection == "all":
+            return site_profiles
+
+        selected_indexes = []
+        for part in selection.split(","):
+            if "-" in part:
+                try:
+                    start, end = map(int, part.split("-"))
+                    selected_indexes.extend(range(start, end + 1))
+                except:
+                    continue
             else:
-                selected_indices = set()
-                for part in choice.split(','):
-                    part = part.strip()
-                    if not part:
-                        continue
-                    if '-' in part:
-                        try:
-                            start, end = map(int, part.split('-'))
-                            if start > end:
-                                raise ValueError(f"Invalid range: {part}")
-                            selected_indices.update(range(start - 1, end))
-                        except:
-                            raise ValueError(f"Invalid range format: '{part}'")
-                    else:
-                        idx = int(part) - 1
-                        selected_indices.add(idx)
-
-                if any(idx < 0 or idx >= len(all_display_sites) for idx in selected_indices):
-                    raise ValueError("One or more indices are out of range.")
-
-                selected_sites = [all_display_sites[idx] for idx in sorted(selected_indices)]
-
-            if run_availability_check:
-                sold_only = [s for s in selected_sites if s.get("is_sold_archive", False)]
-                if sold_only:
-                    names = ", ".join(s["json_desc"] for s in sold_only)
-                    print(f"⚠️  The following are sold-only archives and cannot be used in availability mode:\n → {names}")
+                try:
+                    selected_indexes.append(int(part))
+                except:
                     continue
 
-                grouped_sites = defaultdict(list)
-                for site in selected_sites:
-                    grouped_sites[site['source_name']].append(site)
-                return list(grouped_sites.values())
+        selected_profiles = [site_profiles[i - 1] for i in selected_indexes if 1 <= i <= len(site_profiles)]
 
-            else:
-                return selected_sites
+        if not selected_profiles:
+            print("⚠️ No valid selections. Try again.")
+            continue
 
-        except ValueError as e:
-            print(f"❌ Invalid selection: {e}. Please try again.")
+        if availability_mode:
+            grouped = defaultdict(list)
+            for s in selected_profiles:
+                grouped[s['source_name']].append(s)
+            return list(grouped.values())
+
+        return selected_profiles
+
+
 
 
 def is_running_on_ec2():

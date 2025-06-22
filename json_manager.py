@@ -5,13 +5,7 @@ import os
 class JsonManager:
     def compile_json_profiles(self, base_directory):
         """
-        Read all JSON profiles from alphabetical folders and compile them into a list.
-    
-        Args:
-            base_directory (str): The base directory containing JSON profile files.
-
-        Returns:
-            list: A list of compiled JSON profiles.
+        Read all JSON profiles from alphabetical folders and compile them into a list, sorted by source_name.
         """
         json_profiles = []
         try:
@@ -28,7 +22,10 @@ class JsonManager:
         except Exception as e:
             logging.error(f"An error occurred while compiling JSON profiles: {e}")
 
+        # ✅ Sort profiles alphabetically by source_name (case-insensitive)
+        json_profiles.sort(key=lambda x: x.get("source_name", "").lower())
         return json_profiles
+
 
     def json_unpacker(self, selected_site):
         """
