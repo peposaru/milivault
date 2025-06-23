@@ -245,12 +245,12 @@ import math
 
 def site_choice(site_profiles, availability_mode=False):
     """
-    Prompt user to search and select sites interactively, showing working/not working groups.
+    Interactive site selector with support for search, fraction, range, and group view.
     """
     def group_sites(profiles):
         working = []
         not_working = []
-        for i, site in enumerate(profiles, 1):
+        for i, site in enumerate(profiles, start=1):
             if site.get("is_working", True):
                 working.append((i, site))
             else:
@@ -268,7 +268,6 @@ def site_choice(site_profiles, availability_mode=False):
             col_width = 35
             num_cols = max(1, terminal_width // col_width)
 
-            # ✅ Slice row-first instead of column-first
             rows = math.ceil(len(items) / num_cols)
             padded = items + [("", {"source_name": ""})] * (rows * num_cols - len(items))
 
@@ -303,12 +302,12 @@ def site_choice(site_profiles, availability_mode=False):
         except Exception:
             return None
 
-    # Initial display
+    # Initial grouping and display
     working_sites, not_working_sites = group_sites(site_profiles)
     print_grouped_sites(working_sites, not_working_sites)
 
     while True:
-        user_input = input("🔎 Type a site name to filter, or use format like '2/3', or press ENTER for all: ").strip()
+        user_input = input("🔎 Type site name, fraction (e.g. 2/3), or press ENTER to list all: ").strip()
 
         # Fractional shortcut
         if "/" in user_input:
@@ -324,6 +323,7 @@ def site_choice(site_profiles, availability_mode=False):
                 print("⚠️ Invalid format or out of range. Try again.")
                 continue
 
+        # Keyword search
         if user_input == "":
             matching = list(enumerate(site_profiles, 1))
         else:
@@ -337,7 +337,9 @@ def site_choice(site_profiles, availability_mode=False):
         match_not_working = [(i, s) for i, s in matching if not s.get("is_working", True)]
         print_grouped_sites(match_working, match_not_working)
 
-        selection = input("👉 Enter site numbers (e.g. 1,3-5) or 'all': ").strip().lower()
+        selection = input("👉 Enter numbers (e.g. 1,3-5), '999' for all working, or 'all': ").strip().lower()
+        if selection == "999":
+            return [s for _, s in working_sites]
         if selection == "all":
             return site_profiles
 
@@ -355,7 +357,8 @@ def site_choice(site_profiles, availability_mode=False):
                 except:
                     continue
 
-        selected_profiles = [site_profiles[i - 1] for i in selected_indexes if 1 <= i <= len(site_profiles)]
+        all_indexed_sites = working_sites + not_working_sites
+        selected_profiles = [site for i, site in all_indexed_sites if i in selected_indexes]
 
         if not selected_profiles:
             print("⚠️ No valid selections. Try again.")

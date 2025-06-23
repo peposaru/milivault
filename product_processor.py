@@ -369,10 +369,6 @@ class ProductDetailsProcessor:
 
 
     def new_product_processor(self, clean_details_data, details_data):
-        """
-        Insert new product data into the database.
-        Uploads images to S3 using the database ID and updates DB with s3_image_urls.
-        """
         try:
             logging.info('PRODUCT PROCESS: Starting data cleaning process...')
             logging.info(
@@ -408,35 +404,6 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
 
-        # STEP 0 — Generate AI classification
-        try:
-            ai_classifier = self.managers.get("openai_manager")
-            if ai_classifier:
-                ai_result = ai_classifier.classify_single_product(
-                    title=clean_details_data.get("title", ""),
-                    description=clean_details_data.get("description", "")
-                )
-                clean_details_data.update(ai_result)
-                logging.info(f"PRODUCT PROCESSOR: AI classification added → {ai_result}")
-            else:
-                logging.warning("PRODUCT PROCESSOR: OpenAI manager not available — skipping AI classification.")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
-
-        # STEP 0.5 — Subcategory
-        main_type = clean_details_data.get("item_type_ai_generated")
-        if main_type and ai_classifier:
-            try:
-                sub_type = ai_classifier.classify_sub_item_type(
-                    main_type,
-                    clean_details_data.get("title", ""),
-                    clean_details_data.get("description", "")
-                )
-                clean_details_data["sub_item_type_ai_generated"] = sub_type
-                logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
-            except Exception as e:
-                logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
-
         # STEP 1 — Insert product
         try:
             self.rds_manager.new_product_input(clean_details_data)
@@ -456,7 +423,8 @@ class ProductDetailsProcessor:
             logging.error(f"PRODUCT PROCESSOR: Failed to fetch DB ID: {e}")
             return
 
-        # STEP 3 — Upload images to S3 if image URLs exist
+        # STEP 3 — Upload images to S3
+        thumbnail_url = None
         try:
             site_name = clean_details_data.get("site")
             image_urls = clean_details_data.get("original_image_urls")
@@ -466,15 +434,18 @@ class ProductDetailsProcessor:
                 logging.warning(f"PRODUCT PROCESSOR: No image URLs found for {product_url} — skipping S3 upload")
                 s3_urls = []
             else:
-                s3_urls = self.s3_manager.upload_images_for_product(db_id, image_urls, site_name, product_url,self.rds_manager)
+                upload_result = self.s3_manager.upload_images_for_product(
+                    db_id, image_urls, site_name, product_url, self.rds_manager
+                )
+                s3_urls = upload_result["uploaded_image_urls"]
+                thumbnail_url = upload_result["thumbnail_url"]
                 clean_details_data["s3_image_urls"] = s3_urls
                 logging.info(f"PRODUCT PROCESSOR: Uploaded images to S3 for DB ID {db_id}")
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to upload images for DB ID {db_id}: {e}")
             return
 
-
-        # STEP 4 — Update DB with s3_image_urls if any were uploaded
+        # STEP 4 — Update DB with s3_image_urls
         try:
             if s3_urls:
                 update_query = """
@@ -489,7 +460,58 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: Failed to update s3_image_urls for product ID {db_id}: {e}")
             return
-        
+
+        # STEP 5 — Classify using OpenAI (after thumbnail is ready)
+        try:
+            ai_classifier = self.managers.get("openai_manager")
+            if ai_classifier:
+                ai_result = ai_classifier.classify_single_product(
+                    title=clean_details_data.get("title", ""),
+                    description=clean_details_data.get("description", ""),
+                    image_url=thumbnail_url
+                )
+                clean_details_data.update(ai_result)
+                logging.info(f"PRODUCT PROCESSOR: AI classification added → {ai_result}")
+            else:
+                logging.warning("PRODUCT PROCESSOR: OpenAI manager not available — skipping AI classification.")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
+
+        # STEP 6 — Sub-item type classification
+        try:
+            main_type = clean_details_data.get("item_type_ai_generated")
+            if main_type and ai_classifier:
+                sub_type = ai_classifier.classify_sub_item_type(
+                    main_type,
+                    clean_details_data.get("title", ""),
+                    clean_details_data.get("description", "")
+                )
+                clean_details_data["sub_item_type_ai_generated"] = sub_type
+                logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
+        except Exception as e:
+            logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
+
+        # STEP 7 — Save classification fields to DB
+        try:
+            update_query = """
+                UPDATE militaria
+                SET conflict_ai_generated = %s,
+                    nation_ai_generated = %s,
+                    item_type_ai_generated = %s,
+                    sub_item_type_ai_generated = %s
+                WHERE id = %s;
+            """
+            self.rds_manager.execute(update_query, (
+                clean_details_data.get("conflict_ai_generated"),
+                clean_details_data.get("nation_ai_generated"),
+                clean_details_data.get("item_type_ai_generated"),
+                clean_details_data.get("sub_item_type_ai_generated"),
+                db_id
+            ))
+            logging.info(f"PRODUCT PROCESSOR: Classification results updated in DB for ID {db_id}")
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: Failed to update classification results in DB for ID {db_id}: {e}")
+
 
     def old_product_processor(self, clean_details_data, matched_id):
         """

@@ -8,7 +8,7 @@ class OpenAIManager:
         self.categories_path = categories_path
         self.api_key = self._load_api_key()
         self.client = openai.OpenAI(api_key=self.api_key)
-        self.model = "gpt-4.1-mini"
+        self.model = "gpt-4o"
 
     def _load_api_key(self):
         with open(self.openai_cred_path, "r") as file:
@@ -16,7 +16,7 @@ class OpenAIManager:
             return data["key"]
 
 
-    def classify_single_product(self, title, description):
+    def classify_single_product(self, title, description, image_url=None):
         try:
             with open(self.categories_path, "r", encoding="utf-8") as f:
                 category_data = json.load(f)
@@ -27,37 +27,13 @@ class OpenAIManager:
                 "COLD_WAR", "VIETNAM_WAR", "KOREAN_WAR", "CIVIL_WAR", "MODERN", "UNKNOWN"
             ]
             nation_enum = [     
-    "GERMANY",
-    "UNITED KINGDOM",
-    "USA",
-    "JAPAN",
-    "FRANCE",
-    "CANADA",
-    "AUSTRALIA",
-    "RUSSIA",
-    "USSR",
-    "ITALY",
-    "NETHERLANDS",
-    "POLAND",
-    "AUSTRIA",
-    "BELGIUM",
-    "CHINA",
-    "VIETNAM",
-    "SOUTH KOREA",
-    "NORTH KOREA",
-    "ISRAEL",
-    "CZECHOSLOVAKIA",
-    "HUNGARY",
-    "SPAIN",
-    "SWEDEN",
-    "FINLAND",
-    "INDIA",
-    "UNKNOWN",
-    "OTHER ALLIED FORCES",
-    "OTHER AXIS FORCES",
-    "OTHER EUROPEAN",
-    "OTHER ASIAN",
-    "OTHER"
+                "GERMANY", "UNITED KINGDOM", "USA", "JAPAN", "FRANCE", "CANADA",
+                "AUSTRALIA", "RUSSIA", "ITALY", "NETHERLANDS", "POLAND", "AUSTRIA",
+                "BELGIUM", "CHINA", "VIETNAM", "SOUTH KOREA", "NORTH KOREA", "ISRAEL",
+                "CZECHOSLOVAKIA", "HUNGARY", "SPAIN", "SWEDEN", "FINLAND", "INDIA",
+                "UNKNOWN", "OTHER ALLIED FORCES", "OTHER AXIS FORCES", "OTHER EUROPEAN",
+                "OTHER AMERICAN", "OTHER MIDDLE EAST", "OTHER AFRICAN", "OTHER OCEANIC",
+                "OTHER ASIAN", "OTHER"
             ]
 
             tools = [
@@ -79,14 +55,35 @@ class OpenAIManager:
                 }
             ]
 
+            # Add thumbnail URL if available
+            image_note = f'\nImage: {image_url}' if image_url else ''
+
             messages = [
+                {
+                    "role": "system",
+                    "content": """You are a military historian AI helping categorize military collectibles. 
+    Use the enums exactly as provided. If unsure, use 'UNKNOWN'.
+
+    conflict enum meanings:
+    - WW1 = World War 1
+    - WW2 = World War 2 (1939–1945)
+    - PRE_WW2 = Interwar period (1919–1938)
+    - MODERN = Post-1990 items
+    - COLD_WAR = Items from 1945–1990
+    - VIETNAM_WAR = U.S. vs Vietnam 1955–1975
+    - KOREAN_WAR = Korea conflict 1950–1953
+    - CIVIL_WAR = U.S. or other civil wars
+
+    You should infer from clues like 'D.R.P.' (Germany), 'Zeiler', or Bakelite color.
+    """
+                },
                 {
                     "role": "user",
                     "content": f"""Classify this item based on the following:
 
-Title: "{title}"
-Description: "{description}"
-"""
+    Title: "{title}"
+    Description: "{description}"{image_note}
+    """
                 }
             ]
 
@@ -95,7 +92,7 @@ Description: "{description}"
                 messages=messages,
                 tools=tools,
                 tool_choice="auto",
-                temperature=0,
+                temperature=0.3,
             )
 
             args = response.choices[0].message.tool_calls[0].function.arguments

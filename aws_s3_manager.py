@@ -110,6 +110,7 @@ class S3Manager:
         # Restore order to match input image_urls
         uploaded_image_results.sort()
         uploaded_image_urls = [url for idx, url in uploaded_image_results if url]
+        thumb_url = None
 
         elapsed = round(time.time() - start_time, 2)
         logging.info(f"S3Manager: Uploaded {len(uploaded_image_urls)} images for {product_id} in {elapsed} sec")
@@ -142,8 +143,10 @@ class S3Manager:
             except Exception as e:
                 logging.warning(f"❌ Failed thumbnail for product {product_id}: {e}")
 
-        return uploaded_image_urls
-
+        return {
+            "uploaded_image_urls": uploaded_image_urls,
+            "thumbnail_url": thumb_url
+        }
 
     def should_skip_image_upload(self, product_url, rds_manager):
         # Checking if product needs an image upload.

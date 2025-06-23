@@ -54,8 +54,11 @@ class DataIntegrityManager:
             tool = ThumbnailGenerator(self.db, self.s3_manager)
             tool.generate()
         elif choice == "3":
-            tool = DataPointRecoverer(self.db, self.s3_manager)
-            tool.recover()
+            print("\n🔁 Re-running classification for all incomplete products (3→2→1)...")
+            fixer = MissingClassificationFixer(self.rds_manager, self.openai_manager)
+            for missing_required in [3, 2, 1]:
+                fixer.rerun(required_missing=missing_required)
+            print("✅ Classification re-run complete.")
         elif choice == "4":
             use_parallel = input("Run in parallel? [y/N]: ").strip().lower() == "y"
             tool = VectorEmbeddingGenerator(self.db, self.openai_manager)
@@ -299,8 +302,6 @@ class DataIntegrityManager:
             self.db.reconnect()
             return self.db.fetch(query, params)
 
-
-
 class ImageRecoveryProcessor:
     def __init__(self, managers):
         self.managers = managers
@@ -319,7 +320,7 @@ class ImageRecoveryProcessor:
             "QMS_MILITARIA": 220,
             # ...add others...
         }
-        self.default_limit = 150
+        self.default_limit = 100000
         self.batch_size_per_site = 3  # Number of products processed per site per round
 
 
@@ -463,8 +464,6 @@ class ImageRecoveryProcessor:
         except Exception as e:
             logging.error(f"❌ Could not mark {url} as failed: {e}")
 
-
-
 class ThumbnailGenerator:
     def __init__(self, db, s3_manager):
         self.db = db
@@ -542,7 +541,6 @@ class ThumbnailGenerator:
 
 class DataPointRecoverer:
     pass
-
 
 class VectorEmbeddingGenerator:
     def __init__(self, rds_manager, openai_manager, batch_size=100, num_workers=4):
@@ -668,6 +666,148 @@ class VectorEmbeddingGenerator:
 
         logging.info("✅ Parallel embedding complete.")
 
+class MissingClassificationFixer:
+    def __init__(self, rds_manager, classifier):
+        self.rds = rds_manager
+        self.classifier = classifier
+
+    def rerun(self, required_missing=3):
+        missing_conditions = {
+            3: "WHERE (conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))"
+            " AND (nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))"
+            " AND (item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))",
+            2: "WHERE ((conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
+            "(nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
+            "(item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int) = 2",
+            1: "WHERE ((conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
+            "(nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
+            "(item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int) = 1",
+        }
+
+        condition = missing_conditions.get(required_missing)
+        if not condition:
+            logging.warning(f"Unsupported missing count: {required_missing}")
+            return
+
+        query = f"""
+            SELECT id, title, description, s3_first_image_thumbnail
+            FROM militaria
+            {condition}
+            LIMIT 1000;
+        """
+
+        total_fixed = 0
+        total_skipped = 0
+        total_failed = 0
+        batch_num = 1
+
+        while True:
+            rows = self.rds.fetch(query)
+            if not rows:
+                logging.info("🎉 No more matching rows found. Finished rerunning classification.")
+                break
+
+            logging.info(f"\n🔁 Batch {batch_num}: Found {len(rows)} items with ≥ {required_missing} missing fields...")
+
+            for row in rows:
+                product_id, title, description, image_url = row
+
+                try:
+                    title = title if isinstance(title, str) else ""
+                    description = description if isinstance(description, str) else ""
+                    image_url = image_url if isinstance(image_url, str) else ""
+
+                    result = self.classifier.classify_single_product(
+                        title=title,
+                        description=description,
+                        image_url=image_url
+                    )
+
+                    if all(v is None for v in result.values()):
+                        total_skipped += 1
+                        logging.warning(f"Skipping update — classification returned nothing for ID {product_id}")
+                        continue
+
+                    sub_type = None
+                    main_type = result.get("item_type_ai_generated")
+                    if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"}:
+                        try:
+                            sub_type = self.classifier.classify_sub_item_type(main_type, title, description)
+                            logging.info(f"Sub-item-type classified → {sub_type}")
+                        except Exception as e:
+                            logging.warning(f"Sub-item-type classification failed for ID {product_id}: {e}")
+
+                    update_query = """
+                        UPDATE militaria
+                        SET conflict_ai_generated = %s,
+                            nation_ai_generated = %s,
+                            item_type_ai_generated = %s,
+                            sub_item_type_ai_generated = %s
+                        WHERE id = %s;
+                    """
+                    self.rds.execute(update_query, (
+                        result.get("conflict_ai_generated"),
+                        result.get("nation_ai_generated"),
+                        result.get("item_type_ai_generated"),
+                        sub_type,
+                        product_id
+                    ))
+
+                    total_fixed += 1
+                    print(f"\n✅ {title}\n📝 {description[:200]}...\n📦 {result.get('item_type_ai_generated')} → {sub_type or '—'}\n")
+
+                except Exception as e:
+                    total_failed += 1
+                    logging.error(f"❌ Failed to classify ID {product_id}: {e}")
+
+            logging.info(f"📦 Batch {batch_num} stats — Fixed: {total_fixed} | Skipped: {total_skipped} | Failed: {total_failed}")
+            batch_num += 1
+
+        logging.info(f"\n✅ Finished rerun — Total Fixed: {total_fixed}, Skipped: {total_skipped}, Failed: {total_failed}")
+
+
+
+
+    def _fetch_rows(self, required_missing):
+        query = """
+        SELECT url, title, description, s3_first_image_thumbnail,
+               conflict_ai_generated, nation_ai_generated, item_type_ai_generated
+        FROM militaria
+        WHERE (
+            (conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'OTHER', 'MISC', 'NONE']))
+            ::int +
+            (nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'OTHER', 'MISC', 'NONE']))
+            ::int +
+            (item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'OTHER', 'MISC', 'NONE']))
+            ::int
+        ) >= %s
+        """
+        return self.rds.fetch(query, (required_missing,))
+
+    def _process_row(self, row):
+        url, title, description, thumbnail, *_ = row
+
+        result = self.classifier.classify_single_product(
+            title=title,
+            description=description,
+            image_url=thumbnail
+        )
+
+        update_query = """
+        UPDATE militaria
+        SET conflict_ai_generated = %s,
+            nation_ai_generated = %s,
+            item_type_ai_generated = %s
+        WHERE url = %s
+        """
+        self.rds.execute(update_query, (
+            result.get("conflict"),
+            result.get("nation"),
+            result.get("item_type"),
+            url
+        ))
+
+        logging.info(f"Updated classification for: {url}")
 
 
 def process_row_parallel(row, openai_api_key, db_credentials):
