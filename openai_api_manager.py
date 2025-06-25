@@ -59,24 +59,37 @@ class OpenAIManager:
             image_note = f'\nImage: {image_url}' if image_url else ''
 
             messages = [
-                {
-                    "role": "system",
-                    "content": """You are a military historian AI helping categorize military collectibles. 
-    Use the enums exactly as provided. If unsure, use 'UNKNOWN'.
+                    {
+                        "role": "system",
+                        "content": """You are a military historian AI helping categorize military collectibles.
 
-    conflict enum meanings:
-    - WW1 = World War 1
-    - WW2 = World War 2 (1939–1945)
-    - PRE_WW2 = Interwar period (1919–1938)
-    - MODERN = Post-1990 items
-    - COLD_WAR = Items from 1945–1990
-    - VIETNAM_WAR = U.S. vs Vietnam 1955–1975
-    - KOREAN_WAR = Korea conflict 1950–1953
-    - CIVIL_WAR = U.S. or other civil wars
+                    Use the enums exactly as provided. If unsure, use 'UNKNOWN'.
 
-    You should infer from clues like 'D.R.P.' (Germany), 'Zeiler', or Bakelite color.
-    """
-                },
+                    conflict enum meanings:
+                    - WW1 = World War 1
+                    - WW2 = World War 2 (1939–1945)
+                    - PRE_WW2 = Interwar period (1919–1938)
+                    - MODERN = Post-1990 items
+                    - COLD_WAR = Items from 1945–1990 that don't fit other conflicts
+                    - VIETNAM_WAR = U.S. vs Vietnam 1955–1975
+                    - KOREAN_WAR = Korea conflict 1950–1953
+                    - CIVIL_WAR = U.S. or other civil wars
+
+                    📛 IMPORTANT CLASSIFICATION GUIDELINES:
+
+                    1. If the product is **an insignia, badge, medal bar, patch, or rank emblem**, classify the item_type as "INSIGNIA & PATCHES", not the category it attaches to (like uniforms or headgear). You are classifying the object itself, not where it’s worn.
+
+                    2. If the product is **a store announcement**, **price update**, **sale alert**, or **new listings message** (not an actual physical item), classify the item_type as "SITE ADVERTISEMENTS".
+
+                    Examples:
+                    - ✅ "Reduced Price Category Updated"
+                    - 🛒 "We have added 20+ new items"
+                    - 💬 "Upcoming auction notice"
+                    These are not physical collectibles.
+
+                    Clues like “D.R.P.”, “Zeiler”, or bakelite material may indicate German WW2 items.
+                    """
+                    },
                 {
                     "role": "user",
                     "content": f"""Classify this item based on the following:
@@ -94,6 +107,16 @@ class OpenAIManager:
                 tool_choice="auto",
                 temperature=0.3,
             )
+
+            # Check cost of the request
+            usage = response.usage
+            total_tokens = usage.total_tokens if usage else 0
+
+            # Calculate cost (adjust rate if using gpt-4o or others)
+            cost_per_1k = 0.005  # for GPT-4o input + output
+            estimated_cost = (total_tokens / 1000) * cost_per_1k
+
+            logging.debug(f"AI CLASSIFIER: Tokens used → {total_tokens} tokens (${estimated_cost:.5f})")
 
             args = response.choices[0].message.tool_calls[0].function.arguments
             result = json.loads(args)

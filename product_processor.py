@@ -477,10 +477,10 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
 
-        # STEP 6 — Sub-item type classification
+        # # STEP 6 — Sub-item type classification
         try:
             main_type = clean_details_data.get("item_type_ai_generated")
-            if main_type and ai_classifier:
+            if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"} and ai_classifier:
                 sub_type = ai_classifier.classify_sub_item_type(
                     main_type,
                     clean_details_data.get("title", ""),

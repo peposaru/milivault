@@ -488,12 +488,10 @@ def stewarts_militaria(product_soup):
         list: List of valid image URLs (excluding thumbnails and icons).
     """
     try:
-        image_tags = product_soup.select("div.p-2.my-flex-item img")
         image_urls = [
             img['src'].strip()
-            for img in product_soup.select("div.p-2.my-flex-item img")
-            if img.get('src', '').startswith("http")
-            and "thumb" not in img['src']
+            for img in product_soup.select("img[src^='https://stewartsmilitaryantiques.com/img/']")
+            if "thumb" not in img['src']
             and "thumbnail" not in img['src']
             and "small" not in img['src']
             and "icons/help.png" not in img['src']
@@ -502,6 +500,7 @@ def stewarts_militaria(product_soup):
     except Exception as e:
         logging.error(f"Error in stewarts_militaria: {e}")
         return []
+
 
 
 def tarn_militaria(soup):

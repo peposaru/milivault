@@ -673,15 +673,25 @@ class MissingClassificationFixer:
 
     def rerun(self, required_missing=3):
         missing_conditions = {
-            3: "WHERE (conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))"
-            " AND (nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))"
-            " AND (item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))",
-            2: "WHERE ((conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
-            "(nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
-            "(item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int) = 2",
-            1: "WHERE ((conflict_ai_generated IS NULL OR conflict_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
-            "(nation_ai_generated IS NULL OR nation_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int + "
-            "(item_type_ai_generated IS NULL OR item_type_ai_generated ILIKE ANY (ARRAY['', 'UNKNOWN', 'NONE', 'NULL', 'MISC', 'OTHER']))::int) = 1",
+            3: """
+                WHERE (conflict_ai_generated IS NULL OR conflict_ai_generated = '')
+                AND (nation_ai_generated IS NULL OR nation_ai_generated = '')
+                AND (item_type_ai_generated IS NULL OR item_type_ai_generated = '')
+            """,
+            2: """
+                WHERE (
+                    (conflict_ai_generated IS NULL OR conflict_ai_generated = '')::int +
+                    (nation_ai_generated IS NULL OR nation_ai_generated = '')::int +
+                    (item_type_ai_generated IS NULL OR item_type_ai_generated = '')::int
+                ) = 2
+            """,
+            1: """
+                WHERE (
+                    (conflict_ai_generated IS NULL OR conflict_ai_generated = '')::int +
+                    (nation_ai_generated IS NULL OR nation_ai_generated = '')::int +
+                    (item_type_ai_generated IS NULL OR item_type_ai_generated = '')::int
+                ) = 1
+            """
         }
 
         condition = missing_conditions.get(required_missing)
@@ -728,33 +738,22 @@ class MissingClassificationFixer:
                         logging.warning(f"Skipping update — classification returned nothing for ID {product_id}")
                         continue
 
-                    sub_type = None
-                    main_type = result.get("item_type_ai_generated")
-                    if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"}:
-                        try:
-                            sub_type = self.classifier.classify_sub_item_type(main_type, title, description)
-                            logging.info(f"Sub-item-type classified → {sub_type}")
-                        except Exception as e:
-                            logging.warning(f"Sub-item-type classification failed for ID {product_id}: {e}")
-
                     update_query = """
                         UPDATE militaria
                         SET conflict_ai_generated = %s,
                             nation_ai_generated = %s,
-                            item_type_ai_generated = %s,
-                            sub_item_type_ai_generated = %s
+                            item_type_ai_generated = %s
                         WHERE id = %s;
                     """
                     self.rds.execute(update_query, (
                         result.get("conflict_ai_generated"),
                         result.get("nation_ai_generated"),
                         result.get("item_type_ai_generated"),
-                        sub_type,
                         product_id
                     ))
 
                     total_fixed += 1
-                    print(f"\n✅ {title}\n📝 {description[:200]}...\n📦 {result.get('item_type_ai_generated')} → {sub_type or '—'}\n")
+                    print(f"\n✅ {title}\n📝 {description[:200]}...\n📦 {result.get('item_type_ai_generated')}\n")
 
                 except Exception as e:
                     total_failed += 1
@@ -764,8 +763,6 @@ class MissingClassificationFixer:
             batch_num += 1
 
         logging.info(f"\n✅ Finished rerun — Total Fixed: {total_fixed}, Skipped: {total_skipped}, Failed: {total_failed}")
-
-
 
 
     def _fetch_rows(self, required_missing):
