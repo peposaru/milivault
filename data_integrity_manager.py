@@ -302,6 +302,11 @@ class DataIntegrityManager:
             self.db.reconnect()
             return self.db.fetch(query, params)
 
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time, random, json
+import image_extractor
+
 class ImageRecoveryProcessor:
     def __init__(self, managers):
         self.managers = managers
@@ -311,124 +316,94 @@ class ImageRecoveryProcessor:
         self.json = managers.get("jsonManager")
         self.selector_path = self.managers["user_settings"]["selectorJsonFolder"]
 
-        # Per-site daily limits (tweak as needed for your use case)
-        self.site_limits = {
-            "BEVO_MILITARIA": 700,
-            "DEAD_SPARTAN_MILITARIA": 620,
-            "HISCOLL_MILITARY_ANTIQUES": 375,
-            "WORLDWAR_COLLECTIBLES": 310,
-            "QMS_MILITARIA": 220,
-            # ...add others...
-        }
+        self.site_limits = {}
         self.default_limit = 100000
-        self.batch_size_per_site = 3  # Number of products processed per site per round
-
+        self.batch_size_per_site = 3
 
     def recover_images(self):
-        site_profiles = self.json.compile_working_site_profiles(self.selector_path)
-        working_sites = [p["source_name"] for p in site_profiles]
-        site_profiles_map = {p["source_name"]: p for p in site_profiles}
-        limits = {site: self.site_limits.get(site, self.default_limit) for site in working_sites}
+        while True:
+            site_profiles = self.json.compile_working_site_profiles(self.selector_path)
+            working_sites = [p["source_name"] for p in site_profiles]
+            site_profiles_map = {p["source_name"]: p for p in site_profiles}
+            limits = {site: self.site_limits.get(site, self.default_limit) for site in working_sites}
 
-        site_success = defaultdict(int)
-        site_failure = defaultdict(int)
+            site_batches = {}
+            for site in working_sites:
+                limit = limits[site]
+                query = """
+                    SELECT url, site, id
+                    FROM militaria
+                    WHERE (
+                        original_image_urls IS NOT NULL AND original_image_urls <> '[]'
+                    ) AND (
+                        s3_image_urls IS NULL OR s3_image_urls = '[]'
+                    )
+                    AND image_download_failed IS FALSE
+                    AND site = %s
+                    ORDER BY id DESC
+                    LIMIT %s;
+                """
+                records = self.rds_manager.fetch(query, (site, limit))
+                site_batches[site] = records
 
-        site_batches = {}
-        for site in working_sites:
-            limit = limits[site]
-            query = """
-                SELECT url, site, id
-                FROM militaria
-                WHERE (
-                    original_image_urls IS NOT NULL AND original_image_urls <> '[]'
-                ) AND (
-                    s3_image_urls IS NULL OR s3_image_urls = '[]'
-                )
-                AND image_download_failed IS FALSE
-                AND site = %s
-                ORDER BY id DESC
-                LIMIT %s;
-            """
-            records = self.rds_manager.fetch(query, (site, limit))
-            site_batches[site] = records
+            total = sum(len(batch) for batch in site_batches.values())
+            if total == 0:
+                break
 
-        total = sum(len(batch) for batch in site_batches.values())
-        logging.info(f"🟢 Starting recovery: {total} products across {len(site_batches)} sites")
+            for site in working_sites:
+                batch = site_batches.get(site, [])
+                if not batch:
+                    continue
 
-        for site in working_sites:
-            batch = site_batches.get(site, [])
-            if not batch:
-                continue
+                max_workers = 1 if site in ["WORLDWAR_COLLECTIBLES", "QMS_MILITARIA"] else 2 if site in self.site_limits else 4
+                sleep_range = (3, 7) if max_workers == 1 else (2, 5) if max_workers == 2 else (1, 2.5)
+                site_profile = site_profiles_map.get(site)
 
-            max_workers = 1 if site in ["WORLDWAR_COLLECTIBLES", "QMS_MILITARIA"] else 2 if site in self.site_limits else 4
-            sleep_range = (3, 7) if max_workers == 1 else (2, 5) if max_workers == 2 else (1, 2.5)
-            site_profile = site_profiles_map.get(site)
+                with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                    futures = {
+                        executor.submit(
+                            self._process_single_product,
+                            product=row,
+                            site=site,
+                            site_profile=site_profile,
+                            sleep_range=sleep_range
+                        ): row[0] for row in batch
+                    }
 
-            logging.info(f"⚙️ {site}: {len(batch)} records | workers={max_workers} | sleep={sleep_range}")
-
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                futures = {
-                    executor.submit(
-                        self._process_single_product,
-                        product=row,
-                        site=site,
-                        site_profile=site_profile,
-                        sleep_range=sleep_range
-                    ): row[0] for row in batch
-                }
-
-                with tqdm(total=len(batch), desc=f"[{site}] Processing") as pbar:
                     for future in as_completed(futures):
                         url, success = future.result()
-                        if success:
-                            site_success[site] += 1
-                        else:
-                            site_failure[site] += 1
+                        if not success:
                             self.mark_image_failed(url)
-                        pbar.update(1)
-
-        # 📊 Summary
-        logging.info("✅ Image recovery complete.\n📋 Site summary:")
-        for site in working_sites:
-            logging.info(f"  - {site}: ✅ {site_success[site]} succeeded | ❌ {site_failure[site]} failed")
-
 
     def _process_single_product(self, product, site, site_profile, sleep_range):
         url, site_name, product_id = product
         try:
             extractor_func_name = site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
             if not extractor_func_name:
-                logging.warning(f"❌ No extractor function for {site}")
                 return url, False
 
-            # Retry HTML fetch with exponential backoff
             soup = None
             for attempt in range(3):
                 try:
                     soup = self.html.parse_html(url)
                     if soup:
                         break
-                except Exception as e:
-                    logging.warning(f"⚠️ Fetch failed for {url} (attempt {attempt+1}): {e}")
+                except Exception:
                     time.sleep(2 ** attempt + random.uniform(0, 1))
             if not soup:
-                logging.warning(f"❌ Could not fetch HTML for {url} after retries")
                 return url, False
 
-            # Light delay after hitting site
             time.sleep(random.uniform(*sleep_range))
 
-            # Extract images
             image_func = getattr(image_extractor, extractor_func_name)
             image_urls = image_func(soup)
             if not image_urls:
-                logging.warning(f"🚫 No images extracted for {url}")
                 return url, False
 
-            # Upload to S3
-            s3_urls = self.s3.upload_images_for_product(
+            s3_result = self.s3.upload_images_for_product(
                 product_id, image_urls, site, url, self.rds_manager, max_workers=4
             )
+            s3_urls = s3_result["uploaded_image_urls"]
 
             if s3_urls:
                 update_query = """
@@ -441,17 +416,12 @@ class ImageRecoveryProcessor:
                     json.dumps(s3_urls),
                     url
                 ))
-                logging.info(f"✅ Updated {url} with {len(s3_urls)} images")
-
-                # Additional sleep after full cycle
                 time.sleep(random.uniform(*sleep_range))
                 return url, True
             else:
-                logging.warning(f"⚠️ Upload failed for {url}")
                 return url, False
 
-        except Exception as e:
-            logging.error(f"❌ Exception processing {url}: {e}")
+        except Exception:
             return url, False
 
     def mark_image_failed(self, url):
@@ -460,9 +430,9 @@ class ImageRecoveryProcessor:
                 "UPDATE militaria SET image_download_failed = TRUE WHERE url = %s;",
                 (url,)
             )
-            logging.info(f"🛑 Marked {url} as failed in database.")
-        except Exception as e:
-            logging.error(f"❌ Could not mark {url} as failed: {e}")
+        except Exception:
+            pass
+
 
 class ThumbnailGenerator:
     def __init__(self, db, s3_manager):
