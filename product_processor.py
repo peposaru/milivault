@@ -770,8 +770,10 @@ class ProductDetailsProcessor:
             description = normalize_input(description)
 
             # Apply post-processing using dispatcher
-            if description and "post_process" in selector_config:
-                description = apply_post_processors(description, selector_config["post_process"])
+            if "post_process" in selector_config:
+                description = apply_post_processors(description, selector_config["post_process"], soup=soup)
+                logging.debug(f"PRODUCT PROCESSOR: Sending soup and URL to post-processor")
+
 
             return description if description else None
 

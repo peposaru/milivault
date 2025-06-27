@@ -503,7 +503,76 @@ def stewarts_militaria(product_soup):
 
 
 
-def tarn_militaria(soup):
-    base_url = "https://tarnmilitaria.com"
-    return [base_url + tag["href"] for tag in soup.select(".vergroot a[href]")]
+def tarnmilitaria(product_soup):
+    """
+    Extracts all full-size image URLs from Tarn Militaria product pages.
 
+    Args:
+        product_soup (BeautifulSoup): Parsed HTML of the product page.
+
+    Returns:
+        list: List of full image URLs (strings).
+    """
+    try:
+        image_urls = []
+        gallery_divs = product_soup.select("div.gallery-thumb a")
+
+        for a_tag in gallery_divs:
+            href = a_tag.get("href", "").strip()
+            if href and href.startswith("/uploads/"):
+                image_urls.append("https://tarnmilitaria.com" + href)
+
+        return image_urls
+    except Exception as e:
+        logging.error(f"Error in tarnmilitaria image extraction: {e}")
+        return []
+
+
+def militaria_1944(product_soup):
+    """
+    Extracts high-resolution image URLs from 1944militaria.com product pages.
+
+    Args:
+        product_soup (BeautifulSoup): Parsed HTML of the product page.
+
+    Returns:
+        list: List of high-res image URLs extracted from schema JSON.
+    """
+    import json
+    try:
+        # Look for <script type="application/ld+json">
+        script_tag = product_soup.find("script", type="application/ld+json")
+        if not script_tag or not script_tag.string:
+            return []
+
+        json_data = json.loads(script_tag.string.strip())
+
+        # If "image" is a dict with numeric keys: extract and sort by key
+        if isinstance(json_data.get("image"), dict):
+            return [url for _, url in sorted(json_data["image"].items(), key=lambda x: int(x[0]))]
+
+        # If "image" is a list
+        elif isinstance(json_data.get("image"), list):
+            return json_data["image"]
+
+        # If "image" is a single URL
+        elif isinstance(json_data.get("image"), str):
+            return [json_data["image"]]
+
+        return []
+    except Exception as e:
+        import logging
+        logging.error(f"Error extracting images from 1944militaria: {e}")
+        return []
+
+def ss_steel_inc(product_soup):
+    try:
+        image_inputs = product_soup.select("input[name^='product_img_']")
+        return [
+            tag["value"]
+            for tag in image_inputs
+            if tag.has_attr("value") and tag["value"].startswith("http")
+        ]
+    except Exception as e:
+        logging.error(f"Error in ss_steel_inc: {e}")
+        return []

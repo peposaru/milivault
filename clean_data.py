@@ -205,7 +205,7 @@ class CleanData:
                 raise ValueError(f"Could not parse numeric portion from → {price_string}")
 
             if price.amount_float < 10:
-                logging.warning(f"CLEAN PRICE: Suspiciously low parsed price: {price.amount_float} ← from input '{price_raw}'")
+                logging.info(f"CLEAN PRICE: Suspiciously low parsed price: {price.amount_float} ← from input '{price_raw}'")
 
             logging.debug(f"CLEAN PRICE: Parsed value → {price.amount_float}")
             return float(price.amount_float)

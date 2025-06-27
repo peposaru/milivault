@@ -104,7 +104,7 @@ def apply_post_processors(value, post_process_config, soup=None):
             try:
                 func = globals().get(arg)
                 if callable(func):
-                    value = func(soup) if soup is not None else func()
+                    value = func(value, product_soup=soup)
                 else:
                     logging.warning(f"POST PROCESSOR: Function '{arg}' not found.")
             except Exception as e:
@@ -128,13 +128,14 @@ def apply_post_processors(value, post_process_config, soup=None):
                 try:
                     result = regex(value, post_process_config)
                     # Fallback if result is empty string or "0"
-                    if result in (None, "", "0") and "fallback" in post_process_config:
+                    if result in (None, "", "0"):
                         for fallback_func_name, opts in post_process_config.items():
-                            if isinstance(opts, dict) and opts.get("fallback"):
+                            if fallback_func_name != "type" and isinstance(opts, dict) and opts.get("fallback") is True:
                                 func = globals().get(fallback_func_name)
                                 if callable(func):
                                     logging.info(f"POST PROCESSOR: Falling back to function '{fallback_func_name}'")
-                                    return func(soup) if soup else func()
+                                    return func(value=None, product_soup=soup) if soup else func(value=None)
+
                     return result
                 except Exception as e:
                     logging.warning(f"POST PROCESSOR: Regex failed with error: {e}")
@@ -144,7 +145,7 @@ def apply_post_processors(value, post_process_config, soup=None):
                                 func = globals().get(fallback_func_name)
                                 if callable(func):
                                     logging.info(f"POST PROCESSOR: Falling back to function '{fallback_func_name}'")
-                                    return func(soup) if soup else func()
+                                    return func(value, product_soup=soup) if soup else func(value)
                 return value
 
             continue
@@ -157,7 +158,10 @@ def apply_post_processors(value, post_process_config, soup=None):
         func = globals().get(func_name)
         if callable(func):
             try:
-                value = func(value, arg) if arg is not True else func(value)
+                if "soup" in func.__code__.co_varnames or "kwargs" in func.__code__.co_varnames:
+                    value = func(value, arg, soup=soup) if arg is not True else func(value, soup=soup)
+                else:
+                    value = func(value, arg) if arg is not True else func(value)
             except Exception as e:
                 logging.warning(f"POST PROCESSOR: Failed {func_name} → {e}")
         else:
@@ -265,23 +269,6 @@ def submethod_exists(parent, config):
     except Exception as e:
         print(f"POST PROCESSOR: Error in submethod_exists: {e}")
         return False
-
-# def find_text_contains(value, config):
-#     """
-#     Checks if a substring exists in a given string (case-insensitive).
-#     Returns True/False based on config.
-#     """
-#     if not isinstance(value, str):
-#         value = str(value)
-
-#     text = value.lower()
-#     target = config.get("value", "").lower()
-
-#     if target in text:
-#         return config.get("if_true", True)
-#     else:
-#         return config.get("if_false", False)
-
 
 def validate_startswith(value, prefix):
     value = normalize_input(value)
@@ -409,21 +396,113 @@ def rg_militaria_hidden_price(value, config):
         logging.error(f"POST PROCESS: [rg_militaria_hidden_price] Error: {e}")
         return value
     
-def gielsmilitaria_hidden_price(value, **kwargs):
+# def gielsmilitaria_hidden_price(value, **kwargs):
+#     import logging
+#     logging.info("[GIELSMILITARIA HIDDEN PRICE] Function activated. Initial value: %s", value)
+
+#     if value and isinstance(value, str) and "SOLD" in value.upper():
+#         soup = kwargs.get("soup")
+#         if soup:
+#             price_div = soup.find("div", attrs={"data-pp-amount": True})
+#             if price_div:
+#                 extracted = price_div.get("data-pp-amount", value)
+#                 logging.info("[GIELSMILITARIA HIDDEN PRICE] Fallback price extracted: %s", extracted)
+#                 return extracted
+#             else:
+#                 logging.warning("[GIELSMILITARIA HIDDEN PRICE] data-pp-amount div not found")
+#         else:
+#             logging.warning("[GIELSMILITARIA HIDDEN PRICE] BeautifulSoup object not available")
+
+#     return value
+
+def militaria_1944_hidden_price(value, config):
+    value = normalize_input(value)
+    try:
+        logging.info("POST PROCESS: [militaria_1944_hidden_price] Start fallback price check")
+
+        # 1. Check if current price is valid
+        try:
+            cleaned = re.sub(r"[^\d\.]", "", str(value))
+            if cleaned and float(cleaned) > 0:
+                logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Existing price is valid: {cleaned}")
+                return cleaned
+        except Exception:
+            logging.warning("POST PROCESS: [militaria_1944_hidden_price] Invalid or missing current price")
+
+        # 2. Ensure fallback is enabled and URL is provided
+        if not config.get("fallback", False):
+            logging.info("POST PROCESS: [militaria_1944_hidden_price] Fallback not enabled")
+            return value
+
+        url = config.get("url")
+        if not url:
+            logging.warning("POST PROCESS: [militaria_1944_hidden_price] Missing URL in config")
+            return value
+
+        logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Fetching HTML from {url}")
+        html = HtmlManager().parse_html(url)
+        if not html:
+            logging.warning("POST PROCESS: [militaria_1944_hidden_price] HTML fetch failed")
+            return value
+
+        soup = BeautifulSoup(html, "html.parser")
+
+        # 3. Try to extract from <div data-product-base-price>
+        price_div = soup.find("div", attrs={"data-product-base-price": True})
+        if price_div:
+            extracted = price_div.get_text(strip=True)
+            logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Found fallback price: {extracted}")
+            return extracted
+
+        logging.info("POST PROCESS: [militaria_1944_hidden_price] No fallback price found")
+        return value
+
+    except Exception as e:
+        logging.error(f"POST PROCESS: [militaria_1944_hidden_price] Error: {e}")
+        return value
+
+
+def ss_steel_description_fallback(value, product_soup=None, **kwargs):
     import logging
-    logging.info("[GIELSMILITARIA HIDDEN PRICE] Function activated. Initial value: %s", value)
+    from bs4 import BeautifulSoup
 
-    if value and isinstance(value, str) and "SOLD" in value.upper():
-        soup = kwargs.get("soup")
-        if soup:
-            price_div = soup.find("div", attrs={"data-pp-amount": True})
-            if price_div:
-                extracted = price_div.get("data-pp-amount", value)
-                logging.info("[GIELSMILITARIA HIDDEN PRICE] Fallback price extracted: %s", extracted)
-                return extracted
-            else:
-                logging.warning("[GIELSMILITARIA HIDDEN PRICE] data-pp-amount div not found")
-        else:
-            logging.warning("[GIELSMILITARIA HIDDEN PRICE] BeautifulSoup object not available")
+    logging.debug("[SS-STEEL FALLBACK] Running fallback for description...")
 
-    return value
+    # Use soup from kwargs if product_soup not passed directly
+    if not product_soup and "soup" in kwargs:
+        product_soup = kwargs["soup"]
+
+    # Proceed with fallback only if value is empty, None, or whitespace
+    if value is not None and isinstance(value, str) and value.strip():
+        logging.debug("[SS-STEEL FALLBACK] Existing description found. Skipping fallback.")
+        return value.strip()
+
+    if not product_soup:
+        logging.warning("[SS-STEEL FALLBACK] No BeautifulSoup object provided — cannot fallback.")
+        return None
+
+    try:
+        # Try paragraph inside the tab description first
+        p = product_soup.select_one("div.woocommerce-Tabs-panel--description p")
+        if p:
+            text = p.get_text(separator=" ", strip=True)
+            logging.info(f"[SS-STEEL FALLBACK] Fallback <p> content found: {text[:80]}...")
+            return text
+
+        # Fallback to the whole div if no <p>
+        div = product_soup.select_one("div.woocommerce-Tabs-panel--description")
+        if div:
+            text = div.get_text(separator=" ", strip=True)
+            logging.info(f"[SS-STEEL FALLBACK] Fallback <div> content found: {text[:80]}...")
+            return text
+
+        logging.warning("[SS-STEEL FALLBACK] No fallback description found.")
+    except Exception as e:
+        logging.error(f"[SS-STEEL FALLBACK] Error extracting fallback description: {e}")
+
+    return None
+
+
+
+
+

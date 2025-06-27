@@ -265,11 +265,11 @@ def site_choice(site_profiles, availability_mode=False):
 
             print(f"\n{label}")
             terminal_width = shutil.get_terminal_size((100, 20)).columns
-            col_width = 35
+            col_width = 45
             num_cols = max(1, terminal_width // col_width)
 
             rows = math.ceil(len(items) / num_cols)
-            padded = items + [("", {"source_name": ""})] * (rows * num_cols - len(items))
+            padded = items + [("", {})] * (rows * num_cols - len(items))
 
             for row_idx in range(rows):
                 line = ""
@@ -277,13 +277,17 @@ def site_choice(site_profiles, availability_mode=False):
                     idx = row_idx + col_idx * rows
                     i, site = padded[idx]
                     if i != "":
-                        entry = f"{i:>3}: {site['source_name']}"
+                        desc = site.get("json_desc") or site.get("description") or site.get("source_name", "")
+                        desc_short = desc[:40] + "..." if len(desc) > 43 else desc
+                        entry = f"{i:>3}: {desc_short}"
                         line += entry.ljust(col_width)
                 print(line)
             print()
 
         print_columns(working, "🟢 WORKING SITES:")
         print_columns(not_working, "🔴 NOT WORKING SITES:")
+
+
 
     def search_sites(query):
         query = query.lower()
