@@ -24,6 +24,14 @@ class S3Manager:
         )
         logging.info(f"S3Manager initialized for bucket {self.bucket_name}")
 
+        # 🔧 Add connection pooling
+        from requests.adapters import HTTPAdapter
+        self.session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=100, pool_maxsize=100)
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
+
+
     @staticmethod
     def load_s3_credentials(file_path):
         #Load S3 credentials from a JSON file.
@@ -49,18 +57,17 @@ class S3Manager:
     def upload_image(self, image_url, object_name):
         # Uploads image to AWS S3
         try:
-            # Fetch image data
             logging.debug(f"Fetching image from {image_url}")
-            response = requests.get(image_url, stream=True, timeout=10)
+            response = self.session.get(image_url, stream=True, timeout=10)
             response.raise_for_status()
 
-            # Upload image to S3
             self.s3.upload_fileobj(response.raw, self.bucket_name, object_name)
             logging.info(f"Uploaded to S3: {object_name}")
         except requests.exceptions.RequestException as e:
             logging.error(f"Error fetching image {image_url}: {e}")
         except Exception as e:
             logging.error(f"Error uploading image to S3: {e}")
+
 
 
     def upload_images_for_product(self, product_id, image_urls, site_name, product_url, rds_manager, max_workers=4):
@@ -71,12 +78,9 @@ class S3Manager:
         def upload_one(idx, image_url):
             try:
                 parsed_url = urlparse(image_url)
-                _, extension = os.path.splitext(parsed_url.path)
-                extension = extension.lstrip(".").lower() or "jpg"  # fallback to jpg if missing
-                object_name = f"{site_name}/{product_id}/{product_id}-{idx}.{extension}"
+                object_name = f"{site_name}/{product_id}/{product_id}-{idx}.jpg"  # 🔄 force JPG
 
                 if self.object_exists(object_name):
-                    logging.info(f"Skipping upload for {object_name}, already exists in S3.")
                     return (idx, f"s3://{self.bucket_name}/{object_name}")
 
                 USER_AGENTS = [
@@ -86,16 +90,27 @@ class S3Manager:
                     "Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/117.0",
                 ]
-
                 headers = {"User-Agent": random.choice(USER_AGENTS)}
-                response = requests.get(image_url, headers=headers, stream=True, timeout=10)
+                response = self.session.get(image_url, headers=headers, stream=True, timeout=10)
                 response.raise_for_status()
-                self.s3.upload_fileobj(response.raw, self.bucket_name, object_name)
-                logging.info(f"Uploaded to S3: {object_name}")
+
+                image = Image.open(response.raw).convert("RGB")  # 🔄 force RGB
+                buffer = BytesIO()
+                image.save(buffer, format="JPEG", quality=85)
+                buffer.seek(0)
+
+                self.s3.upload_fileobj(
+                    buffer,
+                    self.bucket_name,
+                    object_name,
+                    ExtraArgs={"ContentType": "image/jpeg"}
+                )
                 return (idx, f"s3://{self.bucket_name}/{object_name}")
             except Exception as e:
                 logging.error(f"Error uploading image {image_url}: {e}")
                 return (idx, None)
+
+
 
         # --- Parallelize downloads/uploads per product ---
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -168,36 +183,28 @@ class S3Manager:
 
     def generate_thumbnail_from_s3_url(self, image_url, object_name, region="ap-southeast-2", max_width=300):
         try:
-            # Convert s3://bucket/key to public HTTPS URL
             if image_url.startswith("s3://"):
                 parts = image_url.replace("s3://", "").split("/", 1)
                 bucket = parts[0]
                 key = parts[1]
                 image_url = f"https://{bucket}.s3.{region}.amazonaws.com/{key}"
 
-            # Download image
-            response = requests.get(image_url, stream=True)
+            response = self.session.get(image_url, stream=True)
             response.raise_for_status()
 
-            # Resize
             image = Image.open(response.raw)
             image.thumbnail((max_width, max_width))
             buffer = BytesIO()
             image.save(buffer, format="JPEG", quality=80)
             buffer.seek(0)
 
-            # Upload to S3
             self.s3.upload_fileobj(
                 buffer,
                 self.bucket_name,
                 object_name,
-                ExtraArgs={
-                    "ContentType": "image/jpeg"
-                }
+                ExtraArgs={ "ContentType": "image/jpeg" }
             )
 
-
-            # Return public URL for web use
             return f"https://{self.bucket_name}.s3.{region}.amazonaws.com/{object_name}"
 
         except Exception as e:

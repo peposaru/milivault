@@ -26,10 +26,19 @@ class HtmlManager:
             "Sec-Fetch-Dest": "document",
             "Referer": "https://www.google.com/"
         }
+
         self.session = requests.Session()
+
+        # ✅ Pool fix (Add this)
+        from requests.adapters import HTTPAdapter
+        adapter = HTTPAdapter(pool_connections=100, pool_maxsize=100)
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
+
         self.retries = retries
         self.backoff_factor = backoff_factor
         self.timeout = timeout
+
         if cookies:
             for name, value in cookies.items():
                 self.session.cookies.set(name, value)

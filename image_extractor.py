@@ -1,5 +1,6 @@
 import logging, time
 from bs4 import BeautifulSoup
+import re
 
 def woo_commerce(product_soup):
     """
@@ -565,14 +566,22 @@ def militaria_1944(product_soup):
         logging.error(f"Error extracting images from 1944militaria: {e}")
         return []
 
-def ss_steel_inc(product_soup):
+def ss_steel_inc(soup):
     try:
-        image_inputs = product_soup.select("input[name^='product_img_']")
-        return [
-            tag["value"]
-            for tag in image_inputs
-            if tag.has_attr("value") and tag["value"].startswith("http")
-        ]
-    except Exception as e:
-        logging.error(f"Error in ss_steel_inc: {e}")
+        image_urls = []
+        for img in soup.select("img"):
+            src = img.get("src")
+            if not src:
+                continue
+            if "/uploads/" not in src:
+                continue
+            base_url = src.split("?")[0]
+            # remove known thumbnail suffixes
+            clean_url = re.sub(r"-\d+x\d+(?=\.(jpg|jpeg|png|webp))", "", base_url, flags=re.IGNORECASE)
+            if clean_url.endswith((".jpg", ".jpeg", ".png", ".webp")):
+                image_urls.append(clean_url)
+        return list(set(image_urls))  # de-duplicate
+    except Exception:
         return []
+
+

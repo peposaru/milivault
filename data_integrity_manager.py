@@ -12,7 +12,10 @@ from multiprocessing import Pool, cpu_count
 from functools import partial
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
+from urllib.parse import urlparse
 
+import os
+import re
 import random
 import time
 import json
@@ -320,34 +323,67 @@ class ImageRecoveryProcessor:
         self.default_limit = 100000
         self.batch_size_per_site = 3
 
-    def recover_images(self):
-        while True:
-            site_profiles = self.json.compile_working_site_profiles(self.selector_path)
-            working_sites = [p["source_name"] for p in site_profiles]
-            site_profiles_map = {p["source_name"]: p for p in site_profiles}
-            limits = {site: self.site_limits.get(site, self.default_limit) for site in working_sites}
+        # 🔧 Initialize the bad image URL tracking
+        self.bad_image_file = "bad_image_urls.txt"
+        self.bad_url_set = set()
+        if os.path.exists(self.bad_image_file):
+            with open(self.bad_image_file, "r") as f:
+                self.bad_url_set = set(line.strip() for line in f if line.strip())
 
+
+    def recover_images(self):
+        site_profiles = self.json.compile_working_site_profiles(self.selector_path)
+        all_sites = [p["source_name"] for p in site_profiles]
+        site_profiles_map = {p["source_name"]: p for p in site_profiles}
+
+        print("Choose recovery mode:")
+        print("1. Run for all sites")
+        print("2. Choose specific sites")
+        choice = input("Enter 1 or 2: ").strip()
+
+        if choice == "2":
+            print("\nAvailable sites:")
+            for i, site in enumerate(all_sites):
+                print(f"{i + 1}. {site}")
+            indexes = input("Enter comma-separated site numbers (e.g., 1,3,5): ")
+            try:
+                selected_indexes = [int(i.strip()) - 1 for i in indexes.split(",")]
+                working_sites = [all_sites[i] for i in selected_indexes if 0 <= i < len(all_sites)]
+            except Exception:
+                print("Invalid selection. Aborting.")
+                return
+        else:
+            working_sites = all_sites
+
+        print(f"\n🟢 Processing {len(working_sites)} sites...\n")
+        limits = {site: self.site_limits.get(site, self.default_limit) for site in working_sites}
+
+        while True:
             site_batches = {}
             for site in working_sites:
                 limit = limits[site]
+                print(f"🔍 Querying {site} (limit {limit})...")
                 query = """
                     SELECT url, site, id
                     FROM militaria
                     WHERE (
-                        original_image_urls IS NOT NULL AND original_image_urls <> '[]'
-                    ) AND (
-                        s3_image_urls IS NULL OR s3_image_urls = '[]'
+                        (original_image_urls IS NULL OR original_image_urls = '[]')
+                        OR (s3_image_urls IS NULL OR s3_image_urls = '[]')
                     )
                     AND image_download_failed IS FALSE
+                    AND (requires_attention IS FALSE OR requires_attention IS NULL)
                     AND site = %s
                     ORDER BY id DESC
                     LIMIT %s;
                 """
                 records = self.rds_manager.fetch(query, (site, limit))
+                print(f"📦 Found {len(records)} pending images in {site}")
                 site_batches[site] = records
 
             total = sum(len(batch) for batch in site_batches.values())
+            print(f"\n📊 Total images pending: {total}\n")
             if total == 0:
+                print("✅ All done.")
                 break
 
             for site in working_sites:
@@ -372,57 +408,121 @@ class ImageRecoveryProcessor:
 
                     for future in as_completed(futures):
                         url, success = future.result()
+                        status = "✅" if success else "❌"
+                        print(f"{status} {url}")
                         if not success:
                             self.mark_image_failed(url)
 
+
     def _process_single_product(self, product, site, site_profile, sleep_range):
         url, site_name, product_id = product
+        logging.info(f"🔄 START: Processing [{site}] {url}")
+
         try:
+            # --- Validate extractor ---
             extractor_func_name = site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
             if not extractor_func_name:
+                logging.warning(f"❌ SKIP: No image extractor defined for site [{site}]")
                 return url, False
 
+            # --- Fetch HTML ---
             soup = None
             for attempt in range(3):
                 try:
                     soup = self.html.parse_html(url)
                     if soup:
+                        logging.debug(f"✅ HTML loaded (attempt {attempt + 1}) for {url}")
                         break
-                except Exception:
+                except Exception as e:
+                    logging.warning(f"⚠️ HTML fetch error (attempt {attempt + 1}) for {url}: {e}")
                     time.sleep(2 ** attempt + random.uniform(0, 1))
             if not soup:
+                logging.error(f"❌ FAIL: Could not load HTML after retries → {url}")
                 return url, False
 
-            time.sleep(random.uniform(*sleep_range))
+            # --- Page validity check ---
+            parsed = urlparse(getattr(soup, "original_url", url))
+            path = parsed.path or ""
+            title = soup.title.string.strip().lower() if soup.title and soup.title.string else ""
 
+            # Only fail if it's clearly a broken page or redirect loop
+            too_generic = any(t in title for t in ["not found", "404"]) and path in ["", "/"]
+
+            logging.debug(f"🔎 PAGE CHECK: path={path} | title={title!r}")
+
+            if too_generic:
+                logging.warning(f"🚫 BROKEN PAGE: Detected dead page (path/title) → {url}")
+                self.mark_requires_attention(url)
+                return url, False
+
+
+            # --- Image extraction ---
+            time.sleep(random.uniform(*sleep_range))
             image_func = getattr(image_extractor, extractor_func_name)
             image_urls = image_func(soup)
+
             if not image_urls:
+                logging.warning(f"❌ NO IMAGES: {url}")
+                self.mark_requires_attention(url)
                 return url, False
 
+            # --- Check for bad image reuse ---
+            first_image = image_urls[0]
+            if first_image in self.bad_url_set:
+                logging.warning(f"🚫 BAD IMAGE URL DETECTED (already seen): {first_image}")
+                self.mark_requires_attention(url)
+                return url, False
+
+            logging.info(f"📸 FOUND {len(image_urls)} image(s). Uploading to S3...")
+
+            # --- Upload to S3 ---
             s3_result = self.s3.upload_images_for_product(
                 product_id, image_urls, site, url, self.rds_manager, max_workers=4
             )
             s3_urls = s3_result["uploaded_image_urls"]
 
             if s3_urls:
-                update_query = """
+                self.rds_manager.execute(
+                    """
                     UPDATE militaria
                     SET original_image_urls = %s, s3_image_urls = %s
                     WHERE url = %s;
-                """
-                self.rds_manager.execute(update_query, (
-                    json.dumps(image_urls),
-                    json.dumps(s3_urls),
-                    url
-                ))
+                    """,
+                    (json.dumps(image_urls), json.dumps(s3_urls), url)
+                )
+                logging.info(f"✅ DONE: Uploaded {len(s3_urls)} image(s) → {url}")
                 time.sleep(random.uniform(*sleep_range))
                 return url, True
             else:
+                logging.error(f"❌ UPLOAD FAILED: Could not upload for {url}")
+                self.flag_bad_image_url(first_image)
                 return url, False
 
-        except Exception:
+        except Exception as e:
+            logging.exception(f"❌ EXCEPTION during {url}: {e}")
             return url, False
+
+    def init_bad_image_set(self):
+        self.bad_image_file = "bad_image_urls.txt"
+        self.bad_url_set = set()
+        if os.path.exists(self.bad_image_file):
+            with open(self.bad_image_file, "r") as f:
+                self.bad_url_set = set(line.strip() for line in f if line.strip())
+
+    def flag_bad_image_url(self, image_url):
+        if image_url not in self.bad_url_set:
+            with open(self.bad_image_file, "a") as f:
+                f.write(image_url + "\n")
+            self.bad_url_set.add(image_url)
+
+    def mark_requires_attention(self, url):
+        try:
+            self.rds_manager.execute(
+                "UPDATE militaria SET requires_attention = TRUE WHERE url = %s;",
+                (url,)
+            )
+        except Exception:
+            pass
 
     def mark_image_failed(self, url):
         try:
