@@ -568,20 +568,27 @@ def militaria_1944(product_soup):
 
 def ss_steel_inc(soup):
     try:
+        seen = set()
         image_urls = []
+
         for img in soup.select("img"):
             src = img.get("src")
             if not src:
                 continue
             if "/uploads/" not in src:
                 continue
+
             base_url = src.split("?")[0]
-            # remove known thumbnail suffixes
+            # Remove known thumbnail suffixes like -100x100, -150x150
             clean_url = re.sub(r"-\d+x\d+(?=\.(jpg|jpeg|png|webp))", "", base_url, flags=re.IGNORECASE)
-            if clean_url.endswith((".jpg", ".jpeg", ".png", ".webp")):
+
+            if clean_url.endswith((".jpg", ".jpeg", ".png", ".webp")) and clean_url not in seen:
+                seen.add(clean_url)
                 image_urls.append(clean_url)
-        return list(set(image_urls))  # de-duplicate
+
+        return image_urls  # order preserved, duplicates removed
     except Exception:
         return []
+
 
 
