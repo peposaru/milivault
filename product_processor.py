@@ -478,18 +478,18 @@ class ProductDetailsProcessor:
             logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
 
         # # STEP 6 — Sub-item type classification
-        try:
-            main_type = clean_details_data.get("item_type_ai_generated")
-            if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"} and ai_classifier:
-                sub_type = ai_classifier.classify_sub_item_type(
-                    main_type,
-                    clean_details_data.get("title", ""),
-                    clean_details_data.get("description", "")
-                )
-                clean_details_data["sub_item_type_ai_generated"] = sub_type
-                logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
-        except Exception as e:
-            logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
+        # try:
+        #     main_type = clean_details_data.get("item_type_ai_generated")
+        #     if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"} and ai_classifier:
+        #         sub_type = ai_classifier.classify_sub_item_type(
+        #             main_type,
+        #             clean_details_data.get("title", ""),
+        #             clean_details_data.get("description", "")
+        #         )
+        #         clean_details_data["sub_item_type_ai_generated"] = sub_type
+        #         logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
+        # except Exception as e:
+        #     logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
 
         # STEP 7 — Save classification fields to DB
         try:
@@ -497,15 +497,14 @@ class ProductDetailsProcessor:
                 UPDATE militaria
                 SET conflict_ai_generated = %s,
                     nation_ai_generated = %s,
-                    item_type_ai_generated = %s,
-                    sub_item_type_ai_generated = %s
+                    item_type_ai_generated = %s
                 WHERE id = %s;
             """
             self.rds_manager.execute(update_query, (
                 clean_details_data.get("conflict_ai_generated"),
                 clean_details_data.get("nation_ai_generated"),
                 clean_details_data.get("item_type_ai_generated"),
-                clean_details_data.get("sub_item_type_ai_generated"),
+                #clean_details_data.get("sub_item_type_ai_generated"),
                 db_id
             ))
             logging.info(f"PRODUCT PROCESSOR: Classification results updated in DB for ID {db_id}")

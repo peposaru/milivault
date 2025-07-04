@@ -3,6 +3,15 @@ import logging
 import json
 
 class OpenAIManager:
+
+    # Cache for category data to avoid reloading from file every time
+    def get_category_data(self):
+        if not hasattr(self, "_category_data_cache") or self._category_data_cache is None:
+            with open(self.categories_path, "r", encoding="utf-8") as f:
+                self._category_data_cache = json.load(f)
+        return self._category_data_cache
+
+
     def __init__(self, openai_cred_path, categories_path):
         self.openai_cred_path = openai_cred_path
         self.categories_path = categories_path
@@ -18,9 +27,7 @@ class OpenAIManager:
 
     def classify_single_product(self, title, description, image_url=None):
         try:
-            with open(self.categories_path, "r", encoding="utf-8") as f:
-                category_data = json.load(f)
-
+            category_data = self.get_category_data()
             item_type_enum = sorted(list(category_data.keys())) 
             conflict_enum = [
                 "PRE_19TH", "19TH_CENTURY", "PRE_WW1", "WW1", "PRE_WW2", "WW2",
@@ -135,71 +142,70 @@ class OpenAIManager:
                 "item_type_ai_generated": None
             }
 
-    def classify_sub_item_type(self, main_item_type, title, description):
-        try:
-            with open(self.categories_path, "r", encoding="utf-8") as f:
-                category_data = json.load(f)
+#     def classify_sub_item_type(self, main_item_type, title, description):
+#         try:
+#             category_data = self.get_category_data()
 
-            subcategories = None
-            for key, values in category_data.items():
-                if key.strip().lower() == main_item_type.strip().lower():
-                    subcategories = values
-                    break
+#             subcategories = None
+#             for key, values in category_data.items():
+#                 if key.strip().lower() == main_item_type.strip().lower():
+#                     subcategories = values
+#                     break
 
-            if not subcategories:
-                logging.warning(f"No subcategories found for main item type: {main_item_type}")
-                return None
+#             if not subcategories:
+#                 logging.warning(f"No subcategories found for main item type: {main_item_type}")
+#                 return None
 
-            tools = [
-                {
-                    "type": "function",
-                    "function": {
-                        "name": "classify_subcategory",
-                        "description": f"Pick the best subcategory for a militaria item under {main_item_type}",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "subcategory": {"type": "string", "enum": subcategories}
-                            },
-                            "required": ["subcategory"]
-                        }
-                    }
-                }
-            ]
+#             tools = [
+#                 {
+#                     "type": "function",
+#                     "function": {
+#                         "name": "classify_subcategory",
+#                         "description": f"Pick the best subcategory for a militaria item under {main_item_type}",
+#                         "parameters": {
+#                             "type": "object",
+#                             "properties": {
+#                                 "subcategory": {"type": "string", "enum": subcategories}
+#                             },
+#                             "required": ["subcategory"]
+#                         }
+#                     }
+#                 }
+#             ]
 
-            messages = [
-    {
-        "role": "system",
-        "content": f"You are a militaria classification assistant. Based on the title and description, choose the best subcategory for '{main_item_type}' from the provided enum."
-    },
-    {
-        "role": "user",
-        "content": f"""This item was classified as '{main_item_type}'.
+#             messages = [
+#     {
+#         "role": "system",
+#         "content": f"You are a militaria classification assistant. Based on the title and description, choose the best subcategory for '{main_item_type}' from the provided enum."
+#     },
+#     {
+#         "role": "user",
+#         "content": f"""This item was classified as '{main_item_type}'.
 
-Now choose the most appropriate subcategory from the list below:
+# Now choose the most appropriate subcategory from the list below:
 
-Title: "{title}"
-Description: "{description}"
-"""
-    }
-]
+# Title: "{title}"
+# Description: "{description}"
+# """
+#     }
+# ]
 
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                tools=tools,
-                tool_choice="auto",
-                temperature=0
-            )
+#             response = self.client.chat.completions.create(
+#                 model=self.model,
+#                 messages=messages,
+#                 tools=tools,
+#                 tool_choice="auto",
+#                 temperature=0
+#             )
 
-            args = response.choices[0].message.tool_calls[0].function.arguments
-            result = json.loads(args)
-            return result.get("subcategory", "").upper()
+#             args = response.choices[0].message.tool_calls[0].function.arguments
+#             result = json.loads(args)
+#             return result.get("subcategory", "").upper()
 
 
-        except Exception as e:
-            logging.error(f"AI CLASSIFIER: Failed to classify sub-item type for {main_item_type} → {e}")
-            return None
+#         except Exception as e:
+#             logging.error(f"AI CLASSIFIER: Failed to classify sub-item type for {main_item_type} → {e}")
+#             return None
 
 
     def generate_vector_from_text(self, title, description):
