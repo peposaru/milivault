@@ -236,12 +236,13 @@ class DataIntegrityManager:
         """
         try:
             # Upload images using centralized logic in S3Manager
-            s3_urls = self.s3_manager.upload_images_for_product(
+            upload_result = self.s3_manager.upload_images_for_product(
                 product_id=product_id,
                 image_urls=image_urls,
                 site_name=site,
                 product_url=None
             )
+            s3_urls = upload_result.get("uploaded_image_urls", [])
 
             # Only update DB if upload succeeded
             if s3_urls:
@@ -273,9 +274,9 @@ class DataIntegrityManager:
                 except Exception as e:
                     self.logger.error(f"❌ Failed to update image_download_failed for product {product_id}: {e}")
 
-
         except Exception as e:
             self.logger.error(f"❌ Failed image upload or DB update for product {product_id}: {e}")
+
 
 
     def format_duration(seconds):
@@ -445,16 +446,12 @@ class ImageRecoveryProcessor:
             path = parsed.path or ""
             title = soup.title.string.strip().lower() if soup.title and soup.title.string else ""
 
-            # Only fail if it's clearly a broken page or redirect loop
             too_generic = any(t in title for t in ["not found", "404"]) and path in ["", "/"]
-
             logging.debug(f"🔎 PAGE CHECK: path={path} | title={title!r}")
-
             if too_generic:
                 logging.warning(f"🚫 BROKEN PAGE: Detected dead page (path/title) → {url}")
                 self.mark_requires_attention(url)
                 return url, False
-
 
             # --- Image extraction ---
             time.sleep(random.uniform(*sleep_range))
@@ -466,7 +463,6 @@ class ImageRecoveryProcessor:
                 self.mark_requires_attention(url)
                 return url, False
 
-            # --- Check for bad image reuse ---
             first_image = image_urls[0]
             if first_image in self.bad_url_set:
                 logging.warning(f"🚫 BAD IMAGE URL DETECTED (already seen): {first_image}")
@@ -476,10 +472,10 @@ class ImageRecoveryProcessor:
             logging.info(f"📸 FOUND {len(image_urls)} image(s). Uploading to S3...")
 
             # --- Upload to S3 ---
-            s3_result = self.s3.upload_images_for_product(
+            upload_result = self.s3.upload_images_for_product(
                 product_id, image_urls, site, url, self.rds_manager, max_workers=4
             )
-            s3_urls = s3_result["uploaded_image_urls"]
+            s3_urls = upload_result.get("uploaded_image_urls", [])
 
             if s3_urls:
                 self.rds_manager.execute(
@@ -501,6 +497,7 @@ class ImageRecoveryProcessor:
         except Exception as e:
             logging.exception(f"❌ EXCEPTION during {url}: {e}")
             return url, False
+
 
     def init_bad_image_set(self):
         self.bad_image_file = "bad_image_urls.txt"
