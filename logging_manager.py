@@ -29,6 +29,6 @@ def adjust_logging_level(env):
     Args:
         env (str): Either 'local' or 'aws'.
     """
-    level = logging.WARNING if env == "aws" else logging.DEBUG
+    level = logging.ERROR if env == "aws" else logging.DEBUG
     logging.getLogger().setLevel(level)
     logging.debug(f"Adjusted logging level to {logging.getLevelName(level)} for environment: {env}")
