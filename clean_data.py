@@ -5,6 +5,7 @@ from price_parser import Price
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from html import unescape
+from typing import Optional
 
 
 class CleanData:
@@ -135,7 +136,7 @@ class CleanData:
 
 
     @staticmethod
-    def clean_price(price_input) -> float | None:
+    def clean_price(price_input) -> Optional[float]:
         """
         Normalize a price string to a float.
         Returns None if input is None.
