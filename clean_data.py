@@ -5,7 +5,7 @@ from price_parser import Price
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from html import unescape
-from typing import Optional
+from typing import Optional, Union, List
 
 
 class CleanData:
@@ -302,14 +302,15 @@ class CleanData:
 
 
     @staticmethod
-    def clean_nation(nation: str | None) -> str | None:
+    def clean_nation(nation: Union[str, None]) -> Union[str, None]:
         if not nation:
             return None
         return nation.strip().upper()
 
 
     @staticmethod
-    def clean_conflict(conflict: str | None) -> str | None:
+    def clean_conflict(conflict: Union[str, None]) -> Union[str, None]:
+
         if not conflict:
             return None
         return conflict.strip().upper()
@@ -412,14 +413,14 @@ class CleanData:
 
 
     @staticmethod
-    def clean_grade(grade: str | None) -> str | None:
+    def clean_grade(grade: Union[str, None]) -> Union[str, None]:
         if not grade or not isinstance(grade, str):
             return None
         return grade.strip()
 
 
     @staticmethod
-    def clean_categories(categories: list[str] | None) -> list[str]:
+    def clean_categories(categories: Union[list[str], None]) -> list[str]:
         if not isinstance(categories, list):
             return []
         return [c.strip().title() for c in categories if isinstance(c, str) and c.strip()]
