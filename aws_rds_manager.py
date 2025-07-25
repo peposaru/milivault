@@ -145,11 +145,11 @@ class AwsRdsManager:
         result = self.fetch(query, params)
         return result[0][0] if result else None
 
-    def update_record(self, update_query, params):
+    def update_record(self, query, params):
         """
         Update a record in the database.
         """
-        self.execute(update_query, params)
+        return self._execute_query(query, params)
 
     def close(self):
         """
@@ -432,3 +432,51 @@ class AwsRdsManager:
             self.max_connections,
         )
         logging.info("RDS MANAGER: Reconnected to PostgreSQL.")
+
+    def get_basic_product_row_by_url(self, product_url):
+        query = """
+            SELECT id, site, url, title, price, available
+            FROM militaria
+            WHERE url = %s
+            LIMIT 1;
+        """
+        result = self.fetch(query, (product_url,))
+        return result[0] if result else None
+
+    def update_title_and_previous_title(self, record_id, new_title, old_title):
+        """
+        Update the product title and preserve the previous one.
+        """
+        try:
+            now_utc = datetime.now(timezone.utc).isoformat()
+            query = """
+                UPDATE militaria
+                SET title = %s,
+                    previous_title = %s,
+                    date_modified = %s
+                WHERE id = %s;
+            """
+            self.execute(query, (new_title, old_title, now_utc, record_id))
+            logging.info(f"RDS MANAGER: Updated title for id={record_id}")
+        except Exception as e:
+            logging.error(f"RDS MANAGER: Failed to update title for id={record_id}: {e}")
+
+    def get_column_names(self, table_name):
+        """
+        Get a list of column names for a given table.
+        """
+        connection = self.connection_pool.getconn()
+        try:
+            with connection.cursor() as cur:
+                cur.execute("""
+                    SELECT column_name
+                    FROM information_schema.columns
+                    WHERE table_name = %s
+                """, (table_name,))
+                return [row[0] for row in cur.fetchall()]
+        except Exception as e:
+            logging.error(f"AwsRdsManager: Error getting column names for {table_name}: {e}")
+            return []
+        finally:
+            self.connection_pool.putconn(connection)
+

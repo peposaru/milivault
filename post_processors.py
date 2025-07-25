@@ -415,35 +415,41 @@ def rg_militaria_hidden_price(value, config):
 
 #     return value
 
-def militaria_1944_hidden_price(value, config):
+def militaria_1944_hidden_price(value, config=None, **kwargs):
+    soup = kwargs.get("product_soup")
     value = normalize_input(value)
+
     try:
         logging.info("POST PROCESS: [militaria_1944_hidden_price] Start fallback price check")
 
-        # 1. Check if current price is valid
+        # 1. Check if current price is valid and non-zero
         try:
             cleaned = re.sub(r"[^\d\.]", "", str(value))
-            if cleaned and float(cleaned) > 0:
-                logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Existing price is valid: {cleaned}")
-                return cleaned
+            if cleaned:
+                parsed = float(cleaned)
+                if parsed > 0:
+                    logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Existing price is valid: {parsed}")
+                    return parsed
+                else:
+                    logging.info("POST PROCESS: [militaria_1944_hidden_price] Price is zero — triggering fallback")
         except Exception:
             logging.warning("POST PROCESS: [militaria_1944_hidden_price] Invalid or missing current price")
 
         # 2. Ensure fallback is enabled and URL is provided
-        if not config.get("fallback", False):
+        if not config or not config.get("fallback", False):
             logging.info("POST PROCESS: [militaria_1944_hidden_price] Fallback not enabled")
-            return value
+            return None
 
         url = config.get("url")
         if not url:
             logging.warning("POST PROCESS: [militaria_1944_hidden_price] Missing URL in config")
-            return value
+            return None
 
         logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Fetching HTML from {url}")
         html = HtmlManager().parse_html(url)
         if not html:
             logging.warning("POST PROCESS: [militaria_1944_hidden_price] HTML fetch failed")
-            return value
+            return None
 
         soup = BeautifulSoup(html, "html.parser")
 
@@ -451,15 +457,20 @@ def militaria_1944_hidden_price(value, config):
         price_div = soup.find("div", attrs={"data-product-base-price": True})
         if price_div:
             extracted = price_div.get_text(strip=True)
-            logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Found fallback price: {extracted}")
-            return extracted
+            extracted_clean = re.sub(r"[^\d\.]", "", extracted)
+            if extracted_clean:
+                fallback_parsed = float(extracted_clean)
+                logging.info(f"POST PROCESS: [militaria_1944_hidden_price] Fallback price extracted: {fallback_parsed}")
+                return fallback_parsed
+            else:
+                logging.warning("POST PROCESS: [militaria_1944_hidden_price] Fallback price found but not parsable")
 
         logging.info("POST PROCESS: [militaria_1944_hidden_price] No fallback price found")
-        return value
+        return None
 
     except Exception as e:
         logging.error(f"POST PROCESS: [militaria_1944_hidden_price] Error: {e}")
-        return value
+        return None
 
 
 def ss_steel_description_fallback(value, product_soup=None, **kwargs):
@@ -501,7 +512,6 @@ def ss_steel_description_fallback(value, product_soup=None, **kwargs):
         logging.error(f"[SS-STEEL FALLBACK] Error extracting fallback description: {e}")
 
     return None
-
 
 
 

@@ -286,19 +286,21 @@ class SiteProcessor:
                 self.counter.set_continue_state_false()
                 logging.info("SITE PROCESSOR: No products require further processing. Stopping site processing.")
                 logging.info(
-                    f"""
+    f"""
 ====== Processing Summary ======
-Total Products Count       : {self.counter.get_total_count()}
-New Products Count         : {self.counter.get_new_products_count()}
-Old Products Count         : {self.counter.get_old_products_count()}
-Sites Processed Count      : {self.counter.get_sites_processed_count()}
-Current Page Count         : {self.counter.get_current_page_count()}
-Availability Updates Count : {self.counter.get_availability_update_count()}
-Processing Required Count  : {self.counter.get_processing_required_count()}
+Total Products Count        : {self.counter.get_total_count()}
+New Products Count          : {self.counter.get_new_products_count()}
+Old Products Count          : {self.counter.get_old_products_count()}
+Sites Processed Count       : {self.counter.get_sites_processed_count()}
+Current Page Count          : {self.counter.get_current_page_count()}
+Availability Updates Count  : {self.counter.get_availability_update_count()}
+Price Updates Count         : {self.counter.get_price_update_count()}
+Processing Required Count   : {self.counter.get_processing_required_count()}
 ===============================
-                    """
-                )
-                return True  # ← this is important for the caller to `break`
+"""
+)
+
+                return True
         return False
 
 

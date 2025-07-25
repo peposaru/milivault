@@ -1,37 +1,25 @@
 import re
-from html import unescape
 import html
 import logging
 from price_parser import Price
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse
+from html import unescape
+
 
 class CleanData:
     @staticmethod
-    def clean_url(url):
-        """
-        Minimal cleaning:
-        - Strip leading/trailing whitespace.
-        - Validate input is a string and non-empty.
-        - Does NOT alter slashes or any internal part of the URL.
-        """
+    def clean_url(url: str) -> str:
         if not isinstance(url, str):
-            logging.error("CLEAN URL: Input is not a string.")
             raise ValueError("URL must be a string.")
-
         url = url.strip()
         if not url:
-            logging.error("CLEAN URL: Input is empty after strip.")
             raise ValueError("URL is empty after cleaning.")
-
-        logging.debug(f"CLEAN URL: Cleaned URL → {url}")
         return url
 
 
-    
-
     @staticmethod
-    def clean_title(title):
+    def clean_title(title, allow_empty: bool = True):
         """
         Cleans and normalizes a product title, ensuring single quotes are used consistently
         and HTML tags are removed.
@@ -44,175 +32,169 @@ class CleanData:
         Raises:
             ValueError: If the title is not a string or is empty.
         """
-        import logging
-
         try:
             if not isinstance(title, str):
                 logging.error("CLEAN TITLE: Input is not a string.")
+                if allow_empty:
+                    return ""
                 raise ValueError("Title must be a string.")
 
             logging.debug(f"CLEAN TITLE: Raw input → {title}")
 
             # Decode HTML entities
             title = unescape(title)
-            logging.debug(f"CLEAN TITLE: After unescape → {title}")
 
             # Remove HTML tags
             title = re.sub(r'<[^>]+>', '', title)
-            logging.debug(f"CLEAN TITLE: After removing HTML tags → {title}")
 
             # Strip whitespace
             title = title.strip()
 
-            # Replace special quotes
-            special_quotes = {
-                "“": "'", "”": "'",
-                "‘": "'", "’": "'",
-                '"': "'"
-            }
-            for special, standard in special_quotes.items():
+            # Replace special quotes with single quote
+            SPECIAL_QUOTES = {"“": "'", "”": "'", "‘": "'", "’": "'", '"': "'"}
+            for special, standard in SPECIAL_QUOTES.items():
                 title = title.replace(special, standard)
-            logging.debug(f"CLEAN TITLE: After normalizing quotes → {title}")
 
             # Collapse multiple spaces
             title = " ".join(title.split())
-            logging.debug(f"CLEAN TITLE: After collapsing spaces → {title}")
 
             if not title:
-                logging.warning("CLEAN TITLE: Title is empty after cleaning.")
+                msg = "Title is empty after cleaning."
+                logging.warning(f"CLEAN TITLE: {msg}")
+                if allow_empty:
+                    return ""
                 raise ValueError("Title cannot be empty after cleaning.")
 
             logging.debug(f"CLEAN TITLE: Final cleaned title → {title}")
             return title
 
         except Exception as e:
-            logging.error(f"CLEAN TITLE: Failed to clean title: {title} ({e})")
+            logging.error(f"CLEAN TITLE: Failed to clean title ({e})")
+            if allow_empty:
+                return ""
             raise
 
 
-
-
     @staticmethod
-    def clean_description(description):
+    def clean_description(description, allow_empty: bool = True):
         """
-        Cleans and normalizes a product description to use single quotes
-        and removes the leading 'Description' if present.
-
-        Args:
-            description (str): The raw description text.
-
-        Returns:
-            str: The cleaned description text with normalized quotes.
-        Raises:
-            ValueError: If the description is not a string or is empty.
+        Clean and normalize a product description.
+        If allow_empty=True, return "" (or a provided fallback upstream) instead of raising.
         """
-
         try:
             if description is None:
                 logging.debug("CLEAN DESCRIPTION: Description is None.")
-                description = None
-                return description
-            
+                return "" if allow_empty else None  # your previous code returned None
+
             if not isinstance(description, str):
                 logging.error("CLEAN DESCRIPTION: Input is not a string.")
+                if allow_empty:
+                    return ""
                 raise ValueError("Description must be a string.")
 
             logging.debug(f"CLEAN DESCRIPTION: Raw input → {description}")
 
             # Decode HTML entities
             description = unescape(description)
-            logging.debug(f"CLEAN DESCRIPTION: After unescape → {description}")
 
-            # Remove leading and trailing whitespace
+            # Trim
             description = description.strip()
 
-            # Remove leading "Description" label if present
+            # Remove leading "Description"
             if description.lower().startswith("description"):
                 description = description[len("description"):].strip()
-                logging.debug(f"CLEAN DESCRIPTION: Removed leading label → {description}")
 
             # Normalize quotes
-            special_quotes = {
-                "“": "'", "”": "'",
-                "‘": "'", "’": "'",
-                '"': "'"
-            }
-            for special, standard in special_quotes.items():
+            SPECIAL_QUOTES = {"“": "'", "”": "'", "‘": "'", "’": "'", '"': "'"}
+            for special, standard in SPECIAL_QUOTES.items():
                 description = description.replace(special, standard)
-            logging.debug(f"CLEAN DESCRIPTION: Normalized quotes → {description}")
 
             # Collapse multiple spaces
             description = " ".join(description.split())
-            logging.debug(f"CLEAN DESCRIPTION: Collapsed whitespace → {description}")
 
             # Strip leading/trailing colons
             description = description.strip(":").strip()
 
             if not description:
-                logging.warning("CLEAN DESCRIPTION: Description is empty after cleaning — using fallback.")
+                msg = "Description is empty after cleaning."
+                logging.warning(f"CLEAN DESCRIPTION: {msg}")
+                if allow_empty:
+                    return ""
+                # your old fallback text:
                 return "No description available."
-
 
             logging.debug(f"CLEAN DESCRIPTION: Final cleaned description → {description}")
             return description
 
         except Exception as e:
-            logging.error(f"CLEAN DESCRIPTION: Failed to clean description: {description} ({e})")
+            logging.error(f"CLEAN DESCRIPTION: Failed to clean description ({e})")
+            if allow_empty:
+                return ""
             raise
+
+
 
     @staticmethod
-    def clean_price(price_string):
+    def clean_price(price_input) -> float | None:
         """
-        Cleans and normalizes price input to a float.
-        Accepts HTML, raw strings, integers, or floats.
-
-        Args:
-            price_string (str|float|int): Raw price input.
-
-        Returns:
-            float: Parsed float price.
-
-        Raises:
-            ValueError: If the price can't be parsed.
+        Normalize a price string to a float.
+        Returns None if input is None.
+        Raises ValueError if input isn’t a string or can’t be parsed.
         """
-        try:
-            if price_string is None:
-                logging.debug("CLEAN PRICE: Price is None.")
-                return None
+        # 1) None → None
+        if price_input is None:
+            logging.debug("CLEAN_PRICE: received None, returning None")
+            return None
 
-            if isinstance(price_string, (int, float)):
-                price_string = str(price_string)
+        # 2) Must be a string
+        if not isinstance(price_input, str):
+            raise ValueError("must be a string")
 
-            if not isinstance(price_string, str):
-                raise ValueError("CLEAN PRICE: Price must be a string or convertible to string.")
+        logging.debug(f"CLEAN_PRICE: raw input = {price_input!r}")
 
-            price_raw = price_string
-            price_string = BeautifulSoup(price_string, "html.parser").get_text(strip=True)
-            logging.debug(f"CLEAN PRICE: Stripped text → {price_string}")
+        # 3) Strip any HTML
+        text = BeautifulSoup(price_input, "html.parser").get_text(strip=True)
 
-            # Minimal fix for malformed input like '$1.250.00'
-            if price_string.count(".") > 1 and price_string.count(",") == 0:
-                # Assume format like 1.250.00 → 1250.00
-                parts = price_string.split(".")
-                price_string = "".join(parts[:-1]) + "." + parts[-1]
-                logging.debug(f"CLEAN PRICE: Corrected malformed dot-format → {price_string}")
+        # 4) Handle mixed comma & dot cases
+        if "." in text and "," in text:
+            last_dot   = text.rfind(".")
+            last_comma = text.rfind(",")
+            if last_comma > last_dot:
+                # European style: dot thousands, comma decimal
+                logging.debug(f"CLEAN_PRICE: European style detected, remove dots → {text!r}")
+                text = text.replace(".", "")
+            else:
+                # US style: comma thousands, dot decimal
+                logging.debug(f"CLEAN_PRICE: US style detected, remove commas → {text!r}")
+                text = text.replace(",", "")
 
-            from price_parser import Price
-            price = Price.fromstring(price_string)
+        # 5) Single‑dot thousands shorthand (e.g. "1.400" → "1400")
+        elif "," not in text and re.match(r"^\d+\.\d{3}$", text):
+            logging.debug(f"CLEAN_PRICE: single‑dot thousands detected, remove dot → {text!r}")
+            text = text.replace(".", "")
 
-            if price.amount_float is None:
-                logging.warning(f"CLEAN PRICE: Unable to parse price from '{price_string}'")
-                raise ValueError(f"Could not parse numeric portion from → {price_string}")
+        # 6) Pure comma decimal (no other dots)
+        if "," in text and "." not in text:
+            logging.debug(f"CLEAN_PRICE: comma decimal only, comma→dot → {text!r}")
+            text = text.replace(",", ".")
 
-            if price.amount_float < 10:
-                logging.info(f"CLEAN PRICE: Suspiciously low parsed price: {price.amount_float} ← from input '{price_raw}'")
+        # 7) Collapse malformed multi‑dot cases (e.g. "1.250.00" → "1250.00")
+        if text.count(".") > 1 and "," not in price_input:
+            parts = text.split(".")
+            fixed = "".join(parts[:-1]) + "." + parts[-1]
+            logging.debug(f"CLEAN_PRICE: collapsed multi‑dot {text!r} → {fixed!r}")
+            text = fixed
 
-            logging.debug(f"CLEAN PRICE: Parsed value → {price.amount_float}")
-            return float(price.amount_float)
+        # 8) Parse with Price.fromstring
+        p = Price.fromstring(text)
+        if p.amount_float is None:
+            raise ValueError(f"Could not parse price from '{text}'")
+        result = float(p.amount_float)
 
-        except Exception as e:
-            logging.error(f"CLEAN PRICE: Exception while parsing '{price_string}': {e}")
-            raise
+        logging.debug(f"CLEAN_PRICE: FINAL → {result}")
+
+        return result
+
 
     @staticmethod
     def clean_available(available):
@@ -315,51 +297,23 @@ class CleanData:
             logging.error(f"CLEAN URL LIST: Failed to clean list: {urls} ({e})")
             raise
 
-    
+
+
+
     @staticmethod
-    def clean_nation(nation):
-        """
-        Clean and standardize the nation data:
-        - Strips whitespace
-        - Converts to uppercase
-        """
-        try:
-            logging.debug(f"CLEAN NATION: Raw input → {nation}")
-            if not nation:
-                logging.debug("CLEAN NATION: Input is empty or None.")
-                return None
-
-            cleaned = nation.strip().upper()
-            logging.debug(f"CLEAN NATION: Cleaned → {cleaned}")
-            return cleaned
-
-        except Exception as e:
-            logging.error(f"CLEAN NATION: Failed to clean nation: {nation} ({e})")
+    def clean_nation(nation: str | None) -> str | None:
+        if not nation:
             return None
+        return nation.strip().upper()
 
-    
+
     @staticmethod
-    def clean_conflict(conflict):
-        """
-        Clean and standardize the conflict data:
-        - Strips whitespace
-        - Converts to uppercase
-        """
-        try:
-            logging.debug(f"CLEAN CONFLICT: Raw input → {conflict}")
-            if not conflict:
-                logging.debug("CLEAN CONFLICT: Input is empty or None.")
-                return None
-
-            cleaned = conflict.strip().upper()
-            logging.debug(f"CLEAN CONFLICT: Cleaned → {cleaned}")
-            return cleaned
-
-        except Exception as e:
-            logging.error(f"CLEAN CONFLICT: Failed to clean conflict: {conflict} ({e})")
+    def clean_conflict(conflict: str | None) -> str | None:
+        if not conflict:
             return None
+        return conflict.strip().upper()
 
-    
+
     @staticmethod
     def clean_item_type(item_type):
         """
@@ -423,9 +377,6 @@ class CleanData:
             return None
 
 
-
-
-    
     @staticmethod
     def clean_extracted_id(extracted_id):
         """
@@ -458,57 +409,16 @@ class CleanData:
             logging.error(f"CLEAN EXTRACTED ID: Failed to clean ID: {extracted_id} ({e})")
             return None
 
-    
+
     @staticmethod
-    def clean_grade(grade):
-        """
-        Clean and standardize the grade data:
-        - Strips whitespace
-        """
-        try:
-            logging.debug(f"CLEAN GRADE: Raw input → {grade}")
-            if not grade:
-                logging.debug("CLEAN GRADE: Input is empty or None.")
-                return None
-
-            if not isinstance(grade, str):
-                logging.warning(f"CLEAN GRADE: Input is not a string → {type(grade).__name__}")
-                return None
-
-            cleaned = grade.strip()
-            logging.debug(f"CLEAN GRADE: Cleaned → {cleaned}")
-            return cleaned
-
-        except Exception as e:
-            logging.error(f"CLEAN GRADE: Failed to clean grade: {grade} ({e})")
+    def clean_grade(grade: str | None) -> str | None:
+        if not grade or not isinstance(grade, str):
             return None
+        return grade.strip()
 
-    
+
     @staticmethod
-    def clean_categories(categories):
-        """
-        Clean and standardize site categories:
-        - Title-cases each category
-        - Strips whitespace
-        """
-        try:
-            logging.debug(f"CLEAN CATEGORIES: Raw input → {categories}")
-
-            if not categories or not isinstance(categories, list):
-                logging.debug("CLEAN CATEGORIES: Input is empty or not a list.")
-                return []
-
-            cleaned = [
-                category.strip().title()
-                for category in categories
-                if isinstance(category, str) and category.strip()
-            ]
-
-            logging.debug(f"CLEAN CATEGORIES: Cleaned → {cleaned}")
-            return cleaned
-
-        except Exception as e:
-            logging.error(f"CLEAN CATEGORIES: Failed to clean categories: {categories} ({e})")
+    def clean_categories(categories: list[str] | None) -> list[str]:
+        if not isinstance(categories, list):
             return []
-
-
+        return [c.strip().title() for c in categories if isinstance(c, str) and c.strip()]

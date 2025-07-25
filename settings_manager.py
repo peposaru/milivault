@@ -18,22 +18,29 @@ from openai_api_manager import OpenAIManager
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
-    "infoLocation"       : "/home/ec2-user/milivault/",
-    "pgAdminCred"        : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
-    "selectorJsonFolder" : "/home/ec2-user/milivault/site-json/",
-    "s3Cred"             : "/home/ec2-user/milivault/credentials/s3_credentials.json",
-    "openaiCred"         : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
-    "militariaCategories": "/home/ec2-user/milivault/categorization/militaria-categories.json"
+    "infoLocation"            : "/home/ec2-user/milivault/",
+    "pgAdminCred"             : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
+    "selectorJsonFolder"      : "/home/ec2-user/milivault/site-json/",
+    "s3Cred"                  : "/home/ec2-user/milivault/credentials/s3_credentials.json",
+    "openaiCred"              : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
+    "militariaCategories"     : "/home/ec2-user/milivault/categorization/militaria-categories.json",
+    "supergroupCategories"    : "/home/ec2-user/milivault/categorization/supergroups.json",
+    "openaiModel"             : "gpt-4o-mini",
+    "openaiFallbackModel"     : "gpt-4.1",
+    "openaiConfidenceThreshold": 0.90
     }
 
 DEFAULT_PC_SETTINGS = {
-    "infoLocation"         : r'C:/Users/keena/Desktop/Milivault/scraper',
-    "pgAdminCred"          : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
-    "selectorJsonFolder"   : r'C:/Users/keena/Desktop/Milivault/site-json/',
-    "s3Cred"               : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
-    "openaiCred"           : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
-    "militariaCategories"  : r'C:/Users/keena/Desktop/Milivault/categorization/militaria-categories.json'
-
+    "infoLocation"            : r'C:/Users/keena/Desktop/Milivault/scraper',
+    "pgAdminCred"             : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
+    "selectorJsonFolder"      : r'C:/Users/keena/Desktop/Milivault/site-json/',
+    "s3Cred"                  : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
+    "openaiCred"              : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
+    "militariaCategories"     : r'C:/Users/keena/Desktop/Milivault/categorization/militaria-categories.json',
+    "supergroupCategories"    : r"C:/Users/keena/Desktop/Milivault/categorization/supergroups.json",
+    "openaiModel"             : "gpt-4o-mini",
+    "openaiFallbackModel"     : "gpt-4.1",
+    "openaiConfidenceThreshold": 0.90
 }
 
 def load_user_settings():
@@ -76,10 +83,8 @@ def setup_object_managers(user_settings):
     """
     try:
         # Initialize independent managers
-        openai_manager = OpenAIManager(
-            openai_cred_path=user_settings["openaiCred"],
-            categories_path=user_settings["militariaCategories"]
-        )
+        openai_manager = OpenAIManager(user_settings)
+
         rds_manager = AwsRdsManager(
             credentials_file=user_settings["pgAdminCred"],
             openai_manager=openai_manager
@@ -248,13 +253,14 @@ def site_choice(site_profiles, availability_mode=False):
     Interactive site selector with support for search, fraction, range, and group view.
     """
     def group_sites(profiles):
-        working = []
-        not_working = []
-        for i, site in enumerate(profiles, start=1):
-            if site.get("is_working", True):
-                working.append((i, site))
-            else:
-                not_working.append((i, site))
+        # First collect working and non-working groups
+        working_sites = [site for site in profiles if site.get("is_working", True)]
+        not_working_sites = [site for site in profiles if not site.get("is_working", True)]
+
+        # Assign clean sequential numbers based on actual working_sites length
+        working = list(enumerate(working_sites, start=1))
+        not_working = list(enumerate(not_working_sites, start=len(working_sites) + 1))
+
         return working, not_working
 
 
@@ -287,12 +293,9 @@ def site_choice(site_profiles, availability_mode=False):
         print_columns(working, "🟢 WORKING SITES:")
         print_columns(not_working, "🔴 NOT WORKING SITES:")
 
-
-
-    def search_sites(query):
+    def search_sites(query, all_indexed_sites):
         query = query.lower()
-        return [(i + 1, site) for i, site in enumerate(site_profiles)
-                if query in site.get("source_name", "").lower()]
+        return [(i, site) for i, site in all_indexed_sites if query in site.get("source_name", "").lower()]
 
     def parse_fractional_input(input_text, working_sites):
         try:
@@ -328,10 +331,13 @@ def site_choice(site_profiles, availability_mode=False):
                 continue
 
         # Keyword search
+        all_indexed_sites = working_sites + not_working_sites
+
         if user_input == "":
-            matching = list(enumerate(site_profiles, 1))
+            matching = all_indexed_sites
         else:
-            matching = search_sites(user_input)
+            matching = search_sites(user_input, all_indexed_sites)
+
 
         if not matching:
             print("No matches found. Try again.")

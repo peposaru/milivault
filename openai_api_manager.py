@@ -1,39 +1,121 @@
-import openai
-import logging
 import json
+import logging
+import openai
 
 class OpenAIManager:
+    def __init__(self, settings):
+        self.openai_cred_path = settings["openaiCred"]
+        self.categories_path = settings["militariaCategories"]
+        self.supergroups_path = settings["supergroupCategories"]
+        self.model = settings.get("openaiModel", "gpt-4.1-mini")
+        self.fallback_model = settings.get("openaiFallbackModel", "gpt-4.1")
+        self.confidence_threshold = settings.get("openaiConfidenceThreshold", 0.9)
 
-    # Cache for category data to avoid reloading from file every time
-    def get_category_data(self):
-        if not hasattr(self, "_category_data_cache") or self._category_data_cache is None:
-            with open(self.categories_path, "r", encoding="utf-8") as f:
-                self._category_data_cache = json.load(f)
-        return self._category_data_cache
-
-
-    def __init__(self, openai_cred_path, categories_path):
-        self.openai_cred_path = openai_cred_path
-        self.categories_path = categories_path
         self.api_key = self._load_api_key()
         self.client = openai.OpenAI(api_key=self.api_key)
-        self.model = "gpt-4o"
+
+        self._category_data_cache = None
+        self._supergroup_data_cache = None
 
     def _load_api_key(self):
         with open(self.openai_cred_path, "r") as file:
             data = json.load(file)
             return data["key"]
 
+    def get_category_data(self):
+        if self._category_data_cache is None:
+            with open(self.categories_path, "r", encoding="utf-8") as f:
+                self._category_data_cache = json.load(f)
+        return self._category_data_cache
+
+    def get_supergroup_data(self):
+        if self._supergroup_data_cache is None:
+            with open(self.supergroups_path, "r", encoding="utf-8") as f:
+                self._supergroup_data_cache = json.load(f)
+        return self._supergroup_data_cache
 
     def classify_single_product(self, title, description, image_url=None):
         try:
-            category_data = self.get_category_data()
-            item_type_enum = sorted(list(category_data.keys())) 
+            # Step 1: Get supergroup
+            supergroup = self._classify_supergroup(title, description, image_url)
+            if not supergroup:
+                return self._empty_result()
+
+            # Step 2: Use supergroup to restrict categories
+            categories = self.get_category_data()
+            valid_types = [c["label"] for c in categories if c["supergroup"] == supergroup]
+
+            result = self._classify_main_fields(title, description, valid_types, image_url)
+            result["supergroup_ai_generated"] = supergroup
+            return result
+
+        except Exception as e:
+            logging.error(f"AI CLASSIFICATION ERROR: {e}")
+            return self._empty_result()
+
+    def _classify_supergroup(self, title, description, image_url):
+        try:
+            supergroup_data = self.get_supergroup_data()
+            enum_options = [sg["key"] for sg in supergroup_data]
+
+            messages = [
+                {
+                    "role": "system",
+                    "content": """
+                    You are a military historian AI.
+                    Classify each item into one of the following broad supergroups based on its purpose and form.
+                    Return only the enum key that best describes the overall group this item fits into.
+                    """
+                },
+                {
+                    "role": "user",
+                    "content": f"""
+                    Title: {title}
+                    Description: {description}
+                    {'Image: ' + image_url if image_url else ''}
+                    """
+                }
+            ]
+
+            tools = [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "classify_supergroup",
+                        "description": "Classify the item into a supergroup",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "supergroup": {"type": "string", "enum": enum_options}
+                            },
+                            "required": ["supergroup"]
+                        }
+                    }
+                }
+            ]
+
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                tools=tools,
+                tool_choice="auto",
+                temperature=0
+            )
+            args = response.choices[0].message.tool_calls[0].function.arguments
+            return json.loads(args).get("supergroup")
+
+        except Exception as e:
+            logging.error(f"Supergroup classification failed: {e}")
+            return None
+
+    def _classify_main_fields(self, title, description, item_type_enum, image_url=None):
+        try:
             conflict_enum = [
                 "PRE_19TH", "19TH_CENTURY", "PRE_WW1", "WW1", "PRE_WW2", "WW2",
                 "COLD_WAR", "VIETNAM_WAR", "KOREAN_WAR", "CIVIL_WAR", "MODERN", "UNKNOWN"
             ]
-            nation_enum = [     
+
+            nation_enum = [
                 "GERMANY", "UNITED KINGDOM", "USA", "JAPAN", "FRANCE", "CANADA",
                 "AUSTRALIA", "RUSSIA", "ITALY", "NETHERLANDS", "POLAND", "AUSTRIA",
                 "BELGIUM", "CHINA", "VIETNAM", "SOUTH KOREA", "NORTH KOREA", "ISRAEL",
@@ -48,7 +130,7 @@ class OpenAIManager:
                     "type": "function",
                     "function": {
                         "name": "classify_product",
-                        "description": "Classify a militaria item based on title and description",
+                        "description": "Classify a militaria item",
                         "parameters": {
                             "type": "object",
                             "properties": {
@@ -62,48 +144,19 @@ class OpenAIManager:
                 }
             ]
 
-            # Add thumbnail URL if available
-            image_note = f'\nImage: {image_url}' if image_url else ''
+            image_note = f"\nImage: {image_url}" if image_url else ""
 
             messages = [
-                    {
-                        "role": "system",
-                        "content": """You are a military historian AI helping categorize military collectibles.
-
-                    Use the enums exactly as provided. If unsure, use 'UNKNOWN'.
-
-                    conflict enum meanings:
-                    - WW1 = World War 1
-                    - WW2 = World War 2 (1939–1945)
-                    - PRE_WW2 = Interwar period (1919–1938)
-                    - MODERN = Post-1990 items
-                    - COLD_WAR = Items from 1945–1990 that don't fit other conflicts
-                    - VIETNAM_WAR = U.S. vs Vietnam 1955–1975
-                    - KOREAN_WAR = Korea conflict 1950–1953
-                    - CIVIL_WAR = U.S. or other civil wars
-
-                    📛 IMPORTANT CLASSIFICATION GUIDELINES:
-
-                    1. If the product is **an insignia, badge, medal bar, patch, or rank emblem**, classify the item_type as "INSIGNIA & PATCHES", not the category it attaches to (like uniforms or headgear). You are classifying the object itself, not where it’s worn.
-
-                    2. If the product is **a store announcement**, **price update**, **sale alert**, or **new listings message** (not an actual physical item), classify the item_type as "SITE ADVERTISEMENTS".
-
-                    Examples:
-                    - ✅ "Reduced Price Category Updated"
-                    - 🛒 "We have added 20+ new items"
-                    - 💬 "Upcoming auction notice"
-                    These are not physical collectibles.
-
-                    Clues like “D.R.P.”, “Zeiler”, or bakelite material may indicate German WW2 items.
-                    """
-                    },
+                {
+                    "role": "system",
+                    "content": "You are a military historian AI helping classify collectibles. Use only the provided enums."
+                },
                 {
                     "role": "user",
-                    "content": f"""Classify this item based on the following:
-
-    Title: "{title}"
-    Description: "{description}"{image_note}
-    """
+                    "content": f"""
+                        Title: {title}
+                        Description: {description}{image_note}
+                    """
                 }
             ]
 
@@ -112,18 +165,8 @@ class OpenAIManager:
                 messages=messages,
                 tools=tools,
                 tool_choice="auto",
-                temperature=0.3,
+                temperature=0
             )
-
-            # Check cost of the request
-            usage = response.usage
-            total_tokens = usage.total_tokens if usage else 0
-
-            # Calculate cost (adjust rate if using gpt-4o or others)
-            cost_per_1k = 0.005  # for GPT-4o input + output
-            estimated_cost = (total_tokens / 1000) * cost_per_1k
-
-            logging.debug(f"AI CLASSIFIER: Tokens used → {total_tokens} tokens (${estimated_cost:.5f})")
 
             args = response.choices[0].message.tool_calls[0].function.arguments
             result = json.loads(args)
@@ -135,81 +178,18 @@ class OpenAIManager:
             }
 
         except Exception as e:
-            logging.error(f"AI CLASSIFIER: Structured output classification failed → {e}")
-            return {
-                "conflict_ai_generated": None,
-                "nation_ai_generated": None,
-                "item_type_ai_generated": None
-            }
+            logging.error(f"Main field classification failed: {e}")
+            return self._empty_result()
 
-#     def classify_sub_item_type(self, main_item_type, title, description):
-#         try:
-#             category_data = self.get_category_data()
-
-#             subcategories = None
-#             for key, values in category_data.items():
-#                 if key.strip().lower() == main_item_type.strip().lower():
-#                     subcategories = values
-#                     break
-
-#             if not subcategories:
-#                 logging.warning(f"No subcategories found for main item type: {main_item_type}")
-#                 return None
-
-#             tools = [
-#                 {
-#                     "type": "function",
-#                     "function": {
-#                         "name": "classify_subcategory",
-#                         "description": f"Pick the best subcategory for a militaria item under {main_item_type}",
-#                         "parameters": {
-#                             "type": "object",
-#                             "properties": {
-#                                 "subcategory": {"type": "string", "enum": subcategories}
-#                             },
-#                             "required": ["subcategory"]
-#                         }
-#                     }
-#                 }
-#             ]
-
-#             messages = [
-#     {
-#         "role": "system",
-#         "content": f"You are a militaria classification assistant. Based on the title and description, choose the best subcategory for '{main_item_type}' from the provided enum."
-#     },
-#     {
-#         "role": "user",
-#         "content": f"""This item was classified as '{main_item_type}'.
-
-# Now choose the most appropriate subcategory from the list below:
-
-# Title: "{title}"
-# Description: "{description}"
-# """
-#     }
-# ]
-
-#             response = self.client.chat.completions.create(
-#                 model=self.model,
-#                 messages=messages,
-#                 tools=tools,
-#                 tool_choice="auto",
-#                 temperature=0
-#             )
-
-#             args = response.choices[0].message.tool_calls[0].function.arguments
-#             result = json.loads(args)
-#             return result.get("subcategory", "").upper()
-
-
-#         except Exception as e:
-#             logging.error(f"AI CLASSIFIER: Failed to classify sub-item type for {main_item_type} → {e}")
-#             return None
-
+    def _empty_result(self):
+        return {
+            "conflict_ai_generated": None,
+            "nation_ai_generated": None,
+            "item_type_ai_generated": None,
+            "supergroup_ai_generated": None
+        }
 
     def generate_vector_from_text(self, title, description):
-        """Generate an OpenAI vector from title and description text."""
         try:
             combined = f"{title or ''} {description or ''}".strip()
             if not combined:

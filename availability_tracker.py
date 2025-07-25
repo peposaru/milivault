@@ -43,6 +43,15 @@ class SiteAvailabilityTracker:
 
         # Processing sites based on avail tracking mode in json file.
         for site_profile in site_profiles:
+            try: 
+                if site_profile.get("is_sold_archive", False):
+                    logging.info(f"AVAIL TRACKER: Skipping sold archive site {site_profile['source_name']}")
+                    continue
+                else:
+                    logging.info(f"AVAIL TRACKER: Processing site {site_profile['source_name']}")
+            except KeyError:
+                logging.error(f"AVAIL TRACKER: KeyError for site profile {site_profile}. Missing 'is_sold_archive' key.")
+                continue
             try:
                 mode = site_profile.get("bulk_availability_mode", "tile").lower()
 
@@ -52,7 +61,6 @@ class SiteAvailabilityTracker:
                     seen_urls = self._process_tile_mode(site_profile)
                     all_seen_urls.update(seen_urls)
 
-                # This has not been developed and currently has no use.
                 elif mode == "last_seen":
                     logging.info(f"AVAIL TRACKER: LAST SEEN MODE - {site_profile['source_name']} [{site_profile.get('json_desc', 'unknown')}]")
                     seen_urls = self._process_last_seen_mode(site_profile)

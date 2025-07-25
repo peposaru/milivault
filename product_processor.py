@@ -3,8 +3,8 @@ from clean_data import CleanData
 import image_extractor
 from datetime import datetime,timezone
 from decimal import Decimal
-import post_processors as post_processors
 from post_processors import normalize_input, apply_post_processors
+from typing import Any
 
 # This will handle the dictionary of data extracted from the tile on the products page tile.
 class ProductTileDictProcessor:
@@ -17,212 +17,381 @@ class ProductTileDictProcessor:
         self.log_print          = managers.get('logPrint')
         self.use_comparison_row = use_comparison_row
         
-    def product_tile_dict_processor_main(self, tile_product_data_list):
-        processing_required_list = []
-        availability_update_list = []
-
-        # Categorize products into old and new
+    def product_tile_dict_processor_main(self, tiles: list) -> tuple[list[dict], list[dict]]:
+        """
+        Decide what to do with each tile:
+        • price-only  → batch price update
+        • availability-only → batch availability update
+        • anything else (incl. title diff) → full detail
+        Returns (processing_required, availability_updates) to preserve old API.
+        """
         try:
-            logging.info(f"PRODUCT PROCESSOR: Categorizing products between old and new...")
-            processing_required_list, availability_update_list = self.compare_tile_url_to_rds(tile_product_data_list)
-            self.counter.add_availability_update_count(count=len(availability_update_list))
-            self.counter.add_processing_required_count(count=len(processing_required_list))
+            processing_required, availability_updates, price_updates = self.compare_tile_url_to_rds(tiles)
+            # counters
+            self.counter.add_processing_required_count(len(processing_required))
+            self.counter.add_availability_update_count(len(availability_updates))
+            self.counter.add_price_update_count(len(price_updates))
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: compare_tile_url_to_rds: {e}")
+            logging.error(f"PRODUCT PROCESSOR: compare_tile_url_to_rds failed: {e}")
+            return [], []
 
-        # Update availability list
+        # Push availability updates first
         try:
-            self.process_availability_update_list(availability_update_list)
+            self.process_availability_update_list(availability_updates)
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: process_availability_update_list: {e}")
+            logging.error(f"PRODUCT PROCESSOR: process_availability_update_list failed: {e}")
 
-        return processing_required_list, availability_update_list
+        # Then prices
+        try:
+            self.process_price_update_list(price_updates)
+        except Exception as e:
+            logging.error(f"PRODUCT PROCESSOR: process_price_update_list failed: {e}")
+
+        return processing_required, availability_updates
 
 
     # If in rds, compare availability status, title, price and update if needed
     # If not in rds, create
-    def compare_tile_url_to_rds(self, tile_product_data_list):
-        processing_required_list = []  # Products needing full processing
-        availability_update_list = []  # Products needing only availability updates
-        ignored_update_count = 0       # Count products with no updates required
+    def compare_tile_url_to_rds(
+        self,
+        tiles: list[dict]
+    ) -> tuple[list[dict], list[dict], list[dict]]:
+        """
+        Returns three lists:
+        - processing_required (full detail)
+        - availability_updates
+        - price_updates
+        """
+        processing_required  = []
+        availability_updates = []
+        price_updates        = []
+        cleaner              = CleanData()
 
-        for tile_product_dict in tile_product_data_list:
+        for tile in tiles:
+            url       = tile.get("url")
+            title     = tile.get("title")
+            raw_price = tile.get("price")
+            available = tile.get("available")
 
-            # Always reset these at the start!
-            db_title = None
-            db_price = None
-            db_available = None
-            db_description = None
-            db_price_history = None
-            db_present = None
-
-            try:
-                url       = tile_product_dict['url']  
-                title     = tile_product_dict['title']
-                price     = tile_product_dict['price']
-                available = tile_product_dict['available']
-            except Exception as e:
-                logging.error(f'PRODUCT PROCESSOR: Error retrieving tile_product_dict values: {e}')
+            # --- Sanity ---------------------------------------------------------
+            if url is None or title is None or available is None:
+                logging.error(f"TILE DEDUP: missing url/title/available, skipping → {tile}")
                 continue
 
-            product_category = "Processing Required"
-            reason = "New product or mismatched details"
+            db_row = self.find_existing_db_row(tile, self.site_profile, self.rds_manager)
+            if not db_row:
+                logging.info(f"NEW PRODUCT → full detail → {url}")
+                processing_required.append(tile)
+                continue
 
-            # Layered deduplication: URL → extracted_id → image → (title, price)
-            db_row = None
-            if self.use_comparison_row:
-                try:
-                    db_row = find_existing_db_row(tile_product_dict, self.site_profile, self.rds_manager)
-                    if db_row:
-                        db_row = (*db_row, True)
-                except Exception as e:
-                    logging.error(f"PRODUCT PROCESSOR: DB deduplication lookup failed for product: {e}")
-                    continue
+            db_url, db_title, db_price, db_available = db_row
 
-            # If the database already has this product, compare the details
-            if db_row:
-                try:
-                    db_title, db_price, db_available, db_description, db_price_history, db_present = db_row
-                except ValueError as e:
-                    logging.error(f"PRODUCT PROCESSOR: Error unpacking db_row for URL {url}: {e}")
-                    continue
+            # --- Clean inputs ---------------------------------------------------
+            try:
+                tile_price_clean = cleaner.clean_price(str(raw_price)) if raw_price is not None else None
+            except Exception:
+                tile_price_clean = None
 
-                # Early skip if both are sold/unavailable and at least one price is zero/empty/null
-                if db_available is False and available is False and (self.is_empty_price(db_price) or self.is_empty_price(price)):
-                    logging.info(f"SKIP: Already sold and price is blank/zero for at least one → URL: {url}")
-                    ignored_update_count += 1
-                    continue
+            try:
+                tile_title_clean = cleaner.clean_title(title)
+            except Exception:
+                tile_title_clean = title
 
-                # Price match logic
-                if db_available is False and available is False and (self.is_empty_price(db_price) or self.is_empty_price(price)):
-                    price_match = True
-                    logging.debug(f"PRODUCT PROCESSOR: [MATCH] Sold item with no price: DB={db_price}, TILE={price}")
-                elif self.is_empty_price(db_price) and not self.is_empty_price(price):
-                    price_match = False
-                    tile_product_dict["force_details_process"] = True
-                    logging.debug(f"PRODUCT PROCESSOR: [FORCE PROCESS] DB has 0 price, tile has value → DB={db_price}, TILE={price}")
-                elif not self.is_empty_price(db_price) and self.is_empty_price(price):
-                    price_match = True
-                    logging.debug(f"PRODUCT PROCESSOR: [IGNORE] Tile price is 0 but DB still has value → DB={db_price}, TILE={price}")
-                else:
-                    if self.is_empty_price(db_price) and self.is_empty_price(price):
-                        price_match = True
-                        logging.debug(f"PRODUCT PROCESSOR: [MATCH] Both prices empty/zero/None: DB={db_price}, TILE={price}")
-                    else:
-                        try:
-                            price_match = float(db_price) == float(price)
-                            if not price_match:
-                                logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Price changed → DB={db_price}, TILE={price}")
-                        except (TypeError, ValueError):
-                            price_match = False
-                            logging.debug(f"PRODUCT PROCESSOR: [MISMATCH] Could not compare prices → DB={db_price}, TILE={price}")
+            # --- Diff flags -----------------------------------------------------
+            avail_changed = bool(available) != bool(db_available)
+            title_changed = tile_title_clean != db_title
+            price_changed = self._meaningful_price_change(db_price, tile_price_clean)
 
-
-
-                # Compare cleaned titles
-                title_cleaned = CleanData.clean_title(title)
-                db_title_cleaned = CleanData.clean_title(db_title)
-
-                if title_cleaned == db_title_cleaned and price_match:
-                    if available != db_available:
-                        logging.info(f"AVAIL CHANGE: Availability changed → URL: {url}, DB: {db_available}, Tile: {available}")
-                        availability_update_list.append({"url": url, "available": available})
-                        product_category = "Availability Update"
-                        reason = "Availability status changed"
-                        self.counter.add_availability_update_count(1)
-                    else:
-                        logging.info(f"SKIP: No changes → URL: {url}")
-                        ignored_update_count += 1
-                        continue
-                else:
-                    logging.info(
-                        f"""PROCESSING REQUIRED: Title or price mismatch → URL: {url}
-    DB Title     : {db_title_cleaned}
-    Tile Title   : {title_cleaned}
-    DB Price     : {db_price}
-    Tile Price   : {price}"""
-                    )
-                    processing_required_list.append(tile_product_dict)
-                    reason = "Mismatch in title or price"
-                    self.counter.add_processing_required_count(1)
+            # --- Debug logging --------------------------------------------------
+            if title_changed or price_changed or avail_changed:
+                logging.debug("------------------------------------------------")
+                logging.debug(f"TILE COMPARE: url={url!r}")
+                if title_changed:
+                    logging.debug("↪️ TITLE CHANGED:")
+                    logging.debug(f"  INCOMING: {tile_title_clean}")
+                    logging.debug(f"  DB      : {db_title}")
+                if price_changed:
+                    logging.debug("↪️ PRICE CHANGED:")
+                    logging.debug(f"  INCOMING: {tile_price_clean}")
+                    logging.debug(f"  DB      : {db_price}")
+                if avail_changed:
+                    logging.debug("↪️ AVAILABILITY CHANGED:")
+                    logging.debug(f"  INCOMING: {available}")
+                    logging.debug(f"  DB      : {db_available}")
             else:
-                logging.info(f"NEW PRODUCT: Not found in DB or comparison list → URL: {url}")
-                processing_required_list.append(tile_product_dict)
-                reason = "New product"
-                self.counter.add_processing_required_count(1)
+                logging.debug("------------------------------------------------")
+                logging.debug(f"TILE COMPARE: url={url!r}, title_changed=False, price_changed=False, avail_changed=False")
+                logging.debug("NO CHANGE → skipping")
 
+            # --- Routing --------------------------------------------------------
+            if not (title_changed or price_changed or avail_changed):
+                continue
+
+            # 1) price‑only
+            if price_changed and not title_changed and not avail_changed:
+                if (
+                    isinstance(db_price, (int, float)) and
+                    isinstance(tile_price_clean, (int, float)) and
+                    self._meaningful_price_change(db_price, tile_price_clean)
+                ):
+                    price_updates.append({
+                        "url": db_url,
+                        "old": float(db_price),
+                        "new": float(tile_price_clean),
+                    })
+                else:
+                    logging.debug(
+                        f"PRICE GUARD: ignoring price diff for {url} "
+                        f"(old={db_price}, new={tile_price_clean})"
+                    )
+                continue
+
+            # 2) availability‑only
+            if avail_changed and not title_changed and not price_changed:
+                logging.info(f"AVAILABILITY CHANGE → {url} (to available={available})")
+                availability_updates.append({"url": db_url, "available": bool(available)})
+                continue
+
+            # 3) anything else → full detail
             logging.info(
-                f"""
-    ======== Product Summary ========
-    URL                  : {url}
-    DB Title             : {db_title if 'db_title' in locals() else 'N/A'}
-    Tile Title           : {tile_product_dict['title']}
-    DB Price             : {db_price if 'db_price' in locals() else 'N/A'}
-    Tile Price           : {tile_product_dict['price']}
-    DB Availability      : {db_available if 'db_available' in locals() else 'N/A'}
-    Tile Availability    : {tile_product_dict['available']}
-    ==================================
-    Product Category     : {product_category}
-    Reason               : {reason}
-    ==================================
-                """
+                f"REQUIRE FULL DETAIL → {url} "
+                f"(title_changed={title_changed}, price_changed={price_changed}, avail_changed={avail_changed})"
             )
+            processing_required.append(tile)
 
-        logging.info(f'PRODUCT PROCESSOR: Products needing full processing     : {len(processing_required_list)}')
-        logging.info(f'PRODUCT PROCESSOR: Products needing availability updates: {len(availability_update_list)}')
-        logging.info(f'PRODUCT PROCESSOR: Products ignored (no updates needed) : {ignored_update_count}')
-
-        return processing_required_list, availability_update_list
+        return processing_required, availability_updates, price_updates
 
 
-    def is_empty_price(self, value):
-        """Return True if the price is None, 0, 0.0, '', '0', '0.0', Decimal('0'), Decimal('0.0'), or only whitespace."""
+    def process_price_update_list(self, updates: list[dict]) -> None:
+        """
+        Batch‐update prices and append to price_history.
+        Each dict: {'url': str, 'old': float, 'new': float}
+        """
+        logging.debug(f"PROCESS_PRICE_UPDATE_LIST: received {len(updates)} updates")
+        if not updates:
+            logging.debug("PROCESS_PRICE_UPDATE_LIST: no updates to process")
+            return
+
+        now = datetime.now(timezone.utc).isoformat()
+
+        for upd in updates:
+            url = upd.get("url")
+            old = upd.get("old")
+            new = upd.get("new")
+
+            # Basic shape check
+            if not isinstance(url, str):
+                logging.error(f"PRICE UPDATE: invalid url in entry → {upd!r}")
+                continue
+
+            if not self._meaningful_price_change(old, new):
+                logging.debug(f"PRICE GUARD: skipping update for {url} (old={old}, new={new})")
+                continue
+
+            try:
+                history_json = json.dumps([{"price": float(old), "date": now}])
+                query = """
+                    UPDATE militaria
+                    SET price = %s,
+                        price_history = coalesce(price_history, '[]'::jsonb) || %s::jsonb,
+                        date_modified = %s,
+                        last_seen = %s
+                    WHERE url = %s;
+                """
+                params = (float(new), history_json, now, now, url)
+
+                # If update_record doesn't return rowcount, fall back to execute and assume success.
+                try:
+                    rows_updated = self.rds_manager.update_record(query, params)
+                except TypeError:
+                    # old signature
+                    self.rds_manager.update_record(query, params)
+                    rows_updated = 1
+
+                if rows_updated:
+                    logging.info(f"PRICE UPDATE: {url} → {old} ⇒ {new}")
+                else:
+                    logging.warning(f"PRICE UPDATE: no rows updated for {url}")
+            except Exception as e:
+                logging.error(f"PRICE UPDATE: failed for {url}: {e}")
+
+
+
+    # Check if the price is empty or zero
+    def is_empty_price(self, value) -> bool:
+        """
+        Return True if the supplied price is blank or numerically zero.
+        Handles:
+        - None
+        - Empty or all-whitespace strings
+        - Strings with currency symbols (e.g. "$0.00", "€0")
+        - Any numeric type (int, float, Decimal) equal to zero
+        """
         if value is None:
             return True
-        if isinstance(value, str):
-            return value.strip() in ("", "0", "0.0")
+
+        text = str(value).strip()
+        if not text:
+            return True
+
+        # Drop everything except digits and dot
+        cleaned = re.sub(r"[^\d\.]", "", text)
+        if not cleaned:
+            # e.g. original value was "$" or "—"
+            return True
+
         try:
-            return float(value) == 0.0
+            return float(cleaned) == 0.0
         except (TypeError, ValueError):
             return False
 
-    def process_availability_update_list(self, availability_update_list):
-        for product in availability_update_list:
+
+    def process_availability_update_list(self, updates: list[dict]) -> None:
+        """
+        Batch‑update availability flags and timestamps for each product in `updates`.
+        Each dict must include 'url' (str) and 'available' (bool).
+        """
+        if not updates:
+            return
+
+        now = datetime.now(timezone.utc).isoformat()
+        sold_query = (
+            "UPDATE militaria "
+            "SET available = %s, date_sold = %s, date_modified = %s, last_seen = %s "
+            "WHERE url = %s;"
+        )
+        avail_query = (
+            "UPDATE militaria "
+            "SET available = %s, date_sold = NULL, date_modified = %s, last_seen = %s "
+            "WHERE url = %s;"
+        )
+
+        for item in updates:
+            url = item.get("url")
+            if not url:
+                logging.error("PRODUCT PROCESSOR: Missing 'url' in availability update item, skipping.")
+                continue
+
+            available = bool(item.get("available"))
             try:
-                url = product['url']
-                available = product['available']
-                now_utc = datetime.now(timezone.utc).isoformat()
-
-                logging.debug(f"PRODUCT PROCESSOR: Preparing to update: URL={url}, Available={available}")
-
-                if available is False:
-                    update_query = """
-                    UPDATE militaria
-                    SET available = %s,
-                        date_sold = %s,
-                        date_modified = %s,
-                        last_seen = %s
-                    WHERE url = %s;
-                    """
-                    params = (available, now_utc, now_utc, now_utc, url)
+                if available:
+                    params = (True, now, now, url)
+                    query = avail_query
                 else:
-                    update_query = """
-                    UPDATE militaria
-                    SET available = %s,
-                        date_sold = NULL,
-                        date_modified = %s,
-                        last_seen = %s
-                    WHERE url = %s;
-                    """
-                    params = (available, now_utc, now_utc, url)
+                    params = (False, now, now, now, url)
+                    query = sold_query
 
-                self.rds_manager.update_record(update_query, params)
-                logging.info(f"PRODUCT PROCESSOR: Successfully updated availability and last_seen for URL: {url}")
-
+                self.rds_manager.update_record(query, params)
+                logging.info(f"PRODUCT PROCESSOR: Updated availability for {url} → available={available}")
             except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Failed to update record for URL: {url}. Error: {e}")
-        return
+                logging.error(f"PRODUCT PROCESSOR: Failed to update availability for {url}: {e}")
+
+    def find_existing_db_row(
+        self,
+        product: dict,
+        site_profile: dict,
+        rds_manager
+    ) -> tuple[str, str, float, bool] | None:
+        """
+        Tile‑level dedup:
+        1. Exact URL match (with/without trailing slash, scheme‑insensitive)
+        2. site + title fallback
+        """
+        raw = product.get("url") or ""
+        try:
+            clean_url = CleanData.clean_url(raw)
+        except ValueError:
+            return None
+
+        # Build slash/no‑slash variants
+        if clean_url.endswith("/"):
+            alt_url = clean_url[:-1]
+        else:
+            alt_url = clean_url + "/"
+
+        # Strip scheme for matching
+        strip1 = re.sub(r"^https?://", "", clean_url, flags=re.IGNORECASE)
+        strip2 = re.sub(r"^https?://", "", alt_url,   flags=re.IGNORECASE)
+
+        # 1) Exact URL match (either variant, either scheme)
+        try:
+            rows = rds_manager.fetch(
+                """
+                SELECT url, title, price, available
+                FROM militaria
+                WHERE url = %s
+                    OR url = %s
+                    OR REPLACE(REPLACE(url,'http://',''),'https://','') = %s
+                    OR REPLACE(REPLACE(url,'http://',''),'https://','') = %s
+                LIMIT 1
+                """,
+                (clean_url, alt_url, strip1, strip2)
+            )
+            if rows:
+                return rows[0]
+        except Exception as e:
+            logging.error(f"TILE DEDUP: exact-URL lookup failed for {raw!r}: {e}")
+
+        # 2) site + title fallback
+        site = site_profile.get("source_name")
+        title = CleanData.clean_title(product.get("title") or "")
+        if site and title:
+            try:
+                clean_title = CleanData.clean_title(title)
+                rows = rds_manager.fetch(
+                    """
+                    SELECT url, title, price, available
+                    FROM militaria
+                    WHERE site = %s
+                    AND title = %s
+                ORDER BY COALESCE(date_modified, last_seen, date_sold) DESC
+                    LIMIT 1
+                    """,
+                    (site, clean_title)
+                )
+                if rows:
+                    return rows[0]
+            except Exception as e:
+                logging.error(f"TILE DEDUP: site+title lookup failed for {site!r}, {title!r}: {e}")
+
+        return None
     
+    def _meaningful_price_change(self, old_price, new_price) -> bool:
+        """
+        Consider a price change meaningful ONLY when:
+        - new_price parses to a real number > 0
+        - and it differs from the stored price
+
+        Rules:
+        • Never let 0 / None overwrite a positive DB price.
+        • Allow setting a price if DB was 0 / None and new is > 0.
+        • Ignore any transition where new is None or 0.0.
+
+        Returns:
+            bool: True if we should treat this as a real price change.
+        """
+        def to_float(v):
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                return None
+
+        old_val = to_float(old_price)  # may be None
+        new_val = to_float(new_price)  # may be None
+
+        # New value missing or zero → never meaningful (we don't downgrade prices here)
+        if new_val is None or new_val == 0.0:
+            return False
+
+        # Old missing/zero, new positive → yes, we want to set it
+        if old_val is None or old_val == 0.0:
+            return True
+
+        # Both positive numbers → meaningful if different
+        return new_val != old_val
+
+
+
 
 
 class ProductDetailsProcessor:
@@ -236,847 +405,809 @@ class ProductDetailsProcessor:
         self.details_selectors  = site_profile.get("product_details_selectors", {})
         self.use_comparison_row = use_comparison_row
 
-
-    def product_details_processor_main(self, processing_required_list):
+    def product_details_processor_main(self, processing_required: list[dict]) -> None:
         """
-        Process product details for new and old products, using robust detail-level deduplication.
+        Process detailed pages for each product needing a full details refresh.
+        Logs page-level headers, skips, and records only real updates.
         """
-        logging.debug(f"PRODUCT PROCESSOR: Processing required list count: {len(processing_required_list)}")
+        count = len(processing_required)
+        logging.info(f"DETAIL PROCESSOR: {count} products to handle")
+        if count == 0:
+            return
 
-        for product in processing_required_list:
-            product_url = product.get('url')
-            logging.debug(f"""PRODUCT PROCESSOR: 
-    **************************************************              
-    ******************PRODUCT CHANGE******************
-    **************************************************""")
-            logging.debug(f"PRODUCT PROCESSOR: Processing product URL: {product_url}")
+        for prod in processing_required:
+            url = prod.get("url")
+            logging.info(f"\n****************** Processing details for {url} ******************")
 
-            # Step 1: (Optional) Quick availability/price check for skipping unchanged sold items
+            # ------------------ STEP 1: DB snapshot ------------------
             try:
                 result = self.rds_manager.fetch(
-                    "SELECT available, price FROM militaria WHERE url = %s LIMIT 1", (product_url,)
+                    """
+                    SELECT id, title, description, price, available, original_image_urls
+                    FROM militaria
+                    WHERE url = %s
+                    LIMIT 1
+                    """,
+                    (url,)
                 )
                 db_present = bool(result)
-                db_available, db_price = result[0] if result else (None, None)
-            except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: DB check for availability/price failed: {e}")
-                db_present = False
-                db_available = db_price = None
-
-            # ✅ Early skip: If sold in DB and still sold on site, skip reprocessing
-            if db_present and db_available is False:
-                logging.debug("PRODUCT PROCESSOR: Fast check — item is sold in DB, validating if still sold on site...")
-                site_thinks_sold = not product.get("available", True)
-                # --- If the tile price is different from the DB, force further processing ---
-                price_changed = "price" in product and product["price"] not in (None, "", "None", 0.0) and float(product["price"]) != float(db_price)
-                if site_thinks_sold and not price_changed:
-                    logging.info(f"PRODUCT PROCESSOR: Skipping sold product (still sold, price unchanged): {product_url}")
-                    continue
-                if site_thinks_sold and price_changed:
-                    logging.info(f"PRODUCT PROCESSOR: Sold product {product_url} has price change (DB: {db_price}, tile: {product['price']}) — will process for price history.")
-
-            # ✅ Step 2: Load product HTML
-            try:
-                product_url_soup = self.html_manager.parse_html(product_url)
-                logging.debug("PRODUCT PROCESSOR: Successfully parsed product URL into BeautifulSoup.")
-            except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Error parsing product URL {product_url}: {e}")
-                continue
-
-            # ✅ Step 3: Extract raw details from HTML
-            try:
-                details_data = self.construct_details_data(product_url, product_url_soup)
-                tile_price = product.get("price")
-                cleaned_details_price = CleanData.clean_price(details_data.get("price"))
-
-                if (
-                    db_present and
-                    self.is_empty_price(cleaned_details_price) and
-                    self.is_empty_price(db_price) and
-                    not self.is_empty_price(tile_price)
-                ):
-                    logging.warning(
-                        f"PRODUCT PROCESSOR: Overriding missing cleaned details/DB price with tile price → {tile_price}"
-                    )
-                    details_data["price"] = tile_price
-
-                preview = pprint.pformat({k: str(v)[:200] for k, v in details_data.items()})
-                logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
-            except Exception as e:
-                logging.error(f"PRODUCT PROCESSOR: Error constructing details data for {product_url}: {e}")
-                continue
-
-            # ✅ Step 4: Clean extracted data
-            try:
-                clean_details_data = self.construct_clean_details_data(details_data)
-                logging.debug(f"PRODUCT PROCESSOR: Constructed clean details data for {product_url}: {clean_details_data}")
-            except Exception as e:
-                preview = pprint.pformat({k: str(v)[:200] for k, v in details_data.items()})
-                logging.debug(f"PRODUCT PROCESSOR: Constructed details data (preview) for {product_url}: {preview}")
-                continue
-
-            # ✅ Step 5: Final availability check — skip if sold & still sold
-            if db_available is False and clean_details_data.get("available") is False:
-                # If price is different, DO NOT SKIP — update for price history!
-                price_changed = (db_price != clean_details_data.get("price"))
-                if not price_changed:
-                    logging.info(f"PRODUCT PROCESSOR: Skipping reprocessing of unchanged sold product: {product_url}")
-                    continue
+                if db_present:
+                    (db_id, db_title, db_description, db_price,
+                    db_available, db_image_urls) = result[0]
                 else:
-                    logging.info(
-                        f"PRODUCT PROCESSOR: Sold product {product_url} has price change (DB: {db_price}, tile: {clean_details_data.get('price')}) — will process for price history."
-                    )
+                    db_id = db_title = db_description = db_price = db_available = db_image_urls = None
+            except Exception as e:
+                logging.error(f"DETAIL PROCESSOR: DB lookup failed for {url}: {e}")
+                db_present = False
+                db_title = db_description = db_price = db_available = db_image_urls = None
 
-            # ✅ Step 6: Robust detail-level deduplication (NEW LOGIC)
-            matched_id, db_row_details = find_existing_db_row_details(clean_details_data, self.site_profile, self.rds_manager)
+            # ------------------ STEP 2: Normalize TILE fields ------------------
+            try:
+                new_title = CleanData.clean_title(prod.get("title", ""), allow_empty=True)
+                if not new_title:
+                    new_title = CleanData.clean_title(db_title or "", allow_empty=True)
+            except Exception as e:
+                logging.error(f"DETAIL PROCESSOR: title clean error for {url}: {e}")
+                new_title = db_title or ""
 
-            if matched_id:
-                logging.debug(f"PRODUCT PROCESSOR: Detail dedup found old product for {product_url}.")
+            try:
+                new_price = CleanData.clean_price(str(prod.get("price", "")))
+            except Exception:
+                new_price = None
 
-                # Build readable comparison
-                compare_fields = [
-                    ("title", clean_details_data.get("title"), db_row_details[1]),
-                    ("price", clean_details_data.get("price"), db_row_details[2]),
-                    ("available", clean_details_data.get("available"), db_row_details[3]),
-                    ("description", clean_details_data.get("description"), db_row_details[4]),
-                    ("price_history", clean_details_data.get("price_history"), db_row_details[5] if len(db_row_details) > 5 else None),
-                ]
-                log_lines = ["\n--- PRODUCT DETAIL DEDUPLICATION: Side-by-side comparison ---"]
-                log_lines.append(f"URL: {product_url}")
-                log_lines.append("{:<15} | {:<35} | {:<35}".format("Field", "INCOMING", "DB VALUE"))
-                log_lines.append("-" * 90)
-                for field, incoming, dbval in compare_fields:
-                    log_lines.append("{:<15} | {:<35} | {:<35}".format(str(field), str(incoming), str(dbval)))
-                log_lines.append("-" * 90)
-                logging.info("\n".join(log_lines))
+            tile_available = bool(prod.get("available", True))
 
-                self.counter.add_old_product_count()
-                try:
-                    self.old_product_processor(clean_details_data, matched_id)
-                    logging.info(f"PRODUCT PROCESSOR: Old product processed successfully: {product_url}")
-                except Exception as e:
-                    logging.error(f"PRODUCT PROCESSOR: Error processing old product {product_url}: {e}")
-            else:
-                logging.debug(f"PRODUCT PROCESSOR: Detail dedup found NEW product for {product_url}.")
-                self.counter.add_new_product_count()
-                try:
-                    self.new_product_processor(clean_details_data, details_data)
-                    logging.info(f"PRODUCT PROCESSOR: New product processed successfully: {product_url}")
-                except Exception as e:
-                    logging.error(f"PRODUCT PROCESSOR: Error processing new product {product_url}: {e}")
+            # ------------------ STEP 3: Normalize DB fields ------------------
+            db_title_clean = CleanData.clean_title(db_title or "", allow_empty=True)
+            db_description_clean = CleanData.clean_description(db_description or "", allow_empty=True)
+            try:
+                db_price_float = float(db_price)
+            except Exception:
+                db_price_float = None
 
-        logging.debug(f"PRODUCT PROCESSOR: Processing completed for {len(processing_required_list)} products.")
+            # ------------------ STEP 4: Quick diff ------------------
+            title_changed = new_title != db_title_clean
+            price_changed = self._meaningful_price_change(db_price_float, new_price)
+            avail_changed = (tile_available != (db_available if db_available is not None else True))
+
+            logging.debug("DETAIL COMPARE (tile vs DB):")
+            if title_changed:
+                logging.debug(f"→ TITLE CHANGED:\nDB   : {db_title_clean}\nNEW  : {new_title}")
+            if price_changed:
+                logging.debug(f"→ PRICE CHANGED:\nDB   : {db_price_float}\nNEW  : {new_price}")
+            if avail_changed:
+                logging.debug(f"→ AVAIL CHANGED:\nDB   : {db_available}\nNEW  : {tile_available}")
+
+            # ------------------ STEP 5: Fetch & parse HTML ------------------
+            try:
+                soup = self.html_manager.parse_html(url)
+            except Exception as e:
+                logging.error(f"DETAIL PROCESSOR: HTML parse failed for {url}: {e}")
+                continue
+
+            # ------------------ STEP 6: Extract & clean ------------------
+            try:
+                raw_details = self.construct_details_data(url, soup)
+                clean_details = self.construct_clean_details_data(raw_details)
+
+                if not clean_details.get("title"):
+                    logging.debug("DETAIL FALLBACK: empty detail title → using tile/DB title")
+                    clean_details["title"] = new_title or db_title_clean
+
+                if not clean_details.get("description"):
+                    logging.debug("DETAIL FALLBACK: empty detail description → using DB or placeholder")
+                    clean_details["description"] = db_description_clean or "No description available."
+
+            except Exception as e:
+                logging.error(f"DETAIL PROCESSOR: Data extraction/cleaning failed for {url}: {e}")
+                continue
+
+            # ------------------ STEP 7: Dedup & upsert ------------------
+            try:
+                matched_id, matched_url = find_existing_db_row_details(
+                    clean_details, self.site_profile, self.rds_manager
+                )
+                incoming_url = clean_details.get("url")
+
+                if matched_id:
+                    if matched_url != incoming_url:
+                        logging.info(f"DETAIL PROCESSOR: Replacing old DB URL with new one → {matched_url} → {incoming_url}")
+                        try:
+                            self.rds_manager.update_record(
+                                "UPDATE militaria SET url = %s, date_modified = %s WHERE id = %s;",
+                                (incoming_url, datetime.now(timezone.utc).isoformat(), matched_id)
+                            )
+                            logging.info(f"DETAIL PROCESSOR: DB URL updated for id={matched_id}")
+                        except Exception as e:
+                            logging.error(f"DETAIL PROCESSOR: Failed to update URL for id={matched_id}: {e}")
+
+                    clean_details['url'] = incoming_url
+                    old_price = db_price_float
+                    new_price = clean_details.get("price")
+                    is_sold = clean_details.get("available") is False
+
+                    if is_sold and not self._meaningful_price_change(old_price, new_price):
+                        logging.info(f"DETAIL PROCESSOR: Skipping unchanged sold item: {incoming_url}")
+                        self.counter.add_skipped_sold_item()
+                        continue
+
+                    logging.info(f"DETAIL PROCESSOR: Found existing record (id={matched_id}) for {incoming_url}")
+                    self.counter.add_old_product_count()
+                    did_update = self.old_product_processor(clean_details, matched_id)
+                    if did_update:
+                        logging.info(f"DETAIL PROCESSOR: Updated old product id={matched_id}")
+                    else:
+                        logging.info(f"DETAIL PROCESSOR: No detail changes for id={matched_id}")
+
+                else:
+                    logging.info(f"DETAIL PROCESSOR: New product detected for {incoming_url}")
+                    self.counter.add_new_product_count()
+                    try:
+                        self.new_product_processor(clean_details, raw_details)
+                        logging.info(f"DETAIL PROCESSOR: Inserted new product for {incoming_url}")
+                    except Exception as e:
+                        logging.error(f"DETAIL PROCESSOR: new_product_processor failed for {incoming_url}: {e}")
+
+            except Exception as e:
+                final_url = clean_details.get("url")
+                logging.error(f"DETAIL PROCESSOR: final insert/update step failed for {final_url}: {e}")
+
+        logging.info("DETAIL PROCESSOR: Finished processing all products")
 
 
-    def new_product_processor(self, clean_details_data, details_data):
-        try:
-            logging.info('PRODUCT PROCESS: Starting data cleaning process...')
-            logging.info(
-                f"""
-    ====== Data Cleaning Summary ======
-    Pre-clean URL                : {details_data.get('url')}
-    Post-clean URL               : {clean_details_data.get('url')}
-    Pre-clean Title              : {details_data.get('title')}
-    Post-clean Title             : {clean_details_data.get('title')}
-    Pre-clean Description        : {details_data.get('description')}
-    Post-clean Description       : {clean_details_data.get('description')}
-    Pre-clean Price              : {details_data.get('price')}
-    Post-clean Price             : {clean_details_data.get('price')}
-    Pre-clean Availability       : {details_data.get('available')}
-    Post-clean Availability      : {clean_details_data.get('available')}
-    Pre-clean Image URLs         : {details_data.get('original_image_urls')}
-    Post-clean Image URLs        : {clean_details_data.get('original_image_urls')}
-    Pre-clean Nation             : {details_data.get('nation_site_designated')}
-    Post-clean Nation            : {clean_details_data.get('nation_site_designated')}
-    Pre-clean Conflict           : {details_data.get('conflict_site_designated')}
-    Post-clean Conflict          : {clean_details_data.get('conflict_site_designated')}
-    Pre-clean Item Type          : {details_data.get('item_type_site_designated')}
-    Post-clean Item Type         : {clean_details_data.get('item_type_site_designated')}
-    Pre-clean Extracted ID       : {details_data.get('extracted_id')}
-    Post-clean Extracted ID      : {clean_details_data.get('extracted_id')}
-    Pre-clean Grade              : {details_data.get('grade')}
-    Post-clean Grade             : {clean_details_data.get('grade')}
-    Pre-clean Site Categories    : {details_data.get('categories_site_designated')}
-    Post-clean Site Categories   : {clean_details_data.get('categories_site_designated')}
-    ===================================
-                """
-            )
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error logging cleaning summary: {e}")
+    def new_product_processor(self, clean_details_data: dict, raw_details_data: dict) -> None:
+        """
+        Insert a new product, upload its images to S3, and perform AI classification.
+        """
+        url = clean_details_data.get("url")
 
-        # STEP 1 — Insert product
+        # 1. Insert new record
         try:
             self.rds_manager.new_product_input(clean_details_data)
-            logging.info(f"PRODUCT PROCESSOR: Inserted new product {clean_details_data.get('url')} into database.")
+            logging.info(f"NEW PRODUCT: Inserted {url}")
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Failed to insert new product: {e}")
+            logging.error(f"NEW PRODUCT: Failed to insert {url}: {e}")
             return
 
-        # STEP 2 — Get DB ID
+        # 2. Retrieve its database ID
         try:
-            fetch_id_query = "SELECT id FROM militaria WHERE url = %s AND site = %s;"
-            db_id = self.rds_manager.get_record_id(fetch_id_query, (clean_details_data["url"], clean_details_data["site"]))
-            if db_id is None:
-                logging.error(f"PRODUCT PROCESSOR: Could not retrieve DB ID for {clean_details_data['url']}")
+            db_id = self.rds_manager.get_record_id(
+                "SELECT id FROM militaria WHERE url = %s AND site = %s;",
+                (url, clean_details_data.get("site"))
+            )
+            if not db_id:
+                logging.error(f"NEW PRODUCT: Couldn't fetch ID for {url}")
                 return
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Failed to fetch DB ID: {e}")
+            logging.error(f"NEW PRODUCT: ID lookup failed for {url}: {e}")
             return
 
-        # STEP 3 — Upload images to S3
-        thumbnail_url = None
-        try:
-            site_name = clean_details_data.get("site")
-            image_urls = clean_details_data.get("original_image_urls")
-            product_url = clean_details_data.get("url")
-
-            if not image_urls:
-                logging.warning(f"PRODUCT PROCESSOR: No image URLs found for {product_url} — skipping S3 upload")
-                s3_urls = []
-            else:
-                upload_result = self.s3_manager.upload_images_for_product(
-                    db_id, image_urls, site_name, product_url, self.rds_manager
+        # 3. Upload images
+        image_urls = clean_details_data.get("original_image_urls", [])
+        if image_urls:
+            try:
+                result = self.s3_manager.upload_images_for_product(
+                    db_id, image_urls, clean_details_data.get("site"), url, self.rds_manager
                 )
-                s3_urls = upload_result["uploaded_image_urls"]
-                thumbnail_url = upload_result["thumbnail_url"]
+                s3_urls = result.get("uploaded_image_urls", [])
+                thumb = result.get("thumbnail_url")
+                if s3_urls:
+                    self.rds_manager.execute(
+                        "UPDATE militaria SET s3_image_urls = %s WHERE id = %s;",
+                        (json.dumps(s3_urls), db_id)
+                    )
+                    logging.info(f"NEW PRODUCT: Uploaded {len(s3_urls)} images for {url}")
                 clean_details_data["s3_image_urls"] = s3_urls
-                logging.info(f"PRODUCT PROCESSOR: Uploaded images to S3 for DB ID {db_id}")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Failed to upload images for DB ID {db_id}: {e}")
-            return
+            except Exception as e:
+                logging.error(f"NEW PRODUCT: Image upload failed for {url}: {e}")
+        else:
+            logging.info(f"NEW PRODUCT: No images to upload for {url}")
 
-        # STEP 4 — Update DB with s3_image_urls
-        try:
-            if s3_urls:
-                update_query = """
-                    UPDATE militaria
-                    SET s3_image_urls = %s
-                    WHERE id = %s;
-                """
-                self.rds_manager.execute(update_query, (json.dumps(s3_urls), db_id))
-                logging.info(f"PRODUCT PROCESSOR: Updated s3_image_urls in DB for product ID {db_id}")
-            else:
-                logging.info(f"PRODUCT PROCESSOR: Skipping DB update for s3_image_urls — no images uploaded.")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Failed to update s3_image_urls for product ID {db_id}: {e}")
-            return
-
-        # STEP 5 — Classify using OpenAI (after thumbnail is ready)
-        try:
-            ai_classifier = self.managers.get("openai_manager")
-            if ai_classifier:
-                ai_result = ai_classifier.classify_single_product(
+        # 4. AI classification (if available)
+        ai = self.managers.get("openai_manager")
+        if ai:
+            try:
+                cls = ai.classify_single_product(
                     title=clean_details_data.get("title", ""),
                     description=clean_details_data.get("description", ""),
-                    image_url=thumbnail_url
+                    image_url=thumb
                 )
-                clean_details_data.update(ai_result)
-                logging.info(f"PRODUCT PROCESSOR: AI classification added → {ai_result}")
-            else:
-                logging.warning("PRODUCT PROCESSOR: OpenAI manager not available — skipping AI classification.")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: AI classification failed: {e}")
-
-        # # STEP 6 — Sub-item type classification
-        # try:
-        #     main_type = clean_details_data.get("item_type_ai_generated")
-        #     if main_type and main_type.upper() not in {"UNKNOWN", "NONE", "NULL", "MISC", "OTHER"} and ai_classifier:
-        #         sub_type = ai_classifier.classify_sub_item_type(
-        #             main_type,
-        #             clean_details_data.get("title", ""),
-        #             clean_details_data.get("description", "")
-        #         )
-        #         clean_details_data["sub_item_type_ai_generated"] = sub_type
-        #         logging.info(f"PRODUCT PROCESSOR: AI subcategory added → {sub_type}")
-        # except Exception as e:
-        #     logging.warning(f"PRODUCT PROCESSOR: Sub-item classification failed: {e}")
-
-        # STEP 7 — Save classification fields to DB
-        try:
-            update_query = """
-                UPDATE militaria
-                SET conflict_ai_generated = %s,
-                    nation_ai_generated = %s,
-                    item_type_ai_generated = %s
-                WHERE id = %s;
-            """
-            self.rds_manager.execute(update_query, (
-                clean_details_data.get("conflict_ai_generated"),
-                clean_details_data.get("nation_ai_generated"),
-                clean_details_data.get("item_type_ai_generated"),
-                #clean_details_data.get("sub_item_type_ai_generated"),
-                db_id
-            ))
-            logging.info(f"PRODUCT PROCESSOR: Classification results updated in DB for ID {db_id}")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Failed to update classification results in DB for ID {db_id}: {e}")
-
-
-    def old_product_processor(self, clean_details_data, matched_id):
-        """
-        Process existing products to compare and update changes in the database.
-        Args:
-            clean_details_data (dict): The cleaned product details to compare and update.
-            matched_id (int): The unique DB id of the matched product.
-        """
-        now = datetime.now().isoformat()
-        now_utc = datetime.now(timezone.utc).isoformat()
-
-        try:
-            # Fetch existing DB values by id, not url
-            result = self.rds_manager.fetch(
-                "SELECT title, price, available, description, price_history, original_image_urls FROM militaria WHERE id = %s",
-                (matched_id,)
-            )
-            if not result:
-                logging.warning(f"PRODUCT PROCESSOR: Old product not found in DB, skipping (id={matched_id})")
-                return
-
-            db_title, db_price, db_available, db_description, db_price_history, db_image_urls = result[0]
-            updates = {}
-            only_availability_changed = True
-
-            # Update title
-            if clean_details_data.get('title') and clean_details_data['title'] != db_title:
-                updates['title'] = clean_details_data['title']
-                only_availability_changed = False
-
-            # Update description
-            if clean_details_data.get('description') and clean_details_data['description'] != db_description:
-                updates['description'] = clean_details_data['description']
-                only_availability_changed = False
-
-            # Update price
-            incoming_price = clean_details_data.get('price')
-            old_price = db_price
-
-            def is_valid_price(val):
-                try:
-                    return val is not None and float(val) != 0.0 and str(val).strip() != ""
-                except Exception:
-                    return False
-
-            if is_valid_price(incoming_price) and float(incoming_price) != float(old_price):
-                updates['price'] = float(incoming_price)
-                # Only log old price if it was valid and nonzero
-                if is_valid_price(old_price):
-                    try:
-                        price_history = json.loads(db_price_history) if isinstance(db_price_history, str) else db_price_history or []
-                    except Exception:
-                        price_history = []
-                    price_history.append({
-                        "price": float(old_price),
-                        "date": now
-                    })
-                    updates['price_history'] = json.dumps(price_history)
-                only_availability_changed = False
-            elif not is_valid_price(incoming_price):
-                logging.info(f"PRODUCT PROCESSOR: Skipping price update for id={matched_id}, incoming price is not valid: {incoming_price}")
-
-
-            # Update availability
-            if clean_details_data.get('available') != db_available:
-                new_availability = clean_details_data.get('available')
-                updates['available'] = new_availability
-                updates['last_seen'] = now_utc
-                updates['date_sold'] = None if new_availability else now_utc
-
-                if only_availability_changed:
-                    # Fast-path: availability is the only thing that changed
-                    update_query = """
-                    UPDATE militaria
-                    SET available = %s,
-                        date_sold = %s,
-                        date_modified = %s,
-                        last_seen = %s
-                    WHERE id = %s;
+                self.rds_manager.execute(
                     """
-                    self.rds_manager.execute(update_query, (
-                        new_availability, updates['date_sold'], now_utc, now_utc, matched_id
-                    ))
-                    logging.info(f"PRODUCT PROCESSOR: Availability-only update completed for id={matched_id}")
-                    return
-
-            # Update original image URLs — only if changed
-            new_images = clean_details_data.get('original_image_urls')
-            if new_images:
-                try:
-                    current_images = json.loads(db_image_urls) if isinstance(db_image_urls, str) else db_image_urls or []
-                except:
-                    current_images = []
-
-                if new_images != current_images:
-                    updates['original_image_urls'] = json.dumps(new_images)
-                    only_availability_changed = False
-                    logging.info(f"PRODUCT PROCESSOR: Image URLs changed for id={matched_id}")
-
-            # Update remaining fields if different
-            for field in [
-                'nation_site_designated', 'conflict_site_designated',
-                'item_type_site_designated', 'extracted_id', 'grade',
-                'categories_site_designated'
-            ]:
-                value = clean_details_data.get(field)
-                if value:
-                    updates[field] = json.dumps(value) if isinstance(value, list) else value
-                    only_availability_changed = False
-
-            # ✅ Skip unnecessary DB update if nothing changed
-            if not updates:
-                logging.info(f"PRODUCT PROCESSOR: No changes detected — skipping update for id={matched_id}")
-                return
-
-            # Finalize update
-            updates['date_modified'] = now_utc
-            updates['last_seen'] = now_utc
-            set_clause = ', '.join(f"{key} = %s" for key in updates)
-            query = f"UPDATE militaria SET {set_clause} WHERE id = %s"
-            self.rds_manager.execute(query, list(updates.values()) + [matched_id])
-            logging.info(f"PRODUCT PROCESSOR: Successfully updated old product id={matched_id}")
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error processing old product id={matched_id}: {e}")
+                    UPDATE militaria
+                    SET conflict_ai_generated = %s,
+                        nation_ai_generated = %s,
+                        item_type_ai_generated = %s,
+                        supergroup_ai_generated = %s
+                    WHERE id = %s;
+                    """,
+                    (
+                        cls.get("conflict_ai_generated"),
+                        cls.get("nation_ai_generated"),
+                        cls.get("item_type_ai_generated"),
+                        cls.get("supergroup_ai_generated"),
+                        db_id
+                    )
+                )
+                logging.info(f"NEW PRODUCT: AI classification stored for {url}")
+            except Exception as e:
+                logging.error(f"NEW PRODUCT: AI classification failed for {url}: {e}")
+        else:
+            logging.info("NEW PRODUCT: OpenAI manager not configured; skipping classification")
 
 
-
-    def extract_data(self, soup, method, args, kwargs, attribute, config=None):
-        from post_processors import normalize_input
+    def old_product_processor(self, clean: dict, record_id: int) -> bool:
+        """
+        Update an existing product’s record if any key details have changed.
+        Guards against overwriting a real price with 0/None.
+        Returns True if an UPDATE was executed, False otherwise.
+        """
+        now = datetime.now(timezone.utc).isoformat()
 
         try:
-            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: method={method}, args={args}, kwargs={kwargs}, attribute={attribute}")
+            row = self.rds_manager.fetch(
+                """
+                SELECT title, price, available, description,
+                    price_history, original_image_urls, extracted_id
+                FROM militaria
+                WHERE id = %s
+                """,
+                (record_id,)
+            )
+            if not row:
+                logging.warning(f"OLD PRODUCT: no record for id={record_id}, skipping")
+                return False
 
-            # Special case: check if attribute exists
+            (db_title, db_price, db_avail, db_desc,
+            db_history, db_images, db_extracted_id) = row[0]
+
+            updates = {}
+
+            # ---------- TITLE & DESCRIPTION ----------
+            raw_input_title = clean.get("title") or ""
+            new_title = CleanData.clean_title(raw_input_title)
+            logging.debug("TITLE COMPARISON:\nDB   : %r\nCLEAN: %r", db_title, new_title)
+            if new_title and new_title != db_title:
+                logging.debug("TITLE UPDATE CANDIDATE (id=%s)\nDB : %r\nNEW: %r",
+                            record_id, db_title, new_title)
+
+                # If previous_title column exists, update both via dedicated RDS method
+                if "previous_title" in self.rds_manager.get_column_names("militaria"):
+                    try:
+                        self.rds_manager.update_title_and_previous_title(record_id, new_title, db_title)
+                        logging.info(f"OLD PRODUCT: title updated directly for id={record_id}")
+                        db_title = new_title  # So future comparisons use the new title
+                    except Exception as e:
+                        logging.error(f"OLD PRODUCT: Failed to update title for id={record_id}: {e}")
+                else:
+                    updates["title"] = new_title
+                    logging.info(f"OLD PRODUCT: title changed (fallback path) for id={record_id}")
+
+
+            new_desc = clean.get("description")
+            if new_desc and new_desc != db_desc:
+                updates["description"] = new_desc
+                logging.info(f"OLD PRODUCT: description changed for id={record_id}")
+
+            # ---------- PRICE & HISTORY ----------
+            new_price_raw = clean.get("price")
+
+            def to_float(v):
+                try:
+                    return float(v) if v is not None else None
+                except (TypeError, ValueError):
+                    return None
+
+            db_price_val = to_float(db_price)
+            new_price_val = to_float(new_price_raw)
+
+            price_changed = self._meaningful_price_change(db_price_val, new_price_val)
+            logging.debug(
+                "OLD PRODUCT DEBUG: id=%s, db_price=%r (%s), new_price=%r (%s)",
+                record_id, db_price, type(db_price), new_price_raw, type(new_price_raw)
+            )
+
+            if price_changed:
+                try:
+                    history = json.loads(db_history) if isinstance(db_history, str) else (db_history or [])
+                except Exception:
+                    history = []
+
+                if db_price_val is not None:
+                    if not history or history[-1].get("price") != db_price_val:
+                        history.append({"price": db_price_val, "date": now})
+
+                updates["price"] = new_price_val
+                updates["price_history"] = json.dumps(history)
+                logging.info(f"OLD PRODUCT: price changed for id={record_id} (from {db_price_val} to {new_price_val})")
+            else:
+                logging.debug("PRICE GUARD: skipping price update for id=%s (db_price=%r, new_price=%r)",
+                            record_id, db_price_val, new_price_val)
+
+            # ---------- AVAILABILITY ----------
+            new_avail = clean.get("available")
+            if new_avail is not None and new_avail != db_avail:
+                updates["available"] = new_avail
+                updates["last_seen"] = now
+                updates["date_sold"] = None if new_avail else now
+                logging.info(f"OLD PRODUCT: availability changed for id={record_id}")
+
+            # ---------- IMAGES ----------
+            new_images = clean.get("original_image_urls") or []
+            try:
+                old_images = json.loads(db_images) if isinstance(db_images, str) else (db_images or [])
+            except Exception:
+                old_images = []
+            if new_images and new_images != old_images:
+                updates["original_image_urls"] = json.dumps(new_images)
+                logging.info(f"OLD PRODUCT: images updated for id={record_id}")
+
+            # ---------- OTHER METADATA ----------
+            for field in [
+                "nation_site_designated", "conflict_site_designated",
+                "item_type_site_designated", "grade", "categories_site_designated"
+            ]:
+                val = clean.get(field)
+                if val:
+                    updates[field] = json.dumps(val) if isinstance(val, list) else val
+                    logging.info(f"OLD PRODUCT: {field} updated for id={record_id}")
+
+            # ---------- NOTHING CHANGED ----------
+            if not updates:
+                logging.info(f"OLD PRODUCT: no changes for id={record_id}")
+                return False
+
+            # Always stamp modification
+            updates["date_modified"] = now
+            updates.setdefault("last_seen", now)
+
+            set_clause = ", ".join(f"{k} = %s" for k in updates)
+            params = list(updates.values()) + [record_id]
+            query = f"UPDATE militaria SET {set_clause} WHERE id = %s"
+
+            # Prefer rowcount if available
+            try:
+                rows = self.rds_manager.update_record(query, params)
+            except TypeError:
+                self.rds_manager.update_record(query, params)
+                rows = 1
+
+            if rows:
+                logging.info(f"OLD PRODUCT: record id={record_id} updated successfully ({rows} row)")
+                return True
+            else:
+                logging.warning(f"OLD PRODUCT: UPDATE touched 0 rows for id={record_id} (possible mismatch?)")
+                return False
+
+        except Exception as e:
+            logging.error(f"OLD PRODUCT: failed to process id={record_id}: {e}")
+            return False
+
+
+
+
+
+
+
+    def extract_data(
+        self,
+        soup,
+        method: str,
+        args: list = None,
+        kwargs: dict = None,
+        attribute: str = None,
+        config: dict = None
+    ) -> str | None:
+        """
+        Extract a value from a BeautifulSoup `soup` object.
+
+        Supports:
+        - method=="has_attr": returns the raw attribute value.
+        - tag methods (find, find_all, select, etc.).
+        - config-driven extraction:
+            * config["extract"] == "text" → element.get_text()
+            * config["extract"] == "html" → str(element)
+        - attribute extraction via `attribute`.
+        - defaults to first found element’s text.
+
+        Returns the stripped string or None if nothing was found or on error.
+        """
+        args = args or []
+        kwargs = kwargs or {}
+        try:
+            # Special “has_attr” shortcut
             if method == "has_attr" and args:
-                attr_name = args[0]
-                attr_value = soup.get(attr_name)
-                result = " ".join(attr_value) if isinstance(attr_value, list) else attr_value or ""
-                result = normalize_input(result)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: has_attr result → {result}")
-                return result
+                val = soup.get(args[0], "")
+                if isinstance(val, list):
+                    val = " ".join(val)
+                return normalize_input(val)
 
-            # Perform the extraction (e.g., soup.find(...))
-            element = getattr(soup, method)(*args, **kwargs)
-            if not element:
-                logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Element not found.")
+            # Locate the extraction method on soup
+            extractor = getattr(soup, method, None)
+            if not extractor:
+                logging.debug(f"EXTRACT DATA: no such method '{method}' on soup")
                 return None
 
-            # If result is a list (e.g., from find_all), extract text from the first element
+            element = extractor(*args, **kwargs)
+            if not element:
+                return None
+
+            # If we got a list, take its first item
             if isinstance(element, list):
-                if not element:
-                    logging.debug("PRODUCT PROCESSOR: EXTRACT DATA: Empty list from find_all.")
+                element = element[0] if element else None
+                if element is None:
                     return None
-                element = element[0]  # fallback to first element
 
-            # --- Text or attribute extraction ---
-
-            # Config says extract text explicitly
-            if config and config.get("extract") == "text":
-                result = element.get_text(strip=True)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted text → {result}")
-                return result
-
-            # Config says extract raw HTML
+            # HTML extraction requested
             if config and config.get("extract") == "html":
-                result = str(element)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted HTML → {result[:100]}...")
-                return result
+                return str(element).strip()
 
-            # Extract specific attribute
-            if attribute:
-                attr_val = element.get(attribute, "").strip()
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Extracted attribute '{attribute}' → {attr_val}")
-                return attr_val
+            # Text extraction requested, or no attribute specified
+            if config and config.get("extract") == "text" or not attribute:
+                if hasattr(element, "get_text"):
+                    return element.get_text(strip=True)
+                return normalize_input(str(element))
 
-            # Default: get text from tag
-            if hasattr(element, "get_text"):
-                result = element.get_text(strip=True)
-                logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Default tag text → {result}")
-                return result
-
-            # Fallback to string conversion
-            result = str(element).strip()
-            logging.debug(f"PRODUCT PROCESSOR: EXTRACT DATA: Fallback str() → {result}")
-            return result
+            # Attribute extraction
+            attr_val = element.get(attribute)
+            return attr_val.strip() if attr_val else None
 
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting data: {e}")
+            logging.error(f"EXTRACT DATA: unexpected error in {method} → {e}")
             return None
 
-
-
-    def extract_details_title(self, soup):
+    def extract_details_title(self, soup) -> str | None:
         """
-        Extract and post-process the product title from the details page using the configured selectors.
+        Extract and post-process the product title from the details page.
+        Returns a cleaned title string or None if not found.
         """
-        try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_title", {})
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
-
-            # Extract raw value
-            title = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
-
-            title = normalize_input(title)
-
-            # Apply post-processing using central dispatcher
-            if title and "post_process" in selector_config:
-                title = apply_post_processors(title, selector_config["post_process"])
-
-            logging.debug(f"EXTRACT DETAILS TITLE: Final value → {title}")
-            return title if title else None
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting title: {e}")
+        # 1) Grab the selector config; bail out if none defined
+        config = self.site_profile.get("product_details_selectors", {}).get("details_title")
+        if not config:
             return None
 
+        # 2) Fetch method, args, kwargs, and attribute via reusable helper
+        method, args, kwargs, attribute, _ = self.parse_details_config("details_title")
+
+        # 3) Extract raw value
+        raw = self.extract_data(soup, method, args, kwargs, attribute, config)
+        if not raw:
+            return None
+
+        # 4) Normalize
+        title = normalize_input(raw)
+
+        # 5) Post-process if requested
+        if title and config.get("post_process"):
+            try:
+                title = apply_post_processors(title, config["post_process"])
+            except Exception as e:
+                logging.error(f"DETAILS TITLE: post-process failed → {e}")
+
+        return title or None
 
 
-
-    def extract_details_description(self, soup):
+    def extract_details_description(self, soup) -> str | None:
         """
-        Extract and optionally post-process the product description.
+        Extract and post-process the product description from the details page.
+        Returns a cleaned description string or None if not found.
         """
+        # 1) Load selector config or bail
+        config = self.details_selectors.get("details_description")
+        if not config:
+            return None
+
+        # 2) Parse method, args, kwargs, attribute
+        method, args, kwargs, attribute, _ = self.parse_details_config("details_description")
+
         try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_description", {})
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
+            # 3) Locate the base element
+            element = getattr(soup, method, lambda *a, **k: None)(*args or [], **kwargs or {})
+            if not element:
+                return None
 
-            # Submethod logic stays as-is
-            submethod = selector_config.get("submethod")
-            element = getattr(soup, method)(*args, **kwargs)
+            # 4) Handle optional nested submethod
+            sub = config.get("submethod")
+            if sub:
+                element = getattr(element, sub.get("method", "find"))(
+                    *sub.get("args", []), **sub.get("kwargs", {})
+                ) or None
+                attribute = sub.get("attribute", attribute)
+                if not element:
+                    return None
 
-            if submethod and element:
-                sub_element = getattr(element, submethod.get("method", "find"))(
-                    *submethod.get("args", []),
-                    **submethod.get("kwargs", {})
-                )
-                if sub_element:
-                    attribute = submethod.get("attribute", attribute)
-                    description = sub_element.get(attribute).strip() if attribute else sub_element.get_text(strip=True)
-                else:
-                    description = None
+            # 5) Extract raw text or attribute
+            if attribute and element.get(attribute) is not None:
+                raw = element.get(attribute).strip()
             else:
-                description = (
-                    element.get(attribute).strip() if attribute and element and element.get(attribute)
-                    else element.get_text(strip=True) if element else None
-                )
+                raw = element.get_text(strip=True)
 
-            # Normalize value
-            description = normalize_input(description)
+            # 6) Normalize
+            desc = normalize_input(raw)
 
-            # Apply post-processing using dispatcher
-            if "post_process" in selector_config:
-                description = apply_post_processors(description, selector_config["post_process"], soup=soup)
-                logging.debug(f"PRODUCT PROCESSOR: Sending soup and URL to post-processor")
+            # 7) Post-process if configured
+            if desc and config.get("post_process"):
+                try:
+                    desc = apply_post_processors(desc, config["post_process"], soup=soup)
+                except Exception as e:
+                    logging.error(f"DETAILS DESC: post-process failed → {e}")
 
-
-            return description if description else None
+            return desc or None
 
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting description: {e}")
+            logging.error(f"DETAILS DESC: extraction failed → {e}")
             return None
 
-
-
-    def extract_details_price(self, soup, product_url):
+    def extract_details_price(self, soup, product_url) -> str:
         """
-        Extract and optionally post-process the product price from the details page.
+        Extract and clean the product price from the details page.
+        Returns a normalized price string (e.g. "0" if missing).
         """
-        try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_price", {})
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
-
-            # Extract raw value
-            raw_price = self.extract_data(soup, method, args, kwargs, attribute)
-
-            # Normalize input
-            raw_price = normalize_input(raw_price)
-
-            # Apply post-processing if defined
-            if raw_price and "post_process" in selector_config:
-                # Inject soup and URL if the function needs context
-                for key, arg in selector_config["post_process"].items():
-                    if isinstance(arg, dict):
-                        arg.setdefault("soup", soup)
-                        arg.setdefault("url", product_url)
-
-                raw_price = apply_post_processors(raw_price, selector_config["post_process"], soup=soup)
-
-            return str(raw_price) if raw_price else "0"
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting price: {e}")
+        # 1) Load selector config or bail
+        config = self.details_selectors.get("details_price")
+        if not config:
             return "0"
 
+        # 2) Parse method, args, kwargs, attribute
+        method, args, kwargs, attribute, _ = self.parse_details_config("details_price")
 
+        try:
+            # 3) Extract raw text via generic helper
+            raw = self.extract_data(soup, method, args or [], kwargs or {}, attribute, config)
+            # 4) Normalize the extracted value (e.g. strip whitespace, handle None)
+            norm = normalize_input(raw)
+            # 5) Apply any post-processors, injecting context if needed
+            if norm and config.get("post_process"):
+                # Ensure each post-processor has soup & url contexts
+                for proc in config["post_process"].values():
+                    if isinstance(proc, dict):
+                        proc.setdefault("soup", soup)
+                        proc.setdefault("url", product_url)
+                norm = apply_post_processors(norm, config["post_process"], soup=soup)
 
-    def process_price_updates(clean_details_data, db_price, db_price_history, now):
+            # 6) Always return a string; default to "0" when empty
+            return str(norm) if norm else "0"
+
+        except Exception as e:
+            logging.error(f"DETAILS PRICE: extraction failed for {product_url}: {e}")
+            return "0"
+
+    def _meaningful_price_change(self, old_price, new_price) -> bool:
         """
-        Process price updates and manage the price history.
+        Consider a price change meaningful ONLY when:
+        - new_price parses to a real number > 0
+        - and it differs from the stored price
 
-        Args:
-            clean_details_data (dict): The new product details data.
-            db_price (Decimal): The existing price in the database.
-            db_price_history (list|str): The existing price history, as list or JSON string.
-            now (str): The current timestamp.
+        Rules:
+        • Never let 0 / None overwrite a positive DB price.
+        • Allow setting a price if DB was 0 / None and new is > 0.
+        • Ignore any transition where new is None or 0.0.
 
         Returns:
-            dict: A dictionary of updates for price and price history.
+            bool: True if we should treat this as a real price change.
         """
-        updates = {}
-
-        new_price = clean_details_data.get('price')
-
-        # Normalize db_price_history if it's a string
-        if isinstance(db_price_history, str):
+        def to_float(v):
             try:
-                db_price_history = json.loads(db_price_history)
-            except Exception:
-                db_price_history = []
-
-        if new_price is not None:
-            try:
-                if float(new_price) != float(db_price):
-                    # Update price
-                    updates['price'] = new_price
-
-                    # Avoid storing invalid old prices
-                    if db_price not in (None, 0.0):
-                        updated_price_history = db_price_history or []
-                        updated_price_history.append({
-                            'price': float(db_price),
-                            'date': now
-                        })
-                        updates['price_history'] = json.dumps(updated_price_history)
-
-            except Exception as e:
-                logging.warning(f"PRODUCT PROCESSOR: Failed to compare or update price → {e}")
-
-        return updates
-
-
-
-    def extract_details_availability(self, soup):
-        """
-        Extract availability and apply post-processing if defined.
-        Supports static values and post-processing logic.
-        """
-        try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_availability", {})
-
-            # Static hardcoded config support
-            if selector_config is True:
-                logging.debug("PRODUCT PROCESSOR: Availability hardcoded as True in JSON.")
-                return True
-            elif selector_config is False:
-                logging.debug("PRODUCT PROCESSOR: Availability hardcoded as False in JSON.")
-                return False
-            elif isinstance(selector_config, str):
-                val = selector_config.strip().lower()
-                if val == "true":
-                    logging.debug("PRODUCT PROCESSOR: Availability string 'true' treated as True.")
-                    return True
-                elif val == "false":
-                    logging.debug("PRODUCT PROCESSOR: Availability string 'false' treated as False.")
-                    return False
-
-            # Selector-based extraction
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
-
-            raw_value = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
-            logging.debug(f"PRODUCT PROCESSOR: Extracted availability raw: {raw_value}")
-
-            # Normalize before processing
-            raw_value = normalize_input(raw_value)
-
-            # Apply post-processing if defined
-            if raw_value and "post_process" in selector_config:
-                raw_value = apply_post_processors(raw_value, selector_config["post_process"])
-
-            # Final interpretation
-            if isinstance(raw_value, bool):
-                return raw_value
-            if isinstance(raw_value, str):
-                return raw_value.lower() in ("true", "yes", "available", "in stock", "add to cart")
-
-            # Fallback default
-            return False
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting availability: {e}")
-            return False
-
-
-
-
-    def extract_details_image_url(self, soup):
-        """
-        Extract image URLs using the specified function in the JSON profile.
-        
-        Args:
-            soup (BeautifulSoup): The BeautifulSoup object for the product page.
-            
-        Returns:
-            list: A list of extracted image URLs or an empty list if the function is not defined or fails.
-        """
-        try:
-            # Fetch the function name from the JSON profile
-            image_extractor_function_version = self.site_profile.get("product_details_selectors", {}).get("details_image_url", {}).get("function")
-
-            # Ensure it's a string before calling .lower()
-            if isinstance(image_extractor_function_version, str) and image_extractor_function_version.lower() == "skip":
-                return []
-
-            logging.debug(f"PRODUCT PROCESSOR: Function name retrieved: {image_extractor_function_version}")
-
-            if not image_extractor_function_version:
-                raise ValueError("PRODUCT PROCESSOR: Image extraction function name not specified in the JSON profile.")
-            
-            # Ensure the function exists in the image_extractor module
-            if not hasattr(image_extractor, image_extractor_function_version):
-                raise AttributeError(f"PRODUCT PROCESSOR: Function '{image_extractor_function_version}' not found in image_extractor.")
-            
-            # Dynamically call the function from image_extractor
-            details_image_urls = getattr(image_extractor, image_extractor_function_version)(soup)
-            if not isinstance(details_image_urls, list):
-                raise TypeError(f"PRODUCT PROCESSOR: Function '{image_extractor_function_version}' did not return a list of URLs.")
-        
-            return details_image_urls
-
-        except AttributeError as ae:
-            logging.error(f"PRODUCT PROCESSOR: AttributeError: {ae}")
-            return []
-
-        except ValueError as ve:
-            logging.error(f"PRODUCT PROCESSOR: ValueError: {ve}")
-            return []
-
-        except TypeError as te:
-            logging.error(f"PRODUCT PROCESSOR: TypeError: {te}")
-            return []
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Unexpected error in extract_details_image_url: {e}")
-            return []
-
-    def extract_details_nation(self, soup):
-        config = self.site_profile.get("product_details_selectors", {}).get("details_nation")
-        if isinstance(config, str):
-            return config
-        if isinstance(config, dict):
-            method = config.get("method", "find")
-            args = config.get("args", [])
-            kwargs = config.get("kwargs", {})
-            attribute = config.get("attribute")
-            value = self.extract_data(soup, method, args, kwargs, attribute, config)
-            value = normalize_input(value)
-            return apply_post_processors(value, config.get("post_process", {})) if value else None
-        return self.site_profile.get("metadata_selectors", {}).get("nation")
-
-    def extract_details_conflict(self, soup):
-        try:
-            config = self.site_profile.get("product_details_selectors", {}).get("details_conflict")
-            if isinstance(config, str):
-                return config
-            if isinstance(config, dict):
-                method = config.get("method", "find")
-                args = config.get("args", [])
-                kwargs = config.get("kwargs", {})
-                attribute = config.get("attribute")
-                value = self.extract_data(soup, method, args, kwargs, attribute, config)
-                value = normalize_input(value)
-                if value and "post_process" in config:
-                    value = apply_post_processors(value, config["post_process"])
-                return value if value else None
-            return self.site_profile.get("metadata_selectors", {}).get("conflict")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting conflict: {e}")
-            return None
-
-
-    def extract_details_item_type(self, soup):
-        try:
-            config = self.site_profile.get("product_details_selectors", {}).get("details_item_type")
-            if isinstance(config, str):
-                return config
-            if isinstance(config, dict):
-                method = config.get("method", "find")
-                args = config.get("args", [])
-                kwargs = config.get("kwargs", {})
-                attribute = config.get("attribute")
-                value = self.extract_data(soup, method, args, kwargs, attribute, config)
-                value = normalize_input(value)
-                if value and "post_process" in config:
-                    value = apply_post_processors(value, config["post_process"])
-                return value if value else None
-            return self.site_profile.get("metadata_selectors", {}).get("item_type")
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting item type: {e}")
-            return None
-
-
-    def extract_details_extracted_id(self, soup):
-        """
-        Extract the product ID or SKU and apply post-processing if defined.
-        """
-        try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_extracted_id", {})
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
-
-            extracted_id = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
-
-            extracted_id = normalize_input(extracted_id)
-
-            if extracted_id and "post_process" in selector_config:
-                extracted_id = apply_post_processors(extracted_id, selector_config["post_process"])
-
-            return extracted_id if extracted_id else None
-
-        except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting extracted_id: {e}")
-            return None
-
-
-    # This is just a placeholder
-    def extract_details_grade(self, soup):
-        """
-        Extract the grade information from the product page using selectors and post-processing.
-        """
-        try:
-            selector_config = self.site_profile.get("product_details_selectors", {}).get("details_grade", {})
-            if not selector_config:
+                return float(v)
+            except (TypeError, ValueError):
                 return None
 
-            method = selector_config.get("method", "find")
-            args = selector_config.get("args", [])
-            kwargs = selector_config.get("kwargs", {})
-            attribute = selector_config.get("attribute")
+        old_val = to_float(old_price)  # may be None
+        new_val = to_float(new_price)  # may be None
 
-            grade = self.extract_data(soup, method, args, kwargs, attribute, selector_config)
+        # New value missing or zero → never meaningful (we don't downgrade prices here)
+        if new_val is None or new_val == 0.0:
+            return False
 
-            grade = normalize_input(grade)
+        # Old missing/zero, new positive → yes, we want to set it
+        if old_val is None or old_val == 0.0:
+            return True
 
-            if grade and "post_process" in selector_config:
-                grade = apply_post_processors(grade, selector_config["post_process"])
+        # Both positive numbers → meaningful if different
+        return new_val != old_val
 
-            return grade if grade else None
 
+    def extract_details_availability(self, soup) -> bool:
+        """
+        Extract and post-process availability from the details page.
+        Supports:
+        - Static booleans (True/False) in the JSON config
+        - Static string flags ("true"/"false")
+        - Selector‑based extraction with optional post-processing
+        Returns True if the item is available, False otherwise.
+        """
+        # 1) Load selector config or default to False
+        config = self.details_selectors.get("details_availability")
+        if config is None:
+            return False
+
+        # 2) Handle static configs
+        if config is True:
+            return True
+        if config is False:
+            return False
+        if isinstance(config, str):
+            val = config.strip().lower()
+            return val in ("true", "yes", "available", "in stock", "add to cart")
+
+        # 3) Dynamic extraction
+        method, args, kwargs, attribute, _ = self.parse_details_config("details_availability")
+        raw = self.extract_data(soup, method, args or [], kwargs or {}, attribute, config)
+        val = normalize_input(raw)
+
+        # 4) Post-process if needed
+        if val and config.get("post_process"):
+            try:
+                val = apply_post_processors(val, config["post_process"], soup=soup)
+            except Exception as e:
+                logging.error(f"DETAILS AVAILABILITY: post-process failed → {e}")
+
+        # 5) Interpret final value
+        if isinstance(val, bool):
+            return val
+        if isinstance(val, str):
+            return val.lower() in ("true", "yes", "available", "in stock", "add to cart")
+
+        return False
+
+
+    def extract_details_image_url(self, soup) -> list[str]:
+        """
+        Extract image URLs via a configured function. Returns [] if no function is set
+        or if extraction fails.
+        """
+        cfg = self.details_selectors.get("details_image_url")
+        if not cfg:
+            return []
+
+        fn = cfg.get("function")
+        # explicit “skip” or missing → no images
+        if not isinstance(fn, str) or fn.lower() == "skip":
+            return []
+
+        extractor = getattr(image_extractor, fn, None)
+        if not extractor:
+            logging.error(f"IMAGE URL: extractor '{fn}' not found")  # :contentReference[oaicite:0]{index=0}
+            return []
+
+        try:
+            urls = extractor(soup)
+            if not isinstance(urls, list):
+                logging.error(f"IMAGE URL: extractor '{fn}' returned non-list")  # :contentReference[oaicite:1]{index=1}
+                return []
+            return urls
         except Exception as e:
-            logging.error(f"PRODUCT PROCESSOR: Error extracting grade: {e}")
+            logging.error(f"IMAGE URL: extractor '{fn}' failed → {e}")  # :contentReference[oaicite:2]{index=2}
+            return []
+
+
+    def extract_details_nation(self, soup) -> str | None:
+        """
+        Extract country/nation. Falls back to metadata_selectors if no JSON selector.
+        """
+        cfg = self.details_selectors.get("details_nation")
+        # hard‑coded string
+        if isinstance(cfg, str):
+            return cfg  # :contentReference[oaicite:3]{index=3}
+        # no selector → fallback
+        if cfg is None:
+            return self.site_profile.get("metadata_selectors", {}).get("nation")  # :contentReference[oaicite:4]{index=4}
+
+        # dict selector
+        method, args, kwargs, attr, _ = self.parse_details_config("details_nation")
+        raw = self.extract_data(soup, method, args or [], kwargs or {}, attr, cfg)
+        val = normalize_input(raw)
+
+        if val and cfg.get("post_process"):
+            try:
+                val = apply_post_processors(val, cfg["post_process"], soup=soup)
+            except Exception as e:
+                logging.error(f"NATION: post-process failed → {e}")
+
+        return val or None
+
+
+    def extract_details_conflict(self, soup) -> str | None:
+        """
+        Extract conflict designation. Falls back to metadata_selectors if no JSON selector.
+        """
+        cfg = self.details_selectors.get("details_conflict")
+        if isinstance(cfg, str):
+            return cfg  # :contentReference[oaicite:5]{index=5}
+        if cfg is None:
+            return self.site_profile.get("metadata_selectors", {}).get("conflict")  # :contentReference[oaicite:6]{index=6}
+
+        method, args, kwargs, attr, _ = self.parse_details_config("details_conflict")
+        try:
+            raw = self.extract_data(soup, method, args or [], kwargs or {}, attr, cfg)
+            val = normalize_input(raw)
+
+            if val and cfg.get("post_process"):
+                try:
+                    val = apply_post_processors(val, cfg["post_process"], soup=soup)
+                except Exception as e:
+                    logging.error(f"CONFLICT: post-process failed → {e}")
+
+            return val or None
+        except Exception as e:
+            logging.error(f"CONFLICT: extraction failed → {e}")
+            return None  # :contentReference[oaicite:7]{index=7}
+
+    def extract_details_item_type(self, soup) -> str | None:
+        """
+        Extract and post-process the product’s item type.
+        Falls back to metadata_selectors if no JSON config is provided.
+        """
+        cfg = self.details_selectors.get("details_item_type")
+        if isinstance(cfg, str):
+            return cfg
+        if cfg is None:
+            return self.site_profile.get("metadata_selectors", {}).get("item_type")
+
+        method, args, kwargs, attr, _ = self.parse_details_config("details_item_type")
+        try:
+            raw = self.extract_data(soup, method, args or [], kwargs or {}, attr, cfg)
+            val = normalize_input(raw)
+            if val and cfg.get("post_process"):
+                try:
+                    val = apply_post_processors(val, cfg["post_process"], soup=soup)
+                except Exception as e:
+                    logging.error(f"ITEM_TYPE: post-process failed → {e}")
+            return val or None
+        except Exception as e:
+            logging.error(f"ITEM_TYPE: extraction failed → {e}")
             return None
+
+
+    def extract_details_extracted_id(self, soup) -> str | None:
+        """
+        Extract and post-process the product’s extracted ID (SKU).
+        """
+        cfg = self.details_selectors.get("details_extracted_id")
+        if isinstance(cfg, str):
+            return cfg
+        if not cfg:
+            return None
+
+        method, args, kwargs, attr, _ = self.parse_details_config("details_extracted_id")
+        try:
+            raw = self.extract_data(soup, method, args or [], kwargs or {}, attr, cfg)
+            val = normalize_input(raw)
+            if val and cfg.get("post_process"):
+                try:
+                    val = apply_post_processors(val, cfg["post_process"], soup=soup)
+                except Exception as e:
+                    logging.error(f"EXTRACTED_ID: post-process failed → {e}")
+            return val or None
+        except Exception as e:
+            logging.error(f"EXTRACTED_ID: extraction failed → {e}")
+            return None
+
+
+    def extract_details_grade(self, soup) -> str | None:
+        """
+        Extract and post-process the product’s grade.
+        """
+        cfg = self.details_selectors.get("details_grade")
+        if isinstance(cfg, str):
+            return cfg
+        if not cfg:
+            return None
+
+        method, args, kwargs, attr, _ = self.parse_details_config("details_grade")
+        try:
+            raw = self.extract_data(soup, method, args or [], kwargs or {}, attr, cfg)
+            val = normalize_input(raw)
+            if val and cfg.get("post_process"):
+                try:
+                    val = apply_post_processors(val, cfg["post_process"], soup=soup)
+                except Exception as e:
+                    logging.error(f"GRADE: post-process failed → {e}")
+            return val or None
+        except Exception as e:
+            logging.error(f"GRADE: extraction failed → {e}")
+            return None
+
 
         
     def extract_details_site_categories(self, soup):
@@ -1191,8 +1322,8 @@ class ProductDetailsProcessor:
         # Map keys to their corresponding cleaning functions
         cleaning_functions = {
             "url"                       : clean_data.clean_url,
-            "title"                     : clean_data.clean_title,
-            "description"               : clean_data.clean_description,
+            "title"                     : lambda v: clean_data.clean_title(v, allow_empty=True),
+            "description"               : lambda v: clean_data.clean_description(v, allow_empty=True),
             "price"                     : clean_data.clean_price,
             "available"                 : clean_data.clean_available,
             "original_image_urls"       : clean_data.clean_url_list,
@@ -1243,24 +1374,30 @@ class ProductDetailsProcessor:
         else:
             return data
         
-    def is_empty_price(self, value):
-        """Check if a price is empty (None, 0, 0.0, or an empty string)."""
-        return value is None or value == 0 or value == 0.0 or value == ""
     
-    def cast(value, config):
-        value = normalize_input(value)
+    def cast(self, value: Any, config: str) -> Any:
+        """
+        Cast `value` according to `config`:
+        - "float": strip non-digits (except “.”) and convert to float
+        - "int"  : strip non-digits and convert to int
+        - other  : return original
+        If conversion fails, returns the original `value`.
+        """
+        text = normalize_input(value) or ""
         if config == "float":
+            cleaned = re.sub(r"[^\d\.]", "", text)
             try:
-                return float(re.sub(r"[^\d.]", "", value))
-            except Exception as e:
-                logging.warning(f"POST PROCESS: Failed cast to float: {e}")
+                return float(cleaned)
+            except ValueError:
+                logging.warning(f"POST PROCESS: cast to float failed for {value!r}")
                 return value
-        return value
-    
-
-    def strip_list(value, config=None):
-        if isinstance(value, list):
-            return [str(v).strip() for v in value]
+        elif config == "int":
+            cleaned = re.sub(r"[^\d]", "", text)
+            try:
+                return int(cleaned)
+            except ValueError:
+                logging.warning(f"POST PROCESS: cast to int failed for {value!r}")
+                return value
         return value
 
     def _static_value_or_extracted(self, key, extractor_func, soup):
@@ -1271,114 +1408,61 @@ class ProductDetailsProcessor:
             return extractor_func(soup)
         return None
 
-# Product Tile Deduplication Logic
-def find_existing_db_row(product, site_profile, rds_manager):
-    """
-    Tile-level deduplication:
-    1. Exact URL match (highest confidence)
-    2. site + title match (fallback; not 100% reliable, but best available)
-    Returns: First matching DB row as (title, price, available, description, price_history) tuple, or None if not found.
-    """
-    # --- Normalize/clean tile fields ---
-    url = product.get("url")
-    url = CleanData.clean_url(url) if url else None
-
-    site = site_profile.get("source_name")
-    title = product.get("title")
-    title = CleanData.clean_title(title) if title else None
-
-    logging.debug(f"DEDUP: Checking site={site!r}, url={url!r}, title={title!r}")
-
-    # --- 1. Exact URL match ---
-    if url:
-        row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1",
-            (url,))
-        if row:
-            logging.info(f"DEDUPLICATION: Matched by URL: {url}")
-            return row[0]
-
-    # --- 2. site + title match (fallback) ---
-    if site and title:
-        row = rds_manager.fetch(
-            "SELECT title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s LIMIT 1",
-            (site, title))
-        if row:
-            logging.info(f"DEDUPLICATION: Matched by site+title: {site}, {title}")
-            return row[0]
-
-    logging.debug(f"DEDUPLICATION: No match found (site={site!r}, url={url!r}, title={title!r})")
-    return None
-
 # Product Details Deduplication Logic
 def find_existing_db_row_details(product, site_profile, rds_manager):
     """
-    Detail-level deduplication:
-    1. Exact URL match (highest confidence)
-    2. site + first original image URL match (using JSONB; strong and reliable)
-    3. site + extracted_id + title match (very strong, especially for sites with SKUs)
-    4. site + title + description match (fallback; unique for most militaria)
-    Returns: (matched_id, db_row_tuple) or (None, None) if not found.
+    Deduplication logic:
+    1. Exact URL match
+    2. site + any matching image URL
+    Else: treat as new product
+
+    Returns:
+        (matched_id, matched_url) or (None, None)
     """
     url = product.get("url")
     url = CleanData.clean_url(url) if url else None
 
     site = site_profile.get("source_name")
-    title = CleanData.clean_title(product.get("title") or "")
-    description = CleanData.clean_description(product.get("description") or "")
-    extracted_id = CleanData.clean_extracted_id(product.get("extracted_id") or "")
     image_urls = product.get("original_image_urls") or []
 
-    # Get the first real image URL (skip placeholders)
-    first_img = None
-    for img_url in image_urls:
-        if img_url and "placeholder" not in img_url.lower():
-            first_img = img_url
-            break
+    logging.debug(f"DETAIL DEDUP START: site={site!r}, url={url!r}, num_imgs={len(image_urls)}")
 
-    logging.debug(f"DETAIL DEDUP: Checking site={site!r}, url={url!r}, first_img={first_img!r}, extracted_id={extracted_id!r}, title={title!r}")
-
-    # 1. Exact URL match
+    # 1) Exact URL match
     if url:
-        row = rds_manager.fetch(
-            "SELECT id, title, price, available, description, price_history FROM militaria WHERE url = %s LIMIT 1",
-            (url,))
-        if row:
-            logging.info(f"DETAIL DEDUP: Matched by URL: {url}")
-            return row[0][0], row[0]
-
-    # 2. site + first image URL match (Postgres JSONB array; very strong)
-    if site and first_img:
-        row = rds_manager.fetch(
-            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND original_image_urls ? %s LIMIT 1",
-            (site, first_img)
+        rows = rds_manager.fetch(
+            "SELECT id, url FROM militaria WHERE url = %s LIMIT 1",
+            (url,)
         )
-        if row:
-            logging.info(f"DETAIL DEDUP: Matched by site+first image: {site}, {first_img}")
-            return row[0][0], row[0]
+        if rows:
+            db_id, db_url = rows[0]
+            logging.info("🟢 DEDUP MATCH: [Exact URL]")
+            logging.info(f"    Incoming URL : {url}")
+            logging.info(f"    Matched URL  : {db_url}")
+            logging.info(f"    Matched ID   : {db_id}")
+            return db_id, db_url
 
-    # 3. site + extracted_id + title match (robust for sites with SKUs)
-    if site and extracted_id and title:
-        row = rds_manager.fetch(
-            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND extracted_id = %s AND title = %s LIMIT 1",
-            (site, extracted_id, title)
-        )
-        if row:
-            logging.info(f"DETAIL DEDUP: Matched by site+extracted_id+title: {site}, {extracted_id}, {title}")
-            return row[0][0], row[0]
+    # 2) Match by site + any image URL
+    if site and image_urls:
+        for img in image_urls:
+            if not img or "placeholder" in img.lower():
+                continue
+            rows = rds_manager.fetch(
+                "SELECT id, url FROM militaria WHERE site = %s AND original_image_urls ? %s LIMIT 1",
+                (site, img)
+            )
+            if rows:
+                db_id, db_url = rows[0]
+                logging.info("🟡 DEDUP MATCH: [Site + Image]")
+                logging.info(f"    Incoming URL : {url}")
+                logging.info(f"    Matched URL  : {db_url}")
+                logging.info(f"    Matched ID   : {db_id}")
+                logging.info(f"    Matched Image: {img}")
+                return db_id, db_url
 
-    # 4. site + title + description match (fallback)
-    if site and title and description:
-        row = rds_manager.fetch(
-            "SELECT id, title, price, available, description, price_history FROM militaria WHERE site = %s AND title = %s AND description = %s LIMIT 1",
-            (site, title, description)
-        )
-        if row:
-            logging.info(f"DETAIL DEDUP: Matched by site+title+description: {site}, {title}")
-            return row[0][0], row[0]
-
-    logging.debug(
-        f"DETAIL DEDUP: No match found for Site={site}, URL={url}, First image={first_img}, Extracted ID={extracted_id}, Title={title}"
-    )
+    # No match → new product
+    logging.info("🔵 DEDUP NEW: No match found")
+    logging.info(f"    Incoming URL : {url}")
     return None, None
+
+
 

@@ -10,93 +10,65 @@ class TileProcessor:
         self.site_profile_tile_selectors = site_profile.get("product_tile_selectors", {})
         self.site_profile.get("base_url", None)
 
-    def tile_process_main(self, products_tile_list):
+    def tile_process_main(self, products_tile_list: list) -> list[dict]:
         """
-        Process all product tiles to extract relevant data points into a list of dictionaries,
-        ensuring all required fields are populated and no duplicates are added.
+        Process product tiles into normalized dicts:
+        - url (str), title (str), price (float), available (bool), site (str)
+        Deduplicates by URL and skips any tile missing a required field.
         """
-        tile_product_data = []
-        seen_products = set()  
         clean_data = CleanData()
-        skipped_duplicate_urls = set()
+        seen_urls = set()
+        results = []
 
-        # A product tile is like a product card or item card on a website.
-        for product_tile in products_tile_list:
+        for tile in products_tile_list:
+            # 1) URL
+            raw_url = self.extract_tile_url(tile)
+            if not raw_url:
+                continue
             try:
-                # Extract and clean URL
-                product_tile_url = self.extract_tile_url(product_tile)
-                if not product_tile_url:
-                    tile_preview = str(product_tile).strip().splitlines()[0][:500]
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing URL: {tile_preview}")
-                    continue
-                clean_product_tile_url = clean_data.clean_url(product_tile_url.strip())
+                url = clean_data.clean_url(raw_url)
+            except ValueError:
+                continue
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
 
-                # Remove duplicate URLs immediately
-                if clean_product_tile_url in seen_products:
-                    skipped_duplicate_urls.add(clean_product_tile_url)
-                    continue
-                seen_products.add(clean_product_tile_url) 
+            # 2) Title
+            title = self.extract_tile_title(tile)
+            if not title:
+                logging.debug(f"TILE: missing title → {url}")
+                continue
 
-                # Extract and clean title
-                product_tile_title = self.extract_tile_title(product_tile)
-                if not product_tile_title:
-                    logging.debug(f"TILE PROCESSOR: Raw extracted title → {product_tile_title}")
-                    continue
-                clean_product_tile_title = clean_data.clean_title(product_tile_title.strip())
+            # 3) Price
+            raw_price = self.extract_tile_price(tile)
+            try:
+                price = clean_data.clean_price(raw_price) if raw_price else None
+            except Exception:
+                logging.warning(f"TILE: price parse failed ({raw_price!r}) → {url}")
+                price = None
 
-                # Extract and clean price
-                product_tile_price = self.extract_tile_price(product_tile)
-                clean_product_tile_price = (
-                    clean_data.clean_price(product_tile_price.strip())
-                    if product_tile_price else None
-                )
+            # 4) Availability
+            available = self.extract_tile_available(tile)
+            if available is None:
+                logging.debug(f"TILE: missing availability → {url}")
+                continue
 
-                # Extract and clean availability
-                clean_product_tile_available = self.extract_tile_available(product_tile)
-                if clean_product_tile_available is None:
-                    logging.debug(f"TILE PROCESSOR: skipped due to missing availability: {product_tile_url}")
-                    continue
+            # 5) Build dict
+            product = {
+                "url": url,
+                "title": title,
+                "price": price,
+                "available": available,
+                "site": self.site_profile.get("site")
+            }
 
-                # Construct the product dictionary and add it to the final list
-                product_dict = {
-                    "url"      : clean_product_tile_url,
-                    "title"    : clean_product_tile_title,
-                    "price"    : clean_product_tile_price,
-                    "available": clean_product_tile_available,
-                    "site"     : self.site_profile.get("site")
-                }
+            # 6) Per‑tile summary
+            logging.info(f"TILE: {url} | title={title!r} | price={price} | available={available}")
 
-                logging.info(
-                    f"""
-                ======== TILE PRODUCT SUMMARY ========
-                Raw URL            : {product_tile_url}
-                Cleaned URL        : {clean_product_tile_url}
+            results.append(product)
 
-                Raw Title          : {product_tile_title}
-                Cleaned Title      : {clean_product_tile_title}
+        return results
 
-                Raw Price          : {product_tile_price}
-                Cleaned Price      : {clean_product_tile_price}
-
-                Raw Availability   : {product_tile.get('class')}
-                Cleaned Availability: {clean_product_tile_available}
-                ======================================
-                    """
-                )
-
-                tile_product_data.append(product_dict)
-
-            except Exception as e:
-                tile_preview = str(product_tile).strip().splitlines()[0][:500]
-                logging.debug(f"TILE PROCESSOR: Product tile preview: {tile_preview}...")
-
-        # Final deduplicated log of skipped URLs
-        if skipped_duplicate_urls:
-            logging.info("TILE PROCESSOR: Skipped duplicate URLs (deduplicated list):")
-            for url in sorted(skipped_duplicate_urls):
-                logging.info(f"  → {url}")
-
-        return tile_product_data
 
 
 

@@ -1,17 +1,20 @@
+import logging
+
 class ProductsCounter:
     def __init__(self):
         self.reset_all_counts()
         # empty_page_tolerance has been replaced by targetMatch but need to double check it first
-        #self.empty_page_tolerance = 5
+        # self.empty_page_tolerance = 5
         self.continue_state = None
 
     def reset_all_counts(self):
-        self.total_products_count = 0  
-        self.old_products_count = 0   
-        self.new_products_count = 0   
+        self.total_products_count = 0
+        self.old_products_count = 0
+        self.new_products_count = 0
         self.sites_processed_count = 0
         self.availability_update_count = 0
         self.processing_required_count = 0
+        self.price_update_count = 0            # newly added counter
         self.current_page_count = 0
         self.empty_page_count = 0
 
@@ -76,6 +79,7 @@ class ProductsCounter:
 
     def add_current_page_count(self, count=1):
         self.current_page_count += count
+        logging.debug(f"**********************Current page count updated: {self.current_page_count}**********************")
 
     def reset_current_page_count(self):
         self.current_page_count = 0
@@ -92,13 +96,6 @@ class ProductsCounter:
     def get_empty_page_count(self):
         return self.empty_page_count
 
-    # def get_empty_page_tolerance(self):
-    #     return self.empty_page_tolerance
-
-    # def check_empty_page_tolerance(self):
-    #     if self.empty_page_count >= self.empty_page_tolerance:
-    #         self.set_continue_state_false()
-
     # --- Availability & Processing ---
     def get_availability_update_count(self):
         return self.availability_update_count
@@ -111,3 +108,15 @@ class ProductsCounter:
 
     def add_processing_required_count(self, count=1):
         self.processing_required_count += count
+
+    # --- Price Updates (new) ---
+    def get_price_update_count(self):
+        return self.price_update_count
+
+    def add_price_update_count(self, count=1):
+        self.price_update_count += count
+
+    def add_skipped_sold_item(self):
+        if not hasattr(self, 'skipped_sold'):
+            self.skipped_sold = 0
+        self.skipped_sold += 1
