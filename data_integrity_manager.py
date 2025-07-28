@@ -369,7 +369,7 @@ class ImageRecoveryProcessor:
                     FROM militaria
                     WHERE (
                         (original_image_urls IS NULL OR original_image_urls = '[]')
-                        OR (s3_image_urls IS NULL OR s3_image_urls = '[]')
+                        AND (s3_image_urls IS NULL OR s3_image_urls = '[]')
                     )
                     AND image_download_failed IS FALSE
                     AND (requires_attention IS FALSE OR requires_attention IS NULL)
@@ -439,6 +439,7 @@ class ImageRecoveryProcessor:
                     time.sleep(2 ** attempt + random.uniform(0, 1))
             if not soup:
                 logging.error(f"❌ FAIL: Could not load HTML after retries → {url}")
+                self.mark_image_failed(url)  # ← Mark as failed so we skip next time
                 return url, False
 
             # --- Page validity check ---
@@ -489,6 +490,12 @@ class ImageRecoveryProcessor:
                 logging.info(f"✅ DONE: Uploaded {len(s3_urls)} image(s) → {url}")
                 time.sleep(random.uniform(*sleep_range))
                 return url, True
+            elif image_urls:
+                # Save original_image_urls even if upload failed, so we don't retry endlessly
+                self.rds_manager.execute(
+                    "UPDATE militaria SET original_image_urls = %s WHERE url = %s;",
+                    (json.dumps(image_urls), url)
+                )
             else:
                 logging.error(f"❌ UPLOAD FAILED: Could not upload for {url}")
                 self.flag_bad_image_url(first_image)
