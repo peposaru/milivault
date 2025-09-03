@@ -15,31 +15,66 @@ from site_processor import SiteProcessor
 from html_manager import HtmlManager
 from logging_manager import adjust_logging_level
 from openai_api_manager import OpenAIManager
+from ml_manager import MLManager
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
-    "infoLocation"            : "/home/ec2-user/milivault/",
-    "pgAdminCred"             : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
-    "selectorJsonFolder"      : "/home/ec2-user/milivault/site-json/",
-    "s3Cred"                  : "/home/ec2-user/milivault/credentials/s3_credentials.json",
-    "openaiCred"              : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
-    "militariaCategories"     : "/home/ec2-user/milivault/categorization/militaria-categories.json",
-    "supergroupCategories"    : "/home/ec2-user/milivault/categorization/supergroups.json",
-    "openaiModel"             : "gpt-4o-mini",
-    "openaiFallbackModel"     : "gpt-4.1",
+    "infoLocation"             : "/home/ec2-user/milivault/",
+    "selectorJsonFolder"       : "/home/ec2-user/milivault/site-json/",
+
+    # AWS 
+    "pgAdminCred"              : "/home/ec2-user/milivault/credentials/pgadmin_credentials.json",
+    "s3Cred"                   : "/home/ec2-user/milivault/credentials/s3_credentials.json",
+    
+    # Taxonomy
+    "militariaCategories"      : "/home/ec2-user/milivault/categorization/militaria-categories.json",
+    "supergroupCategories"     : "/home/ec2-user/milivault/categorization/supergroups.json",
+
+    # Product Prediction Model
+    "enableItemTypeModel"      : True,
+    "enableConflictModel"      : False,
+    "enableNationModel"        : False,
+    "itemTypeModel"            : "/home/ec2-user/milivault/models/item_type_pipeline.pkl",
+    "itemTypeThresholdsJson"   : "/home/ec2-user/milivault/models/item_type_thresholds.json",
+    "conflictModel"            : "/home/ec2-user/milivault/models/conflict_pipeline.pkl",
+    "conflictThresholdsJson"   : "/home/ec2-user/milivault/models/conflict_thresholds.json",
+    "nationModel"              : "/home/ec2-user/milivault/models/nation_pipeline.pkl",
+    "nationThresholdsJson"     : "/home/ec2-user/milivault/models/nation_thresholds.json",
+
+    # OpenAI Settings
+    "openaiCred"               : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
+    "openaiModel"              : "gpt-5",
+    "openaiFallbackModel"      : "gpt-5-mini",
     "openaiConfidenceThreshold": 0.90
     }
 
 DEFAULT_PC_SETTINGS = {
     "infoLocation"            : r'C:/Users/keena/Desktop/Milivault/scraper',
-    "pgAdminCred"             : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
     "selectorJsonFolder"      : r'C:/Users/keena/Desktop/Milivault/site-json/',
+
+    # AWS 
+    "pgAdminCred"             : r'C:/Users/keena/Desktop/Milivault/credentials/pgadmin_credentials.json',
     "s3Cred"                  : r'C:/Users/keena/Desktop/Milivault/credentials/s3_credentials.json',
-    "openaiCred"              : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
+
+    # Taxonomy
     "militariaCategories"     : r'C:/Users/keena/Desktop/Milivault/categorization/militaria-categories.json',
     "supergroupCategories"    : r"C:/Users/keena/Desktop/Milivault/categorization/supergroups.json",
-    "openaiModel"             : "gpt-4o-mini",
-    "openaiFallbackModel"     : "gpt-4.1",
+
+    # Product Prediction Model
+    "enableItemTypeModel"      : True,
+    "enableConflictModel"      : False,
+    "enableNationModel"        : False,
+    "itemTypeModel"            : r"C:/Users/keena/Desktop/Milivault/models/item_type_pipeline.pkl",
+    "itemTypeThresholdsJson"   : r"C:/Users/keena/Desktop/Milivault/models/item_type_thresholds.json",
+    "conflictModel"            : r"C:/Users/keena/Desktop/Milivault/models/conflict_pipeline.pkl",
+    "conflictThresholdsJson"   : r"C:/Users/keena/Desktop/Milivault/models/conflict_thresholds.json",
+    "nationModel"              : r"C:/Users/keena/Desktop/Milivault/models/nation_pipeline.pkl",
+    "nationThresholdsJson"     : r"C:/Users/keena/Desktop/Milivault/models/nation_thresholds.json",
+
+    # OpenAI Settings
+    "openaiCred"              : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
+    "openaiModel"             : "gpt-5",
+    "openaiFallbackModel"     : "gpt-5-mini",
     "openaiConfidenceThreshold": 0.90
 }
 
@@ -84,6 +119,7 @@ def setup_object_managers(user_settings):
     try:
         # Initialize independent managers
         openai_manager = OpenAIManager(user_settings)
+        ml_manager = MLManager(user_settings, openai_manager=openai_manager)  # ← NEW
 
         rds_manager = AwsRdsManager(
             credentials_file=user_settings["pgAdminCred"],
@@ -100,6 +136,7 @@ def setup_object_managers(user_settings):
             "rdsManager"    : rds_manager,
             "s3_manager"    : s3_manager,
             "openai_manager": openai_manager,
+            "ml_manager"    : ml_manager,
             "jsonManager"   : json_manager,
             "log_print"     : log_printer,
             "counter"       : counter,
@@ -111,6 +148,7 @@ def setup_object_managers(user_settings):
             "rdsManager": rds_manager,
             "s3_manager": s3_manager,
             "openai_manager": openai_manager,
+            "ml_manager": ml_manager,  
             "jsonManager": json_manager,
             "log_print": log_printer,
             "counter": counter,

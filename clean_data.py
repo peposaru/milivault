@@ -48,6 +48,11 @@ class CleanData:
             # Remove HTML tags
             title = re.sub(r'<[^>]+>', '', title)
 
+            # Strip outer brackets and comma prefix like: [, Title]
+            title = title.strip()
+            title = re.sub(r"^\[\s*,\s*", "", title) 
+            title = re.sub(r"\]$", "", title)        
+
             # Strip whitespace
             title = title.strip()
 
@@ -58,6 +63,18 @@ class CleanData:
 
             # Collapse multiple spaces
             title = " ".join(title.split())
+
+            # Remove boilerplate suffixes like "click image for larger view."
+            KNOWN_SUFFIXES = [
+                "click image for larger view.",
+                "click image for larger view",
+                "full image",
+                "full profile"
+            ]
+            for suffix in KNOWN_SUFFIXES:
+                if title.lower().endswith(suffix):
+                    title = title[: -len(suffix)].strip()
+                    break
 
             if not title:
                 msg = "Title is empty after cleaning."
@@ -100,6 +117,17 @@ class CleanData:
 
             # Trim
             description = description.strip()
+
+            # Remove known leading phrases like "Full image", "Click image", etc.
+            KNOWN_PREFIXES = [
+                "full image",
+                "click image for larger view",
+                "click image"
+            ]
+            for prefix in KNOWN_PREFIXES:
+                if description.lower().startswith(prefix):
+                    description = description[len(prefix):].strip(".,:- ").strip()
+                    break
 
             # Remove leading "Description"
             if description.lower().startswith("description"):

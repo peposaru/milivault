@@ -1,6 +1,8 @@
 import logging, time
 from bs4 import BeautifulSoup
 import re
+from urllib.parse import urljoin
+import sys
 
 def woo_commerce(product_soup):
     """
@@ -590,5 +592,138 @@ def ss_steel_inc(soup):
     except Exception:
         return []
 
+# def bunker_militaria(product_soup):
+#     """
+#     Extracts all full-size product images from Bunker Militaria.
+#     Preserves order and removes duplicates.
+#     """
+#     try:
+#         base_url = "https://www.bunkermilitaria.com/"
+#         image_urls = []
+#         seen = set()
+
+#         # 1. Get main image from <meta itemprop="image">
+#         meta_img = product_soup.select_one('meta[itemprop="image"]')
+#         if meta_img and meta_img.get("content"):
+#             main_image = urljoin(base_url, meta_img["content"].strip())
+#             if main_image not in seen:
+#                 image_urls.append(main_image)
+#                 seen.add(main_image)
+#         else:
+#             logging.warning("[bunker_militaria] No <meta itemprop='image'> found.")
+
+#         # 2. Extract from thumbnail filmstrip
+#         thumbnails = product_soup.select("img.x-filmstrip__image")
+#         for thumb in thumbnails:
+#             thumb_src = thumb.get("src")
+#             if not thumb_src:
+#                 continue
+
+#             # Remove resolution suffix like _64x48, _435x580, etc.
+#             full_img = re.sub(r"_\d+x\d+(?=\.jpg$)", "", thumb_src)
+#             full_img_url = urljoin(base_url, full_img.strip())
+
+#             if full_img_url not in seen:
+#                 image_urls.append(full_img_url)
+#                 seen.add(full_img_url)
+
+#         # 3. Final check
+#         if not image_urls:
+#             logging.debug("SOUP DUMP:\n" + product_soup.prettify())
+#             logging.error("[bunker_militaria] ❌ No valid full-size images found. Exiting.")
+#             sys.exit(1)
+
+#         logging.debug(f"[bunker_militaria] ✅ Found {len(image_urls)} full-size image(s): {image_urls}")
+#         return image_urls
+
+#     except Exception as e:
+#         logging.exception(f"[bunker_militaria] ❌ Unexpected error during image extraction: {e}")
+#         sys.exit(1)
 
 
+def bunker_militaria(product_soup):
+
+
+    base_url = "https://www.bunkermilitaria.com/Merchant2/"
+    final_images = []
+    seen_bases = set()
+
+    try:
+        if not product_soup:
+            logging.warning("[bunker_militaria] No product_soup provided.")
+            return []
+
+        script_tags = product_soup.find_all("script")
+        for script in script_tags:
+            script_text = script.get_text()
+            if "image_data" not in script_text:
+                continue
+
+            matches = re.findall(r'"graphics\\\/[^"]+\.jpg"', script_text)
+            for match in matches:
+                cleaned = match.strip('"').replace('\\/', '/')
+
+                # Skip thumbnails
+                if "_64x48" in cleaned or "_48x64" in cleaned:
+                    continue
+
+                # Get the base image name without resolution suffix
+                base_key = re.sub(r'(_\d+x\d+)?(?=\.jpg)', '', cleaned)
+
+                # Only keep the first encountered version of each base
+                if base_key not in seen_bases:
+                    seen_bases.add(base_key)
+                    full_url = urljoin(base_url, cleaned)
+                    final_images.append(full_url)
+
+        logging.info(f"[bunker_militaria] ✅ Extracted {len(final_images)} ordered, unique images.")
+        return final_images
+
+    except Exception as e:
+        logging.exception(f"[bunker_militaria] ❌ Failed to extract image URLs: {e}")
+        return []
+    
+
+def collectors_guild_images(soup, **kwargs):
+    """
+    Extracts all relevant product images from GermanMilitaria.com Heer detail pages.
+    Prepends full path to relative image sources.
+    """
+    base_url = "https://www.germanmilitaria.com/Heer/photos/"
+    image_tags = soup.find_all("img")
+    images = []
+
+    for img in image_tags:
+        src = img.get("src", "")
+        if src.lower().endswith(".jpg") and not src.startswith("http"):
+            full_url = base_url + src
+            images.append(full_url)
+
+    return images
+
+def axis_militaria(product_soup):
+    """
+    Extracts all product image URLs from axis-militaria.com product detail page.
+    Terminates the program if no valid images are found.
+    """
+    try:
+        image_tags = product_soup.select("div.woocommerce-product-gallery img")
+        image_urls = []
+
+        for tag in image_tags:
+            src = tag.get("src")
+            if src and "placeholder" not in src.lower():
+                image_urls.append(src)
+
+        seen = set()
+        image_urls = [x for x in image_urls if not (x in seen or seen.add(x))]
+
+        if not image_urls:
+            logging.error("[AXIS_MILITARIA] No images found — terminating.")
+            sys.exit("[AXIS_MILITARIA] No images extracted. Exiting program.")
+
+        return image_urls
+
+    except Exception as e:
+        logging.error(f"[AXIS_MILITARIA] Exception during image extraction: {e}")
+        sys.exit(f"[AXIS_MILITARIA] Image extraction failed due to error: {e}")

@@ -1,4 +1,6 @@
 import logging, json, pprint, re
+
+from exceptiongroup import catch
 from clean_data import CleanData
 import image_extractor
 from datetime import datetime,timezone
@@ -557,11 +559,13 @@ class ProductDetailsProcessor:
 
     def new_product_processor(self, clean_details_data: dict, raw_details_data: dict) -> None:
         """
-        Insert a new product, upload its images to S3, and perform AI classification.
+        Insert a new product, upload its images to S3, then classify with local ML first,
+        falling back to OpenAI automatically when a model is disabled or low-confidence.
         """
         url = clean_details_data.get("url")
+        thumb = None
 
-        # 1. Insert new record
+        # 1) Insert new record
         try:
             self.rds_manager.new_product_input(clean_details_data)
             logging.info(f"NEW PRODUCT: Inserted {url}")
@@ -569,7 +573,7 @@ class ProductDetailsProcessor:
             logging.error(f"NEW PRODUCT: Failed to insert {url}: {e}")
             return
 
-        # 2. Retrieve its database ID
+        # 2) Retrieve its database ID
         try:
             db_id = self.rds_manager.get_record_id(
                 "SELECT id FROM militaria WHERE url = %s AND site = %s;",
@@ -582,7 +586,7 @@ class ProductDetailsProcessor:
             logging.error(f"NEW PRODUCT: ID lookup failed for {url}: {e}")
             return
 
-        # 3. Upload images
+        # 3) Upload images
         image_urls = clean_details_data.get("original_image_urls", [])
         if image_urls:
             try:
@@ -603,37 +607,55 @@ class ProductDetailsProcessor:
         else:
             logging.info(f"NEW PRODUCT: No images to upload for {url}")
 
-        # 4. AI classification (if available)
-        ai = self.managers.get("openai_manager")
-        if ai:
+        # 4) Unified classification (ML first per-label, then OpenAI fallback per-label)
+        title = (clean_details_data.get("title") or "")
+        description = (clean_details_data.get("description") or "")
+
+        updates = {}
+        try:
+            labels = self._predict_labels(title=title, description=description, image_url=thumb)
+
+            # Map normalized outputs to DB columns:
+            # - If ML accepted → write *_ml_designated
+            # - Else if OpenAI provided → write *_ai_generated
+            def _apply(label_key: str, ml_col: str, ai_col: str):
+                info = labels.get(label_key) or {}
+                val = info.get("value")
+                source = info.get("source")
+                accepted = info.get("accepted")
+                if not val:
+                    return
+                if source == "ml" and accepted:
+                    updates[ml_col] = str(val).upper()
+                    logging.info(f"LABEL {label_key} -> ML ACCEPTED value={val} conf={info.get('conf')} τ={info.get('threshold')}")
+                elif source == "openai":
+                    updates[ai_col] = str(val).upper()
+                    logging.info(f"LABEL {label_key} -> FALLBACK OPENAI value={val}")
+                else:
+                    logging.info(f"LABEL {label_key} -> NO DECISION")
+
+            _apply("item_type", "item_type_ml_designated", "item_type_ai_generated")
+            _apply("conflict",  "conflict_ml_designated",  "conflict_ai_generated")
+            _apply("nation",    "nation_ml_designated",    "nation_ai_generated")
+
+            # Supergroup (aux)
+            sg = (labels.get("supergroup") or {}).get("value")
+            if sg:
+                updates["supergroup_ai_generated"] = sg
+
+        except Exception as e:
+            logging.error(f"NEW PRODUCT: Classification step failed for {url}: {e}")
+
+        # 5) Persist whatever we got
+        if updates:
             try:
-                cls = ai.classify_single_product(
-                    title=clean_details_data.get("title", ""),
-                    description=clean_details_data.get("description", ""),
-                    image_url=thumb
-                )
-                self.rds_manager.execute(
-                    """
-                    UPDATE militaria
-                    SET conflict_ai_generated = %s,
-                        nation_ai_generated = %s,
-                        item_type_ai_generated = %s,
-                        supergroup_ai_generated = %s
-                    WHERE id = %s;
-                    """,
-                    (
-                        cls.get("conflict_ai_generated"),
-                        cls.get("nation_ai_generated"),
-                        cls.get("item_type_ai_generated"),
-                        cls.get("supergroup_ai_generated"),
-                        db_id
-                    )
-                )
-                logging.info(f"NEW PRODUCT: AI classification stored for {url}")
+                set_clause = ", ".join(f"{k} = %s" for k in updates.keys())
+                params = list(updates.values()) + [db_id]
+                self.rds_manager.execute(f"UPDATE militaria SET {set_clause} WHERE id = %s;", tuple(params))
+                logging.info(f"NEW PRODUCT: Classification fields updated for {url} ({', '.join(updates.keys())})")
             except Exception as e:
-                logging.error(f"NEW PRODUCT: AI classification failed for {url}: {e}")
-        else:
-            logging.info("NEW PRODUCT: OpenAI manager not configured; skipping classification")
+                logging.error(f"NEW PRODUCT: Failed to store classification for {url}: {e}")
+
 
 
     def old_product_processor(self, clean: dict, record_id: int) -> bool:
@@ -782,12 +804,6 @@ class ProductDetailsProcessor:
         except Exception as e:
             logging.error(f"OLD PRODUCT: failed to process id={record_id}: {e}")
             return False
-
-
-
-
-
-
 
     def extract_data(
         self,
@@ -1408,6 +1424,128 @@ class ProductDetailsProcessor:
             return extractor_func(soup)
         return None
 
+    # --------------ML vs AI Determination Functions--------------
+
+    def _predict_labels(self, title: str, description: str, image_url: str | None):
+        """
+        Unified facade:
+        1) Try local ML per label (if available). If it returns raw scores, apply thresholds here.
+        2) Fall back to OpenAI per label when ML is disabled/low-confidence/unavailable.
+        Returns a normalized dict with per-label decisions.
+        """
+        us = (self.managers.get("user_settings") or {})
+        thresholds = {
+            "item_type": float(us.get("itemTypeTau", us.get("itemTypeTau".lower(), 0.85)) or 0.85),
+            "conflict":  float(us.get("conflictTau", 0.85)),
+            "nation":    float(us.get("nationTau", 0.85)),
+        }
+
+        def _norm_empty():
+            return {"value": None, "source": "none", "accepted": False, "conf": None, "threshold": None}
+
+        out = {
+            "item_type": _norm_empty(),
+            "conflict":  _norm_empty(),
+            "nation":    _norm_empty(),
+            "supergroup": {"value": None, "source": "none"},
+        }
+
+        mlm = self.managers.get("ml_manager")
+        ai  = self.managers.get("openai_manager")
+
+        # ---------- 1) Try ML if available ----------
+        ml_raw = None
+        if mlm:
+            try:
+                predict_fn = None
+                if callable(getattr(mlm, "predict", None)):
+                    predict_fn = mlm.predict
+                elif callable(getattr(mlm, "classify", None)):
+                    predict_fn = mlm.classify
+
+                if predict_fn:
+                    ml_raw = predict_fn(title=title, description=description, image_url=image_url)
+                else:
+                    logging.info("NEW PRODUCT: ML manager exposes neither 'predict' nor 'classify'; skipping ML.")
+            except Exception as e:
+                logging.error(f"NEW PRODUCT: ML inference failed: {e}")
+                ml_raw = None
+
+
+        def _extract_ml(label_key: str):
+            """
+            Normalizes potential ML manager outputs for one label.
+            Accepts:
+            - dict with keys value/conf/threshold/accepted
+            - tuple (value, conf)
+            - plain string (value only; treated as conf=None)
+            """
+            ml_val = None
+            ml_conf = None
+            ml_tau = thresholds[label_key]
+
+            if not ml_raw:
+                return None, None, ml_tau, False
+
+            cand = ml_raw.get(label_key)
+            if cand is None:
+                return None, None, ml_tau, False
+
+            if isinstance(cand, dict):
+                ml_val = cand.get("value")
+                ml_conf = cand.get("conf")
+                ml_tau  = float(cand.get("threshold", ml_tau) or ml_tau)
+                accepted = bool(cand.get("accepted")) if cand.get("accepted") is not None else (
+                    (ml_conf is not None) and (ml_conf >= ml_tau)
+                )
+                return ml_val, ml_conf, ml_tau, accepted
+
+            if isinstance(cand, (list, tuple)) and len(cand) >= 1:
+                ml_val = cand[0]
+                ml_conf = cand[1] if len(cand) > 1 else None
+                accepted = (ml_conf is not None) and (ml_conf >= ml_tau)
+                return ml_val, ml_conf, ml_tau, accepted
+
+            # string fallback
+            ml_val = str(cand)
+            ml_conf = None
+            accepted = False
+            return ml_val, ml_conf, ml_tau, accepted
+
+        for key in ("item_type", "conflict", "nation"):
+            ml_val, ml_conf, ml_tau, accepted = _extract_ml(key)
+            if ml_val and accepted:
+                out[key] = {"value": ml_val, "source": "ml", "accepted": True, "conf": ml_conf, "threshold": ml_tau}
+
+        # ---------- 2) Per-label fallback to OpenAI ----------
+        need_ai = {k: (out[k]["source"] != "ml" or not out[k]["accepted"]) for k in ("item_type", "conflict", "nation")}
+        ai_result = None
+        if ai and any(need_ai.values()):
+            try:
+                ai_result = ai.classify_single_product(title=title, description=description, image_url=image_url) or {}
+                # ai_result example keys: conflict_ai_generated, nation_ai_generated, item_type_ai_generated, supergroup_ai_generated
+            except Exception:
+                ai_result = None
+
+        def _fill_ai(label_key: str, ai_key: str):
+            if not need_ai[label_key]:
+                return
+            if not ai_result:
+                return
+            val = ai_result.get(ai_key)
+            if val:
+                out[label_key] = {"value": val, "source": "openai", "accepted": True, "conf": None, "threshold": thresholds[label_key]}
+
+        _fill_ai("item_type", "item_type_ai_generated")
+        _fill_ai("conflict",  "conflict_ai_generated")
+        _fill_ai("nation",    "nation_ai_generated")
+
+        # supergroup is purely auxiliary; if OpenAI produced it, include it
+        if ai_result and ai_result.get("supergroup_ai_generated"):
+            out["supergroup"] = {"value": ai_result["supergroup_ai_generated"], "source": "openai"}
+
+        return out
+
 # Product Details Deduplication Logic
 def find_existing_db_row_details(product, site_profile, rds_manager):
     """
@@ -1463,6 +1601,4 @@ def find_existing_db_row_details(product, site_profile, rds_manager):
     logging.info("🔵 DEDUP NEW: No match found")
     logging.info(f"    Incoming URL : {url}")
     return None, None
-
-
 

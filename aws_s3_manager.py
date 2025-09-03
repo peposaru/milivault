@@ -94,7 +94,14 @@ class S3Manager:
                 response = self.session.get(image_url, headers=headers, stream=True, timeout=10)
                 response.raise_for_status()
 
-                image = Image.open(response.raw).convert("RGB")  # 🔄 force RGB
+                image_bytes = BytesIO(response.content)
+
+                # Optional but recommended
+                if "image" not in response.headers.get("Content-Type", ""):
+                    raise ValueError(f"Invalid content type: {response.headers.get('Content-Type')}")
+
+                image = Image.open(image_bytes).convert("RGB")
+                
                 buffer = BytesIO()
                 image.save(buffer, format="JPEG", quality=85)
                 buffer.seek(0)

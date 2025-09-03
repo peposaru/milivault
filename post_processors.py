@@ -4,6 +4,8 @@ import logging
 import json
 from bs4 import BeautifulSoup
 from html_manager import HtmlManager
+from bs4 import Comment
+import sys
 
 """
 apply_post_processors(value, post_process_config, soup=None)
@@ -514,5 +516,16 @@ def ss_steel_description_fallback(value, product_soup=None, **kwargs):
     return None
 
 
+
+def bunker_militaria_breadcrumb_item_type(soup, **kwargs):
+    try:
+        spans = soup.select("ul.x-breadcrumbs__list li.x-breadcrumbs__item span[itemprop='name']")
+        if len(spans) >= 2:
+            return spans[-2].get_text(strip=True)
+        return None
+    except Exception as e:
+        import logging
+        logging.error(f"[bunker_militaria_breadcrumb_item_type] Failed: {e}")
+        return None
 
 

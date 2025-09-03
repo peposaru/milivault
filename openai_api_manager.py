@@ -7,8 +7,8 @@ class OpenAIManager:
         self.openai_cred_path = settings["openaiCred"]
         self.categories_path = settings["militariaCategories"]
         self.supergroups_path = settings["supergroupCategories"]
-        self.model = settings.get("openaiModel", "gpt-4.1-mini")
-        self.fallback_model = settings.get("openaiFallbackModel", "gpt-4.1")
+        self.model = settings.get("openaiModel", "gpt-5-mini")
+        self.fallback_model = settings.get("openaiFallbackModel", "gpt-5")
         self.confidence_threshold = settings.get("openaiConfidenceThreshold", 0.9)
 
         self.api_key = self._load_api_key()
@@ -99,7 +99,7 @@ class OpenAIManager:
                 messages=messages,
                 tools=tools,
                 tool_choice="auto",
-                temperature=0
+                temperature=1
             )
             args = response.choices[0].message.tool_calls[0].function.arguments
             return json.loads(args).get("supergroup")
@@ -165,7 +165,7 @@ class OpenAIManager:
                 messages=messages,
                 tools=tools,
                 tool_choice="auto",
-                temperature=0
+                temperature=1
             )
 
             args = response.choices[0].message.tool_calls[0].function.arguments
