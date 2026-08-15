@@ -16,6 +16,7 @@ from html_manager import HtmlManager
 from logging_manager import adjust_logging_level
 from openai_api_manager import OpenAIManager
 from ml_manager import MLManager
+from classification_pipeline import ClassificationPipelineClient
 
 # Default Settings
 DEFAULT_RDS_SETTINGS = {
@@ -40,6 +41,14 @@ DEFAULT_RDS_SETTINGS = {
     "conflictThresholdsJson"   : "/home/ec2-user/milivault/models/conflict_thresholds.json",
     "nationModel"              : "/home/ec2-user/milivault/models/nation_pipeline.pkl",
     "nationThresholdsJson"     : "/home/ec2-user/milivault/models/nation_thresholds.json",
+
+    # Versioned post-scrape classification pipeline (safe default: audit only)
+    "enableClassificationPipeline": True,
+    "classificationPipelineMode": "apply",
+    "classificationAllowRemoteEmbeddings": True,
+    "classificationRegistry"  : "/home/ec2-user/milivault/classification_models/registry.json",
+    "classificationPython"    : "/home/ec2-user/milivault/classification-venv/bin/python",
+    "classificationAuditDir"  : "/home/ec2-user/milivault/milivault_logs/classification",
 
     # OpenAI Settings
     "openaiCred"               : "/home/ec2-user/milivault/credentials/chatgpt_api_key.json",
@@ -70,6 +79,14 @@ DEFAULT_PC_SETTINGS = {
     "conflictThresholdsJson"   : r"C:/Users/keena/Desktop/Milivault/models/conflict_thresholds.json",
     "nationModel"              : r"C:/Users/keena/Desktop/Milivault/models/nation_pipeline.pkl",
     "nationThresholdsJson"     : r"C:/Users/keena/Desktop/Milivault/models/nation_thresholds.json",
+
+    # Versioned post-scrape classification pipeline (safe default: audit only)
+    "enableClassificationPipeline": True,
+    "classificationPipelineMode": "apply",
+    "classificationAllowRemoteEmbeddings": True,
+    "classificationRegistry" : r"C:/Users/keena/Desktop/Milivault/scraper/classification_models/registry.json",
+    "classificationPython"   : r"C:/Users/keena/Desktop/Milivault/Milivault ML Classifier/.venv/Scripts/python.exe",
+    "classificationAuditDir" : r"C:/Users/keena/Desktop/Milivault/scraper/milivault_logs/classification",
 
     # OpenAI Settings
     "openaiCred"              : r'C:/Users/keena/Desktop/Milivault/credentials/chatgpt_api_key.json',
@@ -120,6 +137,7 @@ def setup_object_managers(user_settings):
         # Initialize independent managers
         openai_manager = OpenAIManager(user_settings)
         ml_manager = MLManager(user_settings, openai_manager=openai_manager)  # ← NEW
+        classification_pipeline = ClassificationPipelineClient(user_settings)
 
         rds_manager = AwsRdsManager(
             credentials_file=user_settings["pgAdminCred"],
@@ -137,6 +155,7 @@ def setup_object_managers(user_settings):
             "s3_manager"    : s3_manager,
             "openai_manager": openai_manager,
             "ml_manager"    : ml_manager,
+            "classification_pipeline": classification_pipeline,
             "jsonManager"   : json_manager,
             "log_print"     : log_printer,
             "counter"       : counter,
@@ -148,7 +167,8 @@ def setup_object_managers(user_settings):
             "rdsManager": rds_manager,
             "s3_manager": s3_manager,
             "openai_manager": openai_manager,
-            "ml_manager": ml_manager,  
+            "ml_manager": ml_manager,
+            "classification_pipeline": classification_pipeline,
             "jsonManager": json_manager,
             "log_print": log_printer,
             "counter": counter,

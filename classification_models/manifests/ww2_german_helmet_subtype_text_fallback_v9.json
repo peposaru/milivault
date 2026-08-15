@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "model_id": "ww2_german_helmet_subtype_text_fallback_v9",
+  "version": "9",
+  "enabled": true,
+  "order": 110,
+  "depends_on": ["ww2_german_helmet_subtype_v9"],
+  "artifact": "../artifacts/helmet_subtype_text_only_v9.joblib",
+  "artifact_sha256": "bf335681aea6639ef79103571b6f8f01799d29fbccdfc527d22a27ed88375e01",
+  "scope": {
+    "conflict": ["WW2"],
+    "nation": ["GERMANY"],
+    "item_type": ["helmets_accessories"]
+  },
+  "scope_exclusions": {
+    "text_regex": ["\\b(?:wwi|ww1|world\\s+war\\s+(?:i|1|one)|first\\s+world\\s+war|great\\s+war|wo1|1914\\s*[-/–]\\s*1918)\\b"]
+  },
+  "target": {
+    "field": "sub_item_type",
+    "ml_column": "sub_item_type_ml_designated",
+    "human_column": "user_confirmed_sub_item_type"
+  },
+  "runtime": {
+    "kind": "openai_text_embedding",
+    "sklearn_version": "1.5.2",
+    "text_embedding_model": "text-embedding-3-large"
+  },
+  "acceptance": {
+    "minimum_confidence": 0.0,
+    "review_below": 0.75
+  }
+}

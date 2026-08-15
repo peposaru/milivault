@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "model_id": "ww2_german_helmet_subtype_v9",
+  "version": "9",
+  "enabled": true,
+  "order": 100,
+  "artifact": "../artifacts/helmet_subtype_combined_v9.joblib",
+  "artifact_sha256": "c5bfcef531428cd8a6c66d9a596da28a3aa0946d4c17cb160c1928fa4d135bc0",
+  "scope": {
+    "conflict": ["WW2"],
+    "nation": ["GERMANY"],
+    "item_type": ["helmets_accessories"]
+  },
+  "scope_exclusions": {
+    "text_regex": ["\\b(?:wwi|ww1|world\\s+war\\s+(?:i|1|one)|first\\s+world\\s+war|great\\s+war|wo1|1914\\s*[-/–]\\s*1918)\\b"]
+  },
+  "target": {
+    "field": "sub_item_type",
+    "ml_column": "sub_item_type_ml_designated",
+    "human_column": "user_confirmed_sub_item_type"
+  },
+  "runtime": {
+    "kind": "clip_openai_combined",
+    "sklearn_version": "1.5.2",
+    "text_embedding_model": "text-embedding-3-large",
+    "image_strategy": "primary",
+    "primary_fallback_count": 3,
+    "clip_model": "ViT-B-32",
+    "clip_weights": "../artifacts/clip_weights.pt",
+    "clip_weights_sha256": "1bd3c7172de5b207ceac554f5ab5266166f3b9baccc9af5989bc801016d080ad",
+    "clip_batch_size": 3,
+    "image_timeout_seconds": 30
+  },
+  "acceptance": {
+    "minimum_confidence": 0.0,
+    "review_below": 0.75
+  }
+}

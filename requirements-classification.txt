@@ -1,0 +1,10 @@
+# Install this into the isolated classification worker environment, not the
+# scraper's base environment. Versions match the deployed v9/v7 artifacts.
+joblib==1.5.3
+numpy==1.26.4
+scikit-learn==1.5.2
+scipy==1.13.1
+Pillow==12.2.0
+requests==2.34.2
+torch==2.12.1
+open_clip_torch==3.3.0

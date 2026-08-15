@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "models": [
+    "manifests/ww2_german_helmet_subtype_v9.json",
+    "manifests/ww2_german_helmet_subtype_text_fallback_v9.json",
+    "manifests/ww2_german_helmet_components_v1.json",
+    "manifests/ww2_german_helmet_service_v7.json"
+  ]
+}

@@ -656,6 +656,83 @@ class ProductDetailsProcessor:
             except Exception as e:
                 logging.error(f"NEW PRODUCT: Failed to store classification for {url}: {e}")
 
+        # 6) Run registry stages whose declared scope now matches. The client
+        # defaults to shadow mode, so it audits proposals without adding any
+        # production writes until apply mode is explicitly enabled.
+        classification_pipeline = self.managers.get("classification_pipeline")
+        if classification_pipeline:
+            def _effective(*field_names):
+                for field_name in field_names:
+                    value = updates.get(field_name, clean_details_data.get(field_name))
+                    if value is not None and str(value).strip().casefold() not in {"", "unknown"}:
+                        return str(value).strip()
+                return ""
+
+            context = {
+                "product_id": db_id,
+                "url": url,
+                "title": title,
+                "description": description,
+                "image_urls": clean_details_data.get("s3_image_urls") or image_urls,
+                "conflict": _effective(
+                    "user_confirmed_conflict", "conflict_ml_designated",
+                    "conflict_ai_generated", "conflict_site_designated",
+                ),
+                "nation": _effective(
+                    "user_confirmed_nation", "nation_ml_designated",
+                    "nation_ai_generated", "nation_site_designated",
+                ),
+                "item_type": _effective(
+                    "user_confirmed_item_type", "item_type_ml_designated",
+                    "item_type_ai_generated", "item_type_site_designated",
+                ),
+                "sub_item_type": _effective(
+                    "user_confirmed_sub_item_type", "sub_item_type_ml_designated",
+                    "sub_item_type_ai_designated",
+                ),
+                "mil_branch": _effective(
+                    "user_confirmed_mil_branch", "mil_branch_ml_designated",
+                    "mil_branch_ai_designated",
+                ),
+            }
+            for field_name in (
+                "user_confirmed_conflict", "user_confirmed_nation",
+                "user_confirmed_item_type", "user_confirmed_sub_item_type",
+                "user_confirmed_mil_branch", "sub_item_type_ml_designated",
+                "mil_branch_ml_designated",
+            ):
+                context[field_name] = clean_details_data.get(field_name)
+
+            specialized_updates = classification_pipeline.classify_product(context)
+            allowed_columns = {
+                "conflict_ml_designated", "nation_ml_designated",
+                "item_type_ml_designated", "sub_item_type_ml_designated",
+                "mil_branch_ml_designated",
+            }
+            specialized_updates = {
+                key: value for key, value in specialized_updates.items()
+                if key in allowed_columns and value is not None and str(value).strip()
+            }
+            if specialized_updates:
+                try:
+                    set_clause = ", ".join(f"{key} = %s" for key in specialized_updates)
+                    params = list(specialized_updates.values()) + [db_id]
+                    self.rds_manager.execute(
+                        f"UPDATE militaria SET {set_clause} WHERE id = %s;",
+                        tuple(params),
+                    )
+                    logging.info(
+                        "NEW PRODUCT: Specialized classification fields updated for %s (%s)",
+                        url,
+                        ", ".join(specialized_updates),
+                    )
+                except Exception as e:
+                    logging.error(
+                        "NEW PRODUCT: Failed to store specialized classification for %s: %s",
+                        url,
+                        e,
+                    )
+
 
 
     def old_product_processor(self, clean: dict, record_id: int) -> bool:

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "model_id": "replace_with_stable_model_id_v1",
+  "version": "1",
+  "enabled": false,
+  "order": 300,
+  "depends_on": [],
+  "artifact": "../artifacts/replace_with_model.joblib",
+  "artifact_sha256": "replace_with_64_character_sha256",
+  "scope": {
+    "conflict": ["WW2"],
+    "nation": ["GERMANY"],
+    "item_type": ["replace_with_item_type"]
+  },
+  "scope_exclusions": {
+    "text_regex": []
+  },
+  "target": {
+    "field": "sub_item_type",
+    "ml_column": "sub_item_type_ml_designated",
+    "human_column": "user_confirmed_sub_item_type"
+  },
+  "runtime": {
+    "kind": "gallery_tfidf_clip_late_fusion",
+    "sklearn_version": "replace_with_exact_training_version",
+    "bundle_keys": {
+      "vectorizer": "vectorizer",
+      "text_classifier": "text_classifier",
+      "image_classifier": "image_classifier"
+    },
+    "image_strategy": "all",
+    "image_pooling": "max",
+    "image_weight": 0.5,
+    "clip_model": "ViT-B-32",
+    "clip_weights": "../artifacts/clip_weights.pt",
+    "clip_weights_sha256": "replace_with_64_character_sha256"
+  },
+  "acceptance": {
+    "minimum_confidence": 0.0,
+    "review_below": 0.75
+  }
+}

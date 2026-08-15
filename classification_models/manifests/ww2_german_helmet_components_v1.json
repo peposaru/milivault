@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "model_id": "ww2_german_helmet_components_not_applicable_v1",
+  "version": "1",
+  "enabled": true,
+  "order": 200,
+  "depends_on": [
+    "ww2_german_helmet_subtype_v9",
+    "ww2_german_helmet_subtype_text_fallback_v9"
+  ],
+  "scope": {
+    "conflict": ["WW2"],
+    "nation": ["GERMANY"],
+    "item_type": ["helmets_accessories"],
+    "sub_item_type": [
+      "helmet_chin_strap",
+      "helmet_liner",
+      "pith_decal",
+      "helmet_camo_cover_only",
+      "helmet_liner_string",
+      "helmet_unapplied_decal",
+      "helmet_rivet",
+      "helmet_accessory",
+      "HELMET ACCESSORIES",
+      "HELMET LINERS & SUSPENSIONS",
+      "HELMET COVERS & CAMOUFLAGE"
+    ]
+  },
+  "scope_exclusions": {
+    "text_regex": ["\\b(?:wwi|ww1|world\\s+war\\s+(?:i|1|one)|first\\s+world\\s+war|great\\s+war|wo1|1914\\s*[-/–]\\s*1918)\\b"]
+  },
+  "target": {
+    "field": "mil_branch",
+    "ml_column": "mil_branch_ml_designated",
+    "human_column": "user_confirmed_mil_branch"
+  },
+  "runtime": {
+    "kind": "constant",
+    "value": "not_applicable"
+  },
+  "acceptance": {
+    "minimum_confidence": 1.0
+  }
+}

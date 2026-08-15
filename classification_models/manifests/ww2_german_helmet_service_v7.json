@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "model_id": "ww2_german_helmet_service_organization_v7",
+  "version": "7",
+  "enabled": true,
+  "order": 210,
+  "depends_on": [
+    "ww2_german_helmet_subtype_v9",
+    "ww2_german_helmet_subtype_text_fallback_v9",
+    "ww2_german_helmet_components_not_applicable_v1"
+  ],
+  "artifact": "../artifacts/service_organization_v7.joblib",
+  "artifact_sha256": "d685875a6af287fad26b9e7bf884a9ba97b7b7948f5a4f87ea7048a6451e332e",
+  "plugin": "classification_pipeline.plugins.ww2_german_helmet_service",
+  "plugin_version": "1",
+  "scope": {
+    "conflict": ["WW2"],
+    "nation": ["GERMANY"],
+    "item_type": ["helmets_accessories"],
+    "sub_item_type": ["helmet", "pith_helmet", "crash_helmet"]
+  },
+  "scope_exclusions": {
+    "text_regex": ["\\b(?:wwi|ww1|world\\s+war\\s+(?:i|1|one)|first\\s+world\\s+war|great\\s+war|wo1|1914\\s*[-/–]\\s*1918)\\b"]
+  },
+  "target": {
+    "field": "mil_branch",
+    "ml_column": "mil_branch_ml_designated",
+    "human_column": "user_confirmed_mil_branch"
+  },
+  "runtime": {
+    "kind": "gallery_tfidf_clip_late_fusion",
+    "sklearn_version": "1.5.2",
+    "bundle_keys": {
+      "vectorizer": "local_text_vectorizer",
+      "text_classifier": "gallery_text_classifier",
+      "image_classifier": "gallery_image_classifier"
+    },
+    "image_strategy": "all",
+    "image_pooling": "max",
+    "image_weight": 0.5,
+    "clip_model": "ViT-B-32",
+    "clip_weights": "../artifacts/clip_weights.pt",
+    "clip_weights_sha256": "1bd3c7172de5b207ceac554f5ab5266166f3b9baccc9af5989bc801016d080ad",
+    "clip_batch_size": 16,
+    "image_timeout_seconds": 30
+  },
+  "acceptance": {
+    "minimum_confidence": 0.0,
+    "review_below": 0.5
+  }
+}
